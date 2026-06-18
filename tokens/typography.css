@@ -1,0 +1,42 @@
+/* Capacity Design System — Typography
+   Families, weights, tracking, line-height and type scale.
+   =========================================================================== */
+
+:root {
+  /* ---- Font families ---------------------------------------------------- */
+  --font-sans: 'TT Fors', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---- Weights ---------------------------------------------------------- */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-demibold: 600;
+  --weight-bold:     700;
+
+  /* ---- Letter tracking -------------------------------------------------- */
+  --tracking-tight:  -0.04em;   /* brand default — headings & body */
+  --tracking-snug:   -0.02em;   /* secondary labels */
+  --tracking-normal:  0em;
+  --tracking-wide:    0.08em;   /* eyebrow / uppercase kickers */
+
+  /* ---- Line height ------------------------------------------------------ */
+  --leading-none:     1;
+  --leading-tight:    1.15;
+  --leading-snug:     1.3;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.65;
+
+  /* ---- Type scale (rem, 16px root) -------------------------------------- */
+  --text-2xs:  0.625rem;   /* 10px */
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+  --text-4xl:  2.5rem;     /* 40px */
+  --text-5xl:  3.5rem;     /* 56px */
+  --text-6xl:  4.5rem;     /* 72px */
+}
