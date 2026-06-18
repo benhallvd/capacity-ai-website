@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Capacity · A smarter way to run your venue</title>
+<link rel="stylesheet" href="./styles.css" />
+<link rel="stylesheet" href="landing.css" />
+</head>
+<body data-hero="decisions">
+
+<!-- ============================ NAV ============================ -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="#top" aria-label="Capacity home">
+      <img class="mark" src="assets/capacity-logomark-white.png" alt="Capacity" />
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="#platform">Platform</a>
+      <a href="#intelligence">Intelligence</a>
+      <a href="#process">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#cases">Results</a>
+    </div>
+    <div class="nav__cta">
+      <a href="#" class="nav__signin">Sign in</a>
+      <a href="signup.html" class="btn btn-primary">Book a demo</a>
+    </div>
+    <button class="nav__burger" id="burger" aria-label="Menu"><i data-lucide="menu" class="ic"></i></button>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="band band--dark hero" id="top">
+  <div class="hero__bg">
+    <div class="hero__wash"></div>
+    <div class="blob blob--1"></div>
+    <div class="blob blob--2"></div>
+    <div class="hero__grid-overlay"></div>
+  </div>
+  <div class="wrap hero__inner">
+    <div class="hero__copy">
+      <h1 class="h-display reveal in" data-d="1" id="heroHeading">The marketing platform<br /><span class="grad">built for venues</span></h1>
+      <p class="lede hero__sub reveal in" data-d="2">Bring your bookings, enquiries, campaigns and sales into one place. Reply faster, launch in clicks and know exactly what fills the room.</p>
+      <div class="hero__actions reveal in" data-d="3">
+        <a href="signup.html" class="btn btn-primary btn-lg btn-glow">Book a demo<i data-lucide="arrow-right" class="ic"></i></a>
+        <a href="#intelligence" class="btn btn-outline btn-lg">See how it works</a>
+      </div>
+      <div class="hero__trust reveal in" data-d="4">
+        <div class="avatars"><span></span><span></span><span></span><span></span></div>
+        <span>Trusted by the best</span>
+      </div>
+    </div>
+
+    <!-- Live product panel -->
+    <div class="hero__panel-wrap reveal in" data-d="3">
+      <div class="panel hero__panel">
+        <div class="panel__bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="ttl">The Pavilion · Live overview</span>
+          <span class="live"><i></i> Live</span>
+        </div>
+        <div class="panel__body">
+          <div class="kpi-row">
+            <div class="kpi">
+              <div class="lbl">Tickets sold</div>
+              <div class="val" data-count="1284" data-suffix="">0</div>
+              <div class="delta"><i data-lucide="trending-up" class="ic" style="width:13px;height:13px"></i> +18% vs last week</div>
+            </div>
+            <div class="kpi">
+              <div class="lbl">New enquiries</div>
+              <div class="val" data-count="46" data-suffix="">0</div>
+              <div class="delta"><i data-lucide="trending-up" class="ic" style="width:13px;height:13px"></i> 8 awaiting reply</div>
+            </div>
+            <div class="kpi">
+              <div class="lbl">Ad spend</div>
+              <div class="val" data-count="6.2" data-prefix="£" data-suffix="k" data-dec="1">0</div>
+              <div class="delta down"><i data-lucide="trending-down" class="ic" style="width:13px;height:13px"></i> 9% lower cost per sale</div>
+            </div>
+            <div class="kpi">
+              <div class="lbl">Reach</div>
+              <div class="val" data-count="318" data-suffix="k">0</div>
+              <div class="delta"><i data-lucide="trending-up" class="ic" style="width:13px;height:13px"></i> +44% organic</div>
+            </div>
+          </div>
+          <div class="chartcard">
+            <div class="ch-head">
+              <span class="t">Sales velocity, next event</span>
+              <span class="n">7 days to go</span>
+            </div>
+            <svg class="spark" viewBox="0 0 320 64" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="sparkfill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1b63f8" stop-opacity="0.32" />
+                  <stop offset="100%" stop-color="#1b63f8" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path class="area" d="M0,58 L0,52 C24,50 36,44 60,42 C92,39 104,34 132,30 C160,26 172,28 200,22 C232,15 250,12 276,8 C296,5 308,4 320,3 L320,64 L0,64 Z" />
+              <path class="line" d="M0,52 C24,50 36,44 60,42 C92,39 104,34 132,30 C160,26 172,28 200,22 C232,15 250,12 276,8 C296,5 308,4 320,3" />
+            </svg>
+          </div>
+          <div class="ai-chip">
+            <img src="assets/intelligence-icon.png" alt="" />
+            <span class="txt"><b>This weekend:</b> Friday is tracking 22% ahead, Saturday is behind. A reminder to your recent enquiries would help close the gap.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ LOGO WALL ============================ -->
+<section class="band band--dark logos">
+  <div class="wrap">
+    <p class="logos__label reveal">Trusted by</p>
+    <div class="marquee reveal" data-d="1">
+      <div class="marquee__track" id="logoTrack"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FEATURES ============================ -->
+<section class="band band--light section" id="platform">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> The platform</span>
+      <h2 class="h-section">Everything you need to fill the room,<br />in one place.</h2>
+      <p class="lede">All your data in one place. Reply to enquiries, launch campaigns and see what is working, without flicking between ten tabs.</p>
+    </div>
+
+    <div class="feat-grid">
+      <!-- Wide showcase card -->
+      <div class="fcard fcard--wide reveal" data-d="1">
+        <div class="fcard__icon"><i data-lucide="layout-dashboard" class="ic"></i></div>
+        <h3>One dashboard for the whole venue</h3>
+        <p>Website, bookings, enquiries, socials, campaigns and till sales, all flowing into a single view your whole team actually uses.</p>
+        <div class="showcase" id="showcase">
+          <div class="showcase__tabs">
+            <button class="on" data-tab="0">Campaigns</button>
+            <button data-tab="1">Channels</button>
+            <button data-tab="2">Audience</button>
+          </div>
+          <div class="showcase__panes">
+            <div class="showcase__pane on" data-pane="0">
+              <div class="bars" id="featBars">
+                <div class="bar" style="height:20%"></div>
+                <div class="bar" style="height:45%"></div>
+                <div class="bar" style="height:32%"></div>
+                <div class="bar" style="height:68%"></div>
+                <div class="bar" style="height:54%"></div>
+                <div class="bar" style="height:88%"></div>
+                <div class="bar" style="height:72%"></div>
+              </div>
+            </div>
+            <div class="showcase__pane" data-pane="1">
+              <div class="rows">
+                <div class="rowi"><span class="plat" style="background:#E1306C"><i data-lucide="instagram" class="ic" style="width:17px;height:17px"></i></span><div class="meta"><div class="a">Instagram, Reels push</div><div class="b">Friday headliner</div></div><div class="stat">+312 sales</div></div>
+                <div class="rowi"><span class="plat" style="background:#1877F2"><i data-lucide="facebook" class="ic" style="width:17px;height:17px"></i></span><div class="meta"><div class="a">Meta Ads, retargeting</div><div class="b">Lapsed buyers</div></div><div class="stat">9.1x ROAS</div></div>
+                <div class="rowi"><span class="plat" style="background:#111"><i data-lucide="music-2" class="ic" style="width:17px;height:17px"></i></span><div class="meta"><div class="a">TikTok, teaser clip</div><div class="b">Awareness</div></div><div class="stat">+44% reach</div></div>
+              </div>
+            </div>
+            <div class="showcase__pane" data-pane="2">
+              <div class="donut-wrap">
+                <svg class="donut" viewBox="0 0 120 120">
+                  <circle class="track" cx="60" cy="60" r="48"></circle>
+                  <circle class="seg1" cx="60" cy="60" r="48" stroke-dasharray="301.6" stroke-dashoffset="90" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
+                </svg>
+                <div class="legend">
+                  <div class="li"><i style="background:var(--capacity-blue)"></i> 18-24 · 38%</div>
+                  <div class="li"><i style="background:var(--capacity-cyan)"></i> 25-34 · 41%</div>
+                  <div class="li"><i style="background:var(--capacity-lilac)"></i> 35+ · 21%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tall card -->
+      <div class="fcard fcard--tall reveal" data-d="2">
+        <div class="fcard__icon"><i data-lucide="message-square-text" class="ic"></i></div>
+        <h3>Reply to enquiries faster</h3>
+        <p>Every enquiry from every channel lands in one inbox. Reply by email, SMS or WhatsApp without losing the thread, so no booking slips through the cracks.</p>
+      </div>
+
+      <div class="fcard fcard--third reveal" data-d="1">
+        <div class="fcard__icon"><i data-lucide="send" class="ic"></i></div>
+        <h3>Direct messaging</h3>
+        <p>Send email, SMS and WhatsApp campaigns to the right people, from the same place you see your data.</p>
+      </div>
+      <div class="fcard fcard--third reveal" data-d="2">
+        <div class="fcard__icon"><i data-lucide="mouse-pointer-click" class="ic"></i></div>
+        <h3>Sign-up pages in one click</h3>
+        <p>Launch guestlist, table and waiting-list pages in seconds, branded to your venue and ready to share.</p>
+      </div>
+      <div class="fcard fcard--third reveal" data-d="3">
+        <div class="fcard__icon"><i data-lucide="megaphone" class="ic"></i></div>
+        <h3>Ads and socials, faster</h3>
+        <p>Launch paid campaigns and schedule posts across platforms in a fraction of the time it takes today.</p>
+      </div>
+      <div class="fcard fcard--third reveal" data-d="1">
+        <div class="fcard__icon"><i data-lucide="file-text" class="ic"></i></div>
+        <h3>Reports in one click</h3>
+        <p>Pull a clear performance report whenever you need one, ready to share with owners or the team.</p>
+      </div>
+      <div class="fcard fcard--third reveal" data-d="2">
+        <div class="fcard__icon"><i data-lucide="folder-check" class="ic"></i></div>
+        <h3>Everything in one place</h3>
+        <p>Files, contacts and assets centralised and organised, so the whole team is always working from the same page.</p>
+      </div>
+      <div class="fcard fcard--third reveal" data-d="3">
+        <div class="fcard__icon"><i data-lucide="sparkles" class="ic"></i></div>
+        <h3>Answers from your data</h3>
+        <p>Ask a plain question about your venue and get a clear answer back, drawn from your own numbers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ INTELLIGENCE SHOWCASE ============================ -->
+<section class="band band--dark section intel" id="intelligence">
+  <div class="intel__bg"><div class="wash"></div></div>
+  <div class="wrap intel__inner">
+    <div class="intel__copy">
+      <img class="ailogo reveal" src="assets/intelligence-icon.png" alt="" />
+      <span class="eyebrow reveal" data-d="1"><span class="dot"></span> Intelligence</span>
+      <h2 class="h-section reveal" data-d="1" style="margin-top:14px">Ask a question.<br />Get a straight answer.</h2>
+      <p class="lede reveal" data-d="2" style="margin-top:18px">Ask about your venue in plain English and get a clear answer from your own data. Less time digging through reports, more time deciding.</p>
+      <ul class="checks">
+        <li class="reveal" data-d="2"><span class="ck"><i data-lucide="check" class="ic"></i></span> Built on your live enquiries, bookings, socials and sales</li>
+        <li class="reveal" data-d="3"><span class="ck"><i data-lucide="check" class="ic"></i></span> Plain answers you can act on, never a wall of charts</li>
+        <li class="reveal" data-d="4"><span class="ck"><i data-lucide="check" class="ic"></i></span> Learns and improves from your data</li>
+      </ul>
+    </div>
+
+    <div class="chat reveal" data-d="2" id="chatDemo">
+      <div class="chat__head">
+        <img src="assets/intelligence-icon.png" alt="" />
+        <span class="nm">Intelligence</span>
+        <span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;color:var(--success);font-size:var(--text-2xs);text-transform:uppercase;letter-spacing:.08em;font-weight:600"><i style="width:7px;height:7px;border-radius:50%;background:var(--success);display:inline-block"></i> Connected</span>
+      </div>
+      <div class="chat__body" id="chatBody"></div>
+      <div class="chat__qs" id="chatQs">
+        <button data-q="weekend">How are we looking for this weekend?</button>
+        <button data-q="campaigns">Which campaign performed best?</button>
+        <button data-q="socials">How are our socials doing?</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROCESS ============================ -->
+<section class="band band--light section" id="process">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow"><span class="dot"></span> How it works</span>
+      <h2 class="h-section">Live in days, not weeks.</h2>
+      <p class="lede">From a single room to a multi-site group, we build the system around how your venue actually works.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal" data-d="1">
+        <div class="step__num">01</div>
+        <h3>Connect</h3>
+        <p>We link your accounts and bring your data together, so the full picture lives in one place from day one.</p>
+        <span class="meta"><i data-lucide="plug" class="ic"></i> Free setup call</span>
+      </div>
+      <div class="step reveal" data-d="2">
+        <div class="step__num">02</div>
+        <h3>Build</h3>
+        <p>We shape Capacity around your venue, your channels and the way your team likes to work. Nothing off the shelf.</p>
+        <span class="meta"><i data-lucide="route" class="ic"></i> Built around you</span>
+      </div>
+      <div class="step reveal" data-d="3">
+        <div class="step__num">03</div>
+        <h3>Run</h3>
+        <p>Reply to enquiries, launch campaigns and check the numbers from one place, with Capacity flagging what needs attention.</p>
+        <span class="meta"><i data-lucide="zap" class="ic"></i> Live in days</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STATS ============================ -->
+<section class="band band--dark section stats" id="stats">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> Our results</span>
+      <h2 class="h-section">Numbers that speak<br />for themselves.</h2>
+    </div>
+    <div class="stats__grid">
+      <div class="stat reveal" data-d="1">
+        <i data-lucide="ticket" class="ic"></i>
+        <div class="num" data-count="80000" data-suffix="+">0</div>
+        <div class="lbl">Tickets sold for our venues</div>
+      </div>
+      <div class="stat reveal" data-d="2">
+        <i data-lucide="pound-sterling" class="ic"></i>
+        <div class="num"><span class="grad" data-count="3" data-prefix="£" data-suffix="m+">0</span></div>
+        <div class="lbl">Generated for clients</div>
+      </div>
+      <div class="stat reveal" data-d="3">
+        <i data-lucide="building-2" class="ic"></i>
+        <div class="num" data-count="24" data-suffix="+">0</div>
+        <div class="lbl">Venues running on Capacity</div>
+      </div>
+      <div class="stat reveal" data-d="4">
+        <i data-lucide="clock" class="ic"></i>
+        <div class="num" data-count="12" data-suffix=" hrs">0</div>
+        <div class="lbl">Saved per venue, every week</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CASE STUDIES ============================ -->
+<section class="band band--light section" id="cases">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> Case studies</span>
+      <h2 class="h-section">Real venues,<br />real rooms filled.</h2>
+      <p class="lede">A look at what a connected system does in practice, across very different venues.</p>
+    </div>
+    <div class="cases">
+      <article class="case reveal" data-d="1">
+        <div class="case__img"><span class="ph">[ venue photo ]</span></div>
+        <div class="case__body">
+          <div class="nm">Neon Rooms</div>
+          <p class="desc">A weekly club night stuck on word of mouth. We rebuilt the run-up around lapsed buyers and weekend intent.</p>
+          <div class="case__metrics">
+            <div class="m"><div class="v">+212%</div><div class="l">Ticket sales</div></div>
+            <div class="m"><div class="v">9 hrs</div><div class="l">Saved / week</div></div>
+          </div>
+        </div>
+      </article>
+      <article class="case reveal" data-d="2">
+        <div class="case__img"><span class="ph">[ event photo ]</span></div>
+        <div class="case__body">
+          <div class="nm">Coastline Festival</div>
+          <p class="desc">A one-weekend festival with no early momentum. Structured phasing pulled demand forward by months.</p>
+          <div class="case__metrics">
+            <div class="m"><div class="v">14k</div><div class="l">Tickets</div></div>
+            <div class="m"><div class="v">38%</div><div class="l">Lower cost / sale</div></div>
+          </div>
+        </div>
+      </article>
+      <article class="case reveal" data-d="3">
+        <div class="case__img"><span class="ph">[ venue photo ]</span></div>
+        <div class="case__body">
+          <div class="nm">Azure Beach Club</div>
+          <p class="desc">A new launch with a cold audience. Capacity surfaced the segments that actually book tables.</p>
+          <div class="case__metrics">
+            <div class="m"><div class="v">Sold out</div><div class="l">Opening month</div></div>
+            <div class="m"><div class="v">+61%</div><div class="l">Repeat bookings</div></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TESTIMONIALS ============================ -->
+<section class="band band--dark section tmls" id="testimonials">
+  <div class="tmls__bg"><div class="wash"></div></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> In their words</span>
+      <h2 class="h-section">The team behind the bar,<br />not buried in admin.</h2>
+    </div>
+    <div class="tmls__grid">
+      <figure class="tml tml--lead reveal" data-d="1">
+        <blockquote>"We used to spend Monday mornings piecing together how the weekend went. Now it is one screen, and the rest of the morning is ours again."</blockquote>
+        <figcaption>
+          <span class="who"><span class="ava"></span><span class="meta"><b>Sophie Hayes</b><span>Marketing Lead, Neon Rooms</span></span></span>
+        </figcaption>
+      </figure>
+      <figure class="tml reveal" data-d="2">
+        <blockquote>"Enquiries do not slip through any more. Everything lands in one place and we reply in minutes, not days."</blockquote>
+        <figcaption>
+          <span class="who"><span class="ava ava--2"></span><span class="meta"><b>Marcus Bell</b><span>Owner, The Pavilion</span></span></span>
+        </figcaption>
+      </figure>
+      <figure class="tml reveal" data-d="3">
+        <blockquote>"It feels like having an extra person on the team who actually knows the numbers."</blockquote>
+        <figcaption>
+          <span class="who"><span class="ava ava--3"></span><span class="meta"><b>Priya Anand</b><span>GM, Azure Beach Club</span></span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PRICING ============================ -->
+<section class="band band--light-alt section" id="pricing">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow"><span class="dot"></span> Pricing</span>
+      <h2 class="h-section">Plans that scale with the room.</h2>
+      <p class="lede">From a single venue to a multi-site group. Intelligence is included on every plan. Early-access pricing shown.</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan reveal" data-d="1">
+        <h3>Standard</h3>
+        <p class="blurb">For a single venue getting everything in one place.</p>
+        <div class="price"><span class="amt">£479</span><span class="per">/ month</span></div>
+        <a href="signup.html" class="btn btn-outline">Request early access</a>
+        <ul>
+          <li><i data-lucide="check" class="ic"></i> One venue workspace</li>
+          <li><i data-lucide="check" class="ic"></i> Website, bookings, socials, campaigns and till sales connected</li>
+          <li><i data-lucide="check" class="ic"></i> Shared enquiry inbox with email, SMS and WhatsApp</li>
+          <li><i data-lucide="check" class="ic"></i> One-click sign-up pages and reports</li>
+          <li><i data-lucide="check" class="ic"></i> Intelligence included</li>
+        </ul>
+      </div>
+      <div class="plan reveal" data-d="2">
+        <h3>Advanced</h3>
+        <p class="blurb">For venues that want more power and bigger limits.</p>
+        <div class="price"><span class="amt">£899</span><span class="per">/ month</span></div>
+        <a href="signup.html" class="btn btn-outline">Request early access</a>
+        <ul>
+          <li><i data-lucide="check" class="ic"></i> Everything in Standard</li>
+          <li><i data-lucide="check" class="ic"></i> Higher messaging and campaign limits</li>
+          <li><i data-lucide="check" class="ic"></i> Higher Intelligence usage limits</li>
+          <li><i data-lucide="check" class="ic"></i> Advanced audience and performance insights</li>
+          <li><i data-lucide="check" class="ic"></i> Priority support</li>
+        </ul>
+      </div>
+      <div class="plan reveal" data-d="3">
+        <h3>Enterprise</h3>
+        <p class="blurb">A system tailored to fit, with a dedicated marketing team.</p>
+        <div class="price"><span class="amt">Custom</span></div>
+        <a href="signup.html" class="btn btn-outline">Talk to us</a>
+        <ul>
+          <li><i data-lucide="check" class="ic"></i> Everything in Advanced</li>
+          <li><i data-lucide="check" class="ic"></i> Unlimited venue workspaces</li>
+          <li><i data-lucide="check" class="ic"></i> Dedicated marketing team</li>
+          <li><i data-lucide="check" class="ic"></i> Custom integrations and development</li>
+          <li><i data-lucide="check" class="ic"></i> Cross-site benchmarking and theming</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ INTEGRATIONS ============================ -->
+<section class="band band--light section" id="integrations">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow"><span class="dot"></span> Integrations</span>
+      <h2 class="h-section">Plugs into everything<br />you already run.</h2>
+      <p class="lede">Capacity pulls your whole stack into one place, with no rip and replace.</p>
+    </div>
+    <div class="intg">
+      <div class="i reveal" data-d="1"><i data-lucide="instagram" class="ic"></i><span class="nm">Instagram</span></div>
+      <div class="i reveal" data-d="1"><i data-lucide="facebook" class="ic"></i><span class="nm">Meta Ads</span></div>
+      <div class="i reveal" data-d="2"><i data-lucide="music-2" class="ic"></i><span class="nm">TikTok</span></div>
+      <div class="i reveal" data-d="2"><i data-lucide="ticket" class="ic"></i><span class="nm">Ticketing</span></div>
+      <div class="i reveal" data-d="3"><i data-lucide="message-circle" class="ic"></i><span class="nm">WhatsApp</span></div>
+      <div class="i reveal" data-d="3"><i data-lucide="mail" class="ic"></i><span class="nm">Email / CRM</span></div>
+    </div>
+    <div class="intg-more reveal" data-d="2">
+      <a href="integrations.html" class="btn btn-outline">See all integrations<i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="band band--light-alt section" id="faq">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow"><span class="dot"></span> FAQ</span>
+      <h2 class="h-section">Questions, answered.</h2>
+    </div>
+    <div class="faq" id="faq">
+      <div class="qa">
+        <button class="qa__q">What exactly is Capacity?<i data-lucide="plus" class="ic"></i></button>
+        <div class="qa__a"><p>Capacity is one system for running a venue's marketing and customer side. It brings your website, bookings, enquiries, socials, campaigns and till sales together, then helps you reply faster, launch campaigns and understand what is working.</p></div>
+      </div>
+      <div class="qa">
+        <button class="qa__q">Do I need a marketing team to use it?<i data-lucide="plus" class="ic"></i></button>
+        <div class="qa__a"><p>No. Capacity is built to give a venue the reach of a full team without needing one. It handles the time-consuming admin and analysis so your people can focus on the experience. On Enterprise, we can also provide a dedicated marketing team.</p></div>
+      </div>
+      <div class="qa">
+        <button class="qa__q">Is this just another AI tool?<i data-lucide="plus" class="ic"></i></button>
+        <div class="qa__a"><p>No. Capacity is a full operating system for your venue. Intelligence is one part of it that lets you ask plain questions about your own data and get clear answers. It is there to save you time on analysis, not to make decisions for you.</p></div>
+      </div>
+      <div class="qa">
+        <button class="qa__q">What does early access mean?<i data-lucide="plus" class="ic"></i></button>
+        <div class="qa__a"><p>Capacity is a product we are actively building. Early-access venues help shape it and get a system built around their specific needs, with direct input into what we develop next.</p></div>
+      </div>
+      <div class="qa">
+        <button class="qa__q">How long does setup take?<i data-lucide="plus" class="ic"></i></button>
+        <div class="qa__a"><p>Days, not weeks. We connect your accounts on a free setup call, shape the system around your venue and have you up and running quickly.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FINAL CTA / EARLY ACCESS ============================ -->
+<section class="band band--dark section cta" id="demo">
+  <div class="cta__bg"><div class="wash"></div></div>
+  <div class="wrap cta__inner">
+    <span class="eyebrow reveal"><span class="dot"></span> Early access</span>
+    <h2 class="h-display reveal" data-d="1" style="margin-top:18px">Built for ambitious venues.</h2>
+    <p class="lede reveal" data-d="2">Join the venues shaping what Capacity becomes next.</p>
+    <div class="cta__actions reveal" data-d="3">
+      <a href="signup.html" class="btn btn-primary btn-lg btn-glow">Sign up for early access<i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="band band--dark footer">
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <a class="nav__logo" href="#top"><img class="mark" src="assets/capacity-logomark-white.png" alt="Capacity" style="height:26px;width:auto" /></a>
+      <p>One calm system for running your venue's marketing and customer side. Less admin, better decisions.</p>
+      <div class="socials">
+        <a href="https://instagram.com/wearecapacity" aria-label="Instagram"><i data-lucide="instagram" class="ic"></i></a>
+        <a href="https://www.linkedin.com/company/wearecapacity" aria-label="LinkedIn"><i data-lucide="linkedin" class="ic"></i></a>
+      </div>
+    </div>
+    <div class="footcol">
+      <h4>Product</h4>
+      <a href="#platform">Platform</a>
+      <a href="#intelligence">Intelligence</a>
+      <a href="integrations.html">Integrations</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="footcol">
+      <h4>Company</h4>
+      <a href="#cases">Case studies</a>
+      <a href="#process">How it works</a>
+      <a href="https://www.wearecapacity.co/">Agency</a>
+      <a href="signup.html">Contact</a>
+    </div>
+    <div class="footcol">
+      <h4>Get started</h4>
+      <a href="signup.html">Request early access</a>
+      <a href="#">Sign in</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+  <div class="wrap footer__bar">
+    <span>© Capacity Digital Ltd, 2026 · Company No. 14487697</span>
+    <span>167-169 Great Portland Street, London W1W 5PF</span>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+
+<!-- ============================ SCRIPTS ============================ -->
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="landing.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks-app.jsx"></script>
+</body>
+</html>
