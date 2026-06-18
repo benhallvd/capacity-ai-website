@@ -1,0 +1,45 @@
+/* Capacity Design System — Spacing, Radius & Elevation
+   4px base step. Base radius is 8px (lg). UI is flat — borders carry separation.
+   =========================================================================== */
+
+:root {
+  /* ---- Corner radius ---------------------------------------------------- */
+  --radius:      8px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   8px;
+  --radius-xl:   12px;
+  --radius-2xl:  16px;
+  --radius-3xl:  24px;
+  --radius-full: 9999px;
+
+  /* ---- Spacing scale (4px base) ---------------------------------------- */
+  --space-0:  0;
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* ---- Elevation / shadow ----------------------------------------------- */
+  --shadow-xs:  0 1px 2px rgba(4, 11, 14, 0.06);
+  --shadow-sm:  0 1px 3px rgba(4, 11, 14, 0.10);
+  --shadow-md:  0 4px 16px rgba(4, 11, 14, 0.12);
+  --shadow-pop: 0 8px 30px rgba(4, 11, 14, 0.18);
+
+  /* Ambient brand glow — AI / hero elements only */
+  --glow-brand:        0 0 48px rgba(27, 99, 248, 0.15);
+  --glow-brand-strong: 0 0 20px 6px rgba(27, 99, 248, 0.28);
+
+  /* ---- Blur ------------------------------------------------------------- */
+  --blur-card: 12px;
+
+  /* ---- Layout ----------------------------------------------------------- */
+  --sidebar-width:  14rem;
+  --topbar-height:  3.5rem;
+}
