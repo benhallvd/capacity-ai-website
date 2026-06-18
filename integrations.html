@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Capacity · Integrations</title>
+<link rel="stylesheet" href="./styles.css" />
+<link rel="stylesheet" href="landing.css" />
+<style>
+  body { background: var(--capacity-ink-900); }
+  .subpage { padding-top: clamp(120px, 16vh, 170px); }
+  .subhero { text-align: center; }
+  .subhero .lede { margin-inline: auto; }
+  .back { display: inline-flex; align-items: center; gap: 7px; color: var(--muted-foreground); font-size: var(--text-sm); letter-spacing: -0.015em; margin-bottom: 22px; transition: color .15s; }
+  .back:hover { color: var(--foreground); }
+  .back .ic { width: 16px; height: 16px; }
+  .intg-group { margin-top: clamp(48px, 7vw, 80px); }
+  .intg-group__head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+  .intg-group__head h2 { margin: 0; font-size: 1.4rem; font-weight: var(--weight-medium); letter-spacing: -0.035em; }
+  .intg-group__head .count { font-size: var(--text-xs); color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
+  .intg-group__head .rule { flex: 1; height: 1px; background: var(--border); }
+  .intg-full { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .icard { display: flex; align-items: center; gap: 14px; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-xl);
+    background: color-mix(in srgb, var(--card) 70%, var(--background)); transition: border-color .2s, transform .2s; }
+  .icard:hover { border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); transform: translateY(-2px); }
+  .icard .ico { width: 44px; height: 44px; flex-shrink: 0; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand); border: 1px solid color-mix(in srgb, var(--brand) 22%, transparent); }
+  .icard .ico .ic { width: 22px; height: 22px; }
+  .icard .it { display: flex; flex-direction: column; gap: 2px; }
+  .icard .it .a { font-size: var(--text-sm); font-weight: var(--weight-medium); letter-spacing: -0.02em; }
+  .icard .it .b { font-size: var(--text-xs); color: var(--muted-foreground); letter-spacing: -0.01em; }
+  .icard--soon { opacity: .92; }
+  .icard--soon .ico { background: color-mix(in srgb, var(--muted-foreground) 14%, transparent); color: var(--muted-foreground); border-color: var(--border); }
+  .soon-badge { margin-left: auto; font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .07em; font-weight: 600; color: var(--capacity-cyan);
+    background: color-mix(in srgb, var(--capacity-cyan) 14%, transparent); padding: 4px 9px; border-radius: var(--radius-full); white-space: nowrap; }
+  .subcta { margin-top: clamp(56px, 8vw, 90px); text-align: center; border-top: 1px solid var(--border); padding-top: clamp(48px, 7vw, 72px); }
+  .subcta h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: var(--weight-medium); letter-spacing: -0.04em; margin: 0 0 22px; }
+  @media (max-width: 900px) { .intg-full { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .intg-full { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="band band--dark">
+
+<!-- NAV -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="Capacity%20Landing.html" aria-label="Capacity home">
+      <img class="mark" src="assets/capacity-logomark-white.png" alt="Capacity" />
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="Capacity%20Landing.html#platform">Platform</a>
+      <a href="Capacity%20Landing.html#intelligence">Intelligence</a>
+      <a href="Capacity%20Landing.html#pricing">Pricing</a>
+      <a href="Capacity%20Landing.html#cases">Results</a>
+    </div>
+    <div class="nav__cta">
+      <a href="#" class="nav__signin">Sign in</a>
+      <a href="signup.html" class="btn btn-primary">Request early access</a>
+    </div>
+    <button class="nav__burger" id="burger" aria-label="Menu"><i data-lucide="menu" class="ic"></i></button>
+  </div>
+</nav>
+
+<main class="wrap subpage">
+  <div class="subhero">
+    <span class="eyebrow reveal"><span class="dot"></span> Integrations</span>
+    <h1 class="h-section reveal" data-d="1" style="margin-top:14px">Connect the tools<br />you already run.</h1>
+    <p class="lede reveal" data-d="2">Capacity links to your whole stack so everything lives in one place. Here is what connects today, and what is coming next.</p>
+  </div>
+
+  <!-- LIVE -->
+  <div class="intg-group">
+    <div class="intg-group__head reveal">
+      <h2>Live now</h2>
+      <span class="rule"></span>
+      <span class="count">10 integrations</span>
+    </div>
+    <div class="intg-full">
+      <div class="icard reveal" data-d="1"><span class="ico"><i data-lucide="instagram" class="ic"></i></span><span class="it"><span class="a">Instagram</span><span class="b">Posts, Reels, insights</span></span></div>
+      <div class="icard reveal" data-d="1"><span class="ico"><i data-lucide="facebook" class="ic"></i></span><span class="it"><span class="a">Meta Ads</span><span class="b">Campaigns and spend</span></span></div>
+      <div class="icard reveal" data-d="2"><span class="ico"><i data-lucide="music-2" class="ic"></i></span><span class="it"><span class="a">TikTok</span><span class="b">Organic and ads</span></span></div>
+      <div class="icard reveal" data-d="2"><span class="ico"><i data-lucide="ticket" class="ic"></i></span><span class="it"><span class="a">Ticketing</span><span class="b">Sales and attendees</span></span></div>
+      <div class="icard reveal" data-d="3"><span class="ico"><i data-lucide="message-circle" class="ic"></i></span><span class="it"><span class="a">WhatsApp</span><span class="b">Direct messaging</span></span></div>
+      <div class="icard reveal" data-d="3"><span class="ico"><i data-lucide="mail" class="ic"></i></span><span class="it"><span class="a">Email / CRM</span><span class="b">Lists and campaigns</span></span></div>
+      <div class="icard reveal" data-d="1"><span class="ico"><i data-lucide="search" class="ic"></i></span><span class="it"><span class="a">Google Ads</span><span class="b">Search and display</span></span></div>
+      <div class="icard reveal" data-d="2"><span class="ico"><i data-lucide="bar-chart-3" class="ic"></i></span><span class="it"><span class="a">GA4</span><span class="b">Website analytics</span></span></div>
+      <div class="icard reveal" data-d="3"><span class="ico"><i data-lucide="message-square" class="ic"></i></span><span class="it"><span class="a">SMS</span><span class="b">Bulk and reminders</span></span></div>
+      <div class="icard reveal" data-d="1"><span class="ico"><i data-lucide="globe" class="ic"></i></span><span class="it"><span class="a">Your website</span><span class="b">Forms and bookings</span></span></div>
+    </div>
+  </div>
+
+  <!-- COMING SOON -->
+  <div class="intg-group">
+    <div class="intg-group__head reveal">
+      <h2>Coming soon</h2>
+      <span class="rule"></span>
+      <span class="count">6 in build</span>
+    </div>
+    <div class="intg-full">
+      <div class="icard icard--soon reveal" data-d="1"><span class="ico"><i data-lucide="credit-card" class="ic"></i></span><span class="it"><span class="a">Stripe</span><span class="b">Payments</span></span><span class="soon-badge">Soon</span></div>
+      <div class="icard icard--soon reveal" data-d="1"><span class="ico"><i data-lucide="utensils" class="ic"></i></span><span class="it"><span class="a">SevenRooms</span><span class="b">Table bookings</span></span><span class="soon-badge">Soon</span></div>
+      <div class="icard icard--soon reveal" data-d="2"><span class="ico"><i data-lucide="calendar-check" class="ic"></i></span><span class="it"><span class="a">DesignMyNight</span><span class="b">Bookings and enquiries</span></span><span class="soon-badge">Soon</span></div>
+      <div class="icard icard--soon reveal" data-d="2"><span class="ico"><i data-lucide="receipt" class="ic"></i></span><span class="it"><span class="a">EPOS / till systems</span><span class="b">Sales data</span></span><span class="soon-badge">Soon</span></div>
+      <div class="icard icard--soon reveal" data-d="3"><span class="ico"><i data-lucide="youtube" class="ic"></i></span><span class="it"><span class="a">YouTube</span><span class="b">Video and ads</span></span><span class="soon-badge">Soon</span></div>
+      <div class="icard icard--soon reveal" data-d="3"><span class="ico"><i data-lucide="webhook" class="ic"></i></span><span class="it"><span class="a">Zapier &amp; webhooks</span><span class="b">Connect anything else</span></span><span class="soon-badge">Soon</span></div>
+    </div>
+  </div>
+
+  <div class="subcta">
+    <h2>Need something that isn't here?</h2>
+    <p class="lede center" style="margin-bottom:28px">On Enterprise we build custom integrations around your venue. Tell us what you run and we will make it fit.</p>
+    <a href="signup.html" class="btn btn-primary btn-lg btn-glow">Request early access<i data-lucide="arrow-right" class="ic"></i></a>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="band band--dark footer" style="margin-top:clamp(64px,9vw,110px)">
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <a class="nav__logo" href="Capacity%20Landing.html"><img class="mark" src="assets/capacity-logomark-white.png" alt="Capacity" style="height:26px;width:auto" /></a>
+      <p>One calm system for running your venue's marketing and customer side. Less admin, better decisions.</p>
+      <div class="socials">
+        <a href="https://instagram.com/wearecapacity" aria-label="Instagram"><i data-lucide="instagram" class="ic"></i></a>
+        <a href="https://www.linkedin.com/company/wearecapacity" aria-label="LinkedIn"><i data-lucide="linkedin" class="ic"></i></a>
+      </div>
+    </div>
+    <div class="footcol">
+      <h4>Product</h4>
+      <a href="Capacity%20Landing.html#platform">Platform</a>
+      <a href="Capacity%20Landing.html#intelligence">Intelligence</a>
+      <a href="integrations.html">Integrations</a>
+      <a href="Capacity%20Landing.html#pricing">Pricing</a>
+    </div>
+    <div class="footcol">
+      <h4>Company</h4>
+      <a href="Capacity%20Landing.html#cases">Case studies</a>
+      <a href="Capacity%20Landing.html#process">How it works</a>
+      <a href="https://www.wearecapacity.co/">Agency</a>
+      <a href="signup.html">Contact</a>
+    </div>
+    <div class="footcol">
+      <h4>Get started</h4>
+      <a href="signup.html">Request early access</a>
+      <a href="#">Sign in</a>
+      <a href="Capacity%20Landing.html#faq">FAQ</a>
+    </div>
+  </div>
+  <div class="wrap footer__bar">
+    <span>© Capacity Digital Ltd, 2026 · Company No. 14487697</span>
+    <span>167-169 Great Portland Street, London W1W 5PF</span>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<script>
+  if (window.lucide) window.lucide.createIcons();
+  // reveal
+  var els = [].slice.call(document.querySelectorAll('.reveal'));
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function (e) { e.classList.add('in'); });
+  } else {
+    var o = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); o.unobserve(x.target); } }); }, { threshold: 0.12 });
+    els.forEach(function (e) { o.observe(e); });
+  }
+  var burger = document.getElementById('burger'), nav = document.getElementById('nav');
+  if (burger) burger.addEventListener('click', function () { nav.classList.toggle('menu-open'); });
+</script>
+</body>
+</html>
