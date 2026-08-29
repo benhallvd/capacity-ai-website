@@ -1,0 +1,104 @@
+/* ============================================================================
+   Capacity design tokens
+   Single source of truth for colour, type, space and shape. Values follow
+   brand.md exactly. Surfaces are neutral (no colour cast); brand blue is
+   reserved for primary buttons, active nav and focus rings.
+
+   Themes are scoped, not global: `.on-light` and `.on-dark` set the surface
+   tokens for a whole band, so a dark hero and a light body can coexist on one
+   page without any JS.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand ------------------------------------------------------------ */
+  --brand:            #1b63f8;  /* fill */
+  --brand-on-fill:    #ffffff;  /* label sitting on the fill */
+  --brand-text-light: #1b63f8;  /* brand as text, light background */
+  --brand-text-dark:  #3b79f9;  /* brand as text, dark background */
+
+  /* ---- Shape ------------------------------------------------------------ */
+  --radius:      8px;
+  --radius-sm:   4px;
+  --radius-full: 9999px;
+
+  /* ---- Type ------------------------------------------------------------- */
+  --font-sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Helvetica, Arial, sans-serif;
+
+  /* No 300, brand.md: light text renders at 400. */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extra:    800;
+
+  --tracking-body:  -0.025em;   /* global body tracking */
+  --tracking-tight: -0.018em;   /* display headings */
+  --tracking-display: -0.008em; /* the hero line */
+  --tracking-wide:   0.08em;    /* uppercase eyebrows */
+
+  --leading-tight:   1.06;
+  --leading-snug:    1.2;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.62;
+
+  /* Fluid display sizes, one scale, no per-section overrides. */
+  --text-xs:      0.75rem;
+  --text-sm:      0.875rem;
+  --text-base:    1rem;
+  --text-lg:      1.0625rem;
+  --text-xl:      1.25rem;
+  --text-lede:    clamp(1.0625rem, 0.98rem + 0.42vw, 1.3125rem);
+  --text-h3:      clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-h2:      clamp(2rem, 1.35rem + 2.7vw, 3.5rem);
+  --text-display: clamp(2.5rem, 0.5rem + 7vw, 6.75rem);
+
+  /* ---- Space ------------------------------------------------------------ */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  --gutter:    clamp(20px, 5vw, 44px);
+  --measure:   1200px;
+  --section-y: clamp(96px, 11vw, 200px);
+
+  /* ---- Motion ----------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---- Surface tokens, light -------------------------------------------- */
+/* These classes also apply `color`, so a scoped surface works on any element,
+   not just on a `.band`. */
+:root,
+.on-light {
+  color: var(--foreground);
+  --background:       #f6f6f6;
+  --card:             #ffffff;
+  --foreground:       #171717;
+  --muted-foreground: #6b6b6b;
+  --border:           #e4e4e4;
+  --secondary:        #efefef;
+  --brand-text:       var(--brand-text-light);
+  /* Faint brand wash for hover surfaces, never a solid brand block. */
+  --brand-wash:       color-mix(in srgb, var(--brand) 8%, var(--card));
+}
+
+/* ---- Surface tokens, dark --------------------------------------------- */
+.on-dark {
+  color: var(--foreground);
+  --background:       #0a0a0a;
+  --card:             #151515;
+  --foreground:       #f5f5f5;
+  --muted-foreground: #8f8f8f;
+  --border:           #262626;
+  --secondary:        #1c1c1c;
+  --brand-text:       var(--brand-text-dark);
+  --brand-wash:       color-mix(in srgb, var(--brand) 16%, var(--card));
+}

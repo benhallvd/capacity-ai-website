@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Integrations | Capacity</title>
-<meta name="description" content="All your venue data in one place. Capacity reads from and writes back to Instagram, Meta Ads, TikTok, ticketing, WhatsApp, GA4, guest WiFi and more." />
+<title>Ticketing | Capacity</title>
+<meta name="description" content="Sell tickets and bookings under your own brand, on your own site, and keep every buyer as a customer you can reach again." />
 <meta name="theme-color" content="#f6f6f6" />
-<meta property="og:title" content="Integrations | Capacity" />
-<meta property="og:description" content="All your venue data in one place. Capacity reads from and writes back to Instagram, Meta Ads, TikTok, ticketing, WhatsApp, GA4, guest WiFi and more." />
+<meta property="og:title" content="Ticketing | Capacity" />
+<meta property="og:description" content="Sell tickets and bookings under your own brand, on your own site, and keep every buyer as a customer you can reach again." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://getcapacity.co/integrations" />
-<link rel="canonical" href="https://getcapacity.co/integrations" />
+<meta property="og:url" content="https://getcapacity.co/feature-ticketing" />
+<link rel="canonical" href="https://getcapacity.co/feature-ticketing" />
 <meta property="og:image" content="https://getcapacity.co/assets/og-card.png?v=a51cf4ee21" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a6689e9c9e" />
@@ -95,42 +95,156 @@
   </div>
 </nav>
 
-<section class="band on-light pagehead">
-  <div class="wrap">
-    <a class="back" href="./"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>Back to home</a>
-    <h1 class="h2" data-r>Connect the tools<br />you already run.</h1>
-    <p class="lede" data-r style="--rd:1; margin-top: var(--space-5)">
-      Capacity reads from the platforms your venue is already on and writes back to them.
-      Nothing to rip out, nothing to migrate. If it isn&rsquo;t on the list, just ask. Most things connect.
+<section class="band on-dark pagehead pagehead--hero pagehead--tall thero">
+  <canvas class="hero__field" aria-hidden="true"></canvas>
+  <div class="wrap thero__copy">
+    <p class="eyebrow" data-r>Ticketing and bookings</p>
+    <h1 class="h1" data-r style="--rd:1">Take back control<br />of your bookings.</h1>
+    <p class="lede" data-r style="--rd:2">
+      Your own ticketing and booking, on your own site, whitelabelled end to end.
+      You control the fee, you own the customer list, and every buyer lands in the
+      same place as everything else you run.
     </p>
+    <div class="phero__actions" data-r style="--rd:3">
+      <a class="btn btn--primary btn--lg" href="signup">Book a demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+    </div>
+  </div>
+
+  <!-- Square on and centred: the lean is the whole point of the stack and it
+       only reads when the group faces the reader. -->
+  <div class="thero__shot">
+    <div class="st3d st3d--tix" data-r="rise">
+      <div class="st3d__scene">
+        <picture class="st3d__main"><source srcset="assets/product/prototypes_dark_ticket_main.png?v=90bd9e5344" media="(prefers-color-scheme: dark)" /><img src="assets/product/prototypes_light_ticket_main.png?v=7ed2e7a868" alt="Capacity Ticketing" /></picture>
+        <picture class="st3d__card st3d__card--a"><source srcset="assets/product/prototypes_dark_events_onsale.png?v=44efdb6769" media="(prefers-color-scheme: dark)" /><img src="assets/product/prototypes_light_events_onsale.png?v=05d5135cc5" alt="Events on sale" loading="lazy" /></picture>
+        <picture class="st3d__card st3d__card--b"><source srcset="assets/product/prototypes_dark_customerpie.png?v=c6a5cf03df" media="(prefers-color-scheme: dark)" /><img src="assets/product/prototypes_light_customerpie.png?v=f867ecd9d6" alt="Who bought, broken down" loading="lazy" /></picture>
+        <picture class="st3d__card st3d__card--c"><source srcset="assets/product/prototypes_dark_sales.png?v=5b2ab1fd3a" media="(prefers-color-scheme: dark)" /><img src="assets/product/prototypes_light_sales.png?v=d45fc72dc4" alt="Revenue to date" loading="lazy" /></picture>
+        <picture class="st3d__card st3d__card--d"><source srcset="assets/product/prototypes_dark_tixsold.png?v=17fd70b8d7" media="(prefers-color-scheme: dark)" /><img src="assets/product/prototypes_light_tixsold.png?v=fca39255b5" alt="Tickets sold" loading="lazy" /></picture>
+        <picture class="st3d__card st3d__card--e"><img src="assets/product/prototypes_both_ticketqrcode.png?v=2b098f06cc" alt="A ticket in the customer&rsquo;s wallet" loading="lazy" /></picture>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="band on-light band--seam">
+<section class="band on-light band--overlapped">
   <div class="wrap">
-    <!-- Statuses come from SOON in common.py, so the badge and the ticker can
-         never disagree about what is live. -->
-    <div class="igrid">
-      <div class="icard" id="instagram"><img src="assets/brands/instagram.svg?v=f66e2e2254" alt="" /><span class="icard__t"><b>Instagram</b><span>Posts, Reels, insights and direct messages</span></span></div>
-      <div class="icard" id="gmail"><img src="assets/brands/gmail.svg?v=64e6f82b90" alt="" /><span class="icard__t"><b>Gmail</b><span>Enquiry email, in the shared inbox</span></span></div>
-      <div class="icard" id="facebook"><img src="assets/brands/facebook.svg?v=991424a5e7" alt="" /><span class="icard__t"><b>Facebook</b><span>Pages, posts and Meta Ads campaigns</span></span></div>
-      <div class="icard" id="google-ads"><img src="assets/brands/google-ads.svg?v=eee9c33123" alt="" /><span class="icard__t"><b>Google Ads</b><span>Search, display and Performance Max</span></span></div>
-      <div class="icard" id="tiktok"><img src="assets/brands/tiktok.svg?v=1659e79d0b" alt="" /><span class="icard__t"><b>TikTok</b><span>Organic posts and TikTok Ads</span></span></div>
-      <div class="icard" id="whatsapp"><img src="assets/brands/whatsapp.svg?v=8d7725c0f0" alt="" /><span class="icard__t"><b>WhatsApp</b><span>Customer messages, in the shared inbox</span></span></div>
-      <div class="icard" id="google"><img src="assets/brands/google.svg?v=19c4369f6f" alt="" /><span class="icard__t"><b>Google</b><span>Search Console and organic performance</span></span></div>
-      <div class="icard" id="claude"><img src="assets/brands/claude.svg?v=bba7831580" alt="" /><span class="icard__t"><b>Claude</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="ga4"><img src="assets/brands/ga4.svg?v=3b16ab1d26" alt="" /><span class="icard__t"><b>GA4</b><span>Website analytics and conversions</span></span></div>
-      <div class="icard" id="gemini"><img src="assets/brands/gemini.svg?v=3b4e67826e" alt="" /><span class="icard__t"><b>Gemini</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="chatgpt"><img src="assets/brands/chatgpt.svg?v=6cc44f64fb" alt="" /><span class="icard__t"><b>ChatGPT</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="snapchat"><img src="assets/brands/snapchat.svg?v=0c5dae3099" alt="" /><span class="icard__t"><b>Snapchat</b><span>Snap Ads and audience data</span></span></div>
-      <div class="icard" id="google-business"><img src="assets/brands/google-business.svg?v=7e65d0be9f" alt="" /><span class="icard__t"><b>Google Business</b><span>Reviews, posts and profile insights</span></span></div>
-      <div class="icard icard--soon" id="dice"><img src="assets/brands/dice.svg?v=ec55679fad" alt="" class="is-wide" /><span class="icard__t"><b>DICE</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="square"><img src="assets/brands/square.svg?v=e220e09d61" alt="" /><span class="icard__t"><b>Square</b><span>Payments, till data and customer records</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="skiddle"><img src="assets/brands/skiddle.svg?v=94ab5a8780" alt="" class="is-wide" /><span class="icard__t"><b>Skiddle</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="eposnow"><img src="assets/brands/eposnow.svg?v=ebdc40fa50" alt="" /><span class="icard__t"><b>EPOS Now</b><span>Till transactions and spend per head</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="fixr"><img src="assets/brands/fixr.svg?v=93286c3586" alt="" class="is-wide" /><span class="icard__t"><b>FIXR</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="eventbrite"><img src="assets/brands/eventbrite.svg?v=f21e5bd1cc" alt="" /><span class="icard__t"><b>Eventbrite</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="icrtouch"><img src="assets/brands/icrtouch.svg?v=fd3a2d1e1d" alt="" /><span class="icard__t"><b>ICRTouch</b><span>Till transactions and wet sales</span></span><span class="soon">Coming soon</span></div>
+    <div class="head">
+      <h2 class="h2" data-r="wipe">One system for ticket sales<br />and bookings.</h2>
+      <p class="lede" data-r style="--rd:1">
+        Selling the ticket is one part of it. Building the event, paying the promoter,
+        letting people in on the door and knowing where the sale came from are the rest,
+        and all of it sits beside the marketing you already run here.
+      </p>
+    </div>
+    <div class="steps steps--3">
+      <div class="step" data-r style="--rd:0">
+        <span class="step__n">01</span>
+        <h3 class="h3">Build the event, set it live</h3>
+        <p>Ticket types, allocations, tables and booths, presales and guestlists. Release windows and prices you control, running from the moment you publish.</p>
+      </div>
+      <div class="step" data-r style="--rd:1">
+        <span class="step__n">02</span>
+        <h3 class="h3">Promoters, reps and commission</h3>
+        <p>Give a promoter access to the events they are working and nothing else. Set their rate, and sales and commission add up per rep as they sell.</p>
+      </div>
+      <div class="step" data-r style="--rd:2">
+        <span class="step__n">03</span>
+        <h3 class="h3">Every screen a customer sees is yours</h3>
+        <p>Listing, event page, checkout, confirmation, email, PDF ticket and wallet pass. Whitelabelled and embeddable on your own site.</p>
+      </div>
+      <div class="step" data-r style="--rd:3">
+        <span class="step__n">04</span>
+        <h3 class="h3">Scan them in on the door</h3>
+        <p>The scanning app checks tickets in live, so the door team sees the venue fill as it happens and every scan lands back in the same system.</p>
+      </div>
+      <div class="step" data-r style="--rd:4">
+        <span class="step__n">05</span>
+        <h3 class="h3">Reporting on the sale, not the count</h3>
+        <p>Allocation against quantity, booking activity by day, revenue by acquisition source, new against returning, age and gender. Tracked from ad to arrival.</p>
+      </div>
+      <div class="step" data-r style="--rd:5">
+        <span class="step__n">06</span>
+        <h3 class="h3">It joins everything else you run</h3>
+        <p>Every buyer becomes a customer profile beside your bookings, enquiries and till, so the marketing that follows knows who actually turned up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The customer journey, in the venue's name from listing to wallet pass.
+     One screen at a time, advancing on its own and on click. -->
+<section class="band on-dark journey" id="journey">
+  <div class="wrap">
+    <div class="jhead">
+      <div>
+        <h2 class="h2" data-r="wipe">The journey is yours,<br />end to end.</h2>
+      </div>
+      <p class="lede" data-r style="--rd:1">
+        No third-party branding anywhere in it, and nothing that sends your customer
+        off to someone else&rsquo;s marketplace. Every step feeds the same customer record.
+      </p>
+    </div>
+
+    <div class="jflow" id="jflow">
+      <div class="jrail">
+        <div class="jrail__track" id="jtrack">
+          <button class="jslide is-on" type="button" data-i="0" aria-label="What&rsquo;s on">
+            <img src="assets/product/prototypes_both_whatson.png?v=8190b00ec1" alt="What&rsquo;s on" />
+          </button>
+          <button class="jslide" type="button" data-i="1" aria-label="Checkout">
+            <img src="assets/product/prototypes_both_checkout.png?v=baeb15722a" alt="Checkout" loading="lazy" />
+          </button>
+          <button class="jslide" type="button" data-i="2" aria-label="Confirmation">
+            <img src="assets/product/prototypes_both_orderconfirmation.png?v=266820828e" alt="Confirmation" loading="lazy" />
+          </button>
+          <button class="jslide" type="button" data-i="3" aria-label="The ticket">
+            <img src="assets/product/prototypes_both_ticketqrcode.png?v=2b098f06cc" alt="The ticket" loading="lazy" />
+          </button>
+        </div>
+      </div>
+
+      <div class="jflow__caption">
+          <p class="jcap is-on" data-i="0">Your listings, on your domain</p>
+          <p class="jcap" data-i="1">Your brand at the point of payment</p>
+          <p class="jcap" data-i="2">The receipt comes from you</p>
+          <p class="jcap" data-i="3">Wallet pass or PDF, still yours</p>
+      </div>
+
+      <div class="jflow__dots">
+          <button class="jdot is-on" type="button" data-i="0" aria-label="What&rsquo;s on"><span class="jdot__n">01</span><span class="jdot__t">What&rsquo;s on</span><span class="jdot__bar"><i></i></span></button>
+          <button class="jdot" type="button" data-i="1" aria-label="Checkout"><span class="jdot__n">02</span><span class="jdot__t">Checkout</span><span class="jdot__bar"><i></i></span></button>
+          <button class="jdot" type="button" data-i="2" aria-label="Confirmation"><span class="jdot__n">03</span><span class="jdot__t">Confirmation</span><span class="jdot__bar"><i></i></span></button>
+          <button class="jdot" type="button" data-i="3" aria-label="The ticket"><span class="jdot__n">04</span><span class="jdot__t">The ticket</span><span class="jdot__bar"><i></i></span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band on-light">
+  <div class="wrap split" style="align-items:center">
+    <div>
+      <h2 class="h2" data-r="wipe">Know who&rsquo;s<br />in your crowd.</h2>
+      <p class="lede" data-r style="--rd:1; margin-top: var(--space-5)">
+        A ticket sold on a platform you rent is a name on someone else&rsquo;s list.
+        A ticket sold here becomes a profile: what they bought, what they spent,
+        what brought them, and what to send them next.
+      </p>
+    </div>
+    <!-- The band is light, so the light export is the right one whatever the
+         reader's system theme is. No dark source here on purpose. -->
+    <picture class="tprofile" data-r style="--rd:1">
+      <img src="assets/product/prototypes_light_customerprofile.png?v=59b71f3d8b" alt="A customer profile in Capacity" loading="lazy" />
+    </picture>
+  </div>
+</section>
+
+<section class="band on-light">
+  <div class="wrap">
+    <h2 class="h3" data-r>More of the platform</h2>
+    <div class="rel">
+      <a class="rel__card" href="./#platform"><span class="rel__k">Feature</span><span class="rel__t">Unified inbox</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+      <a class="rel__card" href="./#platform"><span class="rel__k">Feature</span><span class="rel__t">Campaigns</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+      <a class="rel__card" href="./#platform"><span class="rel__k">Feature</span><span class="rel__t">Smart profiles</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
     </div>
   </div>
 </section>
@@ -138,14 +252,11 @@
 <section class="band on-dark cta cta--field">
   <canvas class="hero__field" id="pixelField" aria-hidden="true"></canvas>
   <div class="wrap cta__inner">
-    <h2 class="h2" data-r>Need something custom?</h2>
-    <p class="lede" data-r style="--rd:1">
-      Tell us what your venue runs on. Most systems connect, and we build the ones that matter.
-    </p>
+    <h2 class="h2 cta__title" data-r>Ready to reach Capacity?</h2>
+    <p class="lede" data-r style="--rd:1">Twenty minutes on a call. We will show you what your ticketing looks like with your brand on it, and what changes when the customer list is yours.</p>
     <a class="btn btn--primary btn--lg" href="signup" data-r style="--rd:2">Book a demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
   </div>
 </section>
-
 <footer class="band on-dark footer">
   <div class="wrap">
     <div class="footer__inner">
