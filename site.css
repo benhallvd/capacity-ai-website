@@ -124,6 +124,22 @@ button, input, select, textarea { font: inherit; letter-spacing: inherit; color:
 }
 .lede + .lede { margin-top: var(--space-5); }
 
+/* ---- mobile display scale ---------------------------------------------- */
+/* The shared clamps are tuned for the range where a headline gets a wide
+   measure to sit on. Below that they bottom out and every display size lands on
+   its floor, so a phone got the same 32px h2 whether the screen was 320 or
+   620 wide and the page read as body copy all the way down. These floors are
+   steeper and capped to meet the shared curve at the breakpoint, so nothing
+   jumps as the page crosses it. */
+@media (max-width: 620px) {
+  :root {
+    --text-display: clamp(2.625rem, 1rem + 8.2vw, 3.25rem);
+    --text-h2:      clamp(2.125rem, 1.1rem + 5.4vw, 2.5rem);
+    --text-lede:    clamp(1rem, 0.94rem + 0.3vw, 1.0625rem);
+  }
+  .h1 { font-size: clamp(2.75rem, 1.2rem + 8vw, 3.25rem); }
+}
+
 .eyebrow {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -225,13 +241,18 @@ button, input, select, textarea { font: inherit; letter-spacing: inherit; color:
   height: 24px;
   width: auto;
   /* Over a light section the pill reads as a dark bar, so the mark goes white;
-     over a dark section it sits in brand blue. Hover swaps whichever applies. */
-  filter: brightness(0) invert(1);
-  transition: filter .35s var(--ease);
+     over a dark section it sits in brand blue. Hover swaps whichever applies.
+     Desaturate-and-brighten rather than `brightness(0) invert(1)`: both land on
+     the same white, but the inverting pair interpolates through a muddy
+     half-inverted grey, which is what made the swap read as a glitch on a phone
+     where the boundary crosses slowly. This one runs blue to pale blue to
+     white. */
+  filter: saturate(0) brightness(4);
+  transition: filter .28s var(--ease);
 }
 .nav--over-dark .nav__logo img { filter: none; }
 .nav__logo:hover img { filter: none; }
-.nav--over-dark .nav__logo:hover img { filter: brightness(0) invert(1); }
+.nav--over-dark .nav__logo:hover img { filter: saturate(0) brightness(4); }
 
 .nav__links {
   display: flex;
@@ -253,32 +274,79 @@ button, input, select, textarea { font: inherit; letter-spacing: inherit; color:
 .nav__signin { font-size: var(--text-sm); font-weight: var(--weight-medium); color: rgba(245, 245, 245, .62); }
 .nav__signin:hover { color: #f5f5f5; }
 
+/* Three rules that fold into an X. Drawn rather than icon-swapped, so the open
+   and close states are the same object moving instead of two glyphs cutting to
+   each other, which is what made the old one feel like a placeholder. */
 .nav__burger {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 38px; height: 38px;
+  width: 40px; height: 40px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, .14);
   border-radius: var(--radius);
   background: transparent;
   color: #f5f5f5;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .2s var(--ease), border-color .2s var(--ease);
 }
-.nav__burger .ic--x { display: none; }
-.nav.is-open .nav__burger .ic--x { display: block; }
-.nav.is-open .nav__burger .ic--menu { display: none; }
+.nav__burger:active { background: rgba(255, 255, 255, .06); }
+.nav.is-open .nav__burger {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .24);
+}
+
+.nav__burger-box {
+  position: relative;
+  display: block;
+  width: 18px; height: 12px;
+}
+.nav__burger-box i {
+  position: absolute;
+  left: 0;
+  width: 100%; height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  /* Two properties, used independently: `transform` carries the fold, `opacity`
+     the middle rule leaving. */
+  transition: transform .34s var(--ease), opacity .16s var(--ease);
+}
+.nav__burger-box i:nth-child(1) { top: 0; }
+.nav__burger-box i:nth-child(2) { top: 50%; margin-top: -0.75px; }
+.nav__burger-box i:nth-child(3) { bottom: 0; }
+
+/* The outer rules travel to the middle first, then rotate, so the fold reads as
+   one motion rather than two bars swinging through each other. */
+.nav.is-open .nav__burger-box i:nth-child(1) {
+  transform: translateY(5.25px) rotate(45deg);
+}
+.nav.is-open .nav__burger-box i:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(.2);
+}
+.nav.is-open .nav__burger-box i:nth-child(3) {
+  transform: translateY(-5.25px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__burger-box i { transition: none; }
+}
 
 @media (max-width: 900px) {
   .nav__burger { display: flex; }
   .nav__actions { margin-left: auto; }
   .nav__actions .nav__signin { display: none; }
+  /* The demo button moves into the menu: at this width it crowded the pill and
+     pushed the burger to the very edge. */
+  .nav__actions .btn { display: none; }
   .nav__links {
     position: absolute;
     top: calc(100% + 8px); left: 0; right: 0;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    padding: var(--space-3) var(--space-5) var(--space-4);
+    padding: var(--space-2) var(--space-5) var(--space-4);
     border: 1px solid rgba(255, 255, 255, .1);
     border-radius: var(--radius);
     background: rgba(16, 16, 16, .92);
@@ -289,14 +357,56 @@ button, input, select, textarea { font: inherit; letter-spacing: inherit; color:
   }
   .nav.is-open .nav__links { display: flex; }
   .nav__links a { padding-block: var(--space-3); }
+
+  /* The panel opens as one piece and its rows arrive behind it, so the menu has
+     a direction rather than appearing all at once. */
+  .nav.is-open .nav__links {
+    animation: nav-panel .26s var(--ease) both;
+  }
+  .nav.is-open .nav__links > * {
+    animation: nav-row .34s var(--ease) both;
+    animation-delay: calc(60ms + var(--i, 0) * 45ms);
+  }
+  .nav__links > *:nth-child(1) { --i: 0; }
+  .nav__links > *:nth-child(2) { --i: 1; }
+  .nav__links > *:nth-child(3) { --i: 2; }
+  .nav__links > *:nth-child(4) { --i: 3; }
+  .nav__links > *:nth-child(5) { --i: 4; }
+}
+
+@keyframes nav-panel {
+  from { opacity: 0; transform: translateY(-8px) scaleY(.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes nav-row {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav.is-open .nav__links,
+  .nav.is-open .nav__links > * { animation: none; }
+}
+
+/* The demo call to action, once it has moved out of the pill. Full width at the
+   foot of the menu, clear of the links above it.
+   Scoped through .nav__links so it out-specifies the `.nav__links a` touch
+   target rule above, which would otherwise keep it on screen at every width. */
+.nav__links .nav__cta { display: none; }
+@media (max-width: 900px) {
+  .nav__links .nav__cta {
+    display: flex;
+    width: 100%;
+    height: 46px;
+    margin-top: var(--space-4);
+    font-size: var(--text-base);
+  }
 }
 
 /* Narrow phones: the pill runs out of room, so it tightens rather than letting
    the logo and the burger get squeezed to the edges. */
 @media (max-width: 460px) {
   .nav__inner { gap: var(--space-3); padding-inline: var(--space-4); }
-  .nav__actions .btn--sm { height: 38px; padding-inline: var(--space-4); font-size: var(--text-sm); }
-  .nav__burger { width: 38px; height: 38px; }
+  .nav__burger { width: 40px; height: 40px; }
 }
 
 /* Solutions dropdown. Hover opens it on a pointer, focus and click open it for
@@ -539,12 +649,51 @@ button, input, select, textarea { font: inherit; letter-spacing: inherit; color:
 .st3d--tix .st3d__card--d { --w: 21%; --z:  80px; bottom: -3%; right: -4%; }
 .st3d--tix .st3d__card--e { --w: 13%; --z: 195px; bottom: -6%; left:  -2%; }
 
-/* On a phone the satellites have nowhere to go, so the main screen stands alone
-   rather than losing half of itself off both edges. */
+/* On a phone the group swaps for a mobile arrangement outright. The main screen
+   is a 2400px-wide dashboard: at 350px nothing on it can be read, and its baked
+   window chrome plus the drop shadow reads as a grey box around a grey box. The
+   satellite cards are single panels that were drawn to be legible small, so the
+   phone stack is three of those and no desktop screen at all. */
 @media (max-width: 760px) {
   .st3d { perspective: none; width: 100%; }
-  .st3d__card { display: none; }
-  .st3d__card--c { display: block; position: static; width: 74%; margin: -8% 0 0 auto; transform: none; }
+  .st3d__scene {
+    display: grid;
+    gap: clamp(12px, 3.4vw, 20px);
+    /* The lean is an isometric rotation that only reads as depth against a
+       perspective. With none set it is just a vertical squash, which is what
+       made the stack look wrongly sized here. Parallax drift only. */
+    transform: translateY(var(--lift));
+    transform-style: flat;
+  }
+  .st3d__main { display: none; }
+  .st3d__card {
+    display: none;
+    position: static;
+    width: auto;
+    transform: none;
+    transition: none;
+  }
+  /* Lighter than the desktop pair: at this size the deep shadow swamped the
+     card it belonged to. */
+  .st3d__card img {
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, .5))
+            drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+  }
+
+  /* Three of the five, alternating which edge they hang off so the column has a
+     rhythm rather than reading as a stack of banners. */
+  .st3d__card--c { display: block; order: 1; width: 100%; }
+  .st3d__card--e { display: block; order: 2; width: 84%; justify-self: start; }
+  .st3d__card--d { display: block; order: 3; width: 93%; justify-self: end; }
+
+  /* Ticketing runs its own three. The revenue card is the widest type on the
+     set and dominated everything under it, so the phone stack leads on the
+     ticket count instead and drops the revenue card entirely. */
+  .st3d--tix .st3d__card--c { display: none; }
+  .st3d--tix .st3d__card--d { display: block; order: 1; width: 100%; justify-self: stretch; }
+  .st3d--tix .st3d__card--a { display: block; order: 2; width: 93%; justify-self: start; }
+  .st3d--tix .st3d__card--b { display: block; order: 3; width: 84%; justify-self: end; }
+  .st3d--tix .st3d__card--e { display: none; }
 }
 
 /* ------------------------------------------------------- placeholder ----- */
@@ -974,6 +1123,25 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 }
 .tickers:hover .ticker__track { animation-play-state: paused; }
 
+/* Two more rows, phone only. A row shows four or five marks at this width
+   against a dozen on a desktop, so two rows read as a thin sample of what
+   connects rather than as a wall of logos. Each carries a different draw from
+   the same twenty, so no mark is on screen twice, and each runs against the row
+   two above it. Decorative repeats of links already on the page, so they are
+   out of the tab order and hidden from assistive tech. */
+.ticker--phone { display: none; }
+
+@media (max-width: 620px) {
+  .ticker--phone { display: block; }
+  /* Two groups here rather than four, so the loop advances by a half. */
+  .ticker--phone .ticker__track { animation-name: ticker-run-2; }
+  /* Four distinct speeds, so the rows never settle into a block. Row three
+     starts at its own head, which is what keeps the first screenful showing
+     twenty different marks rather than repeating one from the row above. */
+  .ticker--phone-a .ticker__track { animation-duration: 64s; animation-delay: 0s; }
+  .ticker--phone-b .ticker__track { animation-duration: 80s; animation-delay: -20s; }
+}
+
 /* Four copies, advancing by exactly one. Two copies left a bare stretch at the
    trailing edge on wide screens once the translate reached its end. */
 @keyframes ticker-run {
@@ -1184,10 +1352,64 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   .js .merge__wires .w-pulse path { animation: none; stroke: none; }
 }
 
+/* Stacked, the five sources and the profile card have to share one screen with
+   the statement above them, so this is a genuinely compact arrangement rather
+   than the desktop one in a narrower column: the chips pair up, the horizontal
+   wires give way to a single vertical run, and the stat strip stays one row. */
 @media (max-width: 900px) {
-  .merge { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .merge {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+    max-width: 30rem;
+    margin-inline: auto;
+  }
   .merge__wires { display: none; }
-  .merge__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .merge__sources { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .merge__sources li { padding: 7px 10px; gap: 0; }
+  .merge__sources b { font-size: 0.6875rem; line-height: 1.35; }
+  .merge__sources span { font-size: 0.625rem; line-height: 1.35; }
+  /* Five into two leaves one over, so the last one takes the whole row. */
+  .merge__sources li:last-child { grid-column: 1 / -1; }
+
+  .merge__out { position: relative; gap: var(--space-3); padding: var(--space-3); }
+  /* The run the wires used to draw, turned through ninety degrees. */
+  .merge__out::before {
+    content: '';
+    position: absolute;
+    left: 50%; bottom: 100%;
+    width: 1px; height: 26px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, transparent, var(--border) 34%);
+  }
+  .js .merge__out::after {
+    content: '';
+    position: absolute;
+    left: 50%; bottom: 100%;
+    width: 5px; height: 5px;
+    margin-left: -2.5px;
+    border-radius: var(--radius-full);
+    background: var(--brand);
+    animation: merge-drop 2.6s var(--ease) infinite;
+  }
+  .merge__avatar { width: 32px; height: 32px; }
+  .merge__id { gap: var(--space-2); }
+  .merge__id b { font-size: var(--text-sm); }
+  .merge__stats div { padding: var(--space-2) 6px; }
+  .merge__stats span { font-size: 0.5rem; }
+  .merge__stats b { font-size: 0.8125rem; }
+  .merge__foot { gap: var(--space-2); }
+}
+
+@keyframes merge-drop {
+  0%       { transform: translateY(-26px) scale(.6); opacity: 0; }
+  22%      { opacity: 1; }
+  70%      { transform: translateY(0) scale(1); opacity: 0; }
+  100%     { transform: translateY(0); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .merge__out::after { animation: none; opacity: 0; }
 }
 
 /* ---------------------------------------------------------------- funnel -- */
@@ -1384,22 +1606,39 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   fill: color-mix(in srgb, var(--layer-c) 30%, transparent);
 }
 
+/* The point of the funnel is that it is one continuous channel narrowing from
+   capture to answers. Stacking the bands above their stages broke it into four
+   separate bowls with a paragraph between each one, and the slot had to clip
+   them to stop the page scrolling sideways.
+   On a phone the channel turns into a rail down the left instead: same four
+   bands, same widths, still level with the stage each one belongs to, and
+   nothing clipped. The elliptical rims come off because they only read as
+   openings when the shape is wide and seen at an angle; at rail width they are
+   tall skinny ovals. What is left is a clean tapering ribbon. */
 @media (max-width: 900px) {
   .funnel__row {
-    grid-template-columns: minmax(0, 1fr);
-    min-height: 0;
-    padding-left: var(--space-5);
+    grid-template-columns: clamp(52px, 15vw, 74px) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: stretch;
+    min-height: clamp(124px, 30vw, 168px);
+    padding-left: 0;
   }
-  /* The rotated plate has nowhere to sit beside the copy on a phone, so it
-     goes above its stage at a size that cannot spill the page. */
-  /* The rotated face is 1.41x its side across, so the slot has to clip. The
-     clip margin leaves the glow room without letting the page scroll. */
   .funnel__slot {
     order: -1;
-    height: clamp(96px, 26vw, 130px);
-    overflow: clip;
-    overflow-clip-margin: 22px;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
   }
+  .fband__rim { display: none; }
+  .fband__wall { opacity: .55; }
+
+  .funnel__copy { align-self: center; padding-block: var(--space-5); }
+  .funnel__row + .funnel__row .funnel__copy { padding-top: var(--space-5); }
+
+  /* The rail is the state indicator now, so the accent rule and the radial
+     wash behind the copy come off rather than repeating it twice. */
+  .funnel__row::before,
+  .funnel__row::after { display: none; }
 }
 
 /* --------------------------------------------------------------- ledger -- */
@@ -1648,6 +1887,35 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 .expand__copy .lede { text-align: center; }
 .expand__copy .btn { margin-top: var(--space-3); }
 
+/* The opening card is proportioned against a landscape viewport. On a phone
+   42% of the width by half the height is a portrait sliver about as wide as a
+   business card, which is not a frame anyone reads as a photograph. It opens
+   from a landscape card the width of the column instead, and grows mostly in
+   height from there. */
+@media (max-width: 760px) {
+  .expand-stage { min-height: 100svh; }
+  .js .expand-stage { height: 100svh; }
+  .expand__frame {
+    width: calc(86% + (var(--e, 0) * 15%));
+    height: calc(34svh + (var(--e, 0) * 67svh));
+  }
+  /* The copy sits over a much smaller crop of the photograph here, so it can
+     land on a bright patch with nowhere to move to. Weighting the darkness
+     toward the middle keeps the type off the highlights without flattening the
+     picture at the edges. */
+  .expand__frame::after {
+    background:
+      linear-gradient(180deg, rgba(10, 10, 10, .45), rgba(10, 10, 10, .72)),
+      radial-gradient(72% 54% at 50% 50%, rgba(10, 10, 10, .88), rgba(10, 10, 10, .42));
+  }
+  .expand__copy { gap: var(--space-4); }
+  /* Centred and this narrow, a forced break left one orphan line above another
+     and the block read as four ragged fragments. The sentence wraps on its own
+     and the browser balances it. */
+  .expand__copy .lede br { display: none; }
+  .expand__copy .lede { text-wrap: balance; max-width: 32ch; }
+}
+
 /* Reduced motion and no-JS: a plain dark call to action, no track, no growth. */
 .expand-track.is-static { height: auto; }
 .expand-track.is-static .expand-stage { position: static; height: auto; min-height: 0; padding-block: var(--section-y); }
@@ -1749,6 +2017,16 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   padding-block: calc(72px + clamp(112px, 12vw, 200px)) clamp(96px, 11vw, 160px);
 }
 
+/* On a phone 88svh stops about a hundred pixels short, so the band beneath it
+   shows as a pale strip under the photograph and the hero reads as a panel
+   rather than as the screen. It takes the whole screen here. */
+@media (max-width: 760px) {
+  .pagehead.pagehead--taller {
+    min-height: 100svh;
+    padding-block: calc(72px + clamp(48px, 9vw, 96px)) clamp(56px, 9vw, 96px);
+  }
+}
+
 .phero {
   position: relative;
   display: grid;
@@ -1796,14 +2074,46 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 }
 .thero__shot .st3d { width: min(100%, 1180px); }
 
-/* The profile screen beside the crowd copy. */
-.tprofile { display: block; }
+/* The profile screen beside the crowd copy. The export is a white screen, and
+   sitting bare on a near-white band it read as a slab of the page rather than
+   as something from inside the product. The frame around it is the smallest
+   thing that says application window: a chrome bar, a hairline, and enough
+   shadow to lift it off the band. */
+.tprofile {
+  display: block;
+  position: relative;
+  padding: 32px var(--space-3) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, .13), 0 4px 14px rgba(0, 0, 0, .06);
+}
+.tprofile::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--secondary);
+  border-radius: calc(var(--radius) + 3px) calc(var(--radius) + 3px) 0 0;
+}
+/* Three window dots, drawn as one repeating gradient rather than three spans. */
+.tprofile::after {
+  content: '';
+  position: absolute;
+  top: 13px; left: 14px;
+  width: 38px; height: 7px;
+  background-image: radial-gradient(circle at 3.5px 3.5px,
+    color-mix(in srgb, var(--muted-foreground) 42%, transparent) 3.5px, transparent 3.5px);
+  background-size: 15px 7px;
+  background-repeat: repeat-x;
+}
 .tprofile img {
   display: block;
+  position: relative;
   width: 100%;
   height: auto;
-  border-radius: var(--radius);
-  filter: drop-shadow(0 28px 48px rgba(0, 0, 0, .28));
+  border-radius: var(--radius-sm);
 }
 /* Inset so the satellites overhang into the gutter rather than across the
    copy beside them. */
@@ -1892,6 +2202,160 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 .pain { display: grid; gap: var(--space-3); align-content: start; padding-top: var(--space-5); border-top: 2px solid var(--brand); }
 .pain p { font-size: var(--text-sm); line-height: var(--leading-relaxed); color: var(--muted-foreground); }
 
+/* ---- pain figures ------------------------------------------------------- */
+/* Three paragraphs in a row is a lot of reading for the part of the page whose
+   job is to make someone recognise their own venue. Each one gets a small
+   readout above it that acts the problem out rather than restating it: a door
+   count nobody can name, sign-ups that never reach the list, and four weeks of
+   nothing followed by a scramble. Built from borders and keyframes, so there is
+   no asset to load and they recolour with the band. */
+
+.pfig {
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-3);
+  min-height: 132px;
+  margin-bottom: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  overflow: hidden;
+}
+.pfig__k {
+  font-size: 0.625rem;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+/* The line that names what is missing, in the one place on the page where a
+   warning colour is carrying meaning that the words also carry. */
+.pfig__k--flag { color: color-mix(in srgb, #c2410c 88%, var(--muted-foreground)); }
+.pfig__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.pfig__n {
+  font-size: 1.375rem;
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Nothing runs until its card is on screen. */
+.js .pfig i { animation-play-state: paused; }
+.js .pain.is-in .pfig i { animation-play-state: running; }
+
+/* ---- one: a room full of people nobody can name ---- */
+.pfig__faces { display: flex; gap: 6px; }
+.pfig--who i {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 26px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--secondary);
+  animation: pfig-face 4.4s var(--ease) infinite;
+  animation-delay: calc(var(--d, 0) * 180ms);
+}
+.pfig--who i::before {
+  content: '?';
+  font-size: 0.625rem;
+  font-weight: var(--weight-bold);
+  font-style: normal;
+  color: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
+}
+@keyframes pfig-face {
+  0%, 8%   { opacity: .18; transform: scale(.86); }
+  20%, 74% { opacity: 1;   transform: none; }
+  92%, 100% { opacity: .18; transform: scale(.86); }
+}
+
+/* ---- two: sign-ups that never reach the list ---- */
+.pfig--list { align-content: space-between; }
+.pfig__lane { display: grid; gap: 6px; }
+.pfig__meter {
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--secondary);
+  overflow: hidden;
+}
+.pfig__meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--brand);
+  transform-origin: 0 50%;
+  animation: pfig-fill 4.4s var(--ease) infinite;
+}
+/* The list end never moves. That is the whole point of the row. */
+.pfig__meter--flat i {
+  width: 22%;
+  animation: none;
+  background: color-mix(in srgb, var(--muted-foreground) 45%, transparent);
+}
+@keyframes pfig-fill {
+  0%       { transform: scaleX(.04); }
+  55%, 78% { transform: scaleX(1); }
+  100%     { transform: scaleX(.04); }
+}
+/* Three records leaving the door and getting nowhere near the list. */
+.pfig__drops { position: relative; height: 22px; }
+.pfig__drops i {
+  position: absolute;
+  top: 0;
+  width: 4px; height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+  animation: pfig-drop 4.4s var(--ease) infinite;
+  animation-delay: calc(var(--d, 0) * 520ms);
+}
+.pfig__drops i:nth-child(1) { left: 14%; }
+.pfig__drops i:nth-child(2) { left: 46%; }
+.pfig__drops i:nth-child(3) { left: 78%; }
+@keyframes pfig-drop {
+  0%       { transform: translateY(0); opacity: 0; }
+  18%      { opacity: 1; }
+  /* Fades at just past half way, so it never arrives. */
+  62%, 100% { transform: translateY(13px); opacity: 0; }
+}
+
+/* ---- three: four weeks of nothing, then a scramble ---- */
+.pfig__weeks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; align-items: end; height: 54px; }
+.pfig--zero .pfig__weeks i {
+  height: 8%;
+  border-radius: 3px 3px 1px 1px;
+  background: color-mix(in srgb, var(--muted-foreground) 30%, transparent);
+  transform-origin: 50% 100%;
+}
+.pfig--zero .pfig__weeks i.is-late {
+  height: 100%;
+  background: linear-gradient(180deg, var(--brand), color-mix(in srgb, var(--brand) 42%, transparent));
+  animation: pfig-spike 4.4s var(--ease) infinite;
+}
+@keyframes pfig-spike {
+  0%, 52%  { transform: scaleY(.08); }
+  70%, 88% { transform: scaleY(1); }
+  100%     { transform: scaleY(.08); }
+}
+.pfig__axis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  font-size: 0.5625rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+.pfig__axis span:last-child { color: var(--brand-text); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* The end state of each loop is the readable one, so they settle there. */
+  .pfig i { animation: none !important; }
+  .pfig--zero .pfig__weeks i.is-late { transform: none; }
+}
+
 /* One grid for the whole chart with the columns on subgrid, so the bars share a
    definite track (which is what makes the percentage heights resolve) and the
    day and note rows line up across all seven regardless of how the notes wrap. */
@@ -1958,19 +2422,42 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
     gap: var(--space-3);
   }
   .week__act { align-self: center; font-size: var(--text-xs); }
+  /* Thicker, and running the other way. The old gradient faded to eighteen per
+     cent brand at the leading edge, which against a black band meant each bar
+     dissolved exactly where the eye was following it. Now it starts faint and
+     arrives at full brand, so the ramp builds toward the night rather than
+     evaporating. */
   .week__bar {
     align-self: center;
+    grid-column: 2;
+    grid-row: 1;
+    z-index: 1;
     width: var(--h);
-    height: 10px;
+    height: 16px;
     min-height: 0;
-    border-radius: 2px var(--radius-sm) var(--radius-sm) 2px;
+    border-radius: var(--radius-full);
     background: linear-gradient(90deg,
-      var(--brand),
-      color-mix(in srgb, var(--brand) 18%, transparent));
+      color-mix(in srgb, var(--brand) 42%, transparent),
+      var(--brand));
     transform: scaleX(0);
     transform-origin: 0 50%;
   }
+  /* The full span each bar is a fraction of, so the run-up reads as distance
+     covered rather than as seven unrelated bars. */
+  .week__col::after {
+    content: '';
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    z-index: 0;
+    height: 16px;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--foreground) 8%, transparent);
+  }
   .week__day { text-align: right; font-size: var(--text-xs); }
+  /* The night itself, which every other row is counting down to. */
+  .week__col--peak .week__act,
+  .week__col--peak .week__day { color: var(--brand-text); }
 }
 
 /* ---- related row, shared ---- */
@@ -2051,6 +2538,12 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   flex: none;
   width: var(--slide);
   height: 100%;
+  /* The row has to be a definite size or the image's own `max-height: 100%`
+     resolves against an auto row, which makes it a percentage of nothing and so
+     no constraint at all. The portrait screens then sized off their width
+     alone, ran taller than the rail and were cropped by its overflow: the
+     wallet pass lost its bottom third. */
+  grid-template-rows: minmax(0, 1fr);
   padding: 0;
   border: 0;
   background: none;
@@ -2134,9 +2627,20 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 
 @media (max-width: 860px) {
   .jhead { grid-template-columns: minmax(0, 1fr); }
-  .jflow__dots { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
-  .jrail__track { height: clamp(240px, 56vw, 380px); }
+  .jflow__dots { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-5); }
+  /* Taller and wider than the shared clamp gave it. At 240px by 230px the
+     screen being shown was smaller than the two dimmed neighbours either side
+     of it put together, which is backwards. */
+  .jrail__track {
+    --slide: min(70vw, 300px);
+    height: clamp(300px, 78vw, 380px);
+  }
   .jcap { font-size: var(--text-base); }
+  /* The bar belongs to the label above it, so it sits under the pair rather
+     than a line's worth of air away from it. */
+  .jdot { gap: 2px; padding-bottom: 0; }
+  .jdot__t { font-size: var(--text-sm); }
+  .jdot__bar { margin-top: var(--space-2); }
 }
 
 /* --------------------------------------------------------- identify ----- */
@@ -2291,6 +2795,12 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
    page structure someone can actually scan. */
 
 .legal__inner { max-width: 46rem; margin-inline: auto; }
+/* `.legal` is two things in this file: the band a policy page sits in, and the
+   fine print under a form. The fine print rule paints muted, and on a policy
+   page that inherited straight onto the h1, so every legal document opened with
+   a grey title. The band takes the surface colour back; the meta line under it
+   sets its own muted tone. */
+.pagehead.legal { color: var(--foreground); }
 .legal .h2 { text-wrap: balance; }
 .legal__meta { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--muted-foreground); }
 
@@ -2484,9 +2994,30 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 }
 .cprefs__actions .btn { flex: 1 1 9rem; }
 
+/* On a phone the stacked version took a third of the screen, which is a lot of
+   furniture for a notice nobody came for. It stays a single strip: the label
+   and the second sentence come off, the type steps down, and the button sits
+   beside the text rather than under it. The policy is a tap away either way. */
 @media (max-width: 720px) {
-  .consent__inner { flex-direction: column; align-items: stretch; gap: var(--space-3); padding-block: var(--space-4); }
-  .consent__accept { width: 100%; height: 38px; }
+  .consent__inner {
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: 10px;
+  }
+  /* Clears the home indicator without the strip growing on a phone that has
+     no inset to pay for. */
+  .consent { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .consent__label,
+  .consent__long { display: none; }
+  .consent__text { font-size: 0.6875rem; line-height: 1.45; }
+  /* The blanket 40px touch target further up this file would set the line box
+     of the sentence the link sits in and add a third of the strip back. */
+  .consent__manage { margin-left: 6px; min-height: 34px; }
+  .consent__accept {
+    height: 34px;
+    padding-inline: var(--space-4);
+    font-size: 0.6875rem;
+  }
 }
 
 /* --------------------------------------------------------------- forms --- */
@@ -2763,6 +3294,40 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 .demo-list b { display: block; font-size: var(--text-sm); font-weight: var(--weight-semibold); }
 .demo-list span { font-size: var(--text-sm); color: var(--muted-foreground); }
 
+/* Stacked, the intro copy and the three selling points are a screen and a half
+   of reading before the form even starts, and someone who has tapped Book a
+   demo has already been sold to. On a phone the page is the headline and the
+   form. Everything cut here is still on the desktop layout, where it sits in
+   the column beside the form rather than in front of it. */
+@media (max-width: 860px) {
+  .demo-split > div > .lede,
+  .demo-split .demo-list { display: none; }
+  .demo-split { gap: var(--space-6); }
+  /* The band no longer has a screen and a half to centre, so it starts at the
+     top rather than floating the form in the middle of the viewport. */
+  .pagehead--full.demo-head {
+    align-content: start;
+    padding-block: calc(72px + var(--space-6)) var(--space-10);
+  }
+  .demo-head .back { margin-bottom: var(--space-3); }
+  /* Tighter than the shared card: at this width the form is the page, so the
+     padding it needs is the gutter it already has. */
+  .demo-split .card { padding: var(--space-5); }
+  .demo-split .form { gap: var(--space-3); }
+  .demo-split .field input,
+  .demo-split .field select,
+  .demo-split .field textarea { padding: 10px 12px; }
+  .demo-split .field textarea { min-height: 72px; }
+  .demo-split .card .h3 { font-size: var(--text-lg); }
+}
+
+/* The field on this page sits behind black type on a near-white band, so it has
+   less room to be busy than the one behind the hero. Coarser and fainter, so it
+   reads as a texture rather than as a grid over the words. */
+@media (max-width: 620px) {
+  .hero__field--light { opacity: .3; }
+}
+
 /* Reduced-motion / no-JS fallback: both sticky sections collapse into plain
    stacked content, no tall track, no rotation. */
 .statement-track.is-static,
@@ -2858,9 +3423,18 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   padding-block: clamp(16px, 2vw, 30px);
   margin-bottom: clamp(64px, 8vw, 120px);
 }
-.kinetic__track { display: flex; width: max-content; animation: ticker-run 44s linear infinite; }
+/* Two groups, so the loop has to advance by exactly one of them. It was running
+   the four-group keyframe below, which advances by a quarter of the track: half
+   a group, so every lap jumped mid-word. */
+.kinetic__track { display: flex; width: max-content; animation: ticker-run-2 44s linear infinite; }
 .kinetic:hover .kinetic__track { animation-play-state: paused; }
 .kinetic__group { display: flex; flex: none; align-items: center; }
+
+/* Two copies, advancing by exactly one. */
+@keyframes ticker-run-2 {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
 .kinetic__group span {
   display: inline-flex;
@@ -2874,7 +3448,17 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 }
 .kinetic__group span:nth-child(even) {
   color: transparent;
-  -webkit-text-stroke: 1px var(--muted-foreground);
+  /* Scaled with the type. A hairline that reads as an outline at 64px is barely
+     a smudge at half the size, which is what made the alternating words look
+     broken rather than outlined on a phone. */
+  -webkit-text-stroke: max(1px, 0.028em) var(--muted-foreground);
+}
+
+@media (max-width: 620px) {
+  /* The band crosses a phone in a third of the width it crosses a desktop, so
+     at the shared duration it barely appeared to move. */
+  .kinetic__track { animation-duration: 20s; }
+  .kinetic__group span { font-size: clamp(2rem, 8.4vw, 2.5rem); }
 }
 .kinetic__group span i {
   width: .16em; height: .16em;
@@ -2921,28 +3505,101 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   .dial-copy { grid-template-columns: minmax(0, 1fr); padding-left: var(--gutter); }
   .dial-panel { grid-column: 1; }
   .dial-rail { display: flex; }
-  .js .dial-track { height: calc(var(--dial-steps, 7) * 58vh + 100vh); }
+  .js .dial-track { height: calc(var(--dial-steps, 7) * 58svh + 100svh); }
+  /* svh, not vh: with the address bar showing, a 100vh stage is taller than the
+     screen, so the panel centres itself against a box that runs off the bottom
+     and the rail ends up under the nav. */
+  .js .dial-stage { height: 100svh; padding-block: 76px var(--space-6); }
+  .dial-stage { min-height: 100svh; }
   .statement-inner { max-width: none; }
+
+  /* Seven fixed 40px cells plus their gaps come to more than a 360px phone has
+     between its gutters, so the last one wrapped to a row of its own. Fluid
+     cells always land on one row. */
+  .dial-rail {
+    flex-wrap: nowrap;
+    gap: clamp(4px, 1.4vw, 8px);
+    width: 100%;
+  }
+  .dial-rail span {
+    flex: 1 1 0;
+    width: auto;
+    height: auto;
+    aspect-ratio: 1;
+    min-width: 0;
+  }
 }
 
 @media (max-width: 860px) {
-  /* Stacked, the statement is taller than the viewport, and a 100vh sticky
-     stage would centre that overflow over the bands either side of it. It
-     scrolls as an ordinary section instead; the word fill still runs off the
-     track's own progress. */
-  .js .statement-track { height: auto; }
+  /* Sticky here too. Left scrolling, the words filled and the band inverted as
+     the section swept past, so the whole effect happened off to one side of
+     where the reader was looking. The stage holds still and the type fills
+     against it, which is the same thing the desktop does.
+     svh, not vh: the stage has to fit the screen with the browser chrome
+     showing, or the foot of the graphic is under the address bar. */
+  /* Sticky here too. Left scrolling, the words filled and the band inverted as
+     the section swept past, so the whole effect happened off to one side of
+     where the reader was looking.
+     Side by side the desktop shows the statement and the graphic at once. A
+     phone has room for one of them, so the held frame runs the same material as
+     two beats in the same place: the words fill, then the copy hands over to
+     the graphic. site.js sets `is-handover` off the track's own progress.
+     svh, not vh: a 100vh frame is taller than the screen with the address bar
+     showing, and everything in it centres against a box that runs off the
+     bottom. */
+  .js .statement-track { height: 240svh; }
   .js .statement-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+    /* Clears the floating pill, which would otherwise sit on the first line for
+       the whole time the statement is held. */
+    padding-block: 76px var(--space-6);
+    overflow: hidden;
+  }
+  .statement-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    align-content: center;
+    height: 100%;
+  }
+  .js .statement-inner > * { grid-area: 1 / 1; align-self: center; }
+  .js .statement-copy,
+  .js .merge { transition: opacity .5s var(--ease), transform .55s var(--ease); }
+  .js .merge { opacity: 0; transform: translateY(22px); }
+  .js .statement-track.is-handover .statement-copy { opacity: 0; transform: translateY(-22px); }
+  .js .statement-track.is-handover .merge { opacity: 1; transform: none; }
+
+  .statement-copy { gap: var(--space-4); }
+  .statement-big { line-height: 1.08; }
+  .statement-foot { font-size: var(--text-sm); line-height: 1.5; }
+
+  /* Reduced motion and no-JS: no track, no handover, both beats stacked and
+     read as ordinary content. These repeat here because the shared .is-static
+     rules sit earlier in the file than this block. */
+  .statement-track.is-static { height: auto; }
+  .is-static .statement-stage {
     position: static;
     height: auto;
-    min-height: 0;
     padding-block: var(--section-y);
+    overflow: visible;
   }
-  .statement-inner { grid-template-columns: minmax(0, 1fr); }
+  .is-static .statement-inner { height: auto; gap: var(--space-8); }
+  .js .statement-track.is-static .statement-inner > * { grid-area: auto; }
+  .js .statement-track.is-static .merge { opacity: 1; transform: none; }
   .split { grid-template-columns: minmax(0, 1fr); }
   .demo-split { grid-template-columns: 1fr; }
   .statement { max-width: none; }
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
+
+@media (max-width: 620px) {
+  /* The one heading on the page that carries a whole idea on its own, so it
+     takes the increase rather than sitting at body weight. */
+  .statement-big { font-size: clamp(1.9375rem, 1.1rem + 4.2vw, 2.375rem); }
+}
+
 
 @media (max-width: 620px) {
   /* Six marks across a phone leaves each one about 50px wide and unreadable. */
