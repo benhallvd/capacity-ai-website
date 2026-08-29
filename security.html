@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Integrations | Capacity</title>
-<meta name="description" content="All your venue data in one place. Capacity reads from and writes back to Instagram, Meta Ads, TikTok, ticketing, WhatsApp, GA4, guest WiFi and more." />
+<title>Security | Capacity</title>
+<meta name="description" content="How Capacity stores and protects customer data, where that data sits, and how to report a vulnerability." />
 <meta name="theme-color" content="#f6f6f6" />
-<meta property="og:title" content="Integrations | Capacity" />
-<meta property="og:description" content="All your venue data in one place. Capacity reads from and writes back to Instagram, Meta Ads, TikTok, ticketing, WhatsApp, GA4, guest WiFi and more." />
+<meta property="og:title" content="Security | Capacity" />
+<meta property="og:description" content="How Capacity stores and protects customer data, where that data sits, and how to report a vulnerability." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://getcapacity.co/integrations" />
-<link rel="canonical" href="https://getcapacity.co/integrations" />
+<meta property="og:url" content="https://getcapacity.co/security" />
+<link rel="canonical" href="https://getcapacity.co/security" />
 <meta property="og:image" content="https://getcapacity.co/assets/og-card.png?v=a51cf4ee21" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a6689e9c9e" />
@@ -94,55 +94,62 @@
    </div>
   </div>
 </nav>
-
-<section class="band on-light pagehead">
-  <div class="wrap">
-    <a class="back" href="./"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>Back to home</a>
-    <h1 class="h2" data-r>Connect the tools<br />you already run.</h1>
-    <p class="lede" data-r style="--rd:1; margin-top: var(--space-5)">
-      Capacity reads from the platforms your venue is already on and writes back to them.
-      Nothing to rip out, nothing to migrate. If it isn&rsquo;t on the list, just ask. Most things connect.
-    </p>
+<section class="band on-light pagehead legal">
+  <div class="wrap legal__inner">
+    <h1 class="h2" data-r>Security</h1>
+    <p class="legal__meta" data-r style="--rd:1">Last reviewed 25 August 2026</p>
   </div>
 </section>
 
 <section class="band on-light band--seam">
-  <div class="wrap">
-    <!-- Statuses come from SOON in common.py, so the badge and the ticker can
-         never disagree about what is live. -->
-    <div class="igrid">
-      <div class="icard" id="instagram"><img src="assets/brands/instagram.svg?v=f66e2e2254" alt="" /><span class="icard__t"><b>Instagram</b><span>Posts, Reels, insights and direct messages</span></span></div>
-      <div class="icard" id="gmail"><img src="assets/brands/gmail.svg?v=64e6f82b90" alt="" /><span class="icard__t"><b>Gmail</b><span>Enquiry email, in the shared inbox</span></span></div>
-      <div class="icard" id="facebook"><img src="assets/brands/facebook.svg?v=991424a5e7" alt="" /><span class="icard__t"><b>Facebook</b><span>Pages, posts and Meta Ads campaigns</span></span></div>
-      <div class="icard" id="google-ads"><img src="assets/brands/google-ads.svg?v=eee9c33123" alt="" /><span class="icard__t"><b>Google Ads</b><span>Search, display and Performance Max</span></span></div>
-      <div class="icard" id="tiktok"><img src="assets/brands/tiktok.svg?v=1659e79d0b" alt="" /><span class="icard__t"><b>TikTok</b><span>Organic posts and TikTok Ads</span></span></div>
-      <div class="icard" id="whatsapp"><img src="assets/brands/whatsapp.svg?v=8d7725c0f0" alt="" /><span class="icard__t"><b>WhatsApp</b><span>Customer messages, in the shared inbox</span></span></div>
-      <div class="icard" id="google"><img src="assets/brands/google.svg?v=19c4369f6f" alt="" /><span class="icard__t"><b>Google</b><span>Search Console and organic performance</span></span></div>
-      <div class="icard" id="claude"><img src="assets/brands/claude.svg?v=bba7831580" alt="" /><span class="icard__t"><b>Claude</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="ga4"><img src="assets/brands/ga4.svg?v=3b16ab1d26" alt="" /><span class="icard__t"><b>GA4</b><span>Website analytics and conversions</span></span></div>
-      <div class="icard" id="gemini"><img src="assets/brands/gemini.svg?v=3b4e67826e" alt="" /><span class="icard__t"><b>Gemini</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="chatgpt"><img src="assets/brands/chatgpt.svg?v=6cc44f64fb" alt="" /><span class="icard__t"><b>ChatGPT</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="snapchat"><img src="assets/brands/snapchat.svg?v=0c5dae3099" alt="" /><span class="icard__t"><b>Snapchat</b><span>Snap Ads and audience data</span></span></div>
-      <div class="icard" id="google-business"><img src="assets/brands/google-business.svg?v=7e65d0be9f" alt="" /><span class="icard__t"><b>Google Business</b><span>Reviews, posts and profile insights</span></span></div>
-      <div class="icard icard--soon" id="dice"><img src="assets/brands/dice.svg?v=ec55679fad" alt="" class="is-wide" /><span class="icard__t"><b>DICE</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="square"><img src="assets/brands/square.svg?v=e220e09d61" alt="" /><span class="icard__t"><b>Square</b><span>Payments, till data and customer records</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="skiddle"><img src="assets/brands/skiddle.svg?v=94ab5a8780" alt="" class="is-wide" /><span class="icard__t"><b>Skiddle</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="eposnow"><img src="assets/brands/eposnow.svg?v=ebdc40fa50" alt="" /><span class="icard__t"><b>EPOS Now</b><span>Till transactions and spend per head</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="fixr"><img src="assets/brands/fixr.svg?v=93286c3586" alt="" class="is-wide" /><span class="icard__t"><b>FIXR</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="eventbrite"><img src="assets/brands/eventbrite.svg?v=f21e5bd1cc" alt="" /><span class="icard__t"><b>Eventbrite</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="icrtouch"><img src="assets/brands/icrtouch.svg?v=fd3a2d1e1d" alt="" /><span class="icard__t"><b>ICRTouch</b><span>Till transactions and wet sales</span></span><span class="soon">Coming soon</span></div>
-    </div>
-  </div>
-</section>
+  <div class="wrap legal__inner legal__body">
+    <!-- Every statement here is a representation to a customer. Delete a measure
+         that ceases to be accurate rather than qualifying it, and do not use
+         status words (certified, compliant, grade) in place of a named fact.
+         The binding version of these measures is Annex 2 of the DPA; this page
+         is informational. -->
+    <p class="lede">This page describes how customer data held in Capacity is protected and where it is stored. The binding statement of these measures is Annex 2 of the <a href="dpa">Data Processing Agreement</a>.</p>
 
-<section class="band on-dark cta cta--field">
-  <canvas class="hero__field" id="pixelField" aria-hidden="true"></canvas>
-  <div class="wrap cta__inner">
-    <h2 class="h2" data-r>Need something custom?</h2>
-    <p class="lede" data-r style="--rd:1">
-      Tell us what your venue runs on. Most systems connect, and we build the ones that matter.
-    </p>
-    <a class="btn btn--primary btn--lg" href="signup" data-r style="--rd:2">Book a demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+    <h2>1. Data location</h2>
+    <p>Contact records, tickets and bookings are stored in the United Kingdom. Application hosting, email delivery, SMS and WhatsApp messaging, and payment processing involve processing in the United States. Every sub-processor, its purpose and its data location is listed on the <a href="sub-processors">sub-processor page</a>.</p>
+    <p>Transfers beyond the United Kingdom and the European Economic Area are made under the International Data Transfer Agreement, the UK Addendum to the EU standard contractual clauses, or the UK Extension to the EU-US Data Privacy Framework, as set out in section 14 of the DPA.</p>
+
+    <h2>2. Encryption</h2>
+    <p>Data is encrypted in transit using TLS. The database and its backups are encrypted at rest.</p>
+
+    <h2>3. Access control</h2>
+    <p>Access to production systems is restricted to personnel requiring it for their role, granted by role rather than by default, and withdrawn on change of role or departure. Multi-factor authentication is required on accounts used to access production systems. Customer data is logically separated by account. Personnel with access are bound by written confidentiality obligations.</p>
+
+    <h2>4. Backups</h2>
+    <p>Backups run automatically on the managed infrastructure on which the platform is hosted.</p>
+
+    <h2>5. Logging</h2>
+    <p>Application and infrastructure logs are retained to permit review of access and changes.</p>
+
+    <h2>6. Development</h2>
+    <p>Changes are reviewed before release. Dependencies are monitored for known vulnerabilities and updated.</p>
+
+    <h2>7. Certifications</h2>
+    <p>Capacity holds no security certification. We are not ISO 27001 certified, we hold no SOC 2 report, and we hold no Cyber Essentials certificate.</p>
+    <p>Certain sub-processors hold certifications of their own. Those apply to those companies and should not be read as certifications held by Capacity.</p>
+
+    <h2>8. Incidents</h2>
+    <p>Where we become aware of a personal data breach affecting customer data, we notify the affected customer without undue delay, and in any event within 72 hours, with the information available at the time and further information as it emerges.</p>
+    <p>The customer is the controller and decides whether to notify the Information Commissioner's Office or affected individuals.</p>
+
+    <h2>9. Reporting a vulnerability</h2>
+    <p>Vulnerabilities may be reported to <a href="mailto:legal@getcapacity.co">legal@getcapacity.co</a>, with sufficient detail to reproduce the issue. We aim to acknowledge within five working days.</p>
+    <p>We will not pursue legal action in respect of testing carried out in good faith under this section, provided the reporter does not access, alter or delete data belonging to others, does not degrade the service, and allows a reasonable period for remediation before disclosure. Automated scanning of production, denial of service testing and social engineering are not authorised. No bounty is offered.</p>
+
+    <h2>10. Documentation</h2>
+    <p>The following are published in full and are not gated:</p>
+    <ul>
+      <li><a href="dpa">Data Processing Agreement</a>, including the description of processing, technical and organisational measures, and sub-processors</li>
+      <li><a href="sub-processors">Sub-processor list</a></li>
+      <li><a href="acceptable-use">Acceptable Use Policy</a></li>
+      <li><a href="terms">Terms of Service</a> and <a href="privacy">Privacy Policy</a></li>
+    </ul>
+    <p>Security questionnaires may be sent to <a href="mailto:legal@getcapacity.co">legal@getcapacity.co</a>.</p>
   </div>
 </section>
 

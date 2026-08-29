@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Integrations | Capacity</title>
-<meta name="description" content="All your venue data in one place. Capacity reads from and writes back to Instagram, Meta Ads, TikTok, ticketing, WhatsApp, GA4, guest WiFi and more." />
+<title>Capacity for nightclubs</title>
+<meta name="description" content="Ticketing, profiles and marketing for nightclubs. Find out who your regulars actually are and stop selling every week from a standing start." />
 <meta name="theme-color" content="#f6f6f6" />
-<meta property="og:title" content="Integrations | Capacity" />
-<meta property="og:description" content="All your venue data in one place. Capacity reads from and writes back to Instagram, Meta Ads, TikTok, ticketing, WhatsApp, GA4, guest WiFi and more." />
+<meta property="og:title" content="Capacity for nightclubs" />
+<meta property="og:description" content="Ticketing, profiles and marketing for nightclubs. Find out who your regulars actually are and stop selling every week from a standing start." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://getcapacity.co/integrations" />
-<link rel="canonical" href="https://getcapacity.co/integrations" />
+<meta property="og:url" content="https://getcapacity.co/for-nightclubs" />
+<link rel="canonical" href="https://getcapacity.co/for-nightclubs" />
 <meta property="og:image" content="https://getcapacity.co/assets/og-card.png?v=a51cf4ee21" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a6689e9c9e" />
@@ -95,57 +95,187 @@
   </div>
 </nav>
 
-<section class="band on-light pagehead">
-  <div class="wrap">
-    <a class="back" href="./"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>Back to home</a>
-    <h1 class="h2" data-r>Connect the tools<br />you already run.</h1>
-    <p class="lede" data-r style="--rd:1; margin-top: var(--space-5)">
-      Capacity reads from the platforms your venue is already on and writes back to them.
-      Nothing to rip out, nothing to migrate. If it isn&rsquo;t on the list, just ask. Most things connect.
-    </p>
+<!-- PLACEHOLDER copy throughout. This is the template for the venue-type pages
+     (nightclubs, bars, beach clubs, experiential). Duplicate, swap the WEEK,
+     IND_PAINS, IND_HELP and IND_FAQ blocks, and the layout carries over.
+     Order is deliberate: name the pain, then how we fix it, then what it is
+     made of, then proof, then the objections. -->
+<section class="band on-dark pagehead pagehead--hero pagehead--tall pagehead--taller pagehead--shot">
+  <div class="chero__shot pagehead__shot" aria-hidden="true">
+    <canvas class="dotband__screen"></canvas>
+    <img class="dotband__src" src="assets/venue/venue-06.jpg?v=c24bf48b0c" alt="" />
   </div>
-</section>
-
-<section class="band on-light band--seam">
-  <div class="wrap">
-    <!-- Statuses come from SOON in common.py, so the badge and the ticker can
-         never disagree about what is live. -->
-    <div class="igrid">
-      <div class="icard" id="instagram"><img src="assets/brands/instagram.svg?v=f66e2e2254" alt="" /><span class="icard__t"><b>Instagram</b><span>Posts, Reels, insights and direct messages</span></span></div>
-      <div class="icard" id="gmail"><img src="assets/brands/gmail.svg?v=64e6f82b90" alt="" /><span class="icard__t"><b>Gmail</b><span>Enquiry email, in the shared inbox</span></span></div>
-      <div class="icard" id="facebook"><img src="assets/brands/facebook.svg?v=991424a5e7" alt="" /><span class="icard__t"><b>Facebook</b><span>Pages, posts and Meta Ads campaigns</span></span></div>
-      <div class="icard" id="google-ads"><img src="assets/brands/google-ads.svg?v=eee9c33123" alt="" /><span class="icard__t"><b>Google Ads</b><span>Search, display and Performance Max</span></span></div>
-      <div class="icard" id="tiktok"><img src="assets/brands/tiktok.svg?v=1659e79d0b" alt="" /><span class="icard__t"><b>TikTok</b><span>Organic posts and TikTok Ads</span></span></div>
-      <div class="icard" id="whatsapp"><img src="assets/brands/whatsapp.svg?v=8d7725c0f0" alt="" /><span class="icard__t"><b>WhatsApp</b><span>Customer messages, in the shared inbox</span></span></div>
-      <div class="icard" id="google"><img src="assets/brands/google.svg?v=19c4369f6f" alt="" /><span class="icard__t"><b>Google</b><span>Search Console and organic performance</span></span></div>
-      <div class="icard" id="claude"><img src="assets/brands/claude.svg?v=bba7831580" alt="" /><span class="icard__t"><b>Claude</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="ga4"><img src="assets/brands/ga4.svg?v=3b16ab1d26" alt="" /><span class="icard__t"><b>GA4</b><span>Website analytics and conversions</span></span></div>
-      <div class="icard" id="gemini"><img src="assets/brands/gemini.svg?v=3b4e67826e" alt="" /><span class="icard__t"><b>Gemini</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="chatgpt"><img src="assets/brands/chatgpt.svg?v=6cc44f64fb" alt="" /><span class="icard__t"><b>ChatGPT</b><span>Answer-engine visibility, monitored and improved</span></span></div>
-      <div class="icard" id="snapchat"><img src="assets/brands/snapchat.svg?v=0c5dae3099" alt="" /><span class="icard__t"><b>Snapchat</b><span>Snap Ads and audience data</span></span></div>
-      <div class="icard" id="google-business"><img src="assets/brands/google-business.svg?v=7e65d0be9f" alt="" /><span class="icard__t"><b>Google Business</b><span>Reviews, posts and profile insights</span></span></div>
-      <div class="icard icard--soon" id="dice"><img src="assets/brands/dice.svg?v=ec55679fad" alt="" class="is-wide" /><span class="icard__t"><b>DICE</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="square"><img src="assets/brands/square.svg?v=e220e09d61" alt="" /><span class="icard__t"><b>Square</b><span>Payments, till data and customer records</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="skiddle"><img src="assets/brands/skiddle.svg?v=94ab5a8780" alt="" class="is-wide" /><span class="icard__t"><b>Skiddle</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="eposnow"><img src="assets/brands/eposnow.svg?v=ebdc40fa50" alt="" /><span class="icard__t"><b>EPOS Now</b><span>Till transactions and spend per head</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="fixr"><img src="assets/brands/fixr.svg?v=93286c3586" alt="" class="is-wide" /><span class="icard__t"><b>FIXR</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="eventbrite"><img src="assets/brands/eventbrite.svg?v=f21e5bd1cc" alt="" /><span class="icard__t"><b>Eventbrite</b><span>Ticket sales and attendee data</span></span><span class="soon">Coming soon</span></div>
-      <div class="icard icard--soon" id="icrtouch"><img src="assets/brands/icrtouch.svg?v=fd3a2d1e1d" alt="" /><span class="icard__t"><b>ICRTouch</b><span>Till transactions and wet sales</span></span><span class="soon">Coming soon</span></div>
+  <div class="wrap phero phero--wide">
+    <div class="phero__copy">
+      <p class="eyebrow" data-r>For nightclubs</p>
+      <h1 class="h1" data-r style="--rd:1">Doors at eleven.<br />Strangers by Sunday.</h1>
+      <p class="lede" data-r style="--rd:2">
+        Every ticket, scan and sign-up says someone was there. None of it says
+        who, or how to reach them before Thursday. Capacity turns a season of it
+        into a list you own, then puts those people back through the door.
+      </p>
+      <div class="phero__actions" data-r style="--rd:3">
+        <a class="btn btn--primary btn--lg" href="signup">Book a demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="band on-dark cta cta--field">
-  <canvas class="hero__field" id="pixelField" aria-hidden="true"></canvas>
-  <div class="wrap cta__inner">
-    <h2 class="h2" data-r>Need something custom?</h2>
-    <p class="lede" data-r style="--rd:1">
-      Tell us what your venue runs on. Most systems connect, and we build the ones that matter.
-    </p>
-    <a class="btn btn--primary btn--lg" href="signup" data-r style="--rd:2">Book a demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+<!-- 1. The pain. -->
+<section class="band on-light">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="h2" data-r="wipe">What actually goes wrong.</h2>
+    </div>
+    <div class="pains">
+      <div class="pain" data-r style="--rd:0">
+        <h3 class="h3">Nobody knows who the regulars are</h3>
+        <p>Tickets tell you how many. They do not tell you who, or whether it is the same four hundred people every week.</p>
+      </div>
+      <div class="pain" data-r style="--rd:1">
+        <h3 class="h3">The list is the same size it was last year</h3>
+        <p>Sign-ups happen at the door, on the WiFi and at the till, and almost none of it makes it back to a mailing list.</p>
+      </div>
+      <div class="pain" data-r style="--rd:2">
+        <h3 class="h3">Every week starts from zero</h3>
+        <p>The run-up gets built from scratch each time, so the push always lands in the last three days.</p>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- 2. How Capacity fixes it. -->
+<section class="band on-light">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="h2" data-r="wipe">What Capacity does about it.</h2>
+      <p class="lede" data-r style="--rd:1">
+        No new process for the team on the door. The same night, recorded properly.
+      </p>
+    </div>
+    <div class="steps steps--3">
+      <div class="step" data-r style="--rd:0">
+        <span class="step__n">01</span>
+        <h3 class="h3">Everything lands in one place</h3>
+        <p>Ticket sales, door scans, WiFi sign-ups and till transactions all arrive in the same system, matched to a person.</p>
+      </div>
+      <div class="step" data-r style="--rd:1">
+        <span class="step__n">02</span>
+        <h3 class="h3">Names, not numbers</h3>
+        <p>Those records become profiles you can sort: who came, how often, what they spent, and when they last showed up.</p>
+      </div>
+      <div class="step" data-r style="--rd:2">
+        <span class="step__n">03</span>
+        <h3 class="h3">The run-up runs itself</h3>
+        <p>Announcements, reminders and the final push go out on a schedule, to the people most likely to buy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. What it looks like in practice. -->
+<section class="band on-dark week-band" id="week">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="h2" data-r="wipe">Every event, the same run-up.</h2>
+      <p class="lede" data-r style="--rd:1">
+        Set the sequence once and it runs for every event you put on sale, whether
+        that is twice a week or twice a month.
+      </p>
+    </div>
+    <div class="week" id="weekChart">
+        <div class="week__col" style="--h:16%; --wd:0ms"><span class="week__act">Announce</span><span class="week__bar"></span><span class="week__day">4 wks</span></div>
+        <div class="week__col" style="--h:28%; --wd:70ms"><span class="week__act">Presale</span><span class="week__bar"></span><span class="week__day">3 wks</span></div>
+        <div class="week__col" style="--h:44%; --wd:140ms"><span class="week__act">Push</span><span class="week__bar"></span><span class="week__day">2 wks</span></div>
+        <div class="week__col" style="--h:62%; --wd:210ms"><span class="week__act">Remind</span><span class="week__bar"></span><span class="week__day">1 wk</span></div>
+        <div class="week__col" style="--h:84%; --wd:280ms"><span class="week__act">Final call</span><span class="week__bar"></span><span class="week__day">48 hrs</span></div>
+        <div class="week__col" style="--h:100%; --wd:350ms"><span class="week__act">Doors</span><span class="week__bar"></span><span class="week__day">Night</span></div>
+        <div class="week__col" style="--h:34%; --wd:420ms"><span class="week__act">Recap</span><span class="week__bar"></span><span class="week__day">After</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- What they get, in the language of the venue type. -->
+<section class="band on-light fgrid-band">
+  <div class="wrap">
+    <div class="head head--center">
+      <h2 class="h2" data-r="wipe">Built for how a club actually runs.</h2>
+      <p class="lede" data-r style="--rd:1">
+        Not a general marketing suite with a venue skin on it. Every part of this
+        exists because a venue full of people generates data nobody was catching.
+      </p>
+    </div>
+    <div class="fgrid">
+      <div class="fcard" data-r style="--rd:0">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg></span>
+        <h3>Audience CRM</h3>
+        <p>Every ticket buyer, door scan and WiFi sign-up in one profile you can sort</p>
+      </div>
+      <div class="fcard" data-r style="--rd:1">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-megaphone"/></svg></span>
+        <h3>Event campaigns</h3>
+        <p>Plan the whole run-up once, then measure it against tickets actually sold</p>
+      </div>
+      <div class="fcard" data-r style="--rd:2">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-tag"/></svg></span>
+        <h3>Data capture</h3>
+        <p>Sign-up forms, presales, competitions and waitlists that build the list</p>
+      </div>
+      <div class="fcard" data-r style="--rd:3">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span>
+        <h3>Email</h3>
+        <p>Targeted sends measured on tickets sold, not on opens</p>
+      </div>
+      <div class="fcard" data-r style="--rd:4">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-message-square"/></svg></span>
+        <h3>SMS</h3>
+        <p>Short notice, high urgency, and full attribution back to the sale</p>
+      </div>
+      <div class="fcard" data-r style="--rd:5">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></span>
+        <h3>Paid audiences</h3>
+        <p>Push segments straight to Meta, Google and TikTok for precise targeting</p>
+      </div>
+      <div class="fcard" data-r style="--rd:6">
+        <span class="fcard__ic"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg></span>
+        <h3>Automation</h3>
+        <p>Welcome, reminder and win-back flows that run without anyone touching them</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 5. The objections. -->
+<section class="band on-light band--seam">
+  <div class="wrap split" style="align-items:start">
+    <div><h2 class="h2" data-r="wipe">Questions,<br />answered.</h2></div>
+    <div class="faq">
+      <details class="qa" name="ifaq" data-r style="--rd:0">
+        <summary class="qa__q">Do we have to move off our current ticketing?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <div class="qa__a"><div class="qa__inner"><p>Not to start. Capacity reads from whatever you sell on today, so the profiles build from your existing sales while nothing changes at the door. When you want the customer list to be yours from the first sale, you move the selling across too.</p></div></div>
+      </details>
+      <details class="qa" name="ifaq" data-r style="--rd:1">
+        <summary class="qa__q">Does this work for one venue or a group?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <div class="qa__a"><div class="qa__inner"><p>Both. A single venue runs on one screen. Groups run every site from the same one, with the numbers separated and combined.</p></div></div>
+      </details>
+      <details class="qa" name="ifaq" data-r style="--rd:2">
+        <summary class="qa__q">What about guest WiFi sign-ups?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <div class="qa__a"><div class="qa__inner"><p>They become profiles like everything else, with consent tracked per channel, so a sign-up at the door is someone you can legally reach on Tuesday.</p></div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<section class="band on-dark cta cta--field">
+  <canvas class="hero__field" id="pixelField" aria-hidden="true"></canvas>
+  <div class="wrap cta__inner">
+    <h2 class="h2" data-r>See it on your own numbers.</h2>
+    <p class="lede" data-r style="--rd:1">Bring last season. We will show you how many of them came back, and how many you could have had.</p>
+    <a class="btn btn--primary btn--lg" href="signup" data-r style="--rd:2">Book a demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+  </div>
+</section>
 <footer class="band on-dark footer">
   <div class="wrap">
     <div class="footer__inner">
