@@ -280,20 +280,35 @@
         return span;
       });
 
-      var FILL_END = 0.68;   /* words are fully filled here... */
-      var INVERT_AT = 0.76;  /* ...then the band flips */
+      /* fill: words are fully lit here. hand: the copy gives the frame over to
+         the graphic. invert: the band flips to meet the dark section below.
+         Side by side, the desktop shows the statement and the graphic at once,
+         so it has no handover and the stop sits past the end of the track. A
+         phone has room for one of them, so the same held frame runs them as two
+         beats and the fill has to finish sooner to leave room for the second.
+         Read live rather than cached, so a rotation lands on the right set. */
+      var narrow = window.matchMedia ? window.matchMedia('(max-width: 860px)') : null;
+      var WIDE = { fill: 0.68, hand: 2, invert: 0.76 };
+      var NARROW = { fill: 0.44, hand: 0.56, invert: 0.84 };
       var litCount = -1;
+      var wasLate = null;
 
       drivers.push(function () {
+        var stop = (narrow && narrow.matches) ? NARROW : WIDE;
         var p = trackProgress(stTrack);
-        var lit = Math.round(clamp(p / FILL_END, 0, 1) * wordEls.length);
+        var lit = Math.round(clamp(p / stop.fill, 0, 1) * wordEls.length);
         if (lit !== litCount) {
           for (var i = 0; i < wordEls.length; i++) {
             wordEls[i].classList.toggle('is-on', i < lit);
           }
           litCount = lit;
         }
-        stTrack.classList.toggle('is-inverted', p >= INVERT_AT);
+        var late = p >= stop.hand;
+        if (late !== wasLate) {
+          stTrack.classList.toggle('is-handover', late);
+          wasLate = late;
+        }
+        stTrack.classList.toggle('is-inverted', p >= stop.invert);
       });
     }
   }
@@ -381,8 +396,12 @@
       var light = field.getAttribute('data-tone') === 'light';
       var BODY = light ? 'rgba(27, 99, 248, .45)' : 'rgba(27, 99, 248, .85)';
       var PEAK = light ? 'rgba(27, 99, 248, .8)' : 'rgba(120, 175, 255, .9)';
-      var CELL = 10;          /* grid pitch */
-      var DOT = 6;            /* drawn square */
+      /* Coarser on a phone. At the desktop pitch a 390px band carries about
+         forty columns of 6px squares, which reads as noise behind the copy
+         rather than as a field. */
+      var narrow = window.matchMedia && window.matchMedia('(max-width: 620px)').matches;
+      var CELL = narrow ? 14 : 10;   /* grid pitch */
+      var DOT = narrow ? 8 : 6;      /* drawn square */
       var BAYER = [
         [0, 8, 2, 10],
         [12, 4, 14, 6],
@@ -442,6 +461,26 @@
 
       size();
       window.addEventListener('resize', size, { passive: true });
+
+      /* The band is sized by its own copy, so a late web font, an image landing
+         or the product stack settling changes the canvas box after the first
+         paint with no resize event to go with it. The bitmap would keep the
+         height it was measured at and the browser would stretch it to the new
+         box, which turns every square into a rectangle. Re-measure whenever the
+         box itself changes. size() writes bitmap attributes, not the CSS box,
+         so this cannot feed back into another resize. */
+      if ('ResizeObserver' in window) {
+        var lastBox = '';
+        new ResizeObserver(function () {
+          var box = Math.round(field.clientWidth) + 'x' + Math.round(field.clientHeight);
+          if (box === lastBox) return;
+          lastBox = box;
+          size();
+        }).observe(field);
+      }
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(size);
+      }
 
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
@@ -589,6 +628,30 @@
       if (key === lastKey) return;
       if (dotScreen(expandScreen, shots[shot], PITCH[pitch], dpr)) lastKey = key;
     };
+
+    /* The shots are loaders for the dot screen, so they are display:none. A
+       lazy image with no box never enters the viewport and so never loads,
+       which left the finale painting nothing at all. Promote them once the
+       section is a couple of screens away: still off the critical path, but
+       decoded well before the panel opens. */
+    (function kickLoads() {
+      var wake = function () {
+        shots.forEach(function (im) {
+          if (im.loading === 'lazy') im.loading = 'eager';
+          /* Safari ignores the property change on its own, so nudge the fetch. */
+          if (!im.complete) im.src = im.src;
+        });
+      };
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries, obs) {
+          if (!entries[0].isIntersecting) return;
+          obs.disconnect();
+          wake();
+        }, { rootMargin: '150% 0px' }).observe(expandTrack);
+      } else {
+        wake();
+      }
+    }());
 
     if (reduced) {
       var once = function () { paint(shots.length - 1, PITCH.length - 1); };
@@ -1056,7 +1119,9 @@
         '<div class="wrap"><div class="consent__inner">' +
           '<p class="consent__text">' +
             '<span class="consent__label">Cookies</span>' +
-            'We use optional cookies for analytics and advertising. Essential cookies are always on.' +
+            'We use optional cookies for analytics and advertising.' +
+            /* Trimmed on a phone, where the bar has to stay a thin strip. */
+            '<span class="consent__long"> Essential cookies are always on.</span>' +
             '<button type="button" class="consent__manage" data-consent="manage">Manage cookies</button>' +
           '</p>' +
           '<button type="button" class="btn btn--primary consent__accept" data-consent="accept">Accept all</button>' +

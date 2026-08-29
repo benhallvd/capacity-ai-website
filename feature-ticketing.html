@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
 <link rel="stylesheet" href="tokens.css?v=3e34301e7a" />
-<link rel="stylesheet" href="site.css?v=8d7255221f" />
+<link rel="stylesheet" href="site.css?v=0c981f203b" />
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -82,14 +82,14 @@
         </div>
       </div>
       <a href="integrations">Integrations</a>
+      <a class="btn btn--primary nav__cta" href="signup">Book a demo</a>
     </div>
     <div class="nav__actions">
       <a class="nav__signin" href="#">Sign in</a>
       <a class="btn btn--primary btn--sm" href="signup">Book a demo</a>
     </div>
     <button class="nav__burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-      <svg class="ic ic--menu" aria-hidden="true"><use href="#i-menu"/></svg>
-      <svg class="ic ic--x" aria-hidden="true"><use href="#i-x"/></svg>
+      <span class="nav__burger-box" aria-hidden="true"><i></i><i></i><i></i></span>
     </button>
    </div>
   </div>
@@ -192,13 +192,13 @@
             <img src="assets/product/prototypes_both_whatson.png?v=8190b00ec1" alt="What&rsquo;s on" />
           </button>
           <button class="jslide" type="button" data-i="1" aria-label="Checkout">
-            <img src="assets/product/prototypes_both_checkout.png?v=baeb15722a" alt="Checkout" loading="lazy" />
+            <img src="assets/product/prototypes_both_checkout.png?v=baeb15722a" alt="Checkout" />
           </button>
           <button class="jslide" type="button" data-i="2" aria-label="Confirmation">
-            <img src="assets/product/prototypes_both_orderconfirmation.png?v=266820828e" alt="Confirmation" loading="lazy" />
+            <img src="assets/product/prototypes_both_orderconfirmation.png?v=266820828e" alt="Confirmation" />
           </button>
           <button class="jslide" type="button" data-i="3" aria-label="The ticket">
-            <img src="assets/product/prototypes_both_ticketqrcode.png?v=2b098f06cc" alt="The ticket" loading="lazy" />
+            <img src="assets/product/prototypes_both_ticketqrcode.png?v=2b098f06cc" alt="The ticket" />
           </button>
         </div>
       </div>
@@ -232,9 +232,9 @@
     </div>
     <!-- The band is light, so the light export is the right one whatever the
          reader's system theme is. No dark source here on purpose. -->
-    <picture class="tprofile" data-r style="--rd:1">
+    <div class="tprofile" data-r style="--rd:1">
       <img src="assets/product/prototypes_light_customerprofile.png?v=59b71f3d8b" alt="A customer profile in Capacity" loading="lazy" />
-    </picture>
+    </div>
   </div>
 </section>
 
@@ -309,6 +309,6 @@
   </div>
 </footer>
 
-<script src="site.js?v=67a50a7e83" defer></script>
+<script src="site.js?v=59188cfdd9" defer></script>
 </body>
 </html>

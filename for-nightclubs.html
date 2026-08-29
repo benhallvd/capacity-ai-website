@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
 <link rel="stylesheet" href="tokens.css?v=3e34301e7a" />
-<link rel="stylesheet" href="site.css?v=8d7255221f" />
+<link rel="stylesheet" href="site.css?v=0c981f203b" />
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -82,14 +82,14 @@
         </div>
       </div>
       <a href="integrations">Integrations</a>
+      <a class="btn btn--primary nav__cta" href="signup">Book a demo</a>
     </div>
     <div class="nav__actions">
       <a class="nav__signin" href="#">Sign in</a>
       <a class="btn btn--primary btn--sm" href="signup">Book a demo</a>
     </div>
     <button class="nav__burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-      <svg class="ic ic--menu" aria-hidden="true"><use href="#i-menu"/></svg>
-      <svg class="ic ic--x" aria-hidden="true"><use href="#i-x"/></svg>
+      <span class="nav__burger-box" aria-hidden="true"><i></i><i></i><i></i></span>
     </button>
    </div>
   </div>
@@ -129,14 +129,38 @@
     </div>
     <div class="pains">
       <div class="pain" data-r style="--rd:0">
+        <div class="pfig pfig--who" aria-hidden="true">
+          <div class="pfig__top">
+            <span class="pfig__k">Scanned in tonight</span>
+            <b class="pfig__n">428</b>
+          </div>
+          <div class="pfig__faces"><i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i><i style="--d:5"></i><i style="--d:6"></i><i style="--d:7"></i></div>
+          <span class="pfig__k pfig__k--flag">0 you can put a name to</span>
+        </div>
         <h3 class="h3">Nobody knows who the regulars are</h3>
         <p>Tickets tell you how many. They do not tell you who, or whether it is the same four hundred people every week.</p>
       </div>
       <div class="pain" data-r style="--rd:1">
+        <div class="pfig pfig--list" aria-hidden="true">
+          <div class="pfig__lane">
+            <span class="pfig__k">Sign-ups at the door</span>
+            <span class="pfig__meter"><i></i></span>
+          </div>
+          <div class="pfig__drops"><i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i></div>
+          <div class="pfig__lane">
+            <span class="pfig__k">Mailing list</span>
+            <span class="pfig__meter pfig__meter--flat"><i></i></span>
+          </div>
+        </div>
         <h3 class="h3">The list is the same size it was last year</h3>
         <p>Sign-ups happen at the door, on the WiFi and at the till, and almost none of it makes it back to a mailing list.</p>
       </div>
       <div class="pain" data-r style="--rd:2">
+        <div class="pfig pfig--zero" aria-hidden="true">
+          <span class="pfig__k">Four weeks to the night</span>
+          <div class="pfig__weeks"><i></i><i></i><i></i><i class="is-late"></i></div>
+          <div class="pfig__axis"><span>4 wks</span><span>3 wks</span><span>2 wks</span><span>Doors</span></div>
+        </div>
         <h3 class="h3">Every week starts from zero</h3>
         <p>The run-up gets built from scratch each time, so the push always lands in the last three days.</p>
       </div>
@@ -189,7 +213,7 @@
         <div class="week__col" style="--h:44%; --wd:140ms"><span class="week__act">Push</span><span class="week__bar"></span><span class="week__day">2 wks</span></div>
         <div class="week__col" style="--h:62%; --wd:210ms"><span class="week__act">Remind</span><span class="week__bar"></span><span class="week__day">1 wk</span></div>
         <div class="week__col" style="--h:84%; --wd:280ms"><span class="week__act">Final call</span><span class="week__bar"></span><span class="week__day">48 hrs</span></div>
-        <div class="week__col" style="--h:100%; --wd:350ms"><span class="week__act">Doors</span><span class="week__bar"></span><span class="week__day">Night</span></div>
+        <div class="week__col week__col--peak" style="--h:100%; --wd:350ms"><span class="week__act">Doors</span><span class="week__bar"></span><span class="week__day">Night</span></div>
         <div class="week__col" style="--h:34%; --wd:420ms"><span class="week__act">Recap</span><span class="week__bar"></span><span class="week__day">After</span></div>
     </div>
   </div>
@@ -328,6 +352,6 @@
   </div>
 </footer>
 
-<script src="site.js?v=67a50a7e83" defer></script>
+<script src="site.js?v=59188cfdd9" defer></script>
 </body>
 </html>
