@@ -3650,7 +3650,6 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 .waitlist__mark { height: 36px; width: auto; }
 .waitlist__copy { display: grid; gap: var(--space-5); justify-items: center; }
 .waitlist__title { max-width: 12ch; }
-.waitlist__copy .lede { max-width: 38ch; }
 .waitlist__card { width: 100%; text-align: left; }
 .waitlist__card .form { gap: var(--space-5); }
 /* 16px, not the shared 14px: iOS zooms the page into any smaller input on
@@ -3667,6 +3666,9 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
 
 @media (max-width: 620px) {
   .pagehead--full.waitlist { padding-block: var(--space-10); }
+  /* Without the paragraph the heading is the whole message, so it gets the
+     room a phone can give it. */
+  .waitlist__title { font-size: 3.5rem; }
   .waitlist__inner { gap: var(--space-6); }
   .waitlist__card { padding: var(--space-5); }
   .waitlist__card .form { gap: var(--space-4); }
