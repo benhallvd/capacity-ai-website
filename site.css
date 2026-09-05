@@ -3625,3 +3625,49 @@ a.brand-tile:focus-visible { outline-offset: 2px; }
   }
   .js [data-r] { opacity: 1; transform: none; }
 }
+
+/* ------------------------------------------------------------- waitlist -- */
+/* The root page while the full site sits at /home: one centred column with the
+   light pixel field behind it. The field's usual mask clears a region offset
+   toward the top left, where the demo page's copy sits; here the copy is in
+   the middle, so the clear region is too. */
+/* No nav on this page, so the pull under the nav that .pagehead--full carries
+   is undone and the band centres in the viewport on its own. */
+.pagehead--full.waitlist { margin-top: 0; padding-block: clamp(32px, 6vw, 72px); }
+.hero__field--centred {
+  -webkit-mask-image: radial-gradient(70% 62% at 50% 50%, transparent 0%, rgba(0,0,0,.3) 56%, #000 100%);
+  mask-image: radial-gradient(70% 62% at 50% 50%, transparent 0%, rgba(0,0,0,.3) 56%, #000 100%);
+}
+.waitlist__inner {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-8);
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+}
+.waitlist__mark { height: 36px; width: auto; }
+.waitlist__copy { display: grid; gap: var(--space-5); justify-items: center; }
+.waitlist__title { max-width: 12ch; }
+.waitlist__copy .lede { max-width: 38ch; }
+.waitlist__card { width: 100%; text-align: left; }
+.waitlist__card .form { gap: var(--space-5); }
+/* 16px, not the shared 14px: iOS zooms the page into any smaller input on
+   focus, and on a page that is only this input that is the whole experience. */
+.waitlist__card .field input[type="email"] { font-size: var(--text-base); }
+.waitlist__card .field--check label { font-size: var(--text-xs); color: var(--muted-foreground); }
+.waitlist__card .btn { margin-top: 0; }
+.waitlist__notice {
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--muted-foreground);
+}
+.waitlist__notice a { color: var(--brand-text); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 620px) {
+  .pagehead--full.waitlist { padding-block: var(--space-10); }
+  .waitlist__inner { gap: var(--space-6); }
+  .waitlist__card { padding: var(--space-5); }
+  .waitlist__card .form { gap: var(--space-4); }
+}

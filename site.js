@@ -992,6 +992,60 @@
     });
   }
 
+  /* -------------------------------------------------------- waitlist form -- */
+  /* The root page. Posts to /api/waitlist, which files the signup in Blob;
+     the key never leaves the server. */
+
+  var wform = $('#waitlistForm');
+  if (wform) {
+    var wdone = $('#waitlistDone');
+    var wemail = $('#email', wform);
+    var wcheck = $('#marketing', wform);
+    var werror = $('#waitlistError');
+    var wbutton = $('button[type="submit"]', wform);
+    var wlabel = wbutton ? wbutton.innerHTML : '';
+
+    wform.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (werror) werror.hidden = true;
+
+      var value = wemail.value.trim();
+      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      wemail.closest('.field').classList.toggle('is-invalid', !ok);
+      if (!ok) { wemail.focus(); return; }
+
+      if (wbutton) { wbutton.disabled = true; wbutton.textContent = 'Joining...'; }
+
+      fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: value,
+          marketing: !!(wcheck && wcheck.checked),
+          company_website: ($('#company_website', wform) || {}).value || '',
+          page: location.href
+        })
+      }).then(function (res) {
+        if (!res.ok) throw new Error('Endpoint responded ' + res.status);
+        wform.hidden = true;
+        wdone.hidden = false;
+        wdone.setAttribute('tabindex', '-1');
+        wdone.focus();
+      }).catch(function (err) {
+        if (wbutton) { wbutton.disabled = false; wbutton.innerHTML = wlabel; }
+        if (werror) {
+          werror.textContent = 'That did not save. Please try again in a moment.';
+          werror.hidden = false;
+        }
+        console.error('[waitlist]', err);
+      });
+    });
+
+    wform.addEventListener('input', function () {
+      wemail.closest('.field').classList.remove('is-invalid');
+    });
+  }
+
   /* --------------------------------------------------------- nav menu ----- */
   /* Hover already opens the dropdown in CSS. This is for touch and keyboard,
      where there is no hover to rely on. */

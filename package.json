@@ -2,7 +2,7 @@
   "name": "capacity-ai-website",
   "private": true,
   "type": "module",
-  "description": "Static marketing site plus the Vercel functions behind the demo and hiring forms.",
+  "description": "Static marketing site plus the Vercel functions behind the waitlist, demo and hiring forms.",
   "engines": {
     "node": ">=20.0.0"
   },
