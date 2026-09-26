@@ -1,10 +1,10 @@
 /* ==========================================================================
-   Exports every template on the brand page at its real pixel size.
+   Exports every template on both brand pages (platform and agency) at its real pixel size.
 
      cd tools/export && npm install && node export.mjs [name ...]
 
    Serves the repo root itself, so nothing else needs to be running. Output
-   lands in tools/export/out/: a PNG for every template, plus a seamless MP4
+   lands in tools/export/out/<brand>/: a PNG for every template, plus a seamless MP4
    for any template that carries a points object.
 
    The loop: the page runs on Playwright's fake clock, so every frame is
@@ -22,7 +22,7 @@ import { extname, join, resolve } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 const OUT = resolve(import.meta.dirname, 'out');
-const PAGE = 'brand-gnv7ztt1hgki.html';
+const PAGES = { platform: 'brand-gnv7ztt1hgki.html', agency: 'brand-vqa7gbkxqsky.html' };
 const FPS = 30;
 const LOOP = (2 * Math.PI) / 0.45;
 const FADE = FPS; /* frames */
@@ -39,10 +39,14 @@ const server = createServer(async (req, res) => {
     res.end(body);
   } catch { res.writeHead(404); res.end(); }
 }).listen(0);
-const base = `http://localhost:${server.address().port}/${PAGE}`;
+const host = `http://localhost:${server.address().port}/`;
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
-await mkdir(OUT, { recursive: true });
+
+for (const [brand, file] of Object.entries(PAGES).filter(([b]) => !process.env.BRAND || process.env.BRAND === b)) {
+const base = host + file;
+const dir0 = join(OUT, brand);
+await mkdir(dir0, { recursive: true });
 
 /* The list comes from the page itself, so a new template only needs a
    data-export name and size. */
@@ -94,22 +98,22 @@ for (const t of all.filter((t) => !only.length || only.includes(t.name))) {
 
   if (!t.animated) {
     await page.waitForTimeout(600); /* photographs are redrawn as dots on load */
-    await page.screenshot({ path: join(OUT, `${t.name}.png`), clip: box });
-    console.log(`${t.name}.png`);
+    await page.screenshot({ path: join(dir0, `${t.name}.png`), clip: box });
+    console.log(`${brand}/${t.name}.png`);
     await page.close();
     continue;
   }
 
   /* Let the object assemble and settle before the loop starts. */
   await page.clock.runFor(5000);
-  const dir = join(OUT, `.frames-${t.name}`);
+  const dir = join(dir0, `.frames-${t.name}`);
   await rm(dir, { recursive: true, force: true });
   await mkdir(dir, { recursive: true });
   const N = Math.round(LOOP * FPS);
   for (let i = 0; i < N + FADE; i++) {
     await page.clock.runFor(1000 / FPS);
     await page.screenshot({ path: join(dir, `f${String(i).padStart(5, '0')}.png`), clip: box });
-    if (i === 0) await page.screenshot({ path: join(OUT, `${t.name}.png`), clip: box });
+    if (i === 0) await page.screenshot({ path: join(dir0, `${t.name}.png`), clip: box });
   }
   await page.close();
 
@@ -127,9 +131,11 @@ for (const t of all.filter((t) => !only.length || only.includes(t.name))) {
     `[tail][head]blend=all_expr='A*(1-N/${FADE})+B*(N/${FADE})'[x];` +
     `[x][rest]concat=n=2:v=1[out]`,
     '-map', '[out]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-pix_fmt', 'yuv420p',
-    '-movflags', '+faststart', join(OUT, `${t.name}.mp4`)]);
+    '-movflags', '+faststart', join(dir0, `${t.name}.mp4`)]);
   await rm(dir, { recursive: true, force: true });
-  console.log(`${t.name}.png  ${t.name}.mp4  (${(N / FPS).toFixed(2)}s loop)`);
+  console.log(`${brand}/${t.name}.png  ${t.name}.mp4  (${(N / FPS).toFixed(2)}s loop)`);
+}
+
 }
 
 await browser.close();

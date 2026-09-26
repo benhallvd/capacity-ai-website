@@ -4,7 +4,7 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/brand-gnv7ztt1hgki(.*)",
+      "source": "/(brand-gnv7ztt1hgki|brand-vqa7gbkxqsky)(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
         { "key": "Referrer-Policy", "value": "no-referrer" }

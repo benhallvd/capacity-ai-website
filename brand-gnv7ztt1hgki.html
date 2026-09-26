@@ -112,6 +112,16 @@ h2 {
 /* Intro */
 .intro { min-height: clamp(420px, 62vh, 720px); display: grid; align-content: center; }
 .intro .lede { margin-top: 20px; }
+.intro { position: relative; }
+.sister {
+  position: absolute; top: 22px; right: var(--gutter); z-index: 5;
+  display: inline-flex; align-items: center; gap: 8px;
+  color: #8f8f8f; text-decoration: none;
+  border: 1px solid #262626; border-radius: 999px; padding: 7px 14px;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.sister:hover { color: #f5f5f5; border-color: #3a3a3a; }
+.sister svg { width: 14px; height: 11px; }
 .codes { margin-top: clamp(36px, 5vw, 56px); list-style: none; padding: 0; max-width: 560px; }
 .codes li {
   display: flex; gap: 18px; align-items: baseline;
@@ -456,6 +466,10 @@ h2 {
 
 <!-- ============================================================ INTRO ==== -->
 <header class="band on-dark intro">
+  <a class="sister mono" href="brand-vqa7gbkxqsky">
+    <svg viewBox="240 440 1520 1120" fill="#ff4b1f" aria-hidden="true"><use href="#capacity-mark"/></svg>
+    Agency brand
+  </a>
   <div class="wrap">
     <h1>Many signals.<br />One room.</h1>
     <p class="lede">
@@ -1426,6 +1440,7 @@ depth = brightness, so the room stands up in 3D</pre>
 <!-- ============================================================ FOOTER ==== -->
 <footer class="foot on-light">
   <svg viewBox="240 440 1520 1120" fill="#171717" aria-label="Capacity"><use href="#capacity-mark"/></svg>
+  <p style="margin-top:14px"><a class="mono" href="brand-vqa7gbkxqsky" style="color:#6b6b6b;text-decoration:none">Agency brand &rarr;</a></p>
 </footer>
 
 <script>
