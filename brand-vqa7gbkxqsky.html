@@ -9,15 +9,21 @@
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
 <style>
 /* ==========================================================================
    Capacity Agency brand. Internal, unlisted, self-contained: nothing here
    touches site.css or site.js. The sister of the platform brand page, same
    soul (the mark, points, dots, mono labels, real numbers), its own voice:
-   night first, Flare for heat, poster caps for display.
+   night first, Neon pink, poster caps for display.
    ========================================================================== */
 
+@font-face {
+  font-family: 'Tanker';
+  src: url('assets/fonts/Tanker-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
 @font-face {
   font-family: 'Geist Mono';
   src: url('assets/fonts/GeistMono-Regular.woff2') format('woff2');
@@ -32,8 +38,9 @@
 }
 
 :root {
-  --flare: #ff4b1f;
-  --ember: #ff9b7d;
+  --neon-c: #ff2e88;
+  --blush: #ff9cc6;
+  --neon-deep: #e0106c;
   --night: #0a0a0a;
   --ash: #161616;
   --line: #262626;
@@ -42,12 +49,12 @@
   --radius: 8px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --font-sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  --font-display: 'Archivo', 'Arial Narrow', Impact, sans-serif;
+  --font-display: 'Tanker', 'Arial Narrow', Impact, sans-serif;
   --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
   --gutter: clamp(20px, 5vw, 44px);
   --measure: 1100px;
-  /* Points objects are drawn blue by points.js; the agency runs them hot. */
-  --heat: grayscale(1) sepia(1) saturate(9) hue-rotate(-28deg) brightness(1.05) contrast(1.1);
+  /* Points objects are drawn blue by points.js; the agency runs them under neon. */
+  --neon: grayscale(1) sepia(1) saturate(9) hue-rotate(-65deg) brightness(1.05) contrast(1.1);
 }
 * { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
@@ -60,7 +67,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }
-[data-points] { filter: var(--heat); }
+[data-points] { filter: var(--neon); }
 
 .band { padding-block: clamp(64px, 8vw, 120px); padding-inline: var(--gutter); }
 .band.on-night { background: var(--night); color: #f5f5f5; }
@@ -76,17 +83,17 @@ a { color: inherit; }
 }
 .dsp {
   font-family: var(--font-display);
-  font-stretch: 62%;
-  font-weight: 800;
+  font-weight: 400;
+  font-synthesis: none;
   text-transform: uppercase;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.005em;
   line-height: 0.88;
 }
 h1.dsp { font-size: clamp(4rem, 1rem + 12vw, 11rem); }
 h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24px, 3vw, 40px); }
 .on-paper h2.dsp { color: #0a0a0a; }
 .lede { font-size: 1.125rem; max-width: 600px; color: var(--muted); }
-.fl { color: var(--flare); }
+.fl { color: var(--neon-c); }
 .nw { white-space: nowrap; }
 
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
@@ -117,7 +124,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
   font-size: 0.9375rem; color: #b9b9b9;
 }
 .codes li:last-child { border-bottom: 1px solid var(--line); }
-.codes .n { color: var(--flare); }
+.codes .n { color: var(--neon-c); }
 .codes b { color: #f5f5f5; font-weight: 600; }
 
 /* Ticker */
@@ -125,7 +132,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .ticker-run { display: inline-flex; gap: 48px; padding: 14px 0; animation: tick 38s linear infinite; }
 .ticker-run span { color: var(--muted); }
 .ticker-run span b { color: #f5f5f5; font-weight: 500; }
-.ticker-run span i { font-style: normal; color: var(--flare); }
+.ticker-run span i { font-style: normal; color: var(--neon-c); }
 @keyframes tick { to { transform: translateX(-50%); } }
 
 /* Two brands */
@@ -134,7 +141,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .pair-table .h { color: var(--muted); }
 .pair-table .col { color: #f5f5f5; }
 .pair-table .col.plat { color: #7fa4ff; }
-.pair-table .col.ag { color: var(--flare); }
+.pair-table .col.ag { color: var(--neon-c); }
 .chip { display: inline-block; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--line); flex: none; }
 .pair-table svg.mk { width: 30px; height: 22px; flex: none; }
 .btn { display: inline-block; border-radius: 999px; padding: 9px 16px; font-weight: 600; font-size: 0.875rem; letter-spacing: -0.02em; }
@@ -172,67 +179,67 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
   color: #f5f5f5;
 }
 .tpl--paper { background: var(--paper); color: #0a0a0a; border-color: #e4e4e4; }
-.tpl--flare { background: var(--flare); color: #0a0a0a; border-color: var(--flare); }
+.tpl--neon { background: var(--neon-c); color: #0a0a0a; border-color: var(--neon-c); }
 .tpl-in { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; padding: 7cqw; }
 .tpl-row { display: flex; justify-content: space-between; align-items: center; gap: 4cqw; }
 .tpl-mark { width: 8cqw; height: 6cqw; flex: none; }
 .tpl-tag { font-family: var(--font-mono); font-weight: 500; font-size: 3cqw; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .tpl--paper .tpl-tag { color: #6b6b6b; }
-.tpl--flare .tpl-tag { color: rgba(10,10,10,0.7); }
-.tpl-h { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.9; font-size: 14cqw; }
-.tpl-h .f { color: var(--flare); }
+.tpl--neon .tpl-tag { color: rgba(10,10,10,0.7); }
+.tpl-h { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.9; font-size: 14cqw; }
+.tpl-h .f { color: var(--neon-c); }
 .tpl-p { font-size: 4cqw; line-height: 1.4; color: var(--muted); margin-top: 3.4cqw; letter-spacing: -0.02em; }
 .tpl--paper .tpl-p { color: #6b6b6b; }
-.tpl--flare .tpl-p { color: rgba(10,10,10,0.78); }
-.tpl-big { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; letter-spacing: -0.01em; line-height: 0.82; font-size: 40cqw; font-variant-numeric: tabular-nums; }
+.tpl--neon .tpl-p { color: rgba(10,10,10,0.78); }
+.tpl-big { font-family: var(--font-display); font-weight: 400; font-synthesis: none; letter-spacing: -0.01em; line-height: 0.82; font-size: 40cqw; font-variant-numeric: tabular-nums; }
 .tpl-cta {
   display: inline-block; align-self: flex-start;
-  background: var(--flare); color: #0a0a0a;
+  background: var(--neon-c); color: #0a0a0a;
   font-weight: 700; font-size: 3.6cqw; letter-spacing: -0.02em;
   padding: 2.2cqw 4.4cqw; border-radius: 999px; margin-top: 5cqw;
 }
-.tpl--flare .tpl-cta { background: #0a0a0a; color: var(--flare); }
+.tpl--neon .tpl-cta { background: #0a0a0a; color: var(--neon-c); }
 .tpl-obj { position: absolute; inset: 0; z-index: 1; }
 .tpl-dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; }
 .tpl-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0) 24%, rgba(10,10,10,0) 40%, rgba(10,10,10,0.88) 100%); }
 .ph { border-bottom: 0.4cqw dashed currentColor; opacity: 0.8; }
 .mail .ph { border-bottom-width: 1px; }
 
-/* Stickers: the agency's stamp. Always Flare, always slightly off square. */
+/* Stickers: the agency's stamp. Always Neon, always slightly off square. */
 .stk {
   display: inline-block; align-self: flex-start;
-  background: var(--flare); color: #0a0a0a;
-  font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase;
+  background: var(--neon-c); color: #0a0a0a;
+  font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase;
   font-size: 5.4cqw; line-height: 1; letter-spacing: 0.01em;
   padding: 1.2cqw 2.4cqw 1cqw; border-radius: 1.2cqw;
   transform: rotate(-3deg);
 }
-.tpl--flare .stk { background: #0a0a0a; color: var(--flare); }
+.tpl--neon .stk { background: #0a0a0a; color: var(--neon-c); }
 
 /* Coded proof: the sales curve */
 .curve { background: var(--ash); border: 1px solid var(--line); border-radius: 3.4cqw; padding: 4.6cqw 5cqw; display: grid; gap: 3cqw; font-size: 3.6cqw; font-variant-numeric: tabular-nums; }
 .curve-top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
 .curve-live { display: inline-flex; align-items: center; gap: 1.4cqw; color: var(--muted); font-family: var(--font-mono); font-size: 2.6cqw; letter-spacing: 0.12em; text-transform: uppercase; }
-.curve-live i { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; background: var(--flare); display: inline-block; }
+.curve-live i { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; background: var(--neon-c); display: inline-block; }
 .curve svg { width: 100%; height: auto; display: block; }
 .curve-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqw; border-top: 1px solid var(--line); padding-top: 3cqw; }
 .curve-stats span { display: block; color: var(--muted); font-size: 2.8cqw; }
-.curve-stats b { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; font-size: 8cqw; line-height: 1; letter-spacing: 0; }
+.curve-stats b { font-family: var(--font-display); font-weight: 400; font-synthesis: none; font-size: 8cqw; line-height: 1; letter-spacing: 0; }
 
 /* Story poll sticker */
 .poll { background: #f5f5f5; color: #0a0a0a; border-radius: 4cqw; padding: 5cqw; display: grid; gap: 2.4cqw; }
-.poll b { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: 8cqw; line-height: 0.95; margin-bottom: 1.4cqw; }
+.poll b { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 8cqw; line-height: 0.95; margin-bottom: 1.4cqw; }
 .poll span { display: flex; justify-content: space-between; border: 1px solid #dcdcdc; border-radius: 99px; padding: 2.4cqw 4cqw; font-size: 4cqw; font-weight: 600; }
-.poll span em { font-style: normal; color: var(--flare); font-variant-numeric: tabular-nums; }
+.poll span em { font-style: normal; color: var(--neon-c); font-variant-numeric: tabular-nums; }
 
 /* Carousel */
 .car { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; scrollbar-width: thin; }
 .car > .tpl { flex: 0 0 min(300px, 78vw); aspect-ratio: 4 / 5; scroll-snap-align: start; }
-.car-n { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; font-size: 30cqw; line-height: 0.8; color: var(--flare); }
+.car-n { font-family: var(--font-display); font-weight: 400; font-synthesis: none; font-size: 30cqw; line-height: 0.8; color: var(--neon-c); }
 .car-prog { position: absolute; left: 7cqw; right: 7cqw; bottom: 5cqw; height: 0.6cqw; background: rgba(128,128,128,0.25); border-radius: 1cqw; z-index: 4; }
-.car-prog i { display: block; height: 100%; background: var(--flare); border-radius: 1cqw; }
-.tpl--flare .car-prog { background: rgba(10,10,10,0.2); }
-.tpl--flare .car-prog i { background: #0a0a0a; }
+.car-prog i { display: block; height: 100%; background: var(--neon-c); border-radius: 1cqw; }
+.tpl--neon .car-prog { background: rgba(10,10,10,0.2); }
+.tpl--neon .car-prog i { background: #0a0a0a; }
 
 /* Email */
 .mail { background: var(--night); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; color: #f5f5f5; font-size: 14px; }
@@ -242,10 +249,10 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .mail-line { height: 8px; border-radius: 4px; background: #1e1e1e; margin-bottom: 10px; }
 .efoot { margin: 22px 30px 0; padding: 26px 0 30px; border-top: 1px solid var(--line); display: grid; gap: 14px; }
 .efoot svg.m { width: 30px; height: 22px; }
-.efoot .line { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: 30px; line-height: 0.9; }
+.efoot .line { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 30px; line-height: 0.9; }
 .efoot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
 .efoot nav a { text-decoration: none; font-weight: 500; }
-.efoot nav a.cta { color: var(--flare); }
+.efoot nav a.cta { color: var(--neon-c); }
 .efoot .soc { display: flex; gap: 12px; }
 .efoot .soc svg { width: 18px; height: 18px; fill: var(--muted); }
 .efoot .fine { font-size: 11.5px; line-height: 1.6; color: #6b6b6b; }
@@ -253,12 +260,12 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .mail--paper .mail-bar { background: #fafafa; border-color: #efefef; }
 .mail--paper .mail-bar i, .mail--paper .mail-line { background: #efefef; }
 .mail--paper .efoot { border-color: #e4e4e4; }
-.mail--paper .efoot nav a.cta { color: #d63a12; }
+.mail--paper .efoot nav a.cta { color: #e0106c; }
 .mail--paper .efoot .soc svg { fill: #6b6b6b; }
 .mail--paper .efoot .fine { color: #8f8f8f; }
-.mast { background: var(--flare); color: #0a0a0a; padding: 26px 30px 24px; display: grid; gap: 16px; }
+.mast { background: var(--neon-c); color: #0a0a0a; padding: 26px 30px 24px; display: grid; gap: 16px; }
 .mast svg { width: 30px; height: 22px; }
-.mast h3 { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: 64px; line-height: 0.84; }
+.mast h3 { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 64px; line-height: 0.84; }
 .sig { padding: 30px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
 .sig svg { width: 34px; height: 26px; margin-top: 3px; }
 .sig b { display: block; font-size: 15px; letter-spacing: -0.02em; }
@@ -266,7 +273,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .sig .pos { margin: 10px 0 8px; color: var(--muted); }
 .sig .links { font-size: 13px; display: flex; gap: 14px; flex-wrap: wrap; }
 .sig .links a { text-decoration: none; font-weight: 500; }
-.sig .links a.cta { color: var(--flare); }
+.sig .links a.cta { color: var(--neon-c); }
 
 /* Profile */
 .avatar-row { display: flex; gap: 14px; }
@@ -275,8 +282,8 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 
 /* Lower third */
 .l3 { position: absolute; left: 5cqw; bottom: 6cqw; z-index: 4; display: flex; align-items: stretch; }
-.l3 div { background: var(--flare); color: #0a0a0a; padding: 1.4cqw 2.6cqw 1.2cqw; border-radius: 1cqw; transform: rotate(-2deg); }
-.l3 b { display: block; font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: 5.4cqw; line-height: 0.9; }
+.l3 div { background: var(--neon-c); color: #0a0a0a; padding: 1.4cqw 2.6cqw 1.2cqw; border-radius: 1cqw; transform: rotate(-2deg); }
+.l3 b { display: block; font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 5.4cqw; line-height: 0.9; }
 .l3 span { font-size: 2.4cqw; font-weight: 600; }
 
 /* Guidelines */
@@ -295,13 +302,13 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .gnav button .n { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; color: #4a4a4a; transition: color 0.25s var(--ease); }
 .gnav button:hover { color: #f5f5f5; }
 .gnav button.active { color: #f5f5f5; font-weight: 600; }
-.gnav button.active .n { color: var(--flare); }
+.gnav button.active .n { color: var(--neon-c); }
 .gbody { min-height: 480px; }
 .chapter { opacity: 0; transform: translateY(10px); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
 .chapter.show { opacity: 1; transform: none; }
 .rules { list-style: none; padding: 0; margin-top: 24px; max-width: 620px; }
 .rules li { padding: 11px 0 11px 26px; border-top: 1px solid var(--line); position: relative; font-size: 0.9688rem; color: #d4d4d4; }
-.rules li::before { content: ""; position: absolute; left: 4px; top: 1.35em; width: 6px; height: 6px; border-radius: 1px; background: var(--flare); transform: rotate(-12deg); }
+.rules li::before { content: ""; position: absolute; left: 4px; top: 1.35em; width: 6px; height: 6px; border-radius: 1px; background: var(--neon-c); transform: rotate(-12deg); }
 .gfoot { display: flex; align-items: center; gap: 18px; margin-top: 36px; }
 .gbtn {
   font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.02em;
@@ -309,7 +316,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
   padding: 9px 16px; cursor: pointer;
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
 }
-.gbtn:hover { border-color: #3a3a3a; background: color-mix(in srgb, var(--flare) 10%, var(--ash)); }
+.gbtn:hover { border-color: #3a3a3a; background: color-mix(in srgb, var(--neon-c) 10%, var(--ash)); }
 .gbtn[disabled] { opacity: 0.35; cursor: default; }
 .gbtn[disabled]:hover { border-color: var(--line); background: var(--ash); }
 .gcount { color: var(--muted); }
@@ -321,10 +328,10 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
   min-width: 150px; flex: 1;
 }
 .spec--paper { background: var(--paper); border-color: #e4e4e4; }
-.spec--flare { background: var(--flare); border-color: var(--flare); }
+.spec--neon { background: var(--neon-c); border-color: var(--neon-c); }
 .spec .cp { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .spec--paper .cp { color: #6b6b6b; }
-.spec--flare .cp { color: rgba(10,10,10,0.7); }
+.spec--neon .cp { color: rgba(10,10,10,0.7); }
 .spec svg { width: 74px; height: 56px; }
 .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-width: 680px; }
 .sw i { display: block; height: 60px; border-radius: var(--radius); border: 1px solid var(--line); margin-bottom: 8px; }
@@ -338,7 +345,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 .pair .cp { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 10px; position: relative; z-index: 2; }
 .pair--do .cp { color: #5fd3a4; }
 .pair--dont .cp { color: #ff8a78; }
-.pair blockquote { font-family: var(--font-display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: 2rem; line-height: 0.92; }
+.pair blockquote { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 2rem; line-height: 0.92; }
 .pair--dont blockquote { font-family: var(--font-sans); font-stretch: 100%; text-transform: none; font-size: 1.0625rem; line-height: 1.4; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255,138,120,0.5); font-weight: 500; }
 .recipe {
   margin-top: 24px; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.7;
@@ -353,7 +360,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
   .guide { grid-template-columns: 1fr; }
   .gnav { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
   .gnav button, .gnav li:last-child button { border: 1px solid var(--line); border-radius: 999px; width: auto; padding: 7px 13px; font-size: 0.875rem; }
-  .gnav button.active { border-color: var(--flare); }
+  .gnav button.active { border-color: var(--neon-c); }
   .gbody { min-height: 0; }
   .intro-obj { width: 100%; right: 0; height: 52%; opacity: 0.8; }
 }
@@ -379,7 +386,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 <!-- ============================================================ INTRO ==== -->
 <header class="band on-night intro">
   <div class="intro-top">
-    <svg viewBox="240 440 1520 1120" fill="#ff4b1f" aria-label="Capacity"><use href="#capacity-mark"/></svg>
+    <svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-label="Capacity"><use href="#capacity-mark"/></svg>
     <span class="mono" style="color:var(--muted)">Agency</span>
   </div>
   <a class="sister mono" href="brand-gnv7ztt1hgki">
@@ -395,10 +402,10 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
       the numbers. Louder about it.
     </p>
     <ul class="codes">
-      <li><span class="n mono">01</span><span><b>The same mark.</b> In Flare, never in platform blue.</span></li>
+      <li><span class="n mono">01</span><span><b>The same mark.</b> In Neon, never in platform blue.</span></li>
       <li><span class="n mono">02</span><span><b>Night first.</b> Paper is for the proof.</span></li>
       <li><span class="n mono">03</span><span><b>Poster caps.</b> Short lines you could read from the back of the room.</span></li>
-      <li><span class="n mono">04</span><span><b>Heat.</b> The same points and dots, running hot.</span></li>
+      <li><span class="n mono">04</span><span><b>Under neon.</b> The same points and dots, lit pink.</span></li>
       <li><span class="n mono">05</span><span><b>Say the money.</b> Tickets, days, pounds back.</span></li>
     </ul>
   </div>
@@ -440,11 +447,11 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 
       <div class="h mono">Mark</div>
       <div><svg class="mk" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg><svg class="mk" viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg></div>
-      <div><svg class="mk" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg><span class="chip" style="background:#ff4b1f;display:grid;place-items:center"><svg viewBox="240 440 1520 1120" fill="#0a0a0a" style="width:20px;height:15px"><use href="#capacity-mark"/></svg></span></div>
+      <div><svg class="mk" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg><span class="chip" style="background:#ff2e88;display:grid;place-items:center"><svg viewBox="240 440 1520 1120" fill="#0a0a0a" style="width:20px;height:15px"><use href="#capacity-mark"/></svg></span></div>
 
       <div class="h mono">Colour</div>
       <div><span class="chip" style="background:#1b63f8"></span><span class="mono" style="color:var(--muted)">Capacity Blue #1b63f8</span></div>
-      <div><span class="chip" style="background:#ff4b1f"></span><span class="mono" style="color:var(--muted)">Flare #ff4b1f</span></div>
+      <div><span class="chip" style="background:#ff2e88"></span><span class="mono" style="color:var(--muted)">Neon #ff2e88</span></div>
 
       <div class="h mono">Surface</div>
       <div><span class="chip" style="background:#f6f6f6"></span>Paper first, dark bands</div>
@@ -456,15 +463,15 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
 
       <div class="h mono">Objects</div>
       <div>Cool blue points, slow drift</div>
-      <div>The same points, running hot</div>
+      <div>The same points, under neon</div>
 
       <div class="h mono">Photos</div>
       <div>Grey dots: the room as data</div>
-      <div>Heat dots: the room as a crowd</div>
+      <div>Neon dots: the room as a crowd</div>
 
       <div class="h mono">Button</div>
       <div><span class="btn" style="background:#1b63f8;color:#fff">Book a demo</span></div>
-      <div><span class="btn" style="background:#ff4b1f;color:#0a0a0a">Book a free audit</span></div>
+      <div><span class="btn" style="background:#ff2e88;color:#0a0a0a">Book a free audit</span></div>
 
       <div class="h mono">Talks like</div>
       <div>A good host</div>
@@ -485,14 +492,14 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
       <span class="tag mono">Festivals</span>
     </div>
     <div style="display:grid;gap:14px">
-      <div class="stage" style="aspect-ratio:16/10;background:var(--flare);border-color:var(--flare);container-type:inline-size;display:grid;align-content:center;padding:6cqw">
+      <div class="stage" style="aspect-ratio:16/10;background:var(--neon-c);border-color:var(--neon-c);container-type:inline-size;display:grid;align-content:center;padding:6cqw">
         <div class="dsp" style="font-size:24cqw;line-height:0.8;color:#0a0a0a">Sold out.</div>
-        <span class="stk" style="font-size:5cqw;margin-top:3cqw;background:#0a0a0a;color:var(--flare)">Final release gone</span>
+        <span class="stk" style="font-size:5cqw;margin-top:3cqw;background:#0a0a0a;color:var(--neon-c)">Final release gone</span>
         <span class="tag mono" style="color:rgba(10,10,10,0.6)">Stickers and poster caps</span>
       </div>
       <div class="stage" style="aspect-ratio:16/10">
         <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
-        <span class="tag mono">The crowd, as heat</span>
+        <span class="tag mono">The crowd, under neon</span>
       </div>
     </div>
   </div>
@@ -512,7 +519,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl" style="aspect-ratio:4/5" data-export="post-result" data-export-size="1080x1350">
             <div class="tpl-in" style="justify-content:space-between">
               <div class="tpl-row">
-                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
                 <span class="tpl-tag">Case study / <span class="ph">[Event]</span></span>
               </div>
               <div>
@@ -541,7 +548,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         <div>
           <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-quote" data-export-size="1080x1350">
             <div class="tpl-in" style="justify-content:space-between">
-              <div class="dsp" style="font-size:34cqw;line-height:0.62;height:15cqw;color:#ff4b1f">&ldquo;</div>
+              <div class="dsp" style="font-size:34cqw;line-height:0.62;height:15cqw;color:#ff2e88">&ldquo;</div>
               <div class="tpl-h" style="font-size:11cqw;line-height:0.92">They moved our early bird three weeks earlier. It paid for the whole campaign.</div>
               <div class="tpl-row" style="align-items:flex-end">
                 <div>
@@ -564,11 +571,11 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
               <div class="tpl-h" style="font-size:16cqw">Friday was full by <span class="f">Wednesday.</span></div>
             </div>
           </div>
-          <p class="cap mono">Photo, redrawn as heat</p>
+          <p class="cap mono">Photo, redrawn in neon</p>
         </div>
 
         <div>
-          <div class="tpl tpl--flare" style="aspect-ratio:4/5" data-export="post-statement" data-export-size="1080x1350">
+          <div class="tpl tpl--neon" style="aspect-ratio:4/5" data-export="post-statement" data-export-size="1080x1350">
             <div class="tpl-in" style="justify-content:space-between">
               <span class="tpl-tag">Monday rant</span>
               <div>
@@ -581,7 +588,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
               </div>
             </div>
           </div>
-          <p class="cap mono">Statement, one Flare field per set</p>
+          <p class="cap mono">Statement, one Neon field per set</p>
         </div>
 
         <div>
@@ -595,10 +602,10 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
                 <div class="curve-top"><span><span class="ph">[Festival]</span> 2026</span><span class="curve-live"><i></i>On sale</span></div>
                 <svg viewBox="0 0 300 120" aria-hidden="true">
                   <g stroke="#262626" stroke-width="1"><path d="M0 119.5H300"/><path d="M78 0v120M150 0v120M232 0v120" stroke-dasharray="2 4"/></g>
-                  <path d="M0 118 C20 112 40 96 78 86 S120 78 150 58 S200 44 232 26 S280 8 300 4" fill="none" stroke="#ff4b1f" stroke-width="2.4" stroke-linecap="round"/>
-                  <path d="M0 118 C20 112 40 96 78 86 S120 78 150 58 S200 44 232 26 S280 8 300 4 V120 H0Z" fill="#ff4b1f" opacity="0.1"/>
+                  <path d="M0 118 C20 112 40 96 78 86 S120 78 150 58 S200 44 232 26 S280 8 300 4" fill="none" stroke="#ff2e88" stroke-width="2.4" stroke-linecap="round"/>
+                  <path d="M0 118 C20 112 40 96 78 86 S120 78 150 58 S200 44 232 26 S280 8 300 4 V120 H0Z" fill="#ff2e88" opacity="0.1"/>
                   <g fill="#8f8f8f" font-family="Geist Mono, monospace" font-size="8" letter-spacing="0.8"><text x="4" y="10">EARLY BIRD</text><text x="82" y="10">TIER 1</text><text x="154" y="10">TIER 2</text><text x="236" y="10">FINAL</text></g>
-                  <g fill="#ff4b1f"><circle cx="78" cy="86" r="3"/><circle cx="150" cy="58" r="3"/><circle cx="232" cy="26" r="3"/></g>
+                  <g fill="#ff2e88"><circle cx="78" cy="86" r="3"/><circle cx="150" cy="58" r="3"/><circle cx="232" cy="26" r="3"/></g>
                 </svg>
                 <div class="curve-stats">
                   <div><span>Sold</span><b>1,806</b></div>
@@ -635,11 +642,11 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl" style="aspect-ratio:4/5" data-export="post-audit" data-export-size="1080x1350">
             <div class="tpl-in" style="justify-content:space-between">
               <div class="tpl-row">
-                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
                 <span class="stk">Free</span>
               </div>
               <div>
-                <div class="tpl-big" style="color:#ff4b1f">30</div>
+                <div class="tpl-big" style="color:#ff2e88">30</div>
                 <div class="tpl-h" style="font-size:13cqw;margin-top:2cqw">Minutes on your last <span class="nw">on-sale</span>.</div>
                 <p class="tpl-p">We go through the ads, the ticket page and the timing, and tell you the three things we'd change.</p>
               </div>
@@ -653,11 +660,11 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-event" data-export-size="1080x1350">
             <div class="tpl-in" style="justify-content:space-between">
               <div class="tpl-row">
-                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
                 <span class="tpl-tag">Come and find us</span>
               </div>
               <div>
-                <div class="tpl-h" style="font-size:17cqw;line-height:0.84">See you at <span style="color:#d63a12"><span class="ph">[Event]</span>.</span></div>
+                <div class="tpl-h" style="font-size:17cqw;line-height:0.84">See you at <span style="color:#e0106c"><span class="ph">[Event]</span>.</span></div>
                 <p class="tpl-p">Bring your last on-sale. We'll bring the coffee.</p>
               </div>
               <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #e4e4e4;padding-top:4cqw;gap:3cqw">
@@ -682,7 +689,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl" style="aspect-ratio:9/16" data-export="story-clubs" data-export-size="1080x1920">
             <div class="tpl-obj" data-points="cdj" data-zoom="0.95" style="top:14%;bottom:40%"></div>
             <div class="tpl-in" style="justify-content:space-between">
-              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f" style="align-self:center"><use href="#capacity-mark"/></svg>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88" style="align-self:center"><use href="#capacity-mark"/></svg>
               <div>
                 <div class="tpl-h" style="font-size:19cqw;line-height:0.84">Club nights that <span class="f">sell out.</span></div>
                 <span class="tpl-cta" style="font-size:4.6cqw">Book a free audit</span>
@@ -710,7 +717,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         </div>
 
         <div>
-          <div class="tpl tpl--flare" style="aspect-ratio:9/16" data-export="story-tip" data-export-size="1080x1920">
+          <div class="tpl tpl--neon" style="aspect-ratio:9/16" data-export="story-tip" data-export-size="1080x1920">
             <div class="tpl-in" style="justify-content:space-between">
               <div class="tpl-row">
                 <span class="tpl-tag">Tip <span class="ph">04</span></span>
@@ -753,12 +760,12 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl-obj" data-points="tickets" data-zoom="0.8" style="top:14%;bottom:40%"></div>
           <div class="tpl-in" style="justify-content:space-between">
             <div class="tpl-row">
-              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
               <span class="tpl-tag">01 / 07</span>
             </div>
             <div>
               <div class="tpl-h" style="font-size:17cqw;line-height:0.84">Five ways to kill <span class="f">an <span class="nw">on-sale</span>.</span></div>
-              <span class="tpl-tag" style="display:block;margin-top:4cqw;color:#ff9b7d">Swipe &rarr;</span>
+              <span class="tpl-tag" style="display:block;margin-top:4cqw;color:#ff9cc6">Swipe &rarr;</span>
             </div>
           </div>
           <div class="car-prog"><i style="width:14.3%"></i></div>
@@ -819,7 +826,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="car-prog"><i style="width:85.7%"></i></div>
         </div>
 
-        <div class="tpl tpl--flare" data-export="carousel-07" data-export-size="1080x1350">
+        <div class="tpl tpl--neon" data-export="carousel-07" data-export-size="1080x1350">
           <div class="tpl-in" style="justify-content:space-between">
             <div class="tpl-row">
               <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
@@ -850,7 +857,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
               <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
             </div>
             <div class="efoot">
-              <svg class="m" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+              <svg class="m" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
               <div class="line">Clicks into crowds.</div>
               <nav><a class="cta" href="#">Book a free audit</a><a href="#">Events</a><a href="#">Venues</a><a href="#">Case studies</a></nav>
               <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
@@ -868,7 +875,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
               <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
             </div>
             <div class="efoot">
-              <svg class="m" viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+              <svg class="m" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
               <div class="line">Clicks into crowds.</div>
               <nav><a class="cta" href="#">Book a free audit</a><a href="#">Events</a><a href="#">Venues</a><a href="#">Case studies</a></nav>
               <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
@@ -897,7 +904,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         <div>
           <div class="mail" data-export="email-signature" data-export-size="2x">
             <div class="sig">
-              <svg viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg>
+              <svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
               <div>
                 <b><span class="ph">[Your name]</span></b>
                 <span class="role"><span class="ph">[Role]</span>, Capacity Agency</span>
@@ -928,8 +935,8 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
       <div class="tgrid" style="margin-top:14px;align-items:start">
         <div>
           <div class="avatar-row">
-            <div class="avatar" style="background:#0a0a0a" data-export="avatar-night" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg></div>
-            <div class="avatar" style="background:#ff4b1f;border-color:#ff4b1f" data-export="avatar-flare" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg></div>
+            <div class="avatar" style="background:#0a0a0a" data-export="avatar-night" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg></div>
+            <div class="avatar" style="background:#ff2e88;border-color:#ff2e88" data-export="avatar-neon" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg></div>
           </div>
           <p class="cap mono">Avatar / every platform</p>
         </div>
@@ -938,7 +945,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl" style="aspect-ratio:1200/630" data-export="blog-preview" data-export-size="1200x630">
             <div class="tpl-obj" data-points="chart" data-zoom="0.9" style="left:50%"></div>
             <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:46%">
-              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
               <div>
                 <span class="stk" style="font-size:2.4cqw;padding:0.6cqw 1.2cqw 0.5cqw;border-radius:0.6cqw">Guide</span>
                 <div class="tpl-h" style="font-size:7.4cqw;margin-top:2cqw;line-height:0.86">How to plan an <span class="nw">on-sale</span>.</div>
@@ -957,7 +964,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
             <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:46%">
               <span class="tpl-tag" style="font-size:1.8cqw">Breakdown / <span class="ph">02</span></span>
               <div class="tpl-h" style="font-size:8.4cqw;line-height:0.86">How we sold <span class="f"><span class="ph">[Event]</span>.</span></div>
-              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff4b1f" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
             </div>
           </div>
           <p class="cap mono">Video title card / 16:9</p>
@@ -967,13 +974,13 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="tpl" style="aspect-ratio:16/9" data-export="video-lower-third" data-export-size="1920x1080">
             <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
             <div class="l3"><div><b><span class="ph">[Name]</span></b><span><span class="ph">[Role]</span>, Capacity Agency</span></div></div>
-            <svg viewBox="240 440 1520 1120" fill="#ff4b1f" style="position:absolute;right:4cqw;top:4cqw;width:3.4cqw;height:2.6cqw;z-index:4"><use href="#capacity-mark"/></svg>
+            <svg viewBox="240 440 1520 1120" fill="#ff2e88" style="position:absolute;right:4cqw;top:4cqw;width:3.4cqw;height:2.6cqw;z-index:4"><use href="#capacity-mark"/></svg>
           </div>
           <p class="cap mono">Lower third and bug / 16:9</p>
         </div>
 
         <div>
-          <div class="tpl tpl--flare" style="aspect-ratio:16/9" data-export="deck-title" data-export-size="1920x1080">
+          <div class="tpl tpl--neon" style="aspect-ratio:16/9" data-export="deck-title" data-export-size="1920x1080">
             <div class="tpl-in" style="justify-content:space-between;padding:5cqw">
               <div class="tpl-row">
                 <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
@@ -1011,19 +1018,19 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         <!-- 01 LOGO -->
         <article class="chapter" data-ch="0">
           <div class="spec-row">
-            <div class="spec"><svg viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg><span class="cp">Flare on night</span></div>
-            <div class="spec spec--flare"><svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg><span class="cp">Night on Flare</span></div>
-            <div class="spec spec--paper"><svg viewBox="240 440 1520 1120" fill="#ff4b1f"><use href="#capacity-mark"/></svg><span class="cp">Flare on paper</span></div>
+            <div class="spec"><svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg><span class="cp">Neon on night</span></div>
+            <div class="spec spec--neon"><svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg><span class="cp">Night on Neon</span></div>
+            <div class="spec spec--paper"><svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg><span class="cp">Neon on paper</span></div>
             <div class="spec"><svg viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg><span class="cp">White, over photos</span></div>
           </div>
           <div class="spec-row" style="margin-top:12px">
             <div class="spec" style="grid-auto-flow:column;gap:14px;place-content:center">
-              <svg viewBox="240 440 1520 1120" fill="#ff4b1f" style="width:52px;height:40px"><use href="#capacity-mark"/></svg>
+              <svg viewBox="240 440 1520 1120" fill="#ff2e88" style="width:52px;height:40px"><use href="#capacity-mark"/></svg>
               <span class="dsp" style="font-size:3.4rem;line-height:0.8">Capacity</span>
             </div>
           </div>
           <ul class="rules">
-            <li>Same mark, never redrawn. Flare is the agency's colour for it; blue belongs to the platform. Never swap them.</li>
+            <li>Same mark, never redrawn. Neon is the agency's colour for it; blue belongs to the platform. Never swap them.</li>
             <li>The lockup sets CAPACITY in the display face beside the mark. The platform never uses it.</li>
             <li>Clearspace: one arm's width, all sides. Never rotated, outlined or shadowed. Stickers tilt, the mark doesn't.</li>
           </ul>
@@ -1032,8 +1039,8 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         <!-- 02 COLOUR -->
         <article class="chapter" data-ch="1" hidden>
           <div class="sw-grid">
-            <div class="sw"><i style="background:#ff4b1f;border-color:#ff4b1f"></i><b>Flare</b><span class="mono">#ff4b1f</span></div>
-            <div class="sw"><i style="background:#ff9b7d;border-color:#ff9b7d"></i><b>Ember</b><span class="mono">#ff9b7d</span></div>
+            <div class="sw"><i style="background:#ff2e88;border-color:#ff2e88"></i><b>Neon</b><span class="mono">#ff2e88</span></div>
+            <div class="sw"><i style="background:#ff9cc6;border-color:#ff9cc6"></i><b>Blush</b><span class="mono">#ff9cc6</span></div>
             <div class="sw"><i style="background:#0a0a0a"></i><b>Night</b><span class="mono">#0a0a0a</span></div>
             <div class="sw"><i style="background:#161616"></i><b>Ash</b><span class="mono">#161616</span></div>
             <div class="sw"><i style="background:#f6f6f6"></i><b>Paper</b><span class="mono">#f6f6f6</span></div>
@@ -1041,20 +1048,20 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           </div>
           <ul class="rules">
             <li>Night is the default. Paper is for proof: case studies, reports, proposals.</li>
-            <li>Flare is heat: the sold out, the live number, the button. One full Flare field per set of posts, no more.</li>
-            <li>Text on Flare is always Night, never white. Ember is Flare's voice on dark, for small type.</li>
-            <li>The liquid gradients retire. No purple.</li>
+            <li>Neon is the moment: the sold out, the live number, the button. One full Neon field per set of posts, no more.</li>
+            <li>Text on Neon is always Night, never white. Blush is Neon's voice on dark, for small type. On paper, type in Neon Deep #e0106c.</li>
+            <li>The liquid gradients retire. No purple, no orange (that's E Labs), no teal (that's Furiosa).</li>
           </ul>
         </article>
 
         <!-- 03 TYPE -->
         <article class="chapter" data-ch="2" hidden>
           <div class="type-spec">
-            <div class="row"><span class="cp">Display / Archivo 62% width, 800, caps</span><span class="dsp" style="font-size:clamp(2.6rem,6vw,4.4rem)">Tier 1 gone by lunch.</span></div>
+            <div class="row"><span class="cp">Display / Tanker, caps</span><span class="dsp" style="font-size:clamp(2.6rem,6vw,4.4rem)">Tier 1 gone by lunch.</span></div>
             <div class="row"><span class="cp">Body / Rethink Sans 400, shared with the platform</span><span style="max-width:46ch">Ads planned around your sales curve, audience and timing, so the early tiers go early.</span></div>
-            <div class="row"><span class="cp">Labels / Geist Mono 500, shared</span><span class="mono" style="color:#ff9b7d">Final release, Friday</span></div>
+            <div class="row"><span class="cp">Labels / Geist Mono 500, shared</span><span class="mono" style="color:#ff9cc6">Final release, Friday</span></div>
             <div class="row"><span class="cp">Numbers / display, tabular</span><span class="dsp" style="font-size:3rem">&pound;8.42 &nbsp; 3,200 &nbsp; 72 hrs</span></div>
-            <div class="row"><span class="cp">Stickers / display on Flare, tilted 3&deg;</span><span style="display:flex;gap:10px;flex-wrap:wrap;padding-top:4px"><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">Sold out</span><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">Final release</span><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">New client</span></span></div>
+            <div class="row"><span class="cp">Stickers / display on Neon, tilted 3&deg;</span><span style="display:flex;gap:10px;flex-wrap:wrap;padding-top:4px"><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">Sold out</span><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">Final release</span><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">New client</span></span></div>
           </div>
           <ul class="rules">
             <li>Display is for lines of six words or fewer. Never a paragraph in caps.</li>
@@ -1067,7 +1074,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         <article class="chapter" data-ch="3" hidden>
           <div class="pair-grid">
             <div class="pair pair--do" style="min-height:260px">
-              <span class="cp">Agency: the same object, running hot</span>
+              <span class="cp">Agency: the same object, under neon</span>
               <div data-points="megaphone" data-yaw="0.35" style="position:absolute;inset:0"></div>
             </div>
             <div class="pair" style="min-height:260px">
@@ -1077,11 +1084,11 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           </div>
           <pre class="recipe">[data-points] {
   filter: grayscale(1) sepia(1) saturate(9)
-          hue-rotate(-28deg) brightness(1.05) contrast(1.1);
+          hue-rotate(-65deg) brightness(1.05) contrast(1.1);
 }</pre>
           <ul class="rules">
             <li>The agency's objects are the ones it sells with: the megaphone for paid social, tickets for on-sales, the big top for festivals, the CDJs for clubs, the socials for creative.</li>
-            <li>Same engine, same drift, same drag. Only the heat changes.</li>
+            <li>Same engine, same drift, same drag. Only the light changes.</li>
           </ul>
         </article>
 
@@ -1090,7 +1097,7 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
           <div class="pair-grid">
             <div class="pair pair--do">
               <span class="cp">Do: the curve, in the client's own numbers</span>
-              <div class="dsp" style="font-size:2.6rem;margin-top:6px">&pound;8.42 <span style="font-family:var(--font-sans);font-stretch:100%;font-weight:500;text-transform:none;font-size:0.9375rem;color:var(--muted);letter-spacing:-0.02em">back for every &pound;1 on ads</span></div>
+              <div class="dsp" style="font-size:2.6rem;margin-top:6px">&pound;8.42 <span style="font-family:var(--font-sans);font-weight:500;text-transform:none;font-size:0.9375rem;color:var(--muted);letter-spacing:-0.02em">back for every &pound;1 on ads</span></div>
             </div>
             <div class="pair pair--dont"><span class="cp">Don't: a metric nobody outside ads understands</span><blockquote>842% average ROAS</blockquote></div>
           </div>
@@ -1120,12 +1127,12 @@ h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24
         <article class="chapter" data-ch="6" hidden>
           <div class="pair-grid">
             <div class="pair"><span class="cp" style="color:#7fa4ff">Platform: grey dots</span><div style="position:relative;aspect-ratio:4/5;margin-top:4px;border-radius:6px;overflow:hidden;background:#0a0a0a"><canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas></div></div>
-            <div class="pair pair--do"><span class="cp">Agency: heat dots</span><div style="position:relative;aspect-ratio:4/5;margin-top:4px;border-radius:6px;overflow:hidden;background:#0a0a0a"><canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas></div></div>
+            <div class="pair pair--do"><span class="cp">Agency: neon dots</span><div style="position:relative;aspect-ratio:4/5;margin-top:4px;border-radius:6px;overflow:hidden;background:#0a0a0a"><canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas></div></div>
           </div>
           <pre class="recipe">the platform's grid and dot size, one colour ramp
-dark   #3a0d02  (the edge of the crowd)
-mid    #ff4b1f  (the room)
-bright #ffe2d6  (the lights)</pre>
+dark   #3d0520  (the edge of the crowd)
+mid    #ff2e88  (the room)
+bright #ffe0ee  (the lights)</pre>
           <ul class="rules">
             <li>Same rule as the platform: every photograph is redrawn as dots, never shown raw.</li>
             <li>Where the platform shoots the room, the agency shoots the moment: hands up, the drop, the queue outside.</li>
@@ -1157,7 +1164,7 @@ bright #ffe2d6  (the lights)</pre>
 </section>
 
 <footer class="foot">
-  <svg viewBox="240 440 1520 1120" fill="#ff4b1f" aria-label="Capacity"><use href="#capacity-mark"/></svg>
+  <svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-label="Capacity"><use href="#capacity-mark"/></svg>
   <a class="mono" href="brand-gnv7ztt1hgki" style="color:var(--muted);text-decoration:none">Platform brand &rarr;</a>
 </footer>
 
@@ -1172,8 +1179,8 @@ bright #ffe2d6  (the lights)</pre>
   document.querySelectorAll('.reveal').forEach((el) => rio.observe(el));
 
   /* Photographs redrawn as dots. The platform's recipe (dotScreen in
-     site.js); data-dots-tone="heat" swaps the greys for a Flare ramp. */
-  const HEAT = [[0, [58, 13, 2]], [0.5, [255, 75, 31]], [1, [255, 226, 214]]];
+     site.js); data-dots-tone="heat" swaps the greys for a Neon ramp. */
+  const HEAT = [[0, [61, 5, 32]], [0.5, [255, 46, 136]], [1, [255, 224, 238]]];
   function heat(l) {
     for (let k = 1; k < HEAT.length; k++) {
       if (l <= HEAT[k][0]) {
@@ -1272,6 +1279,6 @@ bright #ffe2d6  (the lights)</pre>
   showChapter(0);
 })();
 </script>
-<script src="points.js?v=b03c59b93a"></script>
+<script src="points.js?v=7878eec9cc"></script>
 </body>
 </html>
