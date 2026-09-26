@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Capacity Agency | Site concept</title>
+<title>Capacity Digital | Site concept</title>
 <meta name="robots" content="noindex, nofollow, noarchive" />
 <meta name="referrer" content="no-referrer" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
 <style>
 /* ==========================================================================
-   Capacity Agency, a compact site concept for wearecapacity.co. Internal and
+   Capacity Digital, a compact site concept for wearecapacity.co. Internal and
    unlisted. Uses the agency brand (brand-vqa7gbkxqsky) as written, and ties
    back to the platform wherever the agency's claim depends on it.
    ========================================================================== */
@@ -49,7 +49,7 @@ a { color: inherit; text-decoration: none; }
 .nw { white-space: nowrap; }
 .ph { border-bottom: 1px dashed currentColor; opacity: 0.85; }
 /* Agency objects are points.js objects under neon; the platform's stay blue. */
-[data-points] { filter: grayscale(1) sepia(1) saturate(9) hue-rotate(-65deg) brightness(1.05) contrast(1.1); }
+[data-points] { filter: brightness(0.7) grayscale(1) sepia(1) saturate(12) hue-rotate(-65deg) contrast(1.1); }
 .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 0.9375rem; letter-spacing: -0.02em; transition: transform 0.12s var(--ease), background 0.2s var(--ease); }
 .btn:active { transform: scale(0.97); }
 .btn--neon { background: var(--neon); color: #0a0a0a; }
@@ -84,9 +84,9 @@ a { color: inherit; text-decoration: none; }
 /* Hero */
 .hero { position: relative; overflow: hidden; }
 .hero .wrap { position: relative; z-index: 2; min-height: min(calc(100vh - 100px), 820px); display: grid; align-content: center; padding-block: 64px 40px; }
-.hero-obj { position: absolute; z-index: 1; right: -9%; top: 2%; width: min(54vw, 720px); height: 92%; }
-.hero h1 { font-size: clamp(3.6rem, 0.8rem + 8.6vw, 8.4rem); }
-.hero h1 span { display: block; }
+.hero-obj { position: absolute; z-index: 1; right: -12%; top: 14%; width: min(44vw, 620px); height: 80%; }
+.hero h1 { font-size: clamp(3.2rem, 0.6rem + 7.4vw, 7.4rem); }
+.hero h1 > span { display: block; }
 .hero-sub { margin-top: 26px; max-width: 520px; font-size: 1.125rem; color: #bdbdbd; }
 .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
 .hero-kick { color: var(--muted); margin-bottom: 22px; }
@@ -109,11 +109,11 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 760px) { .nums { grid-template-columns: 1fr 1fr; } .nums div:nth-child(3) { border-left: 0; padding-left: 0; } .nums div { border-top: 1px solid var(--line); } }
 
 /* Services */
-.svc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-@media (max-width: 980px) { .svc { grid-template-columns: 1fr 1fr; } }
+.svc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 900px) { .svc { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .svc { grid-template-columns: 1fr; } }
 .card { background: var(--ash); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
-.card-obj { position: relative; aspect-ratio: 5 / 4; border-bottom: 1px solid var(--line); }
+.card-obj { position: relative; aspect-ratio: 16 / 9; border-bottom: 1px solid var(--line); }
 .card-obj > div { position: absolute; inset: 0; }
 .card-body { padding: 18px 18px 22px; }
 .card-body .mono { color: var(--neon); }
@@ -125,21 +125,30 @@ a { color: inherit; text-decoration: none; }
 .tie-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
 @media (max-width: 900px) { .tie-grid { grid-template-columns: 1fr; } }
 .tie h2 { font-size: clamp(3rem, 1.4rem + 5vw, 5.6rem); }
+.made { margin-top: 28px; color: #6b6b6b; }
+.made a { color: #cfcfcf; border-bottom: 1px solid #3a3a3a; }
+.made a:hover { color: #fff; }
+.boast { margin-top: 22px; color: var(--muted); }
+.foot-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.foot-nav { display: flex; gap: 22px; flex-wrap: wrap; color: #cfcfcf; font-size: 0.9375rem; }
+.foot-nav a:hover { color: #fff; }
+.foot-sib { margin-top: 22px; color: var(--muted); font-size: 0.9375rem; }
+.foot-sib a { color: #f5f5f5; border-bottom: 1px solid #3a3a3a; }
 .tie-lede { margin-top: 22px; color: #bdbdbd; font-size: 1.0625rem; max-width: 520px; }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px; max-width: 520px; }
 .split div { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
 .split .mono { display: flex; align-items: center; gap: 8px; }
 .split svg { width: 14px; height: 11px; }
 .split p { margin-top: 8px; font-size: 0.9375rem; color: #cfcfcf; }
-.plat-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; color: #9fbaff; font-weight: 600; }
+.plat-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; color: #f5f5f5; font-weight: 600; border-bottom: 1px solid #3a3a3a; padding-bottom: 2px; }
 .plat-link svg { width: 18px; height: 14px; }
-.plat-link:hover { color: #c7d6ff; }
+.plat-link:hover { border-color: #f5f5f5; }
 
 /* The platform's own UI, in the platform's own blue */
-.pui { background: #141415; border: 1px solid #262628; border-radius: 16px; padding: 20px; color: #f3f3f4; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 6px rgba(27,99,248,0.06); }
+.pui { background: #141415; border: 1px solid #262628; border-radius: 16px; padding: 20px; color: #f3f3f4; font-variant-numeric: tabular-nums; }
 .pui-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .pui-top .who { display: flex; align-items: center; gap: 12px; }
-.pui-av { width: 40px; height: 40px; border-radius: 50%; background: #1d2a4a; color: #9fbaff; display: grid; place-items: center; font-weight: 700; font-size: 0.9375rem; }
+.pui-av { width: 40px; height: 40px; border-radius: 50%; background: #232326; color: #d4d4d4; display: grid; place-items: center; font-weight: 700; font-size: 0.9375rem; }
 .pui-top b { display: block; font-size: 1rem; }
 .pui-top small { color: #8d8d92; font-size: 0.8125rem; }
 .pui-badge { display: inline-flex; align-items: center; gap: 6px; color: #8d8d92; font-size: 0.75rem; }
@@ -212,19 +221,19 @@ a { color: inherit; text-decoration: none; }
   </defs>
 </svg>
 
-<div class="concept mono">Site concept, not live &middot; <a href="brand-vqa7gbkxqsky">Agency brand</a> &middot; <a href="brand-gnv7ztt1hgki">Platform brand</a></div>
+<div class="concept mono">Site concept, not live &middot; <a href="brand-vqa7gbkxqsky">Digital brand</a> &middot; <a href="brand-gnv7ztt1hgki">Platform brand</a></div>
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <a class="lock" href="#top" aria-label="Capacity Agency">
+    <a class="lock" href="#top" aria-label="Capacity Digital">
       <svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
-      <b>Capacity</b><span class="mono">Agency</span>
+      <b>Capacity</b><span class="mono">Digital</span>
     </a>
     <div class="nav-links">
       <a href="#work">Work</a>
       <a href="#services">Services</a>
-      <a class="nav-plat" href="#platform"><svg viewBox="240 440 1520 1120" fill="#1b63f8" aria-hidden="true"><use href="#capacity-mark"/></svg>Platform</a>
-      <a class="btn btn--neon" href="#audit">Free audit</a>
+      <a href="#platform">Platform</a>
+      <a class="btn btn--neon" href="#start">Start a project</a>
     </div>
   </div>
 </nav>
@@ -233,37 +242,29 @@ a { color: inherit; text-decoration: none; }
 <header class="hero" id="top">
   <div class="hero-obj" data-points="tent" data-auto="spin" data-zoom="1.2" data-pitch="0.2"></div>
   <div class="wrap">
-    <p class="hero-kick mono">Paid social, web and creative for promoters and venues</p>
-    <h1 class="dsp"><span>Sell the night.</span> <span class="pk">Keep the crowd.</span></h1>
-    <p class="hero-sub">We run the campaigns that sell your tickets, on the same data as the Capacity platform. So we see past the checkout: who came, what they spent, and whether they came back.</p>
+    <p class="hero-kick mono">Nightlife &middot; Hospitality &middot; Live events</p>
+    <h1 class="dsp"><span>The creative agency</span> <span>for <span class="pk">venues and events.</span></span></h1>
+    <p class="hero-sub">Brand, social, content, PR, launches and paid media, from one team that only works in our industry.</p>
     <div class="hero-cta">
-      <a class="btn btn--neon" href="#audit">Book a free audit</a>
+      <a class="btn btn--neon" href="#start">Start a project</a>
       <a class="btn btn--ghost" href="#work">See the work</a>
     </div>
+    <p class="made mono">Made by the team behind <a href="#platform">Capacity</a>, the operating system for venues</p>
   </div>
 </header>
 
 <div class="ticker mono" aria-hidden="true">
   <div class="ticker-run">
-    <span><b>[Festival]</b> final release <i>on sale</i></span>
-    <span><b>[Club night]</b> Saturday <i>sold out</i></span>
-    <span><b>[Event]</b> presale list 3,860</span>
-    <span><b>[Venue]</b> launch week 412 / 600</span>
-    <span><b>[Tour]</b> Manchester <i>sold out</i></span>
-    <span><b>[Festival]</b> final release <i>on sale</i></span>
-    <span><b>[Club night]</b> Saturday <i>sold out</i></span>
-    <span><b>[Event]</b> presale list 3,860</span>
-    <span><b>[Venue]</b> launch week 412 / 600</span>
-    <span><b>[Tour]</b> Manchester <i>sold out</i></span>
-  </div>
-</div>
-
-<div class="wrap">
-  <div class="nums reveal">
-    <div><b><span class="ph">[1,200]</span></b><span class="mono">Events sold</span></div>
-    <div><b><span class="ph">[3.1M]</span></b><span class="mono">Tickets</span></div>
-    <div><b><span class="ph">[&pound;9M]</span></b><span class="mono">Ad spend managed</span></div>
-    <div><b class="pk"><span class="ph">[&pound;8.40]</span></b><span class="mono">Back per &pound;1 on ads</span></div>
+    <span><b>Now</b> <span class="ph">[Venue]</span> opening</span>
+    <span><b>Now</b> <span class="ph">[Festival]</span> 2027 campaign</span>
+    <span><b>Now</b> <span class="ph">[Club night]</span> rebrand</span>
+    <span><b>Now</b> <span class="ph">[Bar group]</span> social and UGC</span>
+    <span><b>Now</b> <span class="ph">[Event]</span> press</span>
+    <span><b>Now</b> <span class="ph">[Venue]</span> opening</span>
+    <span><b>Now</b> <span class="ph">[Festival]</span> 2027 campaign</span>
+    <span><b>Now</b> <span class="ph">[Club night]</span> rebrand</span>
+    <span><b>Now</b> <span class="ph">[Bar group]</span> social and UGC</span>
+    <span><b>Now</b> <span class="ph">[Event]</span> press</span>
   </div>
 </div>
 
@@ -271,123 +272,121 @@ a { color: inherit; text-decoration: none; }
 <section class="sec" id="services">
   <div class="wrap">
     <div class="sec-head reveal">
-      <h2 class="dsp">What we run.</h2>
-      <p class="muted" style="max-width:360px">One team per client, the whole funnel. Planned before you announce, adjusted every day after.</p>
+      <h2 class="dsp">One industry. <span class="pk">Every discipline.</span></h2>
+      <p class="muted" style="max-width:380px">Full service without being spread thin. We don't do banks or skincare, so everything we know is about getting people through a door.</p>
     </div>
     <div class="svc reveal">
       <article class="card">
-        <div class="card-obj"><div data-points="megaphone" data-yaw="0.35" data-zoom="0.9"></div></div>
-        <div class="card-body"><span class="mono">01</span><h3>Paid social</h3><p>Meta, TikTok and Google, built around the on-sale: teaser, presale, general release, final week. Budgets move daily to whatever is selling.</p></div>
-      </article>
-      <article class="card">
-        <div class="card-obj"><div data-points="tickets" data-zoom="0.95"></div></div>
-        <div class="card-body"><span class="mono">02</span><h3>Web and checkout</h3><p>Event pages and ticket flows that load fast and trace every sale back to the ad that made it.</p></div>
+        <div class="card-obj"><div data-points="sparkle" data-zoom="0.9"></div></div>
+        <div class="card-body"><span class="mono">01</span><h3>Brand</h3><p>Names, identities and the look of a place, from the sign to the wristband.</p></div>
       </article>
       <article class="card">
         <div class="card-obj"><div data-points="socials" data-zoom="0.9"></div></div>
-        <div class="card-body"><span class="mono">03</span><h3>Creative</h3><p>Ads made for the feed and rebuilt every tier, so week three never looks like week one.</p></div>
+        <div class="card-body"><span class="mono">02</span><h3>Social and UGC</h3><p>Channels run day to day, and content shot on the night by the people in it.</p></div>
       </article>
       <article class="card">
-        <div class="card-obj"><div data-points="envelope" data-zoom="0.9"></div></div>
-        <div class="card-body"><span class="mono">04</span><h3>Direct</h3><p>Email, SMS and WhatsApp to people who have already been, sent from the Capacity platform.</p></div>
+        <div class="card-obj"><div data-points="megaphone" data-yaw="0.35" data-zoom="0.9"></div></div>
+        <div class="card-body"><span class="mono">03</span><h3>PR</h3><p>Launch stories, features and interviews, pitched to the writers your guests read.</p></div>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- Built on Capacity -->
-<section class="sec tie" id="platform">
-  <div class="wrap tie-grid">
-    <div class="reveal">
-      <p class="mono muted" style="margin-bottom:18px">Built on Capacity</p>
-      <h2 class="dsp">Most agencies stop at <span class="pk">the checkout.</span></h2>
-      <p class="tie-lede">We built the software venues run on. Tickets, the door, the bar and bookings land in one guest profile, so every campaign is judged on who turned up and what they spent, not just who bought.</p>
-      <div class="split">
-        <div><span class="mono pk"><svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-hidden="true"><use href="#capacity-mark"/></svg>Agency</span><p>Sells the night: campaigns, pages, creative.</p></div>
-        <div><span class="mono" style="color:#9fbaff"><svg viewBox="240 440 1520 1120" fill="#1b63f8" aria-hidden="true"><use href="#capacity-mark"/></svg>Platform</span><p>Keeps the crowd: every guest, remembered.</p></div>
-      </div>
-      <a class="plat-link" href="https://getcapacity.co"><svg viewBox="240 440 1520 1120" fill="#1b63f8" aria-hidden="true"><use href="#capacity-mark"/></svg>See the platform &rarr;</a>
-    </div>
-    <div class="pui reveal" aria-label="A guest profile in the Capacity platform">
-      <div class="pui-top">
-        <div class="who"><span class="pui-av">JM</span><div><b>Jess M.</b><small>Labyrinth Nightclub</small></div></div>
-        <span class="pui-badge"><svg viewBox="240 440 1520 1120" fill="#1b63f8" aria-hidden="true"><use href="#capacity-mark"/></svg>Capacity</span>
-      </div>
-      <div class="pui-row"><span>First found</span><b class="pui-src"><i></i>Instagram ad, Tier 1</b></div>
-      <div class="pui-row"><span>Visits since March</span><b>6</b></div>
-      <div class="pui-row"><span>Bar spend per visit</span><b>&pound;46.40</b></div>
-      <div class="pui-row"><span>Usually in</span><b>Onyx, Saturdays</b></div>
-      <div class="pui-row"><span>Last seen</span><b>Saturday, 11:42pm</b></div>
-      <div class="pui-dots" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
-      <div class="pui-cap"><span>Mar</span><span>Last 8 Saturdays</span><span>Now</span></div>
+      <article class="card">
+        <div class="card-obj"><div data-points="cdj" data-zoom="1.3"></div></div>
+        <div class="card-body"><span class="mono">04</span><h3>Launches</h3><p>New venues and new nights, from the first teaser to the first full room.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="chart" data-zoom="0.95"></div></div>
+        <div class="card-body"><span class="mono">05</span><h3>Paid media</h3><p>Meta, TikTok and Google, behind the content that's already working.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="tickets" data-zoom="0.95"></div></div>
+        <div class="card-body"><span class="mono">06</span><h3>Web and ticketing</h3><p>Sites and event pages that look like the brand and sell like a shop.</p></div>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- Work -->
-<section class="sec" id="work">
+<section class="sec" id="work" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head reveal">
       <h2 class="dsp">The work.</h2>
-      <a class="btn btn--ghost" href="#work">All case studies</a>
+      <a class="btn btn--ghost" href="#work">All work</a>
     </div>
     <div class="work reveal">
       <article class="case">
-        <div class="case-img"><canvas data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas><span class="stk">Sold out</span></div>
-        <div class="case-body"><span class="mono"><span class="ph">[Festival]</span> / Paid social, web</span><h3><span class="ph">[9]</span> days early.</h3><p><span class="ph">[3,200]</span> tickets across four tiers. <span class="ph">[&pound;8.42]</span> back for every &pound;1 on ads.</p></div>
+        <div class="case-img"><canvas data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas><span class="stk">Launch</span></div>
+        <div class="case-body"><span class="mono"><span class="ph">[Venue]</span> / Name, identity, launch, PR</span><h3>Opened to a queue.</h3><p>A new club, from its name to its first weekend. <span class="ph">[Fully booked for the first month.]</span></p></div>
       </article>
       <article class="case">
-        <div class="case-img"><canvas data-dots="assets/venue/venue-05.jpg" aria-hidden="true"></canvas><span class="stk">Every week</span></div>
-        <div class="case-body"><span class="mono"><span class="ph">[Club night]</span> / Paid social, direct</span><h3><span class="ph">[40]</span> Saturdays in a row.</h3><p>A weekly night, sold out on a flat budget. <span class="ph">[61%]</span> of the room had been before.</p></div>
+        <div class="case-img"><canvas data-dots="assets/venue/venue-05.jpg" aria-hidden="true"></canvas><span class="stk">Social</span></div>
+        <div class="case-body"><span class="mono"><span class="ph">[Festival]</span> / Social, UGC, paid</span><h3>A season filmed by the crowd.</h3><p>Content from the fields, cut the same night and put behind the next release.</p></div>
       </article>
       <article class="case">
-        <div class="case-img"><canvas data-dots="assets/venue/venue-02.jpg" aria-hidden="true"></canvas><span class="stk">Launch</span></div>
-        <div class="case-body"><span class="mono"><span class="ph">[Venue]</span> / Launch, web, creative</span><h3><span class="ph">[2,100]</span> before the doors.</h3><p>A new venue with a guest list before it had an opening date, and every name kept in the platform.</p></div>
+        <div class="case-img"><canvas data-dots="assets/venue/venue-02.jpg" aria-hidden="true"></canvas><span class="stk">Rebrand</span></div>
+        <div class="case-body"><span class="mono"><span class="ph">[Club night]</span> / Brand, social</span><h3>Ten years old, new again.</h3><p>A new identity for a long-running night that kept its regulars and found a younger crowd.</p></div>
       </article>
+    </div>
+    <p class="boast mono reveal"><span class="ph">[35,000+]</span> tickets sold for clients &middot; <span class="ph">[8x]</span> average return on ad spend</p>
+  </div>
+</section>
+
+<!-- With the platform -->
+<section class="sec tie" id="platform">
+  <div class="wrap tie-grid">
+    <div class="reveal">
+      <p class="mono muted" style="margin-bottom:18px">With Capacity</p>
+      <h2 class="dsp">We know who <span class="pk">came.</span></h2>
+      <p class="tie-lede">We're part of Capacity, the operating system for venues. The venues we work with can run on it, so briefs start from real guests, and the work is judged on who came through the door rather than who liked the post.</p>
+      <a class="plat-link" href="https://getcapacity.co">About the platform &rarr;</a>
+    </div>
+    <div class="pui reveal" aria-label="A guest profile in Capacity">
+      <div class="pui-top">
+        <div class="who"><span class="pui-av">JM</span><div><b>Jess M.</b><small>Labyrinth Nightclub</small></div></div>
+        <span class="pui-badge"><svg viewBox="240 440 1520 1120" fill="#8d8d92" aria-hidden="true"><use href="#capacity-mark"/></svg>Capacity</span>
+      </div>
+      <div class="pui-row"><span>First found</span><b class="pui-src"><i></i>Opening week reel</b></div>
+      <div class="pui-row"><span>Visits since March</span><b>6</b></div>
+      <div class="pui-row"><span>Usually in</span><b>Onyx, Saturdays</b></div>
+      <div class="pui-row"><span>Last seen</span><b>Saturday, 11:42pm</b></div>
     </div>
   </div>
 </section>
 
 <!-- How we start -->
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap">
     <div class="sec-head reveal"><h2 class="dsp">How it starts.</h2></div>
     <div class="steps reveal">
-      <div><span class="n">01</span><h3>Audit</h3><p>30 minutes on your last on-sale. Three fixes, yours to keep, whoever runs it.</p></div>
-      <div><span class="n">02</span><h3>Plan</h3><p>Every tier, date and budget mapped before you announce.</p></div>
-      <div><span class="n">03</span><h3>Run</h3><p>Adjusted daily. Reported on tickets, the door and the bar.</p></div>
+      <div><span class="n">01</span><h3>Talk</h3><p>Tell us what you're opening, running or relaunching.</p></div>
+      <div><span class="n">02</span><h3>Plan</h3><p>One plan across brand, content, press and media, with dates.</p></div>
+      <div><span class="n">03</span><h3>Make it</h3><p>We make it, run it and show you what it did.</p></div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta" id="audit">
+<section class="cta" id="start">
   <div class="wrap">
-    <h2 class="dsp">Sell out the next one.</h2>
-    <p>A free 30 minute audit of your last on-sale. Three fixes, yours to keep.</p>
-    <a class="btn btn--night" href="#audit">Book a free audit</a>
+    <h2 class="dsp">Opening something?</h2>
+    <p>Tell us what it is and when. We'll come back with how we'd do it.</p>
+    <a class="btn btn--night" href="#start">Start a project</a>
   </div>
 </section>
 
 <!-- Footer -->
 <footer class="foot">
   <div class="wrap">
-    <div class="foot-top">
-      <div class="sib">
-        <div class="sib-h"><svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-hidden="true"><use href="#capacity-mark"/></svg><b>Capacity Agency</b></div>
-        <p>Sell the night. Keep the crowd.</p>
-        <span class="mono">wearecapacity.co</span>
-      </div>
-      <a class="sib sib--plat" href="https://getcapacity.co">
-        <div class="sib-h"><svg viewBox="240 440 1520 1120" fill="#1b63f8" aria-hidden="true"><use href="#capacity-mark"/></svg><b>Capacity Platform</b></div>
-        <p>The operating system for venues.</p>
-        <span class="mono">getcapacity.co &rarr;</span>
+    <div class="foot-row">
+      <a class="lock" href="#top" aria-label="Capacity Digital">
+        <svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+        <b>Capacity</b><span class="mono">Digital</span>
       </a>
+      <nav class="foot-nav"><a href="#work">Work</a><a href="#services">Services</a><a href="#start">Contact</a><a href="#">Instagram</a><a href="#">LinkedIn</a></nav>
     </div>
+    <p class="foot-sib">Part of Capacity. The platform lives at <a href="https://getcapacity.co">getcapacity.co</a>.</p>
     <div class="foot-legal">
       <span>&copy; Capacity Digital Ltd 2026 &middot; Company No. 14487697</span>
       <span>167-169 Great Portland Street, London W1W 5PF</span>
-      <span><a href="#">Instagram</a> &middot; <a href="#">LinkedIn</a> &middot; <a href="#">Privacy</a></span>
+      <span><a href="#">Privacy</a></span>
     </div>
   </div>
 </footer>
