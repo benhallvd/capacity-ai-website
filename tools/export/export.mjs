@@ -18,6 +18,7 @@ import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { readFile, mkdir, rm } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { extname, join, resolve } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '../..');
@@ -27,6 +28,12 @@ const FPS = 30;
 const LOOP = (2 * Math.PI) / 0.45;
 const FADE = FPS; /* frames */
 const only = process.argv.slice(2);
+
+/* Chrome occasionally stalls a capture under load; give it longer, once more. */
+async function shot(page, opts) {
+  try { return await page.screenshot({ timeout: 90000, ...opts }); }
+  catch { return await page.screenshot({ timeout: 90000, ...opts }); }
+}
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.woff2': 'font/woff2' };
@@ -51,7 +58,7 @@ await mkdir(dir0, { recursive: true });
 /* The list comes from the page itself, so a new template only needs a
    data-export name and size. */
 const scout = await browser.newPage();
-await scout.goto(base);
+await scout.goto(base, { timeout: 120000 });
 const all = await scout.$$eval('[data-export]', (els) => els.map((el) => ({
   name: el.dataset.export, size: el.dataset.exportSize, rect: el.getBoundingClientRect().width,
   animated: !!el.querySelector('[data-points]'),
@@ -59,6 +66,9 @@ const all = await scout.$$eval('[data-export]', (els) => els.map((el) => ({
 await scout.close();
 
 for (const t of all.filter((t) => !only.length || only.includes(t.name))) {
+  /* Resumable: a run that stopped part way picks up where it left off. */
+  if (!only.length && !process.env.FORCE && existsSync(join(dir0, `${t.name}.png`)) &&
+      (!t.animated || existsSync(join(dir0, `${t.name}.mp4`)))) continue;
   /* The template is laid out at half its pixel size and captured at 2x, so
      the cqw type lands exactly where it does on the page. Emails keep the
      width they have on the page. */
@@ -68,7 +78,7 @@ for (const t of all.filter((t) => !only.length || only.includes(t.name))) {
 
   const page = await browser.newPage({ viewport: { width: cssW, height: cssH || 800 }, deviceScaleFactor: 2 });
   if (t.animated) await page.clock.install();
-  await page.goto(base);
+  await page.goto(base, { timeout: 120000 });
   await page.evaluate(({ name, cssW, cssH }) => {
     const el = document.querySelector(`[data-export="${name}"]`);
     document.documentElement.style.scrollBehavior = 'auto';
@@ -98,7 +108,7 @@ for (const t of all.filter((t) => !only.length || only.includes(t.name))) {
 
   if (!t.animated) {
     await page.waitForTimeout(600); /* photographs are redrawn as dots on load */
-    await page.screenshot({ path: join(dir0, `${t.name}.png`), clip: box });
+    await shot(page, { path: join(dir0, `${t.name}.png`), clip: box });
     console.log(`${brand}/${t.name}.png`);
     await page.close();
     continue;
@@ -112,8 +122,8 @@ for (const t of all.filter((t) => !only.length || only.includes(t.name))) {
   const N = Math.round(LOOP * FPS);
   for (let i = 0; i < N + FADE; i++) {
     await page.clock.runFor(1000 / FPS);
-    await page.screenshot({ path: join(dir, `f${String(i).padStart(5, '0')}.png`), clip: box });
-    if (i === 0) await page.screenshot({ path: join(dir0, `${t.name}.png`), clip: box });
+    await shot(page, { path: join(dir, `f${String(i).padStart(5, '0')}.png`), clip: box });
+    if (i === 0) await shot(page, { path: join(dir0, `${t.name}.png`), clip: box });
   }
   await page.close();
 
