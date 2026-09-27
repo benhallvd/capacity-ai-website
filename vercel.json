@@ -4,16 +4,122 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/(brand-gnv7ztt1hgki|brand-vqa7gbkxqsky|agency-livusectcxe3)(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*)\\.(css|js)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/feature-ticketing",
+      "destination": "/ticketing",
+      "permanent": true
+    },
+    {
+      "source": "/feature-enquiries",
+      "destination": "/enquiries",
+      "permanent": true
+    },
+    {
+      "source": "/feature-profiles",
+      "destination": "/profiles",
+      "permanent": true
+    },
+    {
+      "source": "/feature-till",
+      "destination": "/till",
+      "permanent": true
+    },
+    {
+      "source": "/feature-whatsapp",
+      "destination": "/whatsapp",
+      "permanent": true
+    },
+    {
+      "source": "/feature-social",
+      "destination": "/social",
+      "permanent": true
+    },
+    {
+      "source": "/feature-analytics",
+      "destination": "/analytics",
+      "permanent": true
+    },
+    {
+      "source": "/feature-forms",
+      "destination": "/forms",
+      "permanent": true
+    },
+    {
+      "source": "/feature-files",
+      "destination": "/files",
+      "permanent": true
+    },
+    {
+      "source": "/feature-reports",
+      "destination": "/reports",
+      "permanent": true
+    },
+    {
+      "source": "/feature-intelligence",
+      "destination": "/intelligence",
+      "permanent": true
+    },
+    {
+      "source": "/for-nightclubs",
+      "destination": "/nightclubs",
+      "permanent": true
+    },
+    {
+      "source": "/for-bars",
+      "destination": "/bars",
+      "permanent": true
+    },
+    {
+      "source": "/for-competitive-socialising",
+      "destination": "/competitive-socialising",
+      "permanent": true
+    },
+    {
+      "source": "/for-festivals",
+      "destination": "/festivals",
+      "permanent": true
+    },
+    {
+      "source": "/for-promoters",
+      "destination": "/promoters",
+      "permanent": true
     }
   ]
 }

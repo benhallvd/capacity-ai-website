@@ -1,0 +1,9 @@
+{
+  "name": "capacity-template-export",
+  "private": true,
+  "type": "module",
+  "description": "Exports the brand page templates as PNG and looping MP4. Needs ffmpeg and Google Chrome.",
+  "dependencies": {
+    "playwright": "^1.63.0"
+  }
+}

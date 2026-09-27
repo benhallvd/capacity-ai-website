@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capacity | Join the waitlist</title>
+<meta name="description" content="The operating system for venues. Leave your email and we will tell you when early access opens." />
+<meta name="theme-color" content="#f6f6f6" />
+<meta property="og:title" content="Capacity | Join the waitlist" />
+<meta property="og:description" content="The operating system for venues. Leave your email and we will tell you when early access opens." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Capacity" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:url" content="https://getcapacity.co/waitlist" />
+<link rel="canonical" href="https://getcapacity.co/waitlist" />
+<meta property="og:image" content="https://getcapacity.co/assets/og/home.png?v=146a4b3e8f" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Capacity | Join the waitlist" />
+<meta name="twitter:image" content="https://getcapacity.co/assets/og/home.png?v=146a4b3e8f" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a6689e9c9e" />
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png?v=eafb25fc21" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=a571e68c64" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
+<link rel="stylesheet" href="tokens.css?v=3e34301e7a" />
+<link rel="stylesheet" href="site.css?v=6a82545f36" />
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+</svg>
+
+<!-- The full marketing site lives at /home for now. This page is the whole of
+     the root: one field, one button, and the privacy information the form
+     needs to carry. -->
+<main class="band on-light pagehead pagehead--full waitlist">
+  <canvas class="hero__field hero__field--light hero__field--centred" id="pixelField" data-tone="light" aria-hidden="true"></canvas>
+
+  <div class="wrap">
+    <div class="waitlist__inner">
+      <img class="waitlist__mark" src="assets/capacity-logomark-blue.png?v=10f6b48b7f" alt="Capacity" width="36" height="36" />
+
+      <div class="waitlist__copy" data-r>
+        <h1 class="h1 waitlist__title">Get early access.</h1>
+      </div>
+
+      <div class="card waitlist__card" data-r style="--rd:1">
+        <form class="form" id="waitlistForm" novalidate>
+          <div class="field">
+            <label for="email">Email <span class="req">*</span></label>
+            <input id="email" name="email" type="email" placeholder="you@yourvenue.co.uk" required autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" />
+            <span class="field__err">Please enter a valid email address.</span>
+          </div>
+
+          <!-- Optional, unticked by default: the only marketing consent on the
+               page. The wording is recorded with the opt-in, so keep it in step
+               with OPT_IN_WORDING in api/waitlist.js. -->
+          <div class="field field--check">
+            <label for="marketing">
+              <input id="marketing" name="marketing" type="checkbox" />
+              <span>Also send me occasional updates about Capacity by email. Optional, unsubscribe any time.</span>
+            </label>
+          </div>
+
+          <div class="hp" aria-hidden="true">
+            <label for="company_website">Company website</label>
+            <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button class="btn btn--primary btn--lg" type="submit">Join the waitlist <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+
+          <p class="form__note" id="waitlistError" role="alert" hidden></p>
+          <!-- Article 13: who we are, what for, and where the rest is, given at
+               the point the email is collected. -->
+          <p class="waitlist__notice">
+            Capacity Digital Ltd will use your email to tell you when early access opens, and for nothing else
+            unless you tick the box above. You can ask us to delete it at any time. See our
+            <a href="privacy">Privacy Policy</a>.
+          </p>
+        </form>
+
+        <div class="done" id="waitlistDone" hidden>
+          <span class="tick"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <h2 class="h3">You&rsquo;re on the list</h2>
+          <p>Thanks. We&rsquo;ll email you the moment early access opens.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="site.js?v=72bf12c76b" defer></script>
+</body>
+</html>

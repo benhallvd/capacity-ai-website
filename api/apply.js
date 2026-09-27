@@ -12,6 +12,10 @@
    Slack's files.upload was retired, so the CV goes up in three steps:
    getUploadURLExternal, POST the bytes, completeUploadExternal with thread_ts.
 
+   The optional intro video from the last step travels the same way, under
+   video/, and is threaded under the same message. A video link, if given
+   instead, is just a field.
+
    Environment variables (Vercel project settings, all server-side):
      SLACK_BOT_TOKEN         xoxb- token with chat:write and files:write
      SLACK_HIRING_CHANNEL    channel id, e.g. C0123ABC, for #hiring
@@ -20,7 +24,7 @@
 
 import { issueSignedToken, presignUrl } from '@vercel/blob';
 import { cors, json, clean, escapeSlack, validEmail, rateLimited } from './_lib.js';
-import { isCvPathname, MAX_CV_BYTES } from './cv-url.js';
+import { isCvPathname, isVideoPathname, MAX_CV_BYTES, MAX_VIDEO_BYTES } from './cv-url.js';
 
 /* Order here is the order in the Slack message. */
 const FIELDS = [
@@ -29,12 +33,13 @@ const FIELDS = [
   ['email', 'Email', 200],
   ['phone', 'Phone', 60],
   ['location', 'Based', 120],
-  ['links', 'Links', 400],
-  ['notice', 'Notice', 60],
-  ['right_to_work', 'Right to work in the UK', 10],
-  ['why', 'Why this, and why now', 1200],
-  ['proud', 'Proud of', 1200]
+  ['linkedin', 'LinkedIn', 400],
+  ['portfolio', 'Portfolio', 400],
+  ['video_link', 'Video link', 400],
+  ['extra', 'Anything else', 1500]
 ];
+/* Prose rather than a short answer, so it gets a block of its own. */
+const LONG = ['extra'];
 
 export async function OPTIONS(request) {
   return new Response(null, { status: 204, headers: cors(request) });
@@ -72,16 +77,25 @@ export async function POST(request) {
   }
   if (!validEmail(data.email)) return json({ error: 'That email is not valid' }, 400, headers);
 
-  /* Only a path this deployment minted is ever read back. */
+  /* Only paths this deployment minted are ever read back. */
   const cvPath = typeof body.cvPathname === 'string' ? body.cvPathname : '';
+  const videoPath = typeof body.videoPathname === 'string' ? body.videoPathname : '';
   const hasCv = cvPath !== '';
+  const hasVideo = videoPath !== '';
   if (hasCv && !isCvPathname(cvPath)) {
     return json({ error: 'That CV reference is not valid' }, 400, headers);
   }
+  if (hasVideo && !isVideoPathname(videoPath)) {
+    return json({ error: 'That video reference is not valid' }, 400, headers);
+  }
+  if (!hasCv && !data.portfolio && !data.linkedin) {
+    return json({ error: 'A CV, portfolio or LinkedIn is required' }, 400, headers);
+  }
 
   try {
-    const ts = await postApplication(token, channel, data, hasCv);
-    if (hasCv) await attachCv(token, channel, ts, cvPath, data.name);
+    const ts = await postApplication(token, channel, data, hasCv, hasVideo);
+    if (hasCv) await attachFile(token, channel, ts, cvPath, data.name, MAX_CV_BYTES);
+    if (hasVideo) await attachFile(token, channel, ts, videoPath, data.name, MAX_VIDEO_BYTES);
   } catch (err) {
     console.error('[apply]', err && err.message);
     return json({ error: 'Could not send' }, 502, headers);
@@ -106,12 +120,12 @@ function slack(token, method, body) {
   });
 }
 
-function postApplication(token, channel, data, hasCv) {
+function postApplication(token, channel, data, hasCv, hasVideo) {
   const headline = (data.role || 'General application') + ' - ' + data.name;
 
   /* Short answers as a two-column field grid, long prose as its own block. */
   const short = FIELDS
-    .filter(function (f) { return ['why', 'proud', 'role', 'name'].indexOf(f[0]) === -1; })
+    .filter(function (f) { return LONG.concat(['role', 'name']).indexOf(f[0]) === -1; })
     .filter(function (f) { return data[f[0]]; })
     .map(function (f) {
       return { type: 'mrkdwn', text: '*' + f[1] + '*\n' + escapeSlack(data[f[0]]) };
@@ -136,7 +150,7 @@ function postApplication(token, channel, data, hasCv) {
     blocks.push({ type: 'section', fields: short.slice(i, i + 10) });
   }
 
-  ['why', 'proud'].forEach(function (key) {
+  LONG.forEach(function (key) {
     if (!data[key]) return;
     const label = FIELDS.filter(function (f) { return f[0] === key; })[0][1];
     blocks.push({
@@ -147,7 +161,10 @@ function postApplication(token, channel, data, hasCv) {
 
   blocks.push({
     type: 'context',
-    elements: [{ type: 'mrkdwn', text: hasCv ? 'CV attached in thread' : 'No CV attached' }]
+    elements: [{ type: 'mrkdwn', text: [
+      hasCv ? 'CV attached in thread' : 'No CV attached',
+      hasVideo ? 'intro video attached in thread' : (data.video_link ? 'intro video linked above' : 'no intro video')
+    ].join(', ') }]
   });
 
   return slack(token, 'chat.postMessage', {
@@ -158,8 +175,8 @@ function postApplication(token, channel, data, hasCv) {
 }
 
 /* Read the blob back, hand it to Slack, then delete it. The delete runs even if
-   the Slack upload fails, so a failed application leaves no CV behind. */
-async function attachCv(slackToken, channel, threadTs, pathname, applicantName) {
+   the Slack upload fails, so a failed application leaves nothing behind. */
+async function attachFile(slackToken, channel, threadTs, pathname, applicantName, maxBytes) {
   const signed = await issueSignedToken({
     pathname: pathname,
     operations: ['get', 'delete'],
@@ -178,7 +195,7 @@ async function attachCv(slackToken, channel, threadTs, pathname, applicantName) 
     if (!res.ok) throw new Error('Blob read responded ' + res.status);
 
     const bytes = await res.arrayBuffer();
-    if (bytes.byteLength > MAX_CV_BYTES) throw new Error('Blob larger than the CV limit');
+    if (bytes.byteLength > maxBytes) throw new Error('Blob larger than its limit');
 
     await uploadToSlack(slackToken, channel, threadTs, bytes, pathname, applicantName);
   } finally {
@@ -218,7 +235,7 @@ async function deleteBlob(signed, pathname) {
     });
     await fetch(gone.presignedUrl, { method: 'DELETE' });
   } catch (err) {
-    /* A CV left in the store is a retention problem, not a failed application,
+    /* A file left in the store is a retention problem, not a failed application,
        so this is logged rather than surfaced to the applicant. */
     console.error('[apply] could not delete blob', pathname, err && err.message);
   }

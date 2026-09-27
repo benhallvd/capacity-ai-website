@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capacity Digital | Brand</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer" />
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
+<style>
+/* ==========================================================================
+   Capacity Digital (the agency) brand. Internal, unlisted, self-contained: nothing here
+   touches site.css or site.js. The sister of the platform brand page, same
+   soul (the mark, points, dots, mono labels, real numbers), its own voice:
+   night first, Neon pink, poster caps for display.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Tanker';
+  src: url('assets/fonts/Tanker-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('assets/fonts/GeistMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('assets/fonts/GeistMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  --neon-c: #ff2e88;
+  --blush: #ff9cc6;
+  --neon-deep: #e0106c;
+  --night: #0a0a0a;
+  --ash: #161616;
+  --line: #262626;
+  --paper: #f6f6f6;
+  --muted: #8f8f8f;
+  --radius: 8px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --font-sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-display: 'Tanker', 'Arial Narrow', Impact, sans-serif;
+  --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  --gutter: clamp(20px, 5vw, 44px);
+  --measure: 1100px;
+  /* Points objects are drawn blue by points.js; the agency runs them under neon. */
+  --neon: brightness(0.7) grayscale(1) sepia(1) saturate(12) hue-rotate(-65deg) contrast(1.1);
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  letter-spacing: -0.025em;
+  background: var(--night);
+  color: #f5f5f5;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+[data-points] { filter: var(--neon); }
+
+.band { padding-block: clamp(64px, 8vw, 120px); padding-inline: var(--gutter); }
+.band.on-night { background: var(--night); color: #f5f5f5; }
+.band.on-paper { background: var(--paper); color: #171717; }
+.wrap { max-width: var(--measure); margin-inline: auto; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.dsp {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.88;
+}
+h1.dsp { font-size: clamp(4rem, 1rem + 12vw, 11rem); }
+h2.dsp { font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem); margin-bottom: clamp(24px, 3vw, 40px); }
+.on-paper h2.dsp { color: #0a0a0a; }
+.lede { font-size: 1.125rem; max-width: 600px; color: var(--muted); }
+.fl { color: var(--neon-c); }
+.nw { white-space: nowrap; }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Sister link */
+.sister {
+  position: absolute; top: 22px; right: var(--gutter); z-index: 5;
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--muted); text-decoration: none;
+  border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.sister:hover { color: #f5f5f5; border-color: #3a3a3a; }
+.sister svg { width: 14px; height: 11px; }
+
+/* Intro */
+.intro { position: relative; min-height: min(100vh, 900px); display: grid; align-content: end; overflow: hidden; padding-bottom: clamp(40px, 6vw, 72px); }
+.intro-obj { position: absolute; top: 0; right: -4%; width: min(62vw, 760px); height: 78%; }
+.intro .wrap { position: relative; z-index: 2; width: 100%; }
+.intro-top { position: absolute; top: 22px; left: var(--gutter); z-index: 5; display: flex; align-items: center; gap: 12px; }
+.intro-top svg { width: 30px; height: 22px; }
+.intro .lede { margin-top: 24px; }
+.codes { margin-top: clamp(32px, 4vw, 48px); list-style: none; padding: 0; max-width: 560px; }
+.codes li {
+  display: flex; gap: 18px; align-items: baseline;
+  padding: 10px 0; border-top: 1px solid var(--line);
+  font-size: 0.9375rem; color: #b9b9b9;
+}
+.codes li:last-child { border-bottom: 1px solid var(--line); }
+.codes .n { color: var(--neon-c); }
+.codes b { color: #f5f5f5; font-weight: 600; }
+
+/* Ticker */
+.ticker { overflow: hidden; border-block: 1px solid var(--line); background: var(--night); white-space: nowrap; }
+.ticker-run { display: inline-flex; gap: 48px; padding: 14px 0; animation: tick 38s linear infinite; }
+.ticker-run span { color: var(--muted); }
+.ticker-run span b { color: #f5f5f5; font-weight: 500; }
+.ticker-run span i { font-style: normal; color: var(--neon-c); }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* Two brands */
+.pair-table { display: grid; grid-template-columns: 170px 1fr 1fr; border-top: 1px solid var(--line); }
+.pair-table > div { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-width: 0; }
+.pair-table .h { color: var(--muted); }
+.pair-table .col { color: #f5f5f5; }
+.pair-table .col.plat { color: #7fa4ff; }
+.pair-table .col.ag { color: var(--neon-c); }
+.chip { display: inline-block; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--line); flex: none; }
+.pair-table svg.mk { width: 30px; height: 22px; flex: none; }
+.btn { display: inline-block; border-radius: 999px; padding: 9px 16px; font-weight: 600; font-size: 0.875rem; letter-spacing: -0.02em; }
+.shared { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+.shared span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; color: #b9b9b9; font-size: 0.875rem; }
+.shared .mono { border: 0; padding-left: 0; color: var(--muted); align-self: center; }
+@media (max-width: 720px) {
+  .pair-table { grid-template-columns: 1fr 1fr; }
+  .pair-table .h { grid-column: 1 / -1; padding-bottom: 0; border-bottom: 0; }
+}
+
+/* Showcase stages */
+.showcase { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; }
+@media (max-width: 820px) { .showcase { grid-template-columns: 1fr; } }
+.stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--night); }
+.stage .tag { position: absolute; left: 16px; bottom: 12px; color: var(--muted); z-index: 4; pointer-events: none; }
+.stage canvas.tpl-dots { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Templates: sized in cqw so each scales like the real canvas */
+.tgroup + .tgroup { margin-top: clamp(48px, 6vw, 80px); }
+.tlabel { color: #6b6b6b; margin-bottom: 14px; }
+.cap { margin-top: 8px; color: #6b6b6b; }
+.tgrid { display: grid; gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tgrid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tgrid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 980px) { .tgrid, .tgrid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .tgrid, .tgrid--4, .tgrid--2 { grid-template-columns: 1fr; } }
+.tpl {
+  position: relative;
+  container-type: inline-size;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--night);
+  color: #f5f5f5;
+}
+.tpl--paper { background: var(--paper); color: #0a0a0a; border-color: #e4e4e4; }
+.tpl--neon { background: var(--neon-c); color: #0a0a0a; border-color: var(--neon-c); }
+.tpl-in { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; padding: 7cqw; }
+.tpl-row { display: flex; justify-content: space-between; align-items: center; gap: 4cqw; }
+.tpl-mark { width: 8cqw; height: 6cqw; flex: none; }
+.tpl-tag { font-family: var(--font-mono); font-weight: 500; font-size: 3cqw; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.tpl--paper .tpl-tag { color: #6b6b6b; }
+.tpl--neon .tpl-tag { color: rgba(10,10,10,0.7); }
+.tpl-h { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.9; font-size: 14cqw; }
+.tpl-h .f { color: var(--neon-c); }
+.tpl-p { font-size: 4cqw; line-height: 1.4; color: var(--muted); margin-top: 3.4cqw; letter-spacing: -0.02em; }
+.tpl--paper .tpl-p { color: #6b6b6b; }
+.tpl--neon .tpl-p { color: rgba(10,10,10,0.78); }
+.tpl-big { font-family: var(--font-display); font-weight: 400; font-synthesis: none; letter-spacing: -0.01em; line-height: 0.82; font-size: 40cqw; font-variant-numeric: tabular-nums; }
+.tpl-cta {
+  display: inline-block; align-self: flex-start;
+  background: var(--neon-c); color: #0a0a0a;
+  font-weight: 700; font-size: 3.6cqw; letter-spacing: -0.02em;
+  padding: 2.2cqw 4.4cqw; border-radius: 999px; margin-top: 5cqw;
+}
+.tpl--neon .tpl-cta { background: #0a0a0a; color: var(--neon-c); }
+.tpl-obj { position: absolute; inset: 0; z-index: 1; }
+.tpl-dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; }
+.tpl-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0) 24%, rgba(10,10,10,0) 40%, rgba(10,10,10,0.88) 100%); }
+.ph { border-bottom: 0.4cqw dashed currentColor; opacity: 0.8; }
+.mail .ph { border-bottom-width: 1px; }
+
+/* Stickers: the agency's stamp. Always Neon, always slightly off square. */
+.stk {
+  display: inline-block; align-self: flex-start;
+  background: var(--neon-c); color: #0a0a0a;
+  font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase;
+  font-size: 5.4cqw; line-height: 1; letter-spacing: 0.01em;
+  padding: 1.2cqw 2.4cqw 1cqw; border-radius: 1.2cqw;
+  transform: rotate(-3deg);
+}
+.tpl--neon .stk { background: #0a0a0a; color: var(--neon-c); }
+
+/* Coded proof: the sales curve */
+.curve { background: var(--ash); border: 1px solid var(--line); border-radius: 3.4cqw; padding: 4.6cqw 5cqw; display: grid; gap: 3cqw; font-size: 3.6cqw; font-variant-numeric: tabular-nums; }
+.curve-top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.curve-live { display: inline-flex; align-items: center; gap: 1.4cqw; color: var(--muted); font-family: var(--font-mono); font-size: 2.6cqw; letter-spacing: 0.12em; text-transform: uppercase; }
+.curve-live i { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; background: var(--neon-c); display: inline-block; }
+.curve svg { width: 100%; height: auto; display: block; }
+.curve-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqw; border-top: 1px solid var(--line); padding-top: 3cqw; }
+.curve-stats span { display: block; color: var(--muted); font-size: 2.8cqw; }
+.curve-stats b { font-family: var(--font-display); font-weight: 400; font-synthesis: none; font-size: 8cqw; line-height: 1; letter-spacing: 0; }
+
+/* Story poll sticker */
+.poll { background: #f5f5f5; color: #0a0a0a; border-radius: 4cqw; padding: 5cqw; display: grid; gap: 2.4cqw; }
+.poll b { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 8cqw; line-height: 0.95; margin-bottom: 1.4cqw; }
+.poll span { display: flex; justify-content: space-between; border: 1px solid #dcdcdc; border-radius: 99px; padding: 2.4cqw 4cqw; font-size: 4cqw; font-weight: 600; }
+.poll span em { font-style: normal; color: var(--neon-c); font-variant-numeric: tabular-nums; }
+
+/* Carousel */
+.car { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; scrollbar-width: thin; }
+.car > .tpl { flex: 0 0 min(300px, 78vw); aspect-ratio: 4 / 5; scroll-snap-align: start; }
+.car-n { font-family: var(--font-display); font-weight: 400; font-synthesis: none; font-size: 30cqw; line-height: 0.8; color: var(--neon-c); }
+.car-prog { position: absolute; left: 7cqw; right: 7cqw; bottom: 5cqw; height: 0.6cqw; background: rgba(128,128,128,0.25); border-radius: 1cqw; z-index: 4; }
+.car-prog i { display: block; height: 100%; background: var(--neon-c); border-radius: 1cqw; }
+.tpl--neon .car-prog { background: rgba(10,10,10,0.2); }
+.tpl--neon .car-prog i { background: #0a0a0a; }
+
+/* Email */
+.mail { background: var(--night); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; color: #f5f5f5; font-size: 14px; }
+.mail-bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #1e1e1e; background: #121212; }
+.mail-bar i { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; }
+.mail-body { padding: 26px 30px 6px; }
+.mail-line { height: 8px; border-radius: 4px; background: #1e1e1e; margin-bottom: 10px; }
+.efoot { margin: 22px 30px 0; padding: 26px 0 30px; border-top: 1px solid var(--line); display: grid; gap: 14px; }
+.efoot svg.m { width: 30px; height: 22px; }
+.efoot .line { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 30px; line-height: 0.9; }
+.efoot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+.efoot nav a { text-decoration: none; font-weight: 500; }
+.efoot nav a.cta { color: var(--neon-c); }
+.efoot .soc { display: flex; gap: 12px; }
+.efoot .soc svg { width: 18px; height: 18px; fill: var(--muted); }
+.efoot .fine { font-size: 11.5px; line-height: 1.6; color: #6b6b6b; }
+.mail--paper { background: #ffffff; border-color: #e4e4e4; color: #0a0a0a; }
+.mail--paper .mail-bar { background: #fafafa; border-color: #efefef; }
+.mail--paper .mail-bar i, .mail--paper .mail-line { background: #efefef; }
+.mail--paper .efoot { border-color: #e4e4e4; }
+.mail--paper .efoot nav a.cta { color: #e0106c; }
+.mail--paper .efoot .soc svg { fill: #6b6b6b; }
+.mail--paper .efoot .fine { color: #8f8f8f; }
+.mast { background: var(--neon-c); color: #0a0a0a; padding: 26px 30px 24px; display: grid; gap: 16px; }
+.mast svg { width: 30px; height: 22px; }
+.mast h3 { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 64px; line-height: 0.84; }
+.sig { padding: 30px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+.sig svg { width: 34px; height: 26px; margin-top: 3px; }
+.sig b { display: block; font-size: 15px; letter-spacing: -0.02em; }
+.sig .role { color: var(--muted); font-size: 13px; }
+.sig .pos { margin: 10px 0 8px; color: var(--muted); }
+.sig .links { font-size: 13px; display: flex; gap: 14px; flex-wrap: wrap; }
+.sig .links a { text-decoration: none; font-weight: 500; }
+.sig .links a.cta { color: var(--neon-c); }
+
+/* Profile */
+.avatar-row { display: flex; gap: 14px; }
+.avatar { flex: 1; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); }
+.avatar svg { width: 46%; height: auto; }
+
+/* Lower third */
+.l3 { position: absolute; left: 5cqw; bottom: 6cqw; z-index: 4; display: flex; align-items: stretch; }
+.l3 div { background: var(--neon-c); color: #0a0a0a; padding: 1.4cqw 2.6cqw 1.2cqw; border-radius: 1cqw; transform: rotate(-2deg); }
+.l3 b { display: block; font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 5.4cqw; line-height: 0.9; }
+.l3 span { font-size: 2.4cqw; font-weight: 600; }
+
+/* Guidelines */
+.guide { display: grid; grid-template-columns: 260px 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.gnav { list-style: none; padding: 0; position: sticky; top: 32px; }
+.gnav button {
+  display: flex; gap: 14px; align-items: baseline;
+  width: 100%; text-align: left;
+  background: none; border: 0; border-top: 1px solid var(--line);
+  padding: 13px 4px;
+  font-family: var(--font-sans); font-size: 1rem; font-weight: 500; letter-spacing: -0.02em;
+  color: var(--muted); cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+.gnav li:last-child button { border-bottom: 1px solid var(--line); }
+.gnav button .n { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; color: #4a4a4a; transition: color 0.25s var(--ease); }
+.gnav button:hover { color: #f5f5f5; }
+.gnav button.active { color: #f5f5f5; font-weight: 600; }
+.gnav button.active .n { color: var(--neon-c); }
+.gbody { min-height: 480px; }
+.chapter { opacity: 0; transform: translateY(10px); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+.chapter.show { opacity: 1; transform: none; }
+.rules { list-style: none; padding: 0; margin-top: 24px; max-width: 620px; }
+.rules li { padding: 11px 0 11px 26px; border-top: 1px solid var(--line); position: relative; font-size: 0.9688rem; color: #d4d4d4; }
+.rules li::before { content: ""; position: absolute; left: 4px; top: 1.35em; width: 6px; height: 6px; border-radius: 1px; background: var(--neon-c); transform: rotate(-12deg); }
+.gfoot { display: flex; align-items: center; gap: 18px; margin-top: 36px; }
+.gbtn {
+  font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.02em;
+  color: #f5f5f5; background: var(--ash); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 9px 16px; cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.gbtn:hover { border-color: #3a3a3a; background: color-mix(in srgb, var(--neon-c) 10%, var(--ash)); }
+.gbtn[disabled] { opacity: 0.35; cursor: default; }
+.gbtn[disabled]:hover { border-color: var(--line); background: var(--ash); }
+.gcount { color: var(--muted); }
+.spec-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.spec {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--night); padding: 18px;
+  display: grid; place-items: center; gap: 10px;
+  min-width: 150px; flex: 1;
+}
+.spec--paper { background: var(--paper); border-color: #e4e4e4; }
+.spec--neon { background: var(--neon-c); border-color: var(--neon-c); }
+.spec .cp { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.spec--paper .cp { color: #6b6b6b; }
+.spec--neon .cp { color: rgba(10,10,10,0.7); }
+.spec svg { width: 74px; height: 56px; }
+.sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-width: 680px; }
+.sw i { display: block; height: 60px; border-radius: var(--radius); border: 1px solid var(--line); margin-bottom: 8px; }
+.sw b { display: block; font-size: 0.875rem; font-weight: 600; }
+.sw .mono { color: var(--muted); letter-spacing: 0.06em; }
+.type-spec { border: 1px solid var(--line); border-radius: var(--radius); background: var(--ash); padding: clamp(18px, 3vw, 32px); display: grid; gap: 20px; max-width: 680px; }
+.type-spec .row { display: grid; gap: 4px; }
+.type-spec .cp { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.pair-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; max-width: 680px; }
+.pair { border: 1px solid var(--line); border-radius: var(--radius); background: var(--ash); padding: 18px; position: relative; }
+.pair .cp { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 10px; position: relative; z-index: 2; }
+.pair--do .cp { color: #5fd3a4; }
+.pair--dont .cp { color: #ff8a78; }
+.pair blockquote { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; font-size: 2rem; line-height: 0.92; }
+.pair--dont blockquote { font-family: var(--font-sans); font-stretch: 100%; text-transform: none; font-size: 1.0625rem; line-height: 1.4; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255,138,120,0.5); font-weight: 500; }
+.recipe {
+  margin-top: 24px; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.7;
+  color: var(--muted); background: var(--ash); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 18px; overflow-x: auto; white-space: pre; max-width: 680px;
+}
+
+.foot { padding: 56px var(--gutter) 72px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+.foot svg { width: 26px; height: 20px; }
+
+@media (max-width: 820px) {
+  .guide { grid-template-columns: 1fr; }
+  .gnav { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+  .gnav button, .gnav li:last-child button { border: 1px solid var(--line); border-radius: 999px; width: auto; padding: 7px 13px; font-size: 0.875rem; }
+  .gnav button.active { border-color: var(--neon-c); }
+  .gbody { min-height: 0; }
+  .intro-obj { width: 100%; right: 0; height: 52%; opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .chapter { transition: none; }
+  .ticker-run { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <path id="capacity-mark" d="M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z"/>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.439.645 1.439 1.439z"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============================================================ INTRO ==== -->
+<header class="band on-night intro">
+  <div class="intro-top">
+    <svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-label="Capacity"><use href="#capacity-mark"/></svg>
+    <span class="dsp" style="font-size:1.75rem;line-height:1">Capacity</span><span class="mono" style="color:var(--muted)">Digital</span>
+  </div>
+  <a class="sister mono" href="agency-livusectcxe3" style="right:calc(var(--gutter) + 168px)">Site concept &rarr;</a>
+  <a class="sister mono" href="brand-gnv7ztt1hgki">
+    <svg viewBox="240 440 1520 1120" fill="#1b63f8" aria-hidden="true"><use href="#capacity-mark"/></svg>
+    Platform brand
+  </a>
+  <div class="intro-obj" data-points="megaphone" data-zoom="0.95" data-yaw="0.4" data-pitch="0.14"></div>
+  <div class="wrap">
+    <h1 class="dsp">The creative agency for <span class="fl">venues and events.</span></h1>
+    <p class="lede">
+      Brand, social, content, PR, launches and paid media, from one team that
+      only works in nightlife, hospitality and live events. Made by the team
+      behind the Capacity platform.
+    </p>
+    <ul class="codes">
+      <li><span class="n mono">01</span><span><b>The same mark.</b> CAPACITY, then DIGITAL. Neon, never platform blue.</span></li>
+      <li><span class="n mono">02</span><span><b>Night first.</b> Paper is for the proof.</span></li>
+      <li><span class="n mono">03</span><span><b>Poster caps.</b> Short lines you could read from the back of the room.</span></li>
+      <li><span class="n mono">04</span><span><b>Under neon.</b> The same points and dots, lit pink.</span></li>
+      <li><span class="n mono">05</span><span><b>Work first.</b> Show it, say it in one line. Numbers only when they're good.</span></li>
+    </ul>
+  </div>
+</header>
+
+<div class="ticker mono" aria-hidden="true">
+  <div class="ticker-run">
+    <span><b>Now</b> <span class="ph">[Venue]</span> opening</span>
+    <span><b>Now</b> <span class="ph">[Festival]</span> 2027 campaign</span>
+    <span><b>Now</b> <span class="ph">[Club night]</span> rebrand</span>
+    <span><b>Now</b> <span class="ph">[Bar group]</span> social and UGC</span>
+    <span><b>Now</b> <span class="ph">[Event]</span> press</span>
+    <span><b>Now</b> <span class="ph">[Venue]</span> opening</span>
+    <span><b>Now</b> <span class="ph">[Festival]</span> 2027 campaign</span>
+    <span><b>Now</b> <span class="ph">[Club night]</span> rebrand</span>
+    <span><b>Now</b> <span class="ph">[Bar group]</span> social and UGC</span>
+    <span><b>Now</b> <span class="ph">[Event]</span> press</span>
+  </div>
+</div>
+
+<!-- ====================================================== TWO BRANDS ==== -->
+<section class="band on-night">
+  <div class="wrap">
+    <h2 class="dsp reveal">One company.<br /><span class="fl">Two voices.</span></h2>
+    <div class="pair-table reveal">
+      <div class="h mono"></div>
+      <div class="col plat mono">Platform</div>
+      <div class="col ag mono">Digital</div>
+
+      <div class="h mono">Job</div>
+      <div>Software venues run on</div>
+      <div>The creative arm: brand, social, PR, launches, media</div>
+
+      <div class="h mono">Line</div>
+      <div style="font-weight:700;font-size:1.125rem">The operating system for venues.</div>
+      <div class="dsp" style="font-size:1.9rem">The creative agency for venues and events.</div>
+
+      <div class="h mono">Mark</div>
+      <div><svg class="mk" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg><svg class="mk" viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg></div>
+      <div><svg class="mk" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg><span class="chip" style="background:#ff2e88;display:grid;place-items:center"><svg viewBox="240 440 1520 1120" fill="#0a0a0a" style="width:20px;height:15px"><use href="#capacity-mark"/></svg></span></div>
+
+      <div class="h mono">Colour</div>
+      <div><span class="chip" style="background:#1b63f8"></span><span class="mono" style="color:var(--muted)">Capacity Blue #1b63f8</span></div>
+      <div><span class="chip" style="background:#ff2e88"></span><span class="mono" style="color:var(--muted)">Neon #ff2e88</span></div>
+
+      <div class="h mono">Surface</div>
+      <div><span class="chip" style="background:#f6f6f6"></span>Paper first, dark bands</div>
+      <div><span class="chip" style="background:#0a0a0a"></span>Night first, paper for proof</div>
+
+      <div class="h mono">Display</div>
+      <div style="font-weight:700;font-size:1.25rem;letter-spacing:-0.03em">Fridays don't fill themselves.</div>
+      <div class="dsp" style="font-size:2rem">Nobody shares a flyer.</div>
+
+      <div class="h mono">Objects</div>
+      <div>Cool blue points, slow drift</div>
+      <div>The same points, under neon</div>
+
+      <div class="h mono">Photos</div>
+      <div>Grey dots: the room as data</div>
+      <div>Neon dots: the room as a crowd</div>
+
+      <div class="h mono">Button</div>
+      <div><span class="btn" style="background:#1b63f8;color:#fff">Book a demo</span></div>
+      <div><span class="btn" style="background:#ff2e88;color:#0a0a0a">Start a project</span></div>
+
+      <div class="h mono">Talks like</div>
+      <div>A good host</div>
+      <div>A creative director who has worked a door</div>
+    </div>
+    <div class="shared reveal">
+      <span class="mono">Shared</span>
+      <span>The mark</span><span>Points objects</span><span>Photos redrawn as dots</span><span>Rethink Sans body</span><span>Geist Mono labels</span><span>8px radius, flat</span><span>Real numbers, never padded</span><span>Capacity Digital Ltd</span><span>No em dashes</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== SHOWCASE ==== -->
+<section class="band on-night" style="padding-top:0">
+  <div class="wrap showcase reveal">
+    <div class="stage" style="aspect-ratio:4/3">
+      <div data-points="tent" data-auto="spin" data-zoom="1.25" style="position:absolute;inset:0"></div>
+      <span class="tag mono">Events</span>
+    </div>
+    <div style="display:grid;gap:14px">
+      <div class="stage" style="aspect-ratio:16/10;background:var(--neon-c);border-color:var(--neon-c);container-type:inline-size;display:grid;align-content:center;padding:6cqw">
+        <div class="dsp" style="font-size:22cqw;line-height:0.8;color:#0a0a0a">Now open.</div>
+        <span class="stk" style="font-size:5cqw;margin-top:3cqw;background:#0a0a0a;color:var(--neon-c)">Launch week</span>
+        <span class="tag mono" style="color:rgba(10,10,10,0.6)">Stickers and poster caps</span>
+      </div>
+      <div class="stage" style="aspect-ratio:16/10">
+        <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
+        <span class="tag mono">The crowd, under neon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== TEMPLATES ==== -->
+<section class="band on-paper" id="templates">
+  <div class="wrap">
+    <h2 class="dsp reveal">Templates.</h2>
+
+    <!-- Social posts, 4:5 -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Social posts / 4:5</p>
+      <div class="tgrid">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-result" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag">Case study / <span class="ph">[Festival]</span></span>
+              </div>
+              <div>
+                <div class="tpl-h" style="font-size:31cqw;line-height:0.8">Sold<br />out.</div>
+                <span class="stk" style="margin-top:4cqw;font-size:7cqw"><span class="ph">[9]</span> days early</span>
+              </div>
+              <p class="tpl-p" style="margin:0">Brand, content and paid media for <span class="ph">[Festival 2026]</span>.</p>
+            </div>
+          </div>
+          <p class="cap mono">Result, only the good ones</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-service" data-export-size="1080x1350">
+            <div class="tpl-obj" data-points="megaphone" data-yaw="0.35" data-zoom="0.68" style="top:4%;bottom:38%"></div>
+            <div class="tpl-in" style="justify-content:flex-end">
+              <span class="tpl-tag" style="margin-bottom:3cqw">PR</span>
+              <div class="tpl-h">Press for <span class="f">venues and events.</span></div>
+              <p class="tpl-p">Launch stories, features and interviews, pitched to the writers your guests actually read.</p>
+              <span class="tpl-cta">Start a project</span>
+            </div>
+          </div>
+          <p class="cap mono">Service, with its object</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-quote" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="dsp" style="font-size:34cqw;line-height:0.62;height:15cqw;color:#ff2e88">&ldquo;</div>
+              <div class="tpl-h" style="font-size:12cqw;line-height:0.92"><span class="ph">[The client, in their own words. One or two lines on what changed.]</span></div>
+              <div class="tpl-row" style="align-items:flex-end">
+                <div>
+                  <div style="font-weight:700;font-size:4cqw"><span class="ph">[Name]</span></div>
+                  <div class="tpl-p" style="margin-top:1cqw;font-size:3.6cqw"><span class="ph">[Role]</span>, <span class="ph">[Venue]</span></div>
+                </div>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Quote</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-photo" data-export-size="1080x1350">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
+            <div class="tpl-scrim"></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <div class="tpl-h" style="font-size:18cqw">Filmed by the crowd. <span class="f">Cut by us.</span></div>
+            </div>
+          </div>
+          <p class="cap mono">UGC, redrawn in neon</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--neon" style="aspect-ratio:4/5" data-export="post-statement" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <span class="tpl-tag">Opinion</span>
+              <div>
+                <div class="tpl-h" style="font-size:24cqw;line-height:0.82">Nobody shares a flyer.</div>
+                <p class="tpl-p" style="font-size:4.4cqw">They share moments, faces and rooms. Make those, then put money behind what's already working.</p>
+              </div>
+              <div class="tpl-row">
+                <span class="tpl-tag">wearecapacity.co</span>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Statement, one Neon field per set</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-launch" data-export-size="1080x1350">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
+            <div class="tpl-scrim"></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+                <span class="stk">Launch</span>
+              </div>
+              <div>
+                <span class="tpl-tag"><span class="ph">[Venue]</span> / Name, identity, launch, press</span>
+                <div class="tpl-h" style="margin-top:3cqw;font-size:16cqw">Opened to <span class="f">a queue.</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Work, a venue launch</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Announcements, 4:5 -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Announcements / 4:5</p>
+      <div class="tgrid">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-new-client" data-export-size="1080x1350">
+            <div class="tpl-obj" data-points="tent" data-zoom="0.95" style="bottom:34%"></div>
+            <div class="tpl-in" style="justify-content:flex-end">
+              <span class="stk" style="margin-bottom:4cqw">New client</span>
+              <div class="tpl-h">Now working with <span class="f"><span class="ph">[Festival]</span>.</span></div>
+              <p class="tpl-p">Brand, social and press for <span class="ph">[2027]</span>. More soon.</p>
+            </div>
+          </div>
+          <p class="cap mono">New client, object by event type</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--neon" style="aspect-ratio:4/5" data-export="post-services" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <span class="tpl-tag">What we do</span>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
+              </div>
+              <div class="tpl-h" style="font-size:15.5cqw;line-height:0.86">Brand.<br />Social.<br />PR.<br />Launches.<br />Paid media.</div>
+              <p class="tpl-p" style="margin:0">One team. Only venues and events.</p>
+            </div>
+          </div>
+          <p class="cap mono">Services, one Neon field per set</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-event" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag">Come and find us</span>
+              </div>
+              <div>
+                <div class="tpl-h" style="font-size:17cqw;line-height:0.84">See you at <span style="color:#e0106c"><span class="ph">[Event]</span>.</span></div>
+                <p class="tpl-p">Opening something next year? Come and talk it through.</p>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #e4e4e4;padding-top:4cqw;gap:3cqw">
+                <div><span class="tpl-tag" style="font-size:2.6cqw">Date</span><div class="dsp" style="font-size:8cqw;margin-top:1cqw"><span class="ph">[14 Oct]</span></div></div>
+                <div><span class="tpl-tag" style="font-size:2.6cqw">City</span><div class="dsp" style="font-size:8cqw;margin-top:1cqw"><span class="ph">[City]</span></div></div>
+                <div><span class="tpl-tag" style="font-size:2.6cqw">Stand</span><div class="dsp" style="font-size:8cqw;margin-top:1cqw"><span class="ph">[B12]</span></div></div>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Event</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Stories, 9:16 -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Stories / 9:16</p>
+      <div class="tgrid tgrid--4">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-clubs" data-export-size="1080x1920">
+            <div class="tpl-obj" data-points="cdj" data-zoom="0.95" style="top:14%;bottom:40%"></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88" style="align-self:center"><use href="#capacity-mark"/></svg>
+              <div>
+                <div class="tpl-h" style="font-size:21cqw;line-height:0.84">Club nights, <span class="f">rebuilt.</span></div>
+                <span class="tpl-cta" style="font-size:4.6cqw">Start a project</span>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Service</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-poll" data-export-size="1080x1920">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
+            <div class="tpl-scrim" style="background:rgba(10,10,10,0.55)"></div>
+            <div class="tpl-in" style="justify-content:center">
+              <div class="poll">
+                <b>What gets you through the door?</b>
+                <span>The line-up <em>41%</em></span>
+                <span>My friends are going <em>33%</em></span>
+                <span>The venue <em>18%</em></span>
+                <span>An ad <em>8%</em></span>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Poll</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--neon" style="aspect-ratio:9/16" data-export="story-tip" data-export-size="1080x1920">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <span class="tpl-tag">Opening tip <span class="ph">04</span></span>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
+              </div>
+              <div>
+                <div class="tpl-h" style="font-size:24cqw;line-height:0.84">Faces, not furniture.</div>
+                <p class="tpl-p" style="font-size:5cqw">Nobody books a room for the chairs. Show who'll be there.</p>
+              </div>
+              <span class="tpl-tag">wearecapacity.co</span>
+            </div>
+          </div>
+          <p class="cap mono">Tip</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-question" data-export-size="1080x1920">
+            <div class="tpl-in" style="justify-content:center;gap:6cqw">
+              <span class="stk">Ask us</span>
+              <div style="background:#f5f5f5;color:#0a0a0a;border-radius:4cqw;padding:5cqw;font-size:5cqw;font-weight:600;letter-spacing:-0.02em">How early should a new venue start posting?</div>
+              <div style="background:#161616;border:1px solid #262626;border-radius:4cqw;padding:5cqw;font-size:4.6cqw;line-height:1.45">
+                <b class="dsp" style="font-size:13cqw;display:block;margin-bottom:2cqw">Before the <span class="fl">sign goes up.</span></b>
+                <span style="color:#8f8f8f">The build is content. People follow a place they watched being made.</span>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Q&amp;A</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Carousel / 4:5, seven slides</p>
+      <div class="car">
+        <div class="tpl" data-export="carousel-01" data-export-size="1080x1350">
+          <div class="tpl-obj" data-points="cdj" data-zoom="0.9" style="top:14%;bottom:42%"></div>
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+              <span class="tpl-tag">01 / 07</span>
+            </div>
+            <div>
+              <div class="tpl-h" style="font-size:17cqw;line-height:0.84">Opening a venue? <span class="f">Start here.</span></div>
+              <span class="tpl-tag" style="display:block;margin-top:4cqw;color:#ff9cc6">Swipe &rarr;</span>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:14.3%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-02" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row" style="align-items:flex-start"><span class="car-n">01</span><span class="tpl-tag">02 / 07</span></div>
+            <div>
+              <div class="tpl-h" style="font-size:13cqw">A story before a date.</div>
+              <p class="tpl-p" style="font-size:4.8cqw">Announce the idea before the opening. People queue for things they've followed.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:28.6%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-03" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row" style="align-items:flex-start"><span class="car-n">02</span><span class="tpl-tag">03 / 07</span></div>
+            <div>
+              <div class="tpl-h" style="font-size:13cqw">A soft open, on purpose.</div>
+              <p class="tpl-p" style="font-size:4.8cqw">Friends, locals and press first. Their photos are your first campaign.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:42.9%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-04" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row" style="align-items:flex-start"><span class="car-n">03</span><span class="tpl-tag">04 / 07</span></div>
+            <div>
+              <div class="tpl-h" style="font-size:13cqw">Shoot the first weekend.</div>
+              <p class="tpl-p" style="font-size:4.8cqw">You only get one opening night. Film it properly.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:57.1%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-05" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row" style="align-items:flex-start"><span class="car-n">04</span><span class="tpl-tag">05 / 07</span></div>
+            <div>
+              <div class="tpl-h" style="font-size:13cqw">Press with a reason.</div>
+              <p class="tpl-p" style="font-size:4.8cqw">Writers want a person, a room or a first. Not a release.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:71.4%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-06" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row" style="align-items:flex-start"><span class="car-n">05</span><span class="tpl-tag">06 / 07</span></div>
+            <div>
+              <div class="tpl-h" style="font-size:13cqw">A list, not just followers.</div>
+              <p class="tpl-p" style="font-size:4.8cqw">Capture every guest from night one, so month two isn't a guess.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:85.7%"></i></div>
+        </div>
+
+        <div class="tpl tpl--neon" data-export="carousel-07" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
+              <span class="tpl-tag">07 / 07</span>
+            </div>
+            <div>
+              <div class="tpl-h" style="font-size:17cqw;line-height:0.84">We launch venues.</div>
+              <span class="tpl-cta">Start a project</span>
+              <span class="tpl-tag" style="display:block;margin-top:5cqw">wearecapacity.co</span>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:100%"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Email</p>
+      <div class="tgrid tgrid--2" style="align-items:start">
+
+        <div>
+          <div class="mail" data-export="email-footer-night" data-export-size="2x">
+            <div class="mail-bar"><i></i><i></i><i></i></div>
+            <div class="mail-body">
+              <div class="mail-line" style="width:62%;height:12px;background:#262626"></div>
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
+            </div>
+            <div class="efoot">
+              <svg class="m" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+              <div class="line">The creative agency for venues and events.</div>
+              <nav><a class="cta" href="#">Start a project</a><a href="#">Work</a><a href="#">Services</a><a href="#">About</a></nav>
+              <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
+              <p class="fine">You're getting this because you signed up at wearecapacity.co. <a href="#">Unsubscribe</a> or <a href="#">choose what you get</a>.<br />Capacity Digital Ltd &middot; Company No. 14487697 &middot; 167-169 Great Portland Street, London W1W 5PF</p>
+            </div>
+          </div>
+          <p class="cap mono">Footer / night, default</p>
+        </div>
+
+        <div>
+          <div class="mail mail--paper" data-export="email-footer-paper" data-export-size="2x">
+            <div class="mail-bar"><i></i><i></i><i></i></div>
+            <div class="mail-body">
+              <div class="mail-line" style="width:62%;height:12px;background:#e4e4e4"></div>
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
+            </div>
+            <div class="efoot">
+              <svg class="m" viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+              <div class="line">The creative agency for venues and events.</div>
+              <nav><a class="cta" href="#">Start a project</a><a href="#">Work</a><a href="#">Services</a><a href="#">About</a></nav>
+              <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
+              <p class="fine">You're getting this because you signed up at wearecapacity.co. <a href="#">Unsubscribe</a> or <a href="#">choose what you get</a>.<br />Capacity Digital Ltd &middot; Company No. 14487697 &middot; 167-169 Great Portland Street, London W1W 5PF</p>
+            </div>
+          </div>
+          <p class="cap mono">Footer / paper, reports and proposals</p>
+        </div>
+
+        <div>
+          <div class="mail" data-export="email-newsletter-header" data-export-size="2x">
+            <div class="mast">
+              <div class="tpl-row">
+                <svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg>
+                <span class="mono" style="color:rgba(10,10,10,0.7)">Issue <span class="ph">12</span> / <span class="ph">29 Sep 2026</span></span>
+              </div>
+              <h3>The run sheet.</h3>
+            </div>
+            <div class="mail-body" style="padding-bottom:22px">
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:58%"></div>
+            </div>
+          </div>
+          <p class="cap mono">Newsletter header</p>
+        </div>
+
+        <div>
+          <div class="mail" data-export="email-signature" data-export-size="2x">
+            <div class="sig">
+              <svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+              <div>
+                <b><span class="ph">[Your name]</span></b>
+                <span class="role"><span class="ph">[Role]</span>, Capacity Digital</span>
+                <div class="pos mono">The creative agency for venues and events</div>
+                <div class="links"><a href="#">wearecapacity.co</a><a class="cta" href="#">Start a project</a><a href="#"><span class="ph">[Mobile]</span></a></div>
+              </div>
+            </div>
+          </div>
+          <p class="cap mono">Signature</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Profiles, covers and video -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Profiles, covers, video</p>
+
+      <div class="tpl" style="aspect-ratio:1584/396" data-export="linkedin-cover" data-export-size="1584x396">
+        <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true" style="left:66%;width:34%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);mask-image:linear-gradient(90deg,transparent,#000 55%)"></canvas>
+        <div class="tpl-in" style="justify-content:center;padding:0 0 0 24cqw">
+          <div class="tpl-h" style="font-size:4.6cqw;line-height:0.86">The creative agency<br />for venues and events.</div>
+          <span class="tpl-tag" style="font-size:1.1cqw;margin-top:1.6cqw">Brand, social, PR, launches, paid media</span>
+        </div>
+      </div>
+      <p class="cap mono">LinkedIn cover / 1584 &times; 396</p>
+
+      <div class="tgrid" style="margin-top:14px;align-items:start">
+        <div>
+          <div class="avatar-row">
+            <div class="avatar" style="background:#0a0a0a" data-export="avatar-night" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg></div>
+            <div class="avatar" style="background:#ff2e88;border-color:#ff2e88" data-export="avatar-neon" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg></div>
+          </div>
+          <p class="cap mono">Avatar / every platform</p>
+        </div>
+
+        <div style="grid-column:span 2">
+          <div class="tpl" style="aspect-ratio:1200/630" data-export="blog-preview" data-export-size="1200x630">
+            <div class="tpl-obj" data-points="cdj" data-zoom="1.1" style="left:48%"></div>
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:46%">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <div>
+                <span class="stk" style="font-size:2.4cqw;padding:0.6cqw 1.2cqw 0.5cqw;border-radius:0.6cqw">Guide</span>
+                <div class="tpl-h" style="font-size:7.4cqw;margin-top:2cqw;line-height:0.86">How to open a venue.</div>
+              </div>
+              <span class="tpl-tag" style="font-size:1.4cqw">wearecapacity.co</span>
+            </div>
+          </div>
+          <p class="cap mono">Blog and link preview / 1200 &times; 630</p>
+        </div>
+      </div>
+
+      <div class="tgrid" style="margin-top:14px">
+        <div>
+          <div class="tpl" style="aspect-ratio:16/9" data-export="video-title" data-export-size="1920x1080">
+            <div class="tpl-obj" data-points="socials" data-zoom="0.8" style="left:48%"></div>
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:46%">
+              <span class="tpl-tag" style="font-size:1.8cqw">Breakdown / <span class="ph">02</span></span>
+              <div class="tpl-h" style="font-size:8.4cqw;line-height:0.86">How we launched <span class="f"><span class="ph">[Venue]</span>.</span></div>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#ff2e88" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+            </div>
+          </div>
+          <p class="cap mono">Video title card / 16:9</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:16/9" data-export="video-lower-third" data-export-size="1920x1080">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas>
+            <div class="l3"><div><b><span class="ph">[Name]</span></b><span><span class="ph">[Role]</span>, Capacity Digital</span></div></div>
+            <svg viewBox="240 440 1520 1120" fill="#ff2e88" style="position:absolute;right:4cqw;top:4cqw;width:3.4cqw;height:2.6cqw;z-index:4"><use href="#capacity-mark"/></svg>
+          </div>
+          <p class="cap mono">Lower third and bug / 16:9</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--neon" style="aspect-ratio:16/9" data-export="deck-title" data-export-size="1920x1080">
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#0a0a0a" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag" style="font-size:1.6cqw">Proposal / <span class="ph">October 2026</span></span>
+              </div>
+              <div class="tpl-h" style="font-size:12cqw;line-height:0.82">Opening <span class="ph">[Venue]</span>.</div>
+            </div>
+          </div>
+          <p class="cap mono">Deck title slide / 16:9</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================================================= GUIDELINES ==== -->
+<section class="band on-night" id="guidelines">
+  <div class="wrap">
+    <h2 class="dsp reveal">Guidelines.</h2>
+
+    <div class="guide reveal">
+      <ol class="gnav" id="gnav">
+        <li><button type="button" data-ch="0"><span class="n">01</span>Logo</button></li>
+        <li><button type="button" data-ch="1"><span class="n">02</span>Colour</button></li>
+        <li><button type="button" data-ch="2"><span class="n">03</span>Type</button></li>
+        <li><button type="button" data-ch="3"><span class="n">04</span>Objects</button></li>
+        <li><button type="button" data-ch="4"><span class="n">05</span>Proof</button></li>
+        <li><button type="button" data-ch="5"><span class="n">06</span>Motion</button></li>
+        <li><button type="button" data-ch="6"><span class="n">07</span>Photography</button></li>
+        <li><button type="button" data-ch="7"><span class="n">08</span>Voice</button></li>
+      </ol>
+
+      <div class="gbody">
+        <!-- 01 LOGO -->
+        <article class="chapter" data-ch="0">
+          <div class="spec-row">
+            <div class="spec"><svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg><span class="cp">Neon on night</span></div>
+            <div class="spec spec--neon"><svg viewBox="240 440 1520 1120" fill="#0a0a0a"><use href="#capacity-mark"/></svg><span class="cp">Night on Neon</span></div>
+            <div class="spec spec--paper"><svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg><span class="cp">Neon on paper</span></div>
+            <div class="spec"><svg viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg><span class="cp">White, over photos</span></div>
+          </div>
+          <div class="spec-row" style="margin-top:12px">
+            <div class="spec" style="grid-auto-flow:column;gap:14px;place-content:center">
+              <svg viewBox="240 440 1520 1120" fill="#ff2e88" style="width:52px;height:40px"><use href="#capacity-mark"/></svg>
+              <span class="dsp" style="font-size:3.4rem;line-height:0.8">Capacity</span><span class="cp" style="align-self:center">Digital</span>
+            </div>
+          </div>
+          <ul class="rules">
+            <li>Same mark, never redrawn. Neon is the agency's colour for it; blue belongs to the platform. Never swap them.</li>
+            <li>The lockup is the mark, CAPACITY in the display face, and DIGITAL small in mono. Same family as the platform, clearly the sibling.</li>
+            <li>Clearspace: one arm's width, all sides. Never rotated, outlined or shadowed. Stickers tilt, the mark doesn't.</li>
+          </ul>
+        </article>
+
+        <!-- 02 COLOUR -->
+        <article class="chapter" data-ch="1" hidden>
+          <div class="sw-grid">
+            <div class="sw"><i style="background:#ff2e88;border-color:#ff2e88"></i><b>Neon</b><span class="mono">#ff2e88</span></div>
+            <div class="sw"><i style="background:#ff9cc6;border-color:#ff9cc6"></i><b>Blush</b><span class="mono">#ff9cc6</span></div>
+            <div class="sw"><i style="background:#0a0a0a"></i><b>Night</b><span class="mono">#0a0a0a</span></div>
+            <div class="sw"><i style="background:#161616"></i><b>Ash</b><span class="mono">#161616</span></div>
+            <div class="sw"><i style="background:#f6f6f6"></i><b>Paper</b><span class="mono">#f6f6f6</span></div>
+            <div class="sw"><i style="background:#8f8f8f"></i><b>Muted</b><span class="mono">#8f8f8f</span></div>
+          </div>
+          <ul class="rules">
+            <li>Night is the default. Paper is for proof: case studies, reports, proposals.</li>
+            <li>Neon is the moment: the sold out, the live number, the button. One full Neon field per set of posts, no more.</li>
+            <li>Text on Neon is always Night, never white. Blush is Neon's voice on dark, for small type. On paper, type in Neon Deep #e0106c.</li>
+            <li>The liquid gradients retire. No purple, no orange (that's E Labs), no teal (that's Furiosa).</li>
+          </ul>
+        </article>
+
+        <!-- 03 TYPE -->
+        <article class="chapter" data-ch="2" hidden>
+          <div class="type-spec">
+            <div class="row"><span class="cp">Display / Tanker, caps</span><span class="dsp" style="font-size:clamp(2.6rem,6vw,4.4rem)">Nobody shares a flyer.</span></div>
+            <div class="row"><span class="cp">Body / Rethink Sans 400, shared with the platform</span><span style="max-width:46ch">Launch stories, features and interviews, pitched to the writers your guests actually read.</span></div>
+            <div class="row"><span class="cp">Labels / Geist Mono 500, shared</span><span class="mono" style="color:#ff9cc6">Final release, Friday</span></div>
+            <div class="row"><span class="cp">Numbers / display, tabular</span><span class="dsp" style="font-size:3rem">&pound;8.42 &nbsp; 3,200 &nbsp; 72 hrs</span></div>
+            <div class="row"><span class="cp">Stickers / display on Neon, tilted 3&deg;</span><span style="display:flex;gap:10px;flex-wrap:wrap;padding-top:4px"><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">Sold out</span><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">Final release</span><span class="stk" style="font-size:1.4rem;padding:5px 10px 4px;border-radius:5px">New client</span></span></div>
+          </div>
+          <ul class="rules">
+            <li>Display is for lines of six words or fewer. Never a paragraph in caps.</li>
+            <li>Tight: line height 0.9 or less. Big enough to read from the back of the room.</li>
+            <li>Body and labels are the platform's, so the two brands still sound like one company in the small print.</li>
+          </ul>
+        </article>
+
+        <!-- 04 OBJECTS -->
+        <article class="chapter" data-ch="3" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--do" style="min-height:260px">
+              <span class="cp">Agency: the same object, under neon</span>
+              <div data-points="megaphone" data-yaw="0.35" style="position:absolute;inset:0"></div>
+            </div>
+            <div class="pair" style="min-height:260px">
+              <span class="cp" style="color:#7fa4ff">Platform: cool</span>
+              <div data-points="megaphone" data-yaw="0.35" style="position:absolute;inset:0;filter:none"></div>
+            </div>
+          </div>
+          <pre class="recipe">[data-points] {
+  filter: brightness(0.7) grayscale(1) sepia(1) saturate(12)
+          hue-rotate(-65deg) contrast(1.1);
+}</pre>
+          <ul class="rules">
+            <li>One object per discipline or client type: the megaphone for PR, the socials for social and UGC, the spark for brand, the CDJs for clubs, the big top for festivals, tickets for events.</li>
+            <li>Same engine, same drift, same drag. Only the light changes.</li>
+          </ul>
+        </article>
+
+        <!-- 05 PROOF -->
+        <article class="chapter" data-ch="4" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--do">
+              <span class="cp">Do: the curve, in the client's own numbers</span>
+              <div class="dsp" style="font-size:2.6rem;margin-top:6px">&pound;8.42 <span style="font-family:var(--font-sans);font-weight:500;text-transform:none;font-size:0.9375rem;color:var(--muted);letter-spacing:-0.02em">back for every &pound;1 on ads</span></div>
+            </div>
+            <div class="pair pair--dont"><span class="cp">Don't: a metric nobody outside ads understands</span><blockquote>842% average ROAS</blockquote></div>
+          </div>
+          <ul class="rules">
+            <li>Boast the good ones only. Every result is a real client's, signed off by them, with the date.</li>
+            <li>Show the sales curve with its tiers, coded, not a screenshot of Ads Manager.</li>
+            <li>Money in pounds back per pound spent. Tickets as tickets. Time in days.</li>
+          </ul>
+        </article>
+
+        <!-- 06 MOTION -->
+        <article class="chapter" data-ch="5" hidden>
+          <div class="type-spec">
+            <div class="row"><span class="cp">Tempo</span><span>124 BPM. Cuts land on the beat, every 484ms, and nothing fades slower than a bar.</span></div>
+            <div class="row"><span class="cp">Stickers</span><span>Stamp in: scale from 115% to 100% in 120ms. No bounce.</span></div>
+            <div class="row"><span class="cp">Numbers</span><span>Tick up fast and stop dead on the real figure.</span></div>
+            <div class="row"><span class="cp">Tickers</span><span>Live numbers run in a mono ticker, like a departures board.</span></div>
+            <div class="row"><span class="cp">Objects</span><span>Unchanged from the platform: they drift, they can be dragged, they loop every 13.96s.</span></div>
+          </div>
+          <ul class="rules">
+            <li>The platform glides; the agency cuts. Same easing curve, shorter durations.</li>
+            <li>Reduced motion gets the finished state, instantly.</li>
+          </ul>
+        </article>
+
+        <!-- 07 PHOTOGRAPHY -->
+        <article class="chapter" data-ch="6" hidden>
+          <div class="pair-grid">
+            <div class="pair"><span class="cp" style="color:#7fa4ff">Platform: grey dots</span><div style="position:relative;aspect-ratio:4/5;margin-top:4px;border-radius:6px;overflow:hidden;background:#0a0a0a"><canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas></div></div>
+            <div class="pair pair--do"><span class="cp">Agency: neon dots</span><div style="position:relative;aspect-ratio:4/5;margin-top:4px;border-radius:6px;overflow:hidden;background:#0a0a0a"><canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="heat" aria-hidden="true"></canvas></div></div>
+          </div>
+          <pre class="recipe">the platform's grid and dot size, one colour ramp
+dark   #3d0520  (the edge of the crowd)
+mid    #ff2e88  (the room)
+bright #ffe0ee  (the lights)</pre>
+          <ul class="rules">
+            <li>Same rule as the platform: every photograph is redrawn as dots, never shown raw.</li>
+            <li>Where the platform shoots the room, the agency shoots the moment: hands up, the drop, the queue outside.</li>
+          </ul>
+        </article>
+
+        <!-- 08 VOICE -->
+        <article class="chapter" data-ch="7" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--do"><span class="cp">Do</span><blockquote>Opened to a queue.</blockquote></div>
+            <div class="pair pair--dont"><span class="cp">Don't</span><blockquote>Elevating venue experiences through innovative, data-driven creative solutions.</blockquote></div>
+          </div>
+          <ul class="rules">
+            <li>Lead with the work. Say what it is in one line, then show it.</li>
+            <li>No gags, no invented stories, no quotes nobody said. If there's no number yet, leave the bracket in.</li>
+            <li>Numbers only when they're good and real. One per piece, never a wall of stats.</li>
+            <li>"We" is fine: the agency is people. Mention the platform where it genuinely helps the work, the way Soma mentions Fatsoma. Never as a colour block.</li>
+            <li>No slogans that could belong to anyone, never "guaranteed". No em dashes.</li>
+          </ul>
+        </article>
+
+        <div class="gfoot">
+          <button class="gbtn" id="gPrev" type="button">Previous</button>
+          <button class="gbtn" id="gNext" type="button">Next</button>
+          <span class="gcount mono" id="gCount">01 / 08</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-label="Capacity"><use href="#capacity-mark"/></svg>
+  <a class="mono" href="agency-livusectcxe3" style="color:var(--muted);text-decoration:none">Site concept &rarr;</a>
+  <a class="mono" href="brand-gnv7ztt1hgki" style="color:var(--muted);text-decoration:none">Platform brand &rarr;</a>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  /* Reveal */
+  const rio = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); }
+  }, { rootMargin: '-40px' });
+  document.querySelectorAll('.reveal').forEach((el) => rio.observe(el));
+
+  /* Photographs redrawn as dots. The platform's recipe (dotScreen in
+     site.js); data-dots-tone="heat" swaps the greys for a Neon ramp. */
+  const HEAT = [[0, [61, 5, 32]], [0.5, [255, 46, 136]], [1, [255, 224, 238]]];
+  function heat(l) {
+    for (let k = 1; k < HEAT.length; k++) {
+      if (l <= HEAT[k][0]) {
+        const [a, ca] = HEAT[k - 1], [b, cb] = HEAT[k], t = (l - a) / (b - a);
+        return ca.map((v, i) => (v + (cb[i] - v) * t) | 0);
+      }
+    }
+    return HEAT[HEAT.length - 1][1];
+  }
+  const imgs = {};
+  function paint(canvas) {
+    const img = imgs[canvas.dataset.dots];
+    if (!img || !img.complete || !img.naturalWidth) return;
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h || w > 4096 || h > 4096) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const key = w + 'x' + h + '@' + dpr;
+    if (canvas._key === key) return;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    const cell = w < 360 ? 4 : 6;
+    const cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
+    const off = document.createElement('canvas');
+    off.width = cols; off.height = rows;
+    const o = off.getContext('2d', { willReadFrequently: true });
+    const sr = img.naturalWidth / img.naturalHeight, dr = w / h;
+    const sw = sr > dr ? img.naturalHeight * dr : img.naturalWidth;
+    const sh = sr > dr ? img.naturalHeight : img.naturalWidth / dr;
+    o.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, 0, 0, cols, rows);
+    let d;
+    try { d = o.getImageData(0, 0, cols, rows).data; } catch (e) { return; }
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const hot = canvas.dataset.dotsTone === 'heat';
+    const half = cell / 2, TAU = Math.PI * 2;
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      const i = (y * cols + x) << 2;
+      let l = (d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114) / 255;
+      l = (l - 0.06) * 1.42;
+      if (l < 0.03) continue;
+      if (l > 1) l = 1;
+      if (hot) {
+        const c = heat(l);
+        ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      } else {
+        const g = (188 + l * 67) | 0;
+        ctx.fillStyle = `rgb(${g},${g},${Math.min(255, g + (l * 14) | 0)})`;
+      }
+      ctx.beginPath();
+      ctx.arc(x * cell + half, y * cell + half, Math.sqrt(l) * cell * 0.6, 0, TAU);
+      ctx.fill();
+    }
+    canvas._key = key;
+  }
+  const canvases = [...document.querySelectorAll('canvas[data-dots]')];
+  canvases.forEach((c) => {
+    const src = c.dataset.dots;
+    if (!imgs[src]) {
+      const img = new Image();
+      img.onload = () => canvases.forEach((k) => { if (k.dataset.dots === src) paint(k); });
+      img.src = src;
+      imgs[src] = img;
+    }
+  });
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => paint(e.target)));
+  canvases.forEach((c) => ro.observe(c));
+
+  /* Guidelines */
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const chapters = [...document.querySelectorAll('.chapter')];
+  const navBtns = [...document.querySelectorAll('#gnav button')];
+  const prev = document.getElementById('gPrev');
+  const next = document.getElementById('gNext');
+  const count = document.getElementById('gCount');
+  let cur = 0;
+  function showChapter(i) {
+    cur = clamp(i, 0, chapters.length - 1);
+    chapters.forEach((c, j) => {
+      if (j === cur) {
+        c.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => c.classList.add('show')));
+        c.querySelectorAll('canvas[data-dots]').forEach(paint);
+      } else {
+        c.hidden = true;
+        c.classList.remove('show');
+      }
+    });
+    navBtns.forEach((b, j) => b.classList.toggle('active', j === cur));
+    prev.disabled = cur === 0;
+    next.disabled = cur === chapters.length - 1;
+    count.textContent = `${String(cur + 1).padStart(2, '0')} / ${String(chapters.length).padStart(2, '0')}`;
+  }
+  navBtns.forEach((b) => { b.onclick = () => showChapter(+b.dataset.ch); });
+  prev.onclick = () => showChapter(cur - 1);
+  next.onclick = () => showChapter(cur + 1);
+  showChapter(0);
+})();
+</script>
+<script src="points.js?v=7878eec9cc"></script>
+</body>
+</html>

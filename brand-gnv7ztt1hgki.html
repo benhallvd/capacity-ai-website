@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capacity | Brand lab</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
+<style>
+/* ==========================================================================
+   Capacity brand lab, v3. Internal, unlinked, self-contained on purpose:
+   nothing here touches site.css or site.js. Token values are copied from
+   tokens.css, not linked.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('assets/fonts/GeistMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('assets/fonts/GeistMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  --brand: #1b63f8;
+  --brand-soft: #7fa4ff;
+  --radius: 8px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --font-sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  --gutter: clamp(20px, 5vw, 44px);
+  --measure: 1100px;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  letter-spacing: -0.025em;
+  background: #f6f6f6;
+  color: #171717;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.band { padding-block: clamp(64px, 8vw, 120px); padding-inline: var(--gutter); }
+.band.on-dark { background: #0a0a0a; color: #f5f5f5; }
+.band.on-light { background: #f6f6f6; color: #171717; }
+.wrap { max-width: var(--measure); margin-inline: auto; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(2.4rem, 1rem + 5vw, 4.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+h2 {
+  font-size: clamp(1.7rem, 1.1rem + 2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+.lede { font-size: 1.125rem; max-width: 620px; }
+.on-light .lede { color: #6b6b6b; }
+.on-dark  .lede { color: #8f8f8f; }
+
+/* Entrance: everything arrives by rising, one curve. */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Canvas stages */
+.stage {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid #262626;
+  background: #0a0a0a;
+}
+.on-light .stage--light { border-color: #e4e4e4; background: #ffffff; }
+.stage canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.stage--grab canvas { cursor: grab; }
+.stage--grab canvas:active { cursor: grabbing; }
+.stage .tag {
+  position: absolute;
+  left: 16px;
+  bottom: 12px;
+  color: #8f8f8f;
+  pointer-events: none;
+}
+.stage--light .tag { color: #6b6b6b; }
+.stage--deep::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 42%, transparent 55%, rgba(0,0,0,0.45) 100%);
+}
+
+/* Intro */
+.intro { min-height: clamp(420px, 62vh, 720px); display: grid; align-content: center; }
+.intro .lede { margin-top: 20px; }
+.intro { position: relative; }
+.sister {
+  position: absolute; top: 22px; right: var(--gutter); z-index: 5;
+  display: inline-flex; align-items: center; gap: 8px;
+  color: #8f8f8f; text-decoration: none;
+  border: 1px solid #262626; border-radius: 999px; padding: 7px 14px;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.sister:hover { color: #f5f5f5; border-color: #3a3a3a; }
+.sister svg { width: 14px; height: 11px; }
+.codes { margin-top: clamp(36px, 5vw, 56px); list-style: none; padding: 0; max-width: 560px; }
+.codes li {
+  display: flex; gap: 18px; align-items: baseline;
+  padding: 10px 0;
+  border-top: 1px solid #262626;
+  font-size: 0.9375rem; color: #b9b9b9;
+}
+.codes li:last-child { border-bottom: 1px solid #262626; }
+.codes .n { color: var(--brand-soft); }
+.codes b { color: #f5f5f5; font-weight: 600; }
+
+/* The gather */
+.gather-track { position: relative; height: 300vh; background: #0a0a0a; }
+.gather-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.gather-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gather-copy {
+  position: absolute;
+  top: clamp(56px, 9vh, 120px);
+  left: 0; right: 0;
+  padding-inline: var(--gutter);
+  pointer-events: none;
+  color: #f5f5f5;
+}
+.gather-copy h2 { margin-bottom: 0; }
+.gather-tag { position: absolute; left: var(--gutter); bottom: 20px; color: #8f8f8f; pointer-events: none; }
+
+/* Photography */
+.crowd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.crowd {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: #0a0a0a;
+}
+.crowd img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(1) brightness(0.82) contrast(1.22);
+}
+.crowd--motion img { filter: grayscale(1) brightness(0.82) contrast(1.22) url(#dragblur); }
+.crowd::before, .crowd::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.crowd::before { background: var(--brand); mix-blend-mode: color; }
+.crowd::after  { background: #04102e; mix-blend-mode: multiply; opacity: 0.55; }
+.crowd .tag { position: absolute; left: 12px; bottom: 10px; color: rgba(245,245,245,0.75); z-index: 2; }
+
+/* Recognition */
+.cv-stage { max-width: 640px; margin-inline: auto; }
+.cv-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+
+/* Exploded system */
+.system-svg { width: 100%; height: auto; display: block; }
+.layer { animation: floaty 7s ease-in-out infinite; }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.pulse { animation: rise 7s linear infinite; opacity: 0; }
+@keyframes rise {
+  0%   { transform: translateY(0);      opacity: 0; }
+  6%   { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(-455px); opacity: 0; }
+}
+
+/* In use: mockups */
+.mocks { columns: 3; column-gap: 14px; }
+@media (max-width: 980px) { .mocks { columns: 2; } }
+@media (max-width: 620px) { .mocks { columns: 1; } }
+.mock { break-inside: avoid; margin-bottom: 14px; }
+.mock-frame {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid #e4e4e4;
+  background: #0a0a0a;
+}
+.mock-cap { margin-top: 8px; color: #6b6b6b; }
+.mock-dark { background: #0a0a0a; color: #f5f5f5; }
+.mock-photo { position: relative; }
+.mock-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(1) brightness(0.82) contrast(1.22);
+}
+.mock-photo::before, .mock-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.mock-photo::before { background: var(--brand); mix-blend-mode: color; }
+.mock-photo::after  { background: #04102e; mix-blend-mode: multiply; opacity: 0.55; }
+.mock-over { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; padding: 22px; }
+.mock-h {
+  font-weight: 700; letter-spacing: -0.025em; line-height: 1.12;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem); color: #f5f5f5;
+}
+.mock-h .b { color: var(--brand-soft); }
+.mock-cta {
+  display: inline-block; align-self: flex-start;
+  background: var(--brand); color: #ffffff;
+  font-weight: 600; font-size: 0.875rem; letter-spacing: -0.02em;
+  padding: 9px 16px; border-radius: 999px;
+}
+.mock-mark { width: 26px; height: 20px; }
+.mock-scrim { position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, rgba(4,8,20,0.1) 40%, rgba(4,8,20,0.72) 100%); pointer-events: none; }
+
+/* UI mockup card */
+.ui-card { background: #151515; border-radius: var(--radius); border: 1px solid #262626; padding: 18px; color: #f5f5f5; }
+.ui-card .row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-top: 1px solid #262626; }
+.ui-card .row:first-of-type { border-top: 0; }
+.ui-card .row span { color: #8f8f8f; font-size: 0.875rem; }
+.ui-card .row b { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 1.0625rem; }
+.ui-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.ui-head b { font-weight: 700; font-size: 1.0625rem; letter-spacing: -0.02em; }
+.ui-live { display: inline-flex; align-items: center; gap: 6px; color: #8f8f8f; }
+.ui-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); display: inline-block; }
+
+/* Templates: every piece is sized in cqw, so it scales like the real canvas */
+.tgroup + .tgroup { margin-top: clamp(48px, 6vw, 80px); }
+.tlabel { color: #6b6b6b; margin-bottom: 14px; }
+.tgrid { display: grid; gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tgrid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tgrid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 980px) { .tgrid, .tgrid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .tgrid, .tgrid--4, .tgrid--2 { grid-template-columns: 1fr; } }
+.tpl {
+  position: relative;
+  container-type: inline-size;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid #262626;
+  background: #0a0a0a;
+  color: #f5f5f5;
+}
+.tpl--paper { background: #f6f6f6; color: #171717; border-color: #e4e4e4; }
+.tpl--white { background: #ffffff; color: #171717; border-color: #e4e4e4; }
+.tpl-in { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; padding: 7cqw; }
+.tpl-row { display: flex; justify-content: space-between; align-items: center; gap: 4cqw; }
+.tpl-mark { width: 8cqw; height: 6cqw; flex: none; }
+.tpl-tag { font-family: var(--font-mono); font-weight: 500; font-size: 3cqw; letter-spacing: 0.14em; text-transform: uppercase; color: #8f8f8f; }
+.tpl--paper .tpl-tag, .tpl--white .tpl-tag { color: #6b6b6b; }
+.tpl-h { font-weight: 700; letter-spacing: -0.03em; line-height: 1.06; font-size: 8.4cqw; }
+.tpl-h .b { color: var(--brand); }
+.tpl:not(.tpl--paper):not(.tpl--white) .tpl-h .b { color: var(--brand-soft); }
+.tpl-p { font-size: 4cqw; line-height: 1.4; color: #8f8f8f; margin-top: 3cqw; }
+.tpl--paper .tpl-p, .tpl--white .tpl-p { color: #6b6b6b; }
+.tpl-big { font-weight: 700; letter-spacing: -0.05em; line-height: 0.9; font-size: 27cqw; font-variant-numeric: tabular-nums; }
+.tpl-cta {
+  display: inline-block; align-self: flex-start;
+  background: var(--brand); color: #ffffff;
+  font-weight: 600; font-size: 3.6cqw; letter-spacing: -0.02em;
+  padding: 2.2cqw 4.4cqw; border-radius: 999px; margin-top: 5cqw;
+}
+.tpl-rule { height: 0.6cqw; width: 14cqw; background: var(--brand); border-radius: 1cqw; margin: 4cqw 0; }
+.tpl-obj { position: absolute; inset: 0; z-index: 1; }
+.tpl-dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; }
+.tpl-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(10,10,10,0) 35%, rgba(10,10,10,0.85) 100%); }
+.ph { border-bottom: 0.4cqw dashed currentColor; opacity: 0.75; }
+.mail .ph { border-bottom-width: 1px; }
+
+/* Coded product card, sized for templates */
+.tui { background: #141415; border: 1px solid #262628; border-radius: 3.4cqw; padding: 4.6cqw 5cqw; display: grid; gap: 2.8cqw; font-size: 3.8cqw; color: #f3f3f4; font-variant-numeric: tabular-nums; }
+.tui-top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.tui-pill { background: rgba(62,207,142,.16); color: #7de3b3; border-radius: 99px; padding: 0.6cqw 2.6cqw; font-size: 3cqw; }
+.tui-n { font-size: 9cqw; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.tui-n small { color: #8d8d92; font-size: 3.6cqw; font-weight: 500; letter-spacing: 0; }
+.tui-bar { height: 1.8cqw; border-radius: 2cqw; background: #1d1d20; }
+.tui-bar i { display: block; height: 100%; border-radius: 2cqw; background: linear-gradient(90deg, #4d7bf3, #7aa0ff); }
+.tui-row { display: flex; justify-content: space-between; color: #8d8d92; border-top: 1px solid #262628; padding-top: 2.6cqw; }
+.tui-row b { color: #f3f3f4; font-weight: 700; }
+
+/* Story poll sticker */
+.poll { background: #ffffff; color: #171717; border-radius: 4cqw; padding: 5cqw; display: grid; gap: 2.4cqw; }
+.poll b { font-size: 5.4cqw; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1cqw; }
+.poll span { display: flex; justify-content: space-between; border: 1px solid #e4e4e4; border-radius: 99px; padding: 2.4cqw 4cqw; font-size: 4cqw; font-weight: 600; }
+.poll span em { font-style: normal; color: var(--brand); font-variant-numeric: tabular-nums; }
+
+/* Carousel strip */
+.car { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; scrollbar-width: thin; }
+.car > .tpl { flex: 0 0 min(300px, 78vw); aspect-ratio: 4 / 5; scroll-snap-align: start; }
+.car-n { font-family: var(--font-mono); font-weight: 500; font-size: 13cqw; letter-spacing: 0; color: var(--brand); line-height: 1; }
+.car-prog { position: absolute; left: 7cqw; right: 7cqw; bottom: 5cqw; height: 0.6cqw; background: rgba(128,128,128,0.25); border-radius: 1cqw; z-index: 4; }
+.car-prog i { display: block; height: 100%; background: var(--brand); border-radius: 1cqw; }
+
+/* Email */
+.mail { background: #ffffff; border: 1px solid #e4e4e4; border-radius: var(--radius); overflow: hidden; color: #171717; font-size: 14px; }
+.mail-bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #efefef; background: #fafafa; }
+.mail-bar i { width: 8px; height: 8px; border-radius: 50%; background: #dedede; }
+.mail-body { padding: 26px 30px 6px; }
+.mail-line { height: 8px; border-radius: 4px; background: #efefef; margin-bottom: 10px; }
+.efoot { margin: 22px 30px 0; padding: 26px 0 30px; border-top: 1px solid #e4e4e4; display: grid; gap: 14px; }
+.efoot svg.m { width: 30px; height: 22px; }
+.efoot .line { font-weight: 600; letter-spacing: -0.02em; font-size: 15px; }
+.efoot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+.efoot nav a { color: #171717; text-decoration: none; font-weight: 500; }
+.efoot nav a.cta { color: var(--brand); }
+.efoot .soc { display: flex; gap: 12px; }
+.efoot .soc svg { width: 18px; height: 18px; fill: #6b6b6b; }
+.efoot .fine { font-size: 11.5px; line-height: 1.6; color: #8f8f8f; }
+.efoot .fine a { color: inherit; }
+.mail--dark { background: #0a0a0a; border-color: #262626; color: #f5f5f5; }
+.mail--dark .mail-bar { background: #121212; border-color: #1e1e1e; }
+.mail--dark .mail-bar i, .mail--dark .mail-line { background: #1e1e1e; }
+.mail--dark .efoot { border-color: #262626; }
+.mail--dark .efoot nav a { color: #f5f5f5; }
+.mail--dark .efoot nav a.cta { color: var(--brand-soft); }
+.mail--dark .efoot .soc svg { fill: #8f8f8f; }
+.mail--dark .efoot .fine { color: #6b6b6b; }
+.mast { background: #0a0a0a; color: #f5f5f5; padding: 28px 30px 26px; display: grid; gap: 18px; }
+.mast .tpl-row svg { width: 30px; height: 22px; }
+.mast h3 { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+.sig { padding: 30px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+.sig svg { width: 34px; height: 26px; margin-top: 3px; }
+.sig b { display: block; font-size: 15px; letter-spacing: -0.02em; }
+.sig .role { color: #6b6b6b; font-size: 13px; }
+.sig .pos { margin: 10px 0 8px; color: #6b6b6b; }
+.sig .links { font-size: 13px; display: flex; gap: 14px; flex-wrap: wrap; }
+.sig .links a { color: #171717; text-decoration: none; font-weight: 500; }
+.sig .links a.cta { color: var(--brand); }
+
+/* Profile */
+.avatar-row { display: flex; gap: 14px; }
+.avatar { flex: 1; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; border: 1px solid #e4e4e4; }
+.avatar svg { width: 46%; height: auto; }
+
+/* Lower third */
+.l3 { position: absolute; left: 5cqw; bottom: 6cqw; z-index: 4; display: flex; align-items: stretch; gap: 1.6cqw; }
+.l3 i { width: 0.7cqw; background: var(--brand); border-radius: 1cqw; }
+.l3 div { background: rgba(10,10,10,0.82); padding: 1.6cqw 2.6cqw; border-radius: 1cqw; }
+.l3 b { display: block; font-size: 4.4cqw; letter-spacing: -0.02em; line-height: 1.2; }
+.l3 span { font-size: 3cqw; color: #8f8f8f; }
+
+/* Guidelines */
+.guide { display: grid; grid-template-columns: 260px 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.gnav { list-style: none; padding: 0; position: sticky; top: 32px; }
+.gnav button {
+  display: flex; gap: 14px; align-items: baseline;
+  width: 100%; text-align: left;
+  background: none; border: 0; border-top: 1px solid #e4e4e4;
+  padding: 13px 4px;
+  font-family: var(--font-sans);
+  font-size: 1rem; font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #6b6b6b;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+.gnav li:last-child button { border-bottom: 1px solid #e4e4e4; }
+.gnav button .n { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; color: #b0b0b0; transition: color 0.25s var(--ease); }
+.gnav button:hover { color: #171717; }
+.gnav button.active { color: #171717; font-weight: 600; }
+.gnav button.active .n { color: var(--brand); }
+.gbody { min-height: 480px; }
+.chapter { opacity: 0; transform: translateY(10px); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+.chapter.show { opacity: 1; transform: none; }
+.rules { list-style: none; padding: 0; margin-top: 24px; max-width: 620px; }
+.rules li { padding: 11px 0 11px 26px; border-top: 1px solid #e4e4e4; position: relative; font-size: 0.9688rem; }
+.rules li::before { content: ""; position: absolute; left: 4px; top: 1.35em; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+.gfoot { display: flex; align-items: center; gap: 18px; margin-top: 36px; }
+.gbtn {
+  font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600;
+  letter-spacing: -0.02em; color: #171717;
+  background: #ffffff; border: 1px solid #e4e4e4; border-radius: var(--radius);
+  padding: 9px 16px; cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.gbtn:hover { border-color: #c9c9c9; background: color-mix(in srgb, var(--brand) 8%, #ffffff); }
+.gbtn[disabled] { opacity: 0.35; cursor: default; }
+.gbtn[disabled]:hover { border-color: #e4e4e4; background: #ffffff; }
+.gcount { color: #6b6b6b; }
+
+/* Guideline specimens */
+.spec-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.spec {
+  border: 1px solid #e4e4e4; border-radius: var(--radius);
+  background: #ffffff; padding: 18px;
+  display: grid; place-items: center; gap: 10px;
+  min-width: 150px; flex: 1;
+}
+.spec--dark { background: #0a0a0a; border-color: #262626; }
+.spec .cap { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b6b6b; }
+.spec--dark .cap { color: #8f8f8f; }
+.spec svg { width: 74px; height: 56px; }
+.spec img { max-width: 170px; height: auto; }
+.sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-width: 680px; }
+.sw i { display: block; height: 60px; border-radius: var(--radius); border: 1px solid #e4e4e4; margin-bottom: 8px; }
+.sw b { display: block; font-size: 0.875rem; font-weight: 600; }
+.sw .mono { color: #6b6b6b; letter-spacing: 0.06em; }
+.type-spec { border: 1px solid #e4e4e4; border-radius: var(--radius); background: #ffffff; padding: clamp(18px, 3vw, 32px); display: grid; gap: 18px; max-width: 680px; }
+.type-spec .row { display: grid; gap: 2px; }
+.type-spec .cap { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b6b6b; }
+.pair-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; max-width: 680px; }
+.pair { border: 1px solid #e4e4e4; border-radius: var(--radius); background: #ffffff; padding: 18px; }
+.pair .cap { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 10px; }
+.pair--do .cap { color: #0f8665; }
+.pair--dont .cap { color: #b5442f; }
+.pair blockquote { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; }
+.pair--dont blockquote { color: #6b6b6b; text-decoration: line-through; text-decoration-color: rgba(181,68,47,0.5); font-weight: 500; }
+.pair figure.crowd { aspect-ratio: 16/10; margin-top: 4px; }
+.pair img.raw { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: var(--radius); display: block; margin-top: 4px; }
+.recipe {
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: #6b6b6b;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  overflow-x: auto;
+  white-space: pre;
+  max-width: 680px;
+}
+
+/* Footer */
+.foot { padding: 56px var(--gutter) 72px; text-align: center; }
+.foot svg { width: 26px; height: 20px; }
+
+@media (max-width: 820px) {
+  .guide { grid-template-columns: 1fr; }
+  .gnav { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+  .gnav button, .gnav li:last-child button { border: 1px solid #e4e4e4; border-radius: 999px; width: auto; padding: 7px 13px; font-size: 0.875rem; }
+  .gnav button.active { border-color: var(--brand); }
+  .gbody { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .layer, .pulse { animation: none; }
+  .pulse { opacity: 0; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .chapter { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <path id="capacity-mark" d="M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z"/>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a7c0ff"/><stop offset="1" stop-color="#1b63f8"/>
+    </linearGradient>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.439.645 1.439 1.439z"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+    <filter id="dragblur"><feGaussianBlur stdDeviation="6 0" /></filter>
+  </defs>
+</svg>
+
+<!-- ============================================================ INTRO ==== -->
+<header class="band on-dark intro">
+  <a class="sister mono" href="brand-vqa7gbkxqsky">
+    <svg viewBox="240 440 1520 1120" fill="#ff2e88" aria-hidden="true"><use href="#capacity-mark"/></svg>
+    Digital brand
+  </a>
+  <div class="wrap">
+    <h1>Many signals.<br />One room.</h1>
+    <p class="lede">
+      Every night, a venue throws off thousands of signals: tickets, bookings,
+      WiFi sign-ups, the till. Capacity turns them into one picture of the
+      room. The brand is built the same way.
+    </p>
+    <ul class="codes">
+      <li><span class="n mono">01</span><span><b>The mark.</b> Black, white or blue. Never redrawn.</span></li>
+      <li><span class="n mono">02</span><span><b>One blue.</b> #1b63f8, and it always means something.</span></li>
+      <li><span class="n mono">03</span><span><b>Nodes.</b> Everything we draw is built from points.</span></li>
+      <li><span class="n mono">04</span><span><b>Labels.</b> Plain English, like a good host.</span></li>
+      <li><span class="n mono">05</span><span><b>One idea per visual.</b></span></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ======================================================= THE GATHER ==== -->
+<section class="gather-track" id="gatherTrack" aria-label="Scattered signals gathering into the Capacity mark as you scroll">
+  <div class="gather-stage">
+    <canvas id="exp1"></canvas>
+    <div class="gather-copy">
+      <div class="wrap">
+        <h2>All your data,<br />in one place.</h2>
+      </div>
+    </div>
+    <span class="gather-tag mono">Scroll</span>
+  </div>
+</section>
+
+<!-- ======================================================== THE GLOBE ==== -->
+<section class="band on-light">
+  <div class="wrap">
+    <div class="stage stage--light reveal" style="aspect-ratio:16/9">
+      <canvas id="exp2"></canvas>
+      <span class="tag mono">The globe / follows your cursor</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== THE MIRROR BALL ==== -->
+<section class="band on-dark">
+  <div class="wrap">
+    <div class="stage stage--grab stage--deep reveal" style="aspect-ratio:16/10">
+      <canvas id="expball"></canvas>
+      <span class="tag mono">The mirror ball / drag</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== THE WORDMARK ==== -->
+<section class="band on-light">
+  <div class="wrap">
+    <div class="stage stage--light reveal" style="aspect-ratio:5/1">
+      <canvas id="expword"></canvas>
+      <span class="tag mono">The wordmark, assembled</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== THE RIG ==== -->
+<section class="band on-dark">
+  <div class="wrap">
+    <div class="stage stage--grab stage--deep reveal" style="aspect-ratio:21/9">
+      <canvas id="exp3"></canvas>
+      <span class="tag mono">The rig / drag to orbit</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= THE TICKET ==== -->
+<section class="band on-dark" style="padding-top:0">
+  <div class="wrap">
+    <div class="stage stage--grab stage--deep reveal" style="aspect-ratio:16/9">
+      <canvas id="exp4"></canvas>
+      <span class="tag mono">The ticket / drag to turn it over</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== ONE GUEST ==== -->
+<section class="band on-light">
+  <div class="wrap">
+    <div class="stage stage--light reveal" style="aspect-ratio:16/10; max-width:760px; margin-inline:auto">
+      <canvas id="expguest"></canvas>
+      <span class="tag mono">One guest, every signal</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== PHOTOGRAPHY ==== -->
+<section class="band on-light" style="padding-top:0">
+  <div class="wrap">
+    <div class="crowd-grid reveal">
+      <figure class="crowd"><img src="assets/venue/venue-02.jpg" alt="Venue crowd, treated" loading="lazy" /><span class="tag mono">The treatment</span></figure>
+      <figure class="crowd crowd--motion"><img src="assets/venue/venue-05.jpg" alt="Venue crowd with motion drag, treated" loading="lazy" /><span class="tag mono">Motion drag</span></figure>
+      <figure class="crowd"><img src="assets/venue/venue-08.jpg" alt="Venue interior, treated" loading="lazy" /><span class="tag mono">The treatment</span></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== RECOGNITION ==== -->
+<section class="band on-dark">
+  <div class="wrap">
+    <figure class="crowd cv-stage reveal" style="aspect-ratio:4/5">
+      <img src="assets/venue/venue-01.jpg" alt="Crowd around a DJ booth with guests highlighted and labelled" loading="lazy" />
+      <canvas id="expcv"></canvas>
+      <span class="tag mono">Guests, recognised</span>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================================================= THE SYSTEM ==== -->
+<section class="band on-dark" style="padding-top:0">
+  <div class="wrap">
+    <div class="stage reveal" style="padding: clamp(16px, 4vw, 48px)">
+      <svg class="system-svg" viewBox="0 0 900 660" role="img" aria-label="Exploded diagram of the Capacity system: venue tools feed Capture, Profile, Reach and Answers">
+        <defs>
+          <g id="plane">
+            <path d="M0,-62 L190,0 L0,62 L-190,0 Z" fill="rgba(255,255,255,0.02)" stroke="#3a3a3a" stroke-width="1"/>
+          </g>
+        </defs>
+
+        <line x1="430" y1="595" x2="430" y2="105" stroke="#262626" stroke-width="1" stroke-dasharray="2 5"/>
+        <g>
+          <circle class="pulse" cx="430" cy="580" r="2.5" fill="#1b63f8" style="animation-delay:0s"/>
+          <circle class="pulse" cx="430" cy="580" r="2.5" fill="#1b63f8" style="animation-delay:1.8s"/>
+          <circle class="pulse" cx="430" cy="580" r="2.5" fill="#1b63f8" style="animation-delay:3.5s"/>
+          <circle class="pulse" cx="430" cy="580" r="2.5" fill="#1b63f8" style="animation-delay:5.3s"/>
+        </g>
+
+        <g class="layer" style="animation-delay:0s">
+          <g transform="translate(430,110)">
+            <use href="#plane"/>
+            <g transform="scale(1,0.326) rotate(45)">
+              <rect x="-70" y="-58" width="86" height="26" rx="6" fill="none" stroke="#6b6b6b" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="-16" y="-16" width="86" height="26" rx="6" fill="none" stroke="#6b6b6b" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="-70" y="26" width="60" height="26" rx="6" fill="none" stroke="#1b63f8" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <circle cx="52" cy="52" r="4" fill="#1b63f8"/>
+            </g>
+          </g>
+          <line x1="624" y1="110" x2="664" y2="110" stroke="#3a3a3a" stroke-width="1"/>
+          <text x="676" y="106" fill="#f5f5f5" font-family="Geist Mono, monospace" font-size="12" letter-spacing="2">ANSWERS</text>
+          <text x="676" y="124" fill="#8f8f8f" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1">INTELLIGENCE / REPORTS</text>
+        </g>
+
+        <g class="layer" style="animation-delay:-2s">
+          <g transform="translate(430,230)">
+            <use href="#plane"/>
+            <g transform="scale(1,0.326) rotate(45)">
+              <circle cx="0" cy="0" r="7" fill="none" stroke="#1b63f8" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+              <g stroke="#6b6b6b" stroke-width="1" vector-effect="non-scaling-stroke">
+                <line x1="0" y1="0" x2="78" y2="-52"/><line x1="0" y1="0" x2="88" y2="30"/>
+                <line x1="0" y1="0" x2="18" y2="88"/><line x1="0" y1="0" x2="-72" y2="62"/>
+                <line x1="0" y1="0" x2="-88" y2="-24"/><line x1="0" y1="0" x2="-30" y2="-84"/>
+              </g>
+              <g fill="#8f8f8f">
+                <circle cx="78" cy="-52" r="3.4"/><circle cx="88" cy="30" r="3.4"/>
+                <circle cx="18" cy="88" r="3.4"/><circle cx="-72" cy="62" r="3.4"/>
+                <circle cx="-88" cy="-24" r="3.4"/><circle cx="-30" cy="-84" r="3.4"/>
+              </g>
+            </g>
+          </g>
+          <line x1="624" y1="230" x2="664" y2="230" stroke="#3a3a3a" stroke-width="1"/>
+          <text x="676" y="226" fill="#f5f5f5" font-family="Geist Mono, monospace" font-size="12" letter-spacing="2">REACH</text>
+          <text x="676" y="244" fill="#8f8f8f" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1">ADS / EMAIL / SMS / SOCIAL</text>
+        </g>
+
+        <g class="layer" style="animation-delay:-4s">
+          <g transform="translate(430,350)">
+            <use href="#plane"/>
+            <g transform="scale(1,0.326) rotate(45)">
+              <g fill="none" stroke="#6b6b6b" stroke-width="1" vector-effect="non-scaling-stroke">
+                <rect x="-92" y="-70" width="72" height="52" rx="6"/>
+                <rect x="-6" y="-24" width="72" height="52" rx="6"/>
+                <rect x="-92" y="24" width="72" height="52" rx="6"/>
+              </g>
+              <g fill="#8f8f8f">
+                <circle cx="-76" cy="-54" r="5"/><circle cx="10" cy="-8" r="5"/><circle cx="-76" cy="40" r="5"/>
+              </g>
+              <g stroke="#3a3a3a" stroke-width="1" vector-effect="non-scaling-stroke">
+                <line x1="-64" y1="-40" x2="-30" y2="-40"/><line x1="22" y1="6" x2="56" y2="6"/><line x1="-64" y1="54" x2="-30" y2="54"/>
+              </g>
+              <circle cx="10" cy="-8" r="9" fill="none" stroke="#1b63f8" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <line x1="624" y1="350" x2="664" y2="350" stroke="#3a3a3a" stroke-width="1"/>
+          <text x="676" y="346" fill="#f5f5f5" font-family="Geist Mono, monospace" font-size="12" letter-spacing="2">PROFILE</text>
+          <text x="676" y="364" fill="#8f8f8f" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1">ONE CUSTOMER, ALL SOURCES</text>
+        </g>
+
+        <g class="layer" style="animation-delay:-1s">
+          <g transform="translate(430,470)">
+            <use href="#plane"/>
+            <g transform="scale(1,0.326) rotate(45)">
+              <g stroke="#6b6b6b" stroke-width="1" vector-effect="non-scaling-stroke">
+                <line x1="-84" y1="-56" x2="56" y2="-56"/>
+                <line x1="-84" y1="-20" x2="84" y2="-20"/>
+                <line x1="-84" y1="52" x2="70" y2="52"/>
+              </g>
+              <line x1="-84" y1="16" x2="84" y2="16" stroke="#1b63f8" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+              <g fill="#8f8f8f">
+                <circle cx="-96" cy="-56" r="2.6"/><circle cx="-96" cy="-20" r="2.6"/><circle cx="-96" cy="52" r="2.6"/>
+              </g>
+              <circle cx="-96" cy="16" r="2.6" fill="#1b63f8"/>
+            </g>
+          </g>
+          <line x1="624" y1="470" x2="664" y2="470" stroke="#3a3a3a" stroke-width="1"/>
+          <text x="676" y="466" fill="#f5f5f5" font-family="Geist Mono, monospace" font-size="12" letter-spacing="2">CAPTURE</text>
+          <text x="676" y="484" fill="#8f8f8f" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1">TICKETS / BOOKINGS / FORMS</text>
+        </g>
+
+        <g class="layer" style="animation-delay:-5.5s">
+          <g transform="translate(430,585)">
+            <g transform="scale(1,0.326) rotate(45)">
+              <g fill="none" stroke="#3a3a3a" stroke-width="1" vector-effect="non-scaling-stroke">
+                <rect x="-104" y="-104" width="40" height="40" rx="5"/><rect x="-24" y="-104" width="40" height="40" rx="5"/>
+                <rect x="56" y="-104" width="40" height="40" rx="5"/><rect x="-104" y="-24" width="40" height="40" rx="5"/>
+                <rect x="-24" y="-24" width="40" height="40" rx="5"/><rect x="56" y="-24" width="40" height="40" rx="5"/>
+                <rect x="-104" y="56" width="40" height="40" rx="5"/><rect x="-24" y="56" width="40" height="40" rx="5"/>
+                <rect x="56" y="56" width="40" height="40" rx="5"/>
+              </g>
+            </g>
+          </g>
+          <line x1="624" y1="585" x2="664" y2="585" stroke="#3a3a3a" stroke-width="1"/>
+          <text x="676" y="581" fill="#f5f5f5" font-family="Geist Mono, monospace" font-size="12" letter-spacing="2">YOUR TOOLS</text>
+          <text x="676" y="599" fill="#8f8f8f" font-family="Geist Mono, monospace" font-size="10" letter-spacing="1">TILL / TICKETING / WIFI / DOOR</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== IN USE ==== -->
+<section class="band on-light">
+  <div class="wrap">
+    <h2 class="reveal">In use.</h2>
+    <div class="mocks reveal">
+
+      <!-- Social post 1:1 -->
+      <div class="mock">
+        <div class="mock-frame mock-dark" style="aspect-ratio:1/1">
+          <canvas id="mockmark" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+          <div class="mock-over" style="justify-content:space-between">
+            <svg class="mock-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+            <div class="mock-h">Fridays don't fill themselves.</div>
+          </div>
+        </div>
+        <p class="mock-cap mono">Social / 1:1</p>
+      </div>
+
+      <!-- Story 9:16 -->
+      <div class="mock">
+        <div class="mock-frame mock-photo" style="aspect-ratio:9/16">
+          <img src="assets/venue/venue-05.jpg" alt="Story mockup over a treated crowd photo" loading="lazy" />
+          <div class="mock-scrim"></div>
+          <div class="mock-over" style="justify-content:flex-end;gap:14px">
+            <div class="mock-h">Know every face in the room.</div>
+            <span class="mock-cta">Get early access</span>
+          </div>
+          <div class="mock-over" style="justify-content:flex-start;align-items:center">
+            <svg class="mock-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+          </div>
+        </div>
+        <p class="mock-cap mono">Story / 9:16</p>
+      </div>
+
+      <!-- Paid ad 4:5 -->
+      <div class="mock">
+        <div class="mock-frame mock-photo" style="aspect-ratio:4/5">
+          <img src="assets/venue/venue-02.jpg" alt="Paid ad mockup over a treated crowd photo" loading="lazy" />
+          <div class="mock-scrim"></div>
+          <div class="mock-over" style="justify-content:flex-end;gap:14px">
+            <div class="mock-h">800 people came Saturday.<br /><span class="b">How many can you reach today?</span></div>
+            <span class="mock-cta">Book a demo</span>
+          </div>
+        </div>
+        <p class="mock-cap mono">Paid ad / 4:5</p>
+      </div>
+
+      <!-- Hiring 1:1 -->
+      <div class="mock">
+        <div class="mock-frame mock-dark" style="aspect-ratio:1/1">
+          <div class="mock-over" style="justify-content:space-between">
+            <svg class="mock-mark" viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg>
+            <div>
+              <div class="mock-h" style="margin-bottom:14px">Work on software people queue for.</div>
+              <span class="mono" style="color:#8f8f8f">Founding engineer / London</span>
+            </div>
+          </div>
+        </div>
+        <p class="mock-cap mono">Hiring / 1:1</p>
+      </div>
+
+      <!-- Banner -->
+      <div class="mock">
+        <div class="mock-frame" style="aspect-ratio:3/1;background:#ffffff;border-color:#e4e4e4">
+          <canvas id="mockword" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+        </div>
+        <p class="mock-cap mono">Banner / technology for the hospitality age</p>
+      </div>
+
+      <!-- Product UI -->
+      <div class="mock">
+        <div class="mock-frame mock-dark" style="padding:14px">
+          <div class="ui-card">
+            <div class="ui-head"><b>Tonight</b><span class="ui-live mono"><i></i>Live</span></div>
+            <div class="row"><span>Through the door</span><b>486</b></div>
+            <div class="row"><span>Bar takings</span><b>&pound;6,240</b></div>
+            <div class="row"><span>New guests</span><b>121</b></div>
+            <svg viewBox="0 0 280 44" style="width:100%;height:44px;margin-top:12px" aria-hidden="true">
+              <polyline points="0,36 28,33 56,34 84,28 112,30 140,22 168,24 196,14 224,17 252,7 280,10"
+                        fill="none" stroke="#1b63f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <p class="mock-cap mono">Product</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== TEMPLATES ==== -->
+<section class="band on-light" id="templates" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="reveal">Templates.</h2>
+
+    <!-- Social posts, 4:5 -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Social posts / 4:5</p>
+      <div class="tgrid">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-stat" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag">Labyrinth / Saturday</span>
+              </div>
+              <div>
+                <div class="tpl-big">1,184</div>
+                <div class="tpl-rule"></div>
+                <div class="tpl-h" style="font-size:6.6cqw">through the door.<br /><span class="b">412 of them were new.</span></div>
+              </div>
+              <span class="tpl-tag">wearecapacity.co</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Stat</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-feature" data-export-size="1080x1350">
+            <div class="tpl-obj" data-points="tickets" data-yaw="-0.2" data-pitch="0.12" data-zoom="0.8" style="bottom:38%"></div>
+            <div class="tpl-in" style="justify-content:flex-end">
+              <span class="tpl-tag" style="margin-bottom:3cqw">New in Capacity</span>
+              <div class="tpl-h">Take control of your ticketing.</div>
+              <p class="tpl-p">Fully white-labelled. Your name on the checkout, your data in your hands.</p>
+              <span class="tpl-cta">See how it works</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Feature, with its object</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-quote" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div style="font-weight:800;font-size:22cqw;line-height:0.7;color:#1b63f8;height:12cqw">&ldquo;</div>
+              <div class="tpl-h" style="font-size:7.4cqw">We stopped guessing who our regulars were. Now we text them by name on a Thursday.</div>
+              <div class="tpl-row" style="align-items:flex-end">
+                <div>
+                  <div style="font-weight:700;font-size:4cqw"><span class="ph">[Name]</span></div>
+                  <div class="tpl-p" style="margin-top:1cqw;font-size:3.6cqw"><span class="ph">[Role]</span>, <span class="ph">[Venue]</span></div>
+                </div>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Quote</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-photo" data-export-size="1080x1350">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas>
+            <div class="tpl-scrim" style="background:linear-gradient(180deg,rgba(10,10,10,0.75) 0%,rgba(10,10,10,0) 24%,rgba(10,10,10,0) 40%,rgba(10,10,10,0.85) 100%)"></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <div class="tpl-h">Your busiest night already told you who to invite next.</div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Photo, redrawn as dots</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:4/5" data-export="post-statement" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <span class="tpl-tag">Monday thought</span>
+              <div class="tpl-h" style="font-size:10cqw"><span class="b">Your till</span> knows your regulars better than your CRM does.</div>
+              <div class="tpl-row">
+                <span class="tpl-tag">The operating system for venues</span>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Statement</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-proof" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div>
+                <span class="tpl-tag">Wednesday, 6pm</span>
+                <div class="tpl-h" style="margin-top:3cqw">412 of 600 sold. <span class="b">Three days out.</span></div>
+              </div>
+              <div class="tui">
+                <div class="tui-top">Saturday Residency <span class="tui-pill">On sale</span></div>
+                <div class="tui-n">412 <small>/ 600 sold</small></div>
+                <div class="tui-bar"><i style="width:69%"></i></div>
+                <div class="tui-row">Sold this week <b>138</b></div>
+                <div class="tui-row">Returning guests <b>57%</b></div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Product proof</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Announcements, 4:5 -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Announcements / 4:5</p>
+      <div class="tgrid">
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:4/5" data-export="post-integration" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <span class="tpl-tag">New integration</span>
+              <div style="display:flex;align-items:center;justify-content:center;gap:6cqw">
+                <svg viewBox="240 440 1520 1120" fill="#171717" style="width:18cqw;height:13.5cqw"><use href="#capacity-mark"/></svg>
+                <span style="display:flex;gap:1.6cqw" aria-hidden="true"><i style="width:1.6cqw;height:1.6cqw;border-radius:50%;background:#d4d4d4"></i><i style="width:1.6cqw;height:1.6cqw;border-radius:50%;background:#1b63f8"></i><i style="width:1.6cqw;height:1.6cqw;border-radius:50%;background:#d4d4d4"></i></span>
+                <img src="assets/brands/dice.svg" alt="DICE" style="width:26cqw;height:auto" />
+              </div>
+              <div>
+                <div class="tpl-h" style="font-size:7.6cqw">DICE is coming to Capacity.</div>
+                <p class="tpl-p">Ticket sales and attendee data, straight into every guest's profile.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Integration, with the partner's own logo</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-new-venue" data-export-size="1080x1350">
+            <div class="tpl-obj" data-points="cdj" data-zoom="0.7" style="bottom:36%"></div>
+            <div class="tpl-in" style="justify-content:flex-end">
+              <span class="tpl-tag" style="margin-bottom:3cqw">Now on Capacity</span>
+              <div class="tpl-h" style="font-size:9.4cqw">Welcome, <span class="b"><span class="ph">[Venue]</span></span>.</div>
+              <p class="tpl-p"><span class="ph">[Three rooms, 1,400 capacity, open since 2009]</span>. Every guest, one picture.</p>
+            </div>
+          </div>
+          <p class="mock-cap mono">New venue, object by venue type</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-event" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag">Meet us</span>
+              </div>
+              <div>
+                <div class="tpl-h" style="font-size:9.4cqw">Find us at <span class="b"><span class="ph">[Event]</span></span>.</div>
+                <p class="tpl-p">Bring your Saturday numbers. We'll show you what they're hiding.</p>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #e4e4e4;padding-top:4cqw;gap:3cqw">
+                <div><span class="tpl-tag" style="font-size:2.6cqw">Date</span><div style="font-weight:700;font-size:4.4cqw;margin-top:1cqw"><span class="ph">[14 Oct]</span></div></div>
+                <div><span class="tpl-tag" style="font-size:2.6cqw">City</span><div style="font-weight:700;font-size:4.4cqw;margin-top:1cqw"><span class="ph">[City]</span></div></div>
+                <div><span class="tpl-tag" style="font-size:2.6cqw">Stand</span><div style="font-weight:700;font-size:4.4cqw;margin-top:1cqw"><span class="ph">[B12]</span></div></div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Event</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Stories, 9:16 -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Stories / 9:16</p>
+      <div class="tgrid tgrid--4">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-announce" data-export-size="1080x1920">
+            <div class="tpl-obj" data-points="megaphone" data-zoom="0.85" style="bottom:30%"></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5" style="align-self:center"><use href="#capacity-mark"/></svg>
+              <div>
+                <div class="tpl-h" style="font-size:10cqw">Every guest, every channel, one inbox.</div>
+                <span class="tpl-cta" style="font-size:4.6cqw">Book a demo</span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Announce</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-poll" data-export-size="1080x1920">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas>
+            <div class="tpl-scrim" style="background:rgba(10,10,10,0.55)"></div>
+            <div class="tpl-in" style="justify-content:center">
+              <div class="poll">
+                <b>Which night is hardest to fill?</b>
+                <span>Monday <em>18%</em></span>
+                <span>Tuesday <em>9%</em></span>
+                <span>Wednesday <em>21%</em></span>
+                <span>Thursday <em>52%</em></span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Poll</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:9/16" data-export="story-stat" data-export-size="1080x1920">
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              <div>
+                <span class="tpl-tag">Friday, 11pm</span>
+                <div class="tpl-big" style="font-size:34cqw;margin-top:3cqw">&pound;46</div>
+                <div class="tpl-h" style="font-size:9cqw;margin-top:4cqw">spent per head at the bar. <span class="b">Up &pound;6 on last month.</span></div>
+              </div>
+              <span class="tpl-tag">wearecapacity.co</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Stat</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:9/16" data-export="story-question" data-export-size="1080x1920">
+            <div class="tpl-in" style="justify-content:center;gap:6cqw">
+              <span class="tpl-tag">Ask your venue anything</span>
+              <div style="background:#ffffff;border:1px solid #e4e4e4;border-radius:4cqw;padding:5cqw;font-size:5cqw;font-weight:600;letter-spacing:-0.02em">Who came three Fridays running and hasn't booked this week?</div>
+              <div style="background:#0a0a0a;color:#f5f5f5;border-radius:4cqw;padding:5cqw;font-size:4.6cqw;line-height:1.45">
+                <b style="font-size:9cqw;letter-spacing:-0.03em">64 guests.</b><br />
+                <span style="color:#8f8f8f">41 have a phone number. Want me to draft them a message for Thursday?</span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Intelligence Q&amp;A</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Carousel / 4:5, seven slides</p>
+      <div class="car">
+
+        <div class="tpl" data-export="carousel-01" data-export-size="1080x1350">
+          <div class="tpl-obj" data-points="chart" data-zoom="0.75" style="top:18%;bottom:30%"></div>
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <span class="tpl-tag">01 / 07</span>
+            </div>
+            <div>
+              <div class="tpl-h" style="font-size:9.4cqw">Five numbers to check every Monday.</div>
+              <span class="tpl-tag" style="display:block;margin-top:4cqw;color:#7fa4ff">Swipe &rarr;</span>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:14.3%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-02" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">01</span><span class="tpl-tag">02 / 07</span></div>
+            <div>
+              <div class="tpl-h">Through the door</div>
+              <p class="tpl-p" style="font-size:5cqw">Not tickets sold. People in the room. The gap between the two is your no-show rate.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:28.6%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-03" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">02</span><span class="tpl-tag">03 / 07</span></div>
+            <div>
+              <div class="tpl-h">Spend per head</div>
+              <p class="tpl-p" style="font-size:5cqw">Bar takings over headcount. If it drops while the room is full, look at the queue, not the prices.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:42.9%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-04" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">03</span><span class="tpl-tag">04 / 07</span></div>
+            <div>
+              <div class="tpl-h">New faces</div>
+              <p class="tpl-p" style="font-size:5cqw">How many came for the first time, and how many of them left you a way to invite them back.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:57.1%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-05" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">04</span><span class="tpl-tag">05 / 07</span></div>
+            <div>
+              <div class="tpl-h">Who came back</div>
+              <p class="tpl-p" style="font-size:5cqw">Last month's guests who returned. The one number your promoters never send you.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:71.4%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-06" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">05</span><span class="tpl-tag">06 / 07</span></div>
+            <div>
+              <div class="tpl-h">Tables still open</div>
+              <p class="tpl-p" style="font-size:5cqw">Anything unbooked at 5pm Thursday is a message you haven't sent yet.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:85.7%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-07" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg>
+              <span class="tpl-tag">07 / 07</span>
+            </div>
+            <div>
+              <div class="tpl-h" style="font-size:9.4cqw">All five, on one screen, before your coffee.</div>
+              <span class="tpl-cta">Book a demo</span>
+              <span class="tpl-tag" style="display:block;margin-top:5cqw">wearecapacity.co</span>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:100%"></i></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Email</p>
+      <div class="tgrid tgrid--2" style="align-items:start">
+
+        <div>
+          <div class="mail" data-export="email-footer-light" data-export-size="2x">
+            <div class="mail-bar"><i></i><i></i><i></i></div>
+            <div class="mail-body">
+              <div class="mail-line" style="width:62%;height:12px;background:#e4e4e4"></div>
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
+            </div>
+            <div class="efoot">
+              <svg class="m" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              <div class="line">The operating system for venues.</div>
+              <nav><a class="cta" href="#">Book a demo</a><a href="#">Integrations</a><a href="#">Careers</a><a href="#">wearecapacity.co</a></nav>
+              <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
+              <p class="fine">You're getting this because you joined the Capacity waitlist. <a href="#">Unsubscribe</a> or <a href="#">choose what you get</a>.<br />Capacity Digital Ltd &middot; Company No. 14487697 &middot; 167-169 Great Portland Street, London W1W 5PF</p>
+            </div>
+          </div>
+          <p class="mock-cap mono">Footer / light, default</p>
+        </div>
+
+        <div>
+          <div class="mail mail--dark" data-export="email-footer-dark" data-export-size="2x">
+            <div class="mail-bar"><i></i><i></i><i></i></div>
+            <div class="mail-body">
+              <div class="mail-line" style="width:62%;height:12px;background:#262626"></div>
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
+            </div>
+            <div class="efoot">
+              <svg class="m" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <div class="line">The operating system for venues.</div>
+              <nav><a class="cta" href="#">Book a demo</a><a href="#">Integrations</a><a href="#">Careers</a><a href="#">wearecapacity.co</a></nav>
+              <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
+              <p class="fine">You're getting this because you joined the Capacity waitlist. <a href="#">Unsubscribe</a> or <a href="#">choose what you get</a>.<br />Capacity Digital Ltd &middot; Company No. 14487697 &middot; 167-169 Great Portland Street, London W1W 5PF</p>
+            </div>
+          </div>
+          <p class="mock-cap mono">Footer / dark, launches and product news</p>
+        </div>
+
+        <div>
+          <div class="mail" data-export="email-newsletter-header" data-export-size="2x">
+            <div class="mast">
+              <div class="tpl-row">
+                <svg viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+                <span class="mono" style="color:#8f8f8f">Issue <span class="ph">04</span> / <span class="ph">29 Sep 2026</span></span>
+              </div>
+              <h3>The Monday numbers.</h3>
+            </div>
+            <div class="mail-body" style="padding-bottom:22px">
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:58%"></div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Newsletter header</p>
+        </div>
+
+        <div>
+          <div class="mail" data-export="email-signature" data-export-size="2x">
+            <div class="sig">
+              <svg viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              <div>
+                <b><span class="ph">[Your name]</span></b>
+                <span class="role"><span class="ph">[Role]</span>, Capacity</span>
+                <div class="pos mono">The operating system for venues</div>
+                <div class="links"><a href="#">wearecapacity.co</a><a class="cta" href="#">Book a demo</a><a href="#"><span class="ph">[Mobile]</span></a></div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Signature</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Profiles, covers and video -->
+    <div class="tgroup reveal">
+      <p class="tlabel mono">Profiles, covers, video</p>
+
+      <div class="tpl" style="aspect-ratio:1584/396" data-export="linkedin-cover" data-export-size="1584x396">
+        <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true" style="left:62%;width:38%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%)"></canvas>
+        <div class="tpl-in" style="justify-content:center;padding:0 0 0 24cqw">
+          <div class="tpl-h" style="font-size:3cqw">The operating system for venues.</div>
+          <span class="tpl-tag" style="font-size:1.1cqw;margin-top:1.4cqw">wearecapacity.co</span>
+        </div>
+      </div>
+      <p class="mock-cap mono">LinkedIn cover / 1584 &times; 396</p>
+
+      <div class="tgrid" style="margin-top:14px;align-items:start">
+        <div>
+          <div class="avatar-row">
+            <div class="avatar" style="background:#0a0a0a;border-color:#262626" data-export="avatar-dark" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg></div>
+            <div class="avatar" style="background:#ffffff" data-export="avatar-light" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg></div>
+          </div>
+          <p class="mock-cap mono">Avatar / every platform</p>
+        </div>
+
+        <div style="grid-column:span 2">
+          <div class="tpl tpl--white" style="aspect-ratio:1200/630" data-export="blog-preview" data-export-size="1200x630">
+            <div class="tpl-obj" data-points="people" data-points-style="ink" style="left:48%"></div>
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:48%">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <div>
+                <span class="tpl-tag" style="font-size:1.4cqw">Guide</span>
+                <div class="tpl-h" style="font-size:4.6cqw;margin-top:1.4cqw">How to fill a Thursday.</div>
+              </div>
+              <span class="tpl-tag" style="font-size:1.4cqw">wearecapacity.co</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Blog and link preview / 1200 &times; 630</p>
+        </div>
+      </div>
+
+      <div class="tgrid" style="margin-top:14px">
+        <div>
+          <div class="tpl" style="aspect-ratio:16/9" data-export="video-title" data-export-size="1920x1080">
+            <div class="tpl-obj" data-points="sparkle" style="left:50%"></div>
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:45%">
+              <span class="tpl-tag" style="font-size:1.8cqw">Product tour / <span class="ph">02</span></span>
+              <div class="tpl-h" style="font-size:5.4cqw">Ask your venue anything.</div>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+            </div>
+          </div>
+          <p class="mock-cap mono">Video title card / 16:9</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:16/9" data-export="video-lower-third" data-export-size="1920x1080">
+            <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas>
+            <div class="l3"><i></i><div><b><span class="ph">[Name]</span></b><span><span class="ph">[Role]</span>, Labyrinth Nightclub</span></div></div>
+            <svg viewBox="240 440 1520 1120" fill="#f5f5f5" style="position:absolute;right:4cqw;top:4cqw;width:3.4cqw;height:2.6cqw;z-index:4;opacity:0.8"><use href="#capacity-mark"/></svg>
+          </div>
+          <p class="mock-cap mono">Lower third and bug / 16:9</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:16/9" data-export="deck-title" data-export-size="1920x1080">
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <div>
+                <div class="tpl-h" style="font-size:6cqw">Capacity for <span class="b">Labyrinth Nightclub</span>.</div>
+                <div class="tpl-rule" style="width:8cqw;height:0.4cqw;margin:2.4cqw 0"></div>
+                <span class="tpl-tag" style="font-size:1.6cqw">Proposal / <span class="ph">September 2026</span></span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Deck title slide / 16:9</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================================================= GUIDELINES ==== -->
+<section class="band on-light" id="guidelines" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="reveal">Guidelines.</h2>
+
+    <div class="guide reveal">
+      <ol class="gnav" id="gnav">
+        <li><button type="button" data-ch="0"><span class="n">01</span>Logo</button></li>
+        <li><button type="button" data-ch="1"><span class="n">02</span>Colour</button></li>
+        <li><button type="button" data-ch="2"><span class="n">03</span>Type</button></li>
+        <li><button type="button" data-ch="3"><span class="n">04</span>Objects</button></li>
+        <li><button type="button" data-ch="4"><span class="n">05</span>Product UI</button></li>
+        <li><button type="button" data-ch="5"><span class="n">06</span>Motion</button></li>
+        <li><button type="button" data-ch="6"><span class="n">07</span>Photography</button></li>
+        <li><button type="button" data-ch="7"><span class="n">08</span>Voice</button></li>
+      </ol>
+
+      <div class="gbody">
+        <!-- 01 LOGO -->
+        <article class="chapter" data-ch="0">
+          <div class="spec-row">
+            <div class="spec"><svg viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg><span class="cap">Black on light</span></div>
+            <div class="spec spec--dark"><svg viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg><span class="cap">White on dark</span></div>
+            <div class="spec"><svg viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg><span class="cap">Blue, standing alone</span></div>
+            <div class="spec spec--dark"><svg viewBox="240 440 1520 1120" fill="url(#markGrad)"><use href="#capacity-mark"/></svg><span class="cap">Gradient, art only</span></div>
+          </div>
+          <div class="spec-row" style="margin-top:12px">
+            <div class="spec"><img src="assets/capacity-wordmark-black.png" alt="Capacity wordmark" loading="lazy" /><span class="cap">Wordmark, Rethink Sans</span></div>
+          </div>
+          <ul class="rules">
+            <li>Black on light, white on dark. Blue when it stands alone. The gradient is for big art moments.</li>
+            <li>Clearspace: one arm's width, all sides. 20px minimum on screen.</li>
+            <li>Never rotated, outlined, shadowed or redrawn.</li>
+          </ul>
+        </article>
+
+        <!-- 02 COLOUR -->
+        <article class="chapter" data-ch="1" hidden>
+          <div class="sw-grid">
+            <div class="sw"><i style="background:#1b63f8"></i><b>Capacity Blue</b><span class="mono">#1b63f8</span></div>
+            <div class="sw"><i style="background:#7fa4ff"></i><b>Soft Blue</b><span class="mono">#7fa4ff</span></div>
+            <div class="sw"><i style="background:#171717"></i><b>Ink</b><span class="mono">#171717</span></div>
+            <div class="sw"><i style="background:#f6f6f6"></i><b>Paper</b><span class="mono">#f6f6f6</span></div>
+            <div class="sw"><i style="background:#0a0a0a"></i><b>Night</b><span class="mono">#0a0a0a</span></div>
+            <div class="sw"><i style="background:#6b6b6b"></i><b>Muted</b><span class="mono">#6b6b6b / #8f8f8f</span></div>
+          </div>
+          <ul class="rules">
+            <li>If it's blue, it matters: the button, the live number, the one accent. One blue moment per view.</li>
+            <li>Everything else is neutral. No tinted greys.</li>
+            <li>Green and red are for status only, always paired with a sign.</li>
+          </ul>
+        </article>
+
+        <!-- 03 TYPE -->
+        <article class="chapter" data-ch="2" hidden>
+          <div class="type-spec">
+            <div class="row"><span class="cap">Display / Rethink Sans 700</span><span style="font-size:clamp(1.9rem,4vw,3rem);font-weight:700;letter-spacing:-0.03em;line-height:1.05">Fridays don't fill themselves.</span></div>
+            <div class="row"><span class="cap">Body / 400</span><span style="max-width:46ch">From bookings to bar sales, WiFi sign-ups to who's seen your Instagram: one picture of the room.</span></div>
+            <div class="row"><span class="cap">Labels / Geist Mono 500</span><span class="mono" style="color:#1b63f8">Table booking, Friday</span></div>
+            <div class="row"><span class="cap">Numbers / 700 tabular</span><span style="font-weight:700;font-variant-numeric:tabular-nums;font-size:1.5rem">&pound;46.40 &nbsp; 2,048 &nbsp; 94%</span></div>
+          </div>
+          <ul class="rules">
+            <li>Rethink Sans, weights 400 to 800. Nothing lighter.</li>
+            <li>Geist Mono for labels and data only. Small, uppercase, plain English.</li>
+            <li>Numbers are tabular, everywhere.</li>
+          </ul>
+        </article>
+
+        <!-- 04 OBJECTS -->
+        <article class="chapter" data-ch="3" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--do" style="background:#0a0a0a;min-height:260px;position:relative">
+              <span class="cap" style="position:relative;z-index:2">Do: one recognisable object</span>
+              <div data-points="tickets" data-yaw="-0.2" data-pitch="0.12" style="position:absolute;inset:0"></div>
+            </div>
+            <div class="pair pair--dont"><span class="cap">Don't: a diagram of the idea</span>
+              <svg viewBox="0 0 200 110" style="width:100%;height:auto" aria-hidden="true">
+                <g fill="none" stroke="#6b6b6b" stroke-width="2"><circle cx="40" cy="55" r="14"/><circle cx="100" cy="30" r="14"/><circle cx="100" cy="80" r="14"/><circle cx="160" cy="55" r="14"/><path d="M54 55 86 32M54 55l32 25M114 30l32 25M114 80l32-25"/></g>
+              </svg>
+            </div>
+          </div>
+          <ul class="rules">
+            <li>One object per feature or venue type: a ticket, a megaphone, the CDJs, a festival tent. Something you would recognise across a room.</li>
+            <li>Built from points (points.js), lit from the top left, in brand blue on dark. Every point drifts along its surface; nothing sits frozen.</li>
+            <li>Round objects turn; flat ones sway about their best side and are never seen edge on. Everything can be dragged.</li>
+            <li>The mark appears as an object in one place only: at the centre of the integrations hub.</li>
+          </ul>
+        </article>
+
+        <!-- 05 PRODUCT UI -->
+        <article class="chapter" data-ch="4" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--do" style="background:#0a0a0a;color:#f3f3f4;font-variant-numeric:tabular-nums">
+              <span class="cap">Do: coded, live, real numbers</span>
+              <div style="background:#141415;border:1px solid #262628;border-radius:14px;padding:14px 16px;display:grid;gap:8px;margin-top:10px;font-size:13px">
+                <div style="display:flex;justify-content:space-between;font-weight:600">Saturday Residency <span style="background:rgba(62,207,142,.16);color:#7de3b3;border-radius:99px;padding:2px 9px;font-size:11px">On sale</span></div>
+                <div style="font-size:24px;font-weight:700">412<span style="color:#8d8d92;font-size:12px"> / 600 sold</span></div>
+                <div style="height:6px;border-radius:9px;background:#1d1d20"><i style="display:block;height:100%;width:69%;border-radius:9px;background:linear-gradient(90deg,#4d7bf3,#7aa0ff)"></i></div>
+              </div>
+            </div>
+            <div class="pair pair--dont"><span class="cap">Don't: a screenshot of a screen</span><img class="raw" src="assets/product/prototype_light_main.png" alt="A flat product screenshot" loading="lazy" /></div>
+          </div>
+          <ul class="rules">
+            <li>Product moments are built in HTML from the app's own tokens (the .ui kit in site.css), never exported as pictures. They stay sharp, they can move, they never go stale.</li>
+            <li>Every number is plausible for one real venue, and the live ones tick. Plain English labels: "Through the door", not "Footfall".</li>
+            <li>Pair a product card with its object: the object says what it is, the card proves it works.</li>
+          </ul>
+        </article>
+
+        <!-- 06 MOTION -->
+        <article class="chapter" data-ch="5" hidden>
+          <div class="type-spec">
+            <div class="row"><span class="cap">Between objects</span><span>A soft drifting cloud. It never takes a shape of its own.</span></div>
+            <div class="row"><span class="cap">Between photographs</span><span>A wave of depth across the dot grid. Nothing crosses the frame.</span></div>
+            <div class="row"><span class="cap">Arrival</span><span>Objects grow out of their own centre, so nothing is ever cut at the stage edge.</span></div>
+            <div class="row"><span class="cap">Scroll</span><span>Smoothed, slower while a pinned section fills the screen, and it settles on the nearest step.</span></div>
+          </div>
+          <ul class="rules">
+            <li>One curve everywhere: cubic-bezier(0.22, 0.61, 0.36, 1).</li>
+            <li>Motion explains or rewards. Nothing loops just to look busy.</li>
+            <li>Reduced motion gets the finished state, instantly.</li>
+          </ul>
+        </article>
+
+        <!-- 07 PHOTOGRAPHY -->
+        <article class="chapter" data-ch="6" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--dont"><span class="cap">Before</span><img class="raw" src="assets/venue/venue-10.jpg" alt="Untreated crowd photo" loading="lazy" /></div>
+            <div class="pair pair--do"><span class="cap">After</span><div style="background:#0a0a0a;border-radius:6px;aspect-ratio:4/5;background-image:radial-gradient(circle,#c8c8cc 32%,transparent 36%);background-size:6px 6px;-webkit-mask-image:linear-gradient(#000 30%,rgba(0,0,0,.35));mask-image:linear-gradient(#000 30%,rgba(0,0,0,.35))"></div></div>
+          </div>
+          <pre class="recipe">one dot per 6px cell (4px on a phone)
+size  = sqrt(brightness) * 0.6 * cell
+grey  = 188 + brightness * 67
+depth = brightness, so the room stands up in 3D</pre>
+          <ul class="rules">
+            <li>Every photograph on the site is redrawn as dots, never shown raw. In WebGL it becomes a relief you can feel move.</li>
+            <li>Real rooms, shot dark, the crowd as the subject. No stock, no staged smiles.</li>
+          </ul>
+        </article>
+
+        <!-- 08 VOICE -->
+        <article class="chapter" data-ch="7" hidden>
+          <div class="pair-grid">
+            <div class="pair pair--do"><span class="cap">Do</span><blockquote>800 people came Saturday. How many can you reach today?</blockquote></div>
+            <div class="pair pair--dont"><span class="cap">Don't</span><blockquote>Leverage omnichannel audience insights.</blockquote></div>
+          </div>
+          <ul class="rules">
+            <li>Concrete beats clever: numbers, days, real things.</li>
+            <li>Talk like you run a venue, not a martech company. Any metric gets explained in the next line.</li>
+            <li>Show the product doing it, then say it in one line. Never a paragraph where a number would do.</li>
+            <li>No em dashes.</li>
+          </ul>
+        </article>
+
+        <div class="gfoot">
+          <button class="gbtn" id="gPrev" type="button">Previous</button>
+          <button class="gbtn" id="gNext" type="button">Next</button>
+          <span class="gcount mono" id="gCount">01 / 08</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER ==== -->
+<footer class="foot on-light">
+  <svg viewBox="240 440 1520 1120" fill="#171717" aria-label="Capacity"><use href="#capacity-mark"/></svg>
+  <p style="margin-top:14px"><a class="mono" href="brand-vqa7gbkxqsky" style="color:#6b6b6b;text-decoration:none">Digital brand &rarr;</a></p>
+</footer>
+
+<script>
+/* ==========================================================================
+   Brand lab engine, v3. One rAF loop; IntersectionObserver keeps only
+   visible stages running; prefers-reduced-motion gets composed stills.
+   ========================================================================== */
+(() => {
+  'use strict';
+
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MARK = document.getElementById('capacity-mark').getAttribute('d');
+  const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+  const smooth = (x) => x * x * (3 - 2 * x);
+
+  function sampleMark(step) {
+    const S = 300;
+    const off = document.createElement('canvas');
+    off.width = off.height = S;
+    const c = off.getContext('2d', { willReadFrequently: true });
+    c.scale(S / 2000, S / 2000);
+    c.fillStyle = '#fff';
+    c.fill(new Path2D(MARK));
+    const data = c.getImageData(0, 0, S, S).data;
+    const raw = [];
+    let minX = S, minY = S, maxX = 0, maxY = 0;
+    for (let y = 0; y < S; y += step) {
+      for (let x = 0; x < S; x += step) {
+        if (data[(y * S + x) * 4 + 3] > 120) {
+          raw.push([x, y]);
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+        }
+      }
+    }
+    const span = Math.max(maxX - minX, maxY - minY) || 1;
+    const padX = (span - (maxX - minX)) / 2;
+    const padY = (span - (maxY - minY)) / 2;
+    return raw.map(([x, y]) => [(x - minX + padX) / span, (y - minY + padY) / span]);
+  }
+
+  function sampleText(text, tw, th, step) {
+    const off = document.createElement('canvas');
+    off.width = tw; off.height = th;
+    const c = off.getContext('2d', { willReadFrequently: true });
+    let fs = th * 0.7;
+    c.font = `800 ${fs}px 'Rethink Sans', sans-serif`;
+    fs *= Math.min(1, (tw * 0.88) / c.measureText(text).width);
+    c.font = `800 ${fs}px 'Rethink Sans', sans-serif`;
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillStyle = '#fff';
+    c.fillText(text, tw / 2, th / 2 + fs * 0.04);
+    const data = c.getImageData(0, 0, tw, th).data;
+    const pts = [];
+    for (let y = 0; y < th; y += step) {
+      for (let x = 0; x < tw; x += step) {
+        if (data[(y * tw + x) * 4 + 3] > 120) pts.push([x, y]);
+      }
+    }
+    return pts;
+  }
+
+  function fit(canvas) {
+    const r = canvas.getBoundingClientRect();
+    canvas.width = Math.max(2, Math.round(r.width * DPR));
+    canvas.height = Math.max(2, Math.round(r.height * DPR));
+    return { w: canvas.width, h: canvas.height };
+  }
+
+  /* Drag-to-orbit, shared. Handlers are set as properties so a rebuild on
+     resize replaces them instead of stacking. */
+  function orbit(canvas, o) {
+    let px = 0, py = 0, drag = false;
+    canvas.onpointerdown = (e) => {
+      drag = true; px = e.clientX; py = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    };
+    canvas.onpointermove = (e) => {
+      if (!drag) return;
+      o.vyaw += (e.clientX - px) * 0.00016;
+      o.vpitch += (e.clientY - py) * 0.00012;
+      px = e.clientX; py = e.clientY;
+    };
+    canvas.onpointerup = canvas.onpointercancel = () => { drag = false; };
+    o.step = () => {
+      o.yaw += o.vyaw + (drag ? 0 : o.auto);
+      o.pitch = clamp(o.pitch + o.vpitch, o.pmin, o.pmax);
+      o.vyaw *= 0.94; o.vpitch *= 0.90;
+    };
+    return o;
+  }
+
+  const experiments = [];
+  function register(id, maker) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return;
+    experiments.push({ canvas, maker, active: false, api: null });
+  }
+  function build(exp) {
+    const size = fit(exp.canvas);
+    exp.api = exp.maker(exp.canvas.getContext('2d'), size.w, size.h, exp.canvas);
+  }
+
+  /* ------------------------------------------------ the gather (scroll) -- */
+  register('exp1', (ctx, w, h, canvas) => {
+    const track = document.getElementById('gatherTrack');
+    const base = sampleMark(3);
+    const scale = Math.min(w, h) * 0.66;
+    const ox = (w - scale) / 2, oy = (h - scale) / 2 + h * 0.06;
+    const mouse = { x: -9e9, y: -9e9 };
+
+    canvas.onpointermove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - r.left) * DPR;
+      mouse.y = (e.clientY - r.top) * DPR;
+    };
+    canvas.onpointerleave = () => { mouse.x = mouse.y = -9e9; };
+
+    const parts = base.map(([nx, ny]) => {
+      const g = (nx + ny) / 2;
+      return {
+        tx: ox + nx * scale, ty: oy + ny * scale,
+        sx: Math.random() * w, sy: Math.random() * h,
+        d: Math.random() * 0.55,
+        ph: Math.random() * Math.PI * 2,
+        ws: 0.3 + Math.random() * 0.7,
+        r: Math.floor(167 + (27 - 167) * g),
+        g2: Math.floor(192 + (99 - 192) * g),
+        b: Math.floor(255 + (248 - 255) * g)
+      };
+    });
+    const dot = Math.max(1.6, Math.min(w, h) / 340) * DPR / 2 + 1;
+
+    const LBL = ['Ticket sale', 'Table booking', 'WiFi sign-up', 'Card payment',
+                 'Instagram follow', 'Enquiry', 'Google review', 'Door scan'];
+    const cands = parts.filter((p) =>
+      p.d > 0.35 &&
+      p.sx > w * 0.10 && p.sx < w * 0.86 &&
+      p.sy > h * 0.16 && p.sy < h * 0.86);
+    const labeled = [];
+    for (let i = 0; i < LBL.length && cands.length; i++) {
+      const idx = Math.floor((i + 0.5) / LBL.length * cands.length);
+      labeled.push({ p: cands[idx], text: LBL[i] });
+    }
+
+    return (t) => {
+      let P;
+      if (REDUCED) {
+        P = 1;
+      } else {
+        const r = track.getBoundingClientRect();
+        P = clamp(-r.top / (r.height - window.innerHeight), 0, 1);
+      }
+      const E = smooth(P);
+      const glow = clamp((E - 0.9) / 0.1, 0, 1);
+      const rad = 80 * DPR;
+
+      ctx.clearRect(0, 0, w, h);
+      for (const p of parts) {
+        const li = clamp((E * 1.35 - p.d) / 0.8, 0, 1);
+        const e2 = smooth(li);
+        const wa = 26 * DPR * (1 - e2);
+        let x = p.sx + (p.tx - p.sx) * e2 + Math.sin(t * 0.0005 * p.ws + p.ph) * wa;
+        let y = p.sy + (p.ty - p.sy) * e2 + Math.cos(t * 0.0004 * p.ws + p.ph * 1.7) * wa;
+        p.cx = x; p.cy = y;
+
+        const dx = x - mouse.x, dy = y - mouse.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < rad * rad) {
+          const dd = Math.sqrt(d2) || 1;
+          const f = (1 - dd / rad) * 24 * DPR;
+          x += (dx / dd) * f; y += (dy / dd) * f;
+        }
+
+        const tw = (0.5 + 0.28 * e2 + 0.22 * Math.sin(t * 0.0016 + p.ph)) * (1 + glow * 0.35);
+        ctx.fillStyle = `rgba(${p.r},${p.g2},${p.b},${clamp(tw, 0, 1)})`;
+        ctx.fillRect(x, y, dot, dot);
+      }
+
+      const la = (1 - clamp((E - 0.30) / 0.18, 0, 1)) * clamp(E * 8 + 0.55, 0, 1);
+      if (la > 0.01) {
+        ctx.font = `500 ${10.5 * DPR}px 'Geist Mono', monospace`;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
+        for (const l of labeled) {
+          const x = l.p.cx, y = l.p.cy;
+          ctx.fillStyle = `rgba(27,99,248,${la})`;
+          ctx.beginPath(); ctx.arc(x, y, 2.6 * DPR, 0, 7); ctx.fill();
+          ctx.strokeStyle = `rgba(143,176,255,${0.5 * la})`;
+          ctx.lineWidth = DPR;
+          ctx.beginPath(); ctx.moveTo(x + 5 * DPR, y - 5 * DPR); ctx.lineTo(x + 16 * DPR, y - 14 * DPR); ctx.stroke();
+          ctx.fillStyle = `rgba(207,214,230,${la})`;
+          ctx.fillText(l.text.toUpperCase(), x + 20 * DPR, y - 15 * DPR);
+        }
+      }
+    };
+  });
+
+  /* --------------------------------------------------------- the globe -- */
+  register('exp2', (ctx, w, h, canvas) => {
+    const R = Math.min(w, h) * 0.46;
+    const cx0 = w / 2, cy0 = h / 2;
+    const GA = 2.39996323;
+    const CHARS = ['0', '1', '+', '/'];
+
+    function ring(n, jitter) {
+      const out = [];
+      for (let i = 0; i < n; i++) {
+        const y = 1 - (2 * i) / (n - 1);
+        const r = Math.sqrt(Math.max(0, 1 - y * y));
+        const th = i * GA + jitter;
+        out.push({
+          x: r * Math.cos(th), y, z: r * Math.sin(th),
+          ci: Math.random() < 0.78 ? (Math.random() < 0.5 ? 0 : 1) : (Math.random() < 0.5 ? 2 : 3),
+          jx: Math.random() - 0.5, jy: Math.random() - 0.5
+        });
+      }
+      return out;
+    }
+    const glyphs = ring(1500, 0);
+    const dots = ring(800, 1.3);
+
+    let sprites = [];
+    function buildSprites() {
+      sprites = [];
+      for (let c = 0; c < 4; c++) {
+        for (let b = 0; b <= 8; b++) {
+          const tD = b / 8;
+          const fs = Math.round((5 + 6 * tD) * DPR);
+          const s = document.createElement('canvas');
+          s.width = s.height = fs + 6;
+          const g = s.getContext('2d');
+          g.font = `${fs}px 'Geist Mono', monospace`;
+          g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.fillStyle = tD >= 0.5
+            ? `rgba(27,99,248,${0.22 + 0.68 * (tD - 0.5) * 2})`
+            : `rgba(147,169,232,${0.10 + 0.22 * tD * 2})`;
+          g.fillText(CHARS[c], s.width / 2, s.height / 2);
+          sprites[c * 9 + b] = s;
+        }
+      }
+    }
+    buildSprites();
+    document.fonts.ready.then(buildSprites);
+
+    const steer = { x: 0, y: 0, tx: 0, ty: 0 };
+    canvas.onpointermove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      steer.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      steer.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    };
+    canvas.onpointerleave = () => { steer.tx = 0; steer.ty = 0; };
+
+    const LABELS = ['Table booking, Friday', '2 tickets sold', 'WiFi sign-up',
+                    'Card payment, £46', 'New guest profile', '5-star review',
+                    'Email opened'];
+    let label = null;
+    let yaw = 0, vel = 0.00016, tilt = 0.32, last = 0;
+
+    return (t) => {
+      const dt = clamp(t - last, 0, 50); last = t;
+      steer.x += (steer.tx - steer.x) * 0.05;
+      steer.y += (steer.ty - steer.y) * 0.05;
+      vel += ((0.00016 + steer.x * 0.00075) - vel) * 0.06;
+      tilt += ((0.32 + steer.y * 0.26) - tilt) * 0.06;
+      yaw += vel * dt;
+
+      const cx = cx0 + steer.x * 10 * DPR;
+      const cy = cy0 + steer.y * 8 * DPR;
+      const ca = Math.cos(yaw), sa = Math.sin(yaw);
+      const ct = Math.cos(tilt), st = Math.sin(tilt);
+      ctx.clearRect(0, 0, w, h);
+      let best = null;
+
+      for (const n of dots) {
+        const x1 = n.x * ca + n.z * sa;
+        const z1 = -n.x * sa + n.z * ca;
+        const y2 = n.y * ct - z1 * st;
+        const z2 = n.y * st + z1 * ct;
+        const depth = (z2 + 1) / 2;
+        ctx.fillStyle = `rgba(27,99,248,${0.05 + 0.28 * depth})`;
+        const s = (1 + depth) * DPR * 0.8;
+        ctx.fillRect(cx + x1 * R, cy + y2 * R, s, s);
+      }
+
+      for (const n of glyphs) {
+        const x1 = n.x * ca + n.z * sa;
+        const z1 = -n.x * sa + n.z * ca;
+        const y2 = n.y * ct - z1 * st;
+        const z2 = n.y * st + z1 * ct;
+        const depth = (z2 + 1) / 2;
+
+        const melt = Math.max(0, -x1 - 0.52) * Math.max(0, y2);
+        const sx = cx + x1 * R + n.jx * melt * 130;
+        const sy = cy + y2 * R + n.jy * melt * 190 + melt * 50;
+
+        const sp = sprites[n.ci * 9 + Math.round(depth * 8)];
+        ctx.drawImage(sp, sx - sp.width / 2, sy - sp.height / 2);
+
+        if (depth > 0.82 && melt === 0 && (!best || depth > best.depth) &&
+            Math.abs(x1) < 0.55 && y2 > -0.45 && y2 < 0.2) {
+          best = { sx, sy, depth };
+        }
+      }
+
+      if (!label || t - label.t0 > 2600) {
+        if (best) label = { sx: best.sx, sy: best.sy, t0: t, txt: LABELS[(Math.random() * LABELS.length) | 0] };
+      }
+      if (label) {
+        const age = (t - label.t0) / 2600;
+        const alpha = age < 0.15 ? age / 0.15 : age > 0.8 ? Math.max(0, (1 - age) / 0.2) : 1;
+        const rise = (age < 0.15 ? (1 - age / 0.15) : 0) * 4 * DPR;
+
+        ctx.strokeStyle = `rgba(23,23,23,${0.45 * alpha})`;
+        ctx.lineWidth = DPR;
+        ctx.beginPath();
+        ctx.moveTo(label.sx, label.sy);
+        ctx.lineTo(label.sx + 22 * DPR, label.sy - 22 * DPR);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(label.sx, label.sy, 3 * DPR, 0, 7);
+        ctx.fillStyle = `rgba(27,99,248,${alpha})`;
+        ctx.fill();
+
+        ctx.font = `500 ${10.5 * DPR}px 'Geist Mono', monospace`;
+        const txt = label.txt.toUpperCase();
+        const tw = ctx.measureText(txt).width;
+        const bx = clamp(label.sx + 22 * DPR, 8 * DPR, w - tw - 34 * DPR);
+        const by = label.sy - 36 * DPR + rise;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#e4e4e4';
+        ctx.lineWidth = DPR;
+        ctx.beginPath();
+        ctx.roundRect(bx, by, tw + 24 * DPR, 22 * DPR, 6 * DPR);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#1b63f8';
+        ctx.beginPath(); ctx.arc(bx + 10 * DPR, by + 11 * DPR, 2.4 * DPR, 0, 7); ctx.fill();
+        ctx.fillStyle = '#171717';
+        ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+        ctx.fillText(txt, bx + 17 * DPR, by + 11.5 * DPR);
+        ctx.globalAlpha = 1;
+      }
+    };
+  });
+
+  /* --------------------------------------------------- the mirror ball -- */
+  register('expball', (ctx, w, h, canvas) => {
+    const N = 1500;
+    const R = Math.min(w, h) * 0.36;
+    const cx = w / 2, cy = h * 0.52;
+    const GA = 2.39996323;
+    const facets = [];
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (2 * i) / (N - 1);
+      const r = Math.sqrt(Math.max(0, 1 - y * y));
+      const th = i * GA;
+      facets.push({ x: r * Math.cos(th), y, z: r * Math.sin(th) });
+    }
+    const o = orbit(canvas, { yaw: 0, pitch: 0.05, vyaw: 0, vpitch: 0, auto: 0.0011, pmin: -0.4, pmax: 0.4 });
+
+    return (t) => {
+      o.step();
+      const ca = Math.cos(o.yaw), sa = Math.sin(o.yaw);
+      const cp = Math.cos(o.pitch), sp = Math.sin(o.pitch);
+      const la = t * 0.0005;
+      const lx = Math.cos(la), ly = -0.3, lz = Math.sin(la);
+      const ln = Math.sqrt(lx * lx + ly * ly + lz * lz);
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, w, h);
+
+      /* the hang */
+      ctx.strokeStyle = 'rgba(245,245,245,0.10)';
+      ctx.lineWidth = DPR;
+      ctx.beginPath();
+      ctx.moveTo(cx, 0);
+      ctx.lineTo(cx, cy - R - 4 * DPR);
+      ctx.stroke();
+
+      const sparks = [];
+      const fs = 3.4 * DPR;
+      for (const f of facets) {
+        const x1 = f.x * ca + f.z * sa;
+        const z1 = -f.x * sa + f.z * ca;
+        const y2 = f.y * cp - z1 * sp;
+        const z2 = f.y * sp + z1 * cp;
+        if (z2 < 0) continue;
+
+        const spec = Math.max(0, (x1 * lx + y2 * ly + z2 * lz) / ln);
+        const s8 = Math.pow(spec, 9);
+        const b = 0.12 + 0.26 * z2 + s8;
+        const sx = cx + x1 * R, sy = cy + y2 * R;
+        const size = fs * (0.55 + 0.6 * z2);
+        const rC = (80 + 175 * Math.min(b, 1)) | 0;
+        const gC = (105 + 150 * Math.min(b, 1)) | 0;
+        const bC = (160 + 95 * Math.min(b, 1)) | 0;
+        ctx.fillStyle = `rgba(${rC},${gC},${bC},${clamp(0.25 + b, 0, 1)})`;
+        ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+        if (s8 > 0.55) sparks.push([sx, sy, s8]);
+      }
+
+      /* star glints on top */
+      ctx.globalCompositeOperation = 'lighter';
+      for (const [sx, sy, s8] of sparks) {
+        const len = 11 * s8 * DPR, th2 = 1.1 * DPR;
+        ctx.fillStyle = `rgba(215,230,255,${0.55 * s8})`;
+        ctx.fillRect(sx - len, sy - th2 / 2, len * 2, th2);
+        ctx.fillRect(sx - th2 / 2, sy - len, th2, len * 2);
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    };
+  });
+
+  /* ------------------------------------------------------ the wordmark -- */
+  function wordmarkMaker(ctx, w, h, canvas) {
+    const step = Math.max(3, Math.round(3.1 * DPR));
+    const pts = sampleText('CAPACITY', w, h, step).map(([x, y]) => ({ x, y, ph: Math.random() * 7 }));
+    const mouse = { x: -9e9, y: -9e9 };
+    canvas.onpointermove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - r.left) * DPR;
+      mouse.y = (e.clientY - r.top) * DPR;
+    };
+    canvas.onpointerleave = () => { mouse.x = mouse.y = -9e9; };
+
+    return (t) => {
+      ctx.clearRect(0, 0, w, h);
+      const u = ((t * 0.00011) % 1.5) - 0.25;
+      const rad = 55 * DPR;
+      for (const p of pts) {
+        const nx = p.x / w;
+        const I = Math.exp(-((nx - u) * (nx - u)) / 0.004);
+        let x = p.x + Math.sin(t * 0.001 + p.ph) * 0.8 * DPR;
+        let y = p.y + Math.cos(t * 0.0009 + p.ph) * 0.8 * DPR;
+        const dx = x - mouse.x, dy = y - mouse.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < rad * rad) {
+          const d = Math.sqrt(d2) || 1;
+          const f2 = (1 - d / rad) * 13 * DPR;
+          x += (dx / d) * f2; y += (dy / d) * f2;
+        }
+        const s = (1.6 + 1.4 * I) * DPR;
+        ctx.fillStyle = I > 0.08 ? `rgba(27,99,248,${0.55 + 0.45 * I})` : 'rgba(23,23,23,0.78)';
+        ctx.fillRect(x, y, s, s);
+      }
+    };
+  }
+  register('expword', wordmarkMaker);
+  register('mockword', wordmarkMaker);
+
+  /* ----------------------------------------------------------- the rig -- */
+  register('exp3', (ctx, w, h, canvas) => {
+    const SX = 24, SZ = 18, SY = 12;
+    const strings = [];
+    for (let i = 0; i < SX; i++) {
+      for (let k = 0; k < SZ; k++) {
+        strings.push({ x: (i - (SX - 1) / 2) * 1.0, z: (k - (SZ - 1) / 2) * 1.0 });
+      }
+    }
+    const o = orbit(canvas, { yaw: -0.5, pitch: 0.16, vyaw: 0, vpitch: 0, auto: 0.0012, pmin: 0.0, pmax: 0.45 });
+    const dist = 20, f = h * 1.5;
+    const cx = w / 2, cy = h * 0.52;
+
+    function project(x, y, z, cyaw, syaw, cp, sp) {
+      const x1 = x * cyaw + z * syaw;
+      const z1 = -x * syaw + z * cyaw;
+      const y2 = y * cp - z1 * sp;
+      const z2 = y * sp + z1 * cp + dist;
+      return [cx + (x1 / z2) * f, cy + (y2 / z2) * f, z2];
+    }
+
+    return (t) => {
+      o.step();
+      const cyaw = Math.cos(o.yaw), syaw = Math.sin(o.yaw);
+      const cp = Math.cos(o.pitch), sp = Math.sin(o.pitch);
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(110,140,230,0.06)';
+      ctx.lineWidth = DPR;
+      ctx.beginPath();
+      for (const s of strings) {
+        const a = project(s.x, -3.6, s.z, cyaw, syaw, cp, sp);
+        const b = project(s.x, 3.6, s.z, cyaw, syaw, cp, sp);
+        if (a[2] < 5 || b[2] < 5) continue;
+        ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      }
+      ctx.stroke();
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (const s of strings) {
+        const y0 = 1.1 * Math.sin(0.42 * s.x + t * 0.00058)
+                 + 0.8 * Math.sin(0.23 * s.x - 0.55 * s.z + t * 0.00035)
+                 + 0.45 * Math.sin(0.8 * s.x + 0.3 * s.z + t * 0.0008);
+        for (let j = 0; j < SY; j++) {
+          const y = (j - (SY - 1) / 2) * 0.62;
+          const d = y - y0;
+          let I = Math.exp(-(d * d) / 0.5);
+          I = Math.max(I, 0.05 + 0.04 * Math.sin(t * 0.003 + (s.x * 7 + s.z * 13 + j * 3)));
+          const p = project(s.x, y, s.z, cyaw, syaw, cp, sp);
+          if (p[2] < 5 || p[0] < -20 || p[0] > w + 20) continue;
+          const fog = clamp(1.5 - p[2] / dist, 0.15, 1);
+          const size = (0.9 + 2.6 * I) * (16 / p[2]) * DPR;
+          const rC = (70 + 185 * I) | 0, gC = (115 + 140 * I) | 0;
+          if (I > 0.8) {
+            ctx.fillStyle = `rgba(${rC},${gC},255,${0.10 * fog})`;
+            ctx.fillRect(p[0] - size * 1.8, p[1] - size * 1.8, size * 3.6, size * 3.6);
+          }
+          ctx.fillStyle = `rgba(${rC},${gC},255,${(0.08 + 0.9 * I) * fog})`;
+          ctx.fillRect(p[0] - size / 2, p[1] - size / 2, size, size);
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    };
+  });
+
+  /* -------------------------------------------------------- the ticket -- */
+  register('exp4', (ctx, w, h, canvas) => {
+    const W = 3.2, H = 1.5, RC = 0.16, ZT = 0.05;
+    const PERF = -W / 2 + W * 0.30;
+    const pts = [];
+    const add = (x, y, z, kind) => pts.push({ x, y, z, kind });
+
+    (function outline() {
+      const sp = 0.03, nr = 0.1;
+      const seg = [];
+      for (let x = -W / 2 + RC; x <= W / 2 - RC; x += sp) seg.push([x, -H / 2, 'top']);
+      for (let a = -Math.PI / 2; a < 0; a += sp / RC) seg.push([W / 2 - RC + RC * Math.cos(a), -H / 2 + RC + RC * Math.sin(a), 'c']);
+      for (let y = -H / 2 + RC; y <= H / 2 - RC; y += sp) seg.push([W / 2, y, 'r']);
+      for (let a = 0; a < Math.PI / 2; a += sp / RC) seg.push([W / 2 - RC + RC * Math.cos(a), H / 2 - RC + RC * Math.sin(a), 'c']);
+      for (let x = W / 2 - RC; x >= -W / 2 + RC; x -= sp) seg.push([x, H / 2, 'bot']);
+      for (let a = Math.PI / 2; a < Math.PI; a += sp / RC) seg.push([-W / 2 + RC + RC * Math.cos(a), H / 2 - RC + RC * Math.sin(a), 'c']);
+      for (let y = H / 2 - RC; y >= -H / 2 + RC; y -= sp) seg.push([-W / 2, y, 'l']);
+      for (let a = Math.PI; a < Math.PI * 1.5; a += sp / RC) seg.push([-W / 2 + RC + RC * Math.cos(a), -H / 2 + RC + RC * Math.sin(a), 'c']);
+
+      for (const [x, y, e] of seg) {
+        if ((e === 'top' || e === 'bot') && Math.abs(x - PERF) < nr) continue;
+        add(x, y, ZT, 'edge'); add(x, y, -ZT, 'edge'); add(x, y, 0, 'rim');
+      }
+      for (let a = 0.15; a < Math.PI - 0.15; a += 0.22) {
+        const nx = PERF + nr * Math.cos(a);
+        add(nx, -H / 2 + nr * Math.sin(a), ZT, 'edge');
+        add(nx, -H / 2 + nr * Math.sin(a), -ZT, 'edge');
+        add(nx, H / 2 - nr * Math.sin(a), ZT, 'edge');
+        add(nx, H / 2 - nr * Math.sin(a), -ZT, 'edge');
+      }
+    })();
+
+    for (let y = -H / 2 + 0.14; y <= H / 2 - 0.14; y += 0.085) {
+      add(PERF, y, ZT, 'perf'); add(PERF, y, -ZT, 'perf');
+    }
+    (function qr() {
+      const cxq = (-W / 2 + PERF) / 2, n = 9, cell = 0.05;
+      for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+        if (Math.random() < 0.5) add(cxq + (i - (n - 1) / 2) * cell, (j - (n - 1) / 2) * cell, ZT, 'qr');
+      }
+    })();
+    (function lines() {
+      const rows = [[-0.42, -0.30, 1.32], [-0.18, -0.30, 0.95], [0.10, -0.30, 1.18]];
+      for (const [y, x0, len] of rows) {
+        for (let x = x0; x <= x0 + len; x += 0.055) add(x, y, ZT, 'text');
+      }
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) add(1.05 + i * 0.07, 0.42 + j * 0.07, ZT, 'text');
+    })();
+    for (let x = -W / 2 + 0.16; x < W / 2; x += 0.24) {
+      for (let y = -H / 2 + 0.16; y < H / 2; y += 0.24) {
+        add(x, y, ZT, 'grid'); add(x, y, -ZT, 'grid');
+      }
+    }
+
+    const KIND = {
+      edge: { a: 1.0, s: 1.15 }, rim: { a: 0.5, s: 0.9 }, perf: { a: 1.0, s: 1.05 },
+      qr: { a: 1.0, s: 1.15 }, text: { a: 0.92, s: 1.0 }, grid: { a: 0.3, s: 0.8 }
+    };
+    const o = orbit(canvas, { yaw: 0.35, pitch: -0.14, vyaw: 0, vpitch: 0, auto: 0, pmin: -0.55, pmax: 0.55 });
+    const dist = 6.5, f = Math.min(w, h) * 1.4;
+    const cx = w / 2, cy = h / 2;
+
+    return (t) => {
+      o.step();
+      const yaw = o.yaw * 0.9 + Math.sin(t * 0.00022) * 0.16;
+      const pitch = o.pitch + Math.sin(t * 0.00031 + 1.3) * 0.05;
+      const cyaw = Math.cos(yaw), syaw = Math.sin(yaw);
+      const cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const bob = Math.sin(t * 0.0004) * 6 * DPR;
+      const sweep = ((t * 0.00013) % 1.5) - 0.25;
+
+      ctx.clearRect(0, 0, w, h);
+      for (const p of pts) {
+        const x1 = p.x * cyaw + p.z * syaw;
+        const z1 = -p.x * syaw + p.z * cyaw;
+        const y2 = p.y * cp - z1 * sp;
+        const z2 = p.y * sp + z1 * cp + dist;
+        const sx = cx + (x1 / z2) * f;
+        const sy = cy + (y2 / z2) * f + bob;
+
+        const u = (p.x + W / 2) / W;
+        const I = Math.exp(-((u - sweep) * (u - sweep)) / 0.015);
+        const shade = clamp(1.9 - (z2 / dist) * 1.2, 0.35, 1.1);
+        const k = KIND[p.kind];
+        const size = (1.3 + 1.9 * I) * k.s * (11 / z2) * DPR;
+        const rC = (140 + 115 * I) | 0, gC = (178 + 77 * I) | 0;
+        ctx.fillStyle = `rgba(${rC},${gC},255,${clamp((0.5 + 0.5 * I) * shade * k.a, 0, 1)})`;
+        ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+      }
+    };
+  });
+
+  /* ---------------------------------------------------------- one guest -- */
+  register('expguest', (ctx, w, h) => {
+    const cx = w / 2, cy = h / 2;
+    const U = Math.min(w, h) / 480;
+    const orbiters = [];
+    const LABELS = ['Bought 2 tickets', 'Booked for Friday', 'Opened the email',
+                    'Followed on Instagram', '£46 at the bar', 'Left a 5-star review',
+                    'Back within a week', 'Joined on WiFi', 'Brought 3 friends'];
+    for (let i = 0; i < LABELS.length; i++) {
+      orbiters.push({
+        r: (95 + 120 * ((i * 0.73) % 1)) * U * DPR,
+        a0: (i / LABELS.length) * Math.PI * 2 + (i % 3) * 0.4,
+        sp: (0.00005 + 0.00007 * ((i * 0.41) % 1)) * (i % 2 ? 1 : -1),
+        txt: LABELS[i]
+      });
+    }
+
+    return (t) => {
+      ctx.clearRect(0, 0, w, h);
+      const activeI = Math.floor(t / 2800) % orbiters.length;
+      const phase = (t % 2800) / 2800;
+      const aA = phase < 0.12 ? phase / 0.12 : phase > 0.85 ? Math.max(0, (1 - phase) / 0.15) : 1;
+
+      /* orbit paths, whisper faint */
+      ctx.lineWidth = DPR;
+      for (const o of orbiters) {
+        ctx.strokeStyle = 'rgba(23,23,23,0.04)';
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, o.r, o.r * 0.55, 0, 0, 7);
+        ctx.stroke();
+      }
+
+      /* the guest: a small ring of nodes */
+      ctx.fillStyle = '#1b63f8';
+      ctx.beginPath(); ctx.arc(cx, cy, 4.4 * DPR, 0, 7); ctx.fill();
+      for (let i = 0; i < 14; i++) {
+        const a = (i / 14) * Math.PI * 2 + t * 0.0002;
+        ctx.fillStyle = 'rgba(23,23,23,0.55)';
+        const rr = 16 * DPR;
+        ctx.fillRect(cx + Math.cos(a) * rr - DPR, cy + Math.sin(a) * rr - DPR, 2 * DPR, 2 * DPR);
+      }
+
+      for (let i = 0; i < orbiters.length; i++) {
+        const o = orbiters[i];
+        const a = o.a0 + t * o.sp;
+        const x = cx + Math.cos(a) * o.r;
+        const y = cy + Math.sin(a) * o.r * 0.55;
+        const front = Math.sin(a) > 0;
+        const isA = i === activeI;
+
+        ctx.strokeStyle = isA ? `rgba(27,99,248,${0.45 * aA})` : 'rgba(23,23,23,0.07)';
+        ctx.lineWidth = DPR;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x, y); ctx.stroke();
+
+        const s = (front ? 3.2 : 2.2) * DPR * (isA ? 1 + 0.5 * aA : 1);
+        ctx.fillStyle = isA ? `rgba(27,99,248,${0.5 + 0.5 * aA})` : `rgba(23,23,23,${front ? 0.6 : 0.3})`;
+        ctx.beginPath(); ctx.arc(x, y, s, 0, 7); ctx.fill();
+
+        if (isA && aA > 0.05) {
+          ctx.font = `500 ${10.5 * DPR}px 'Geist Mono', monospace`;
+          const txt = o.txt.toUpperCase();
+          const tw = ctx.measureText(txt).width;
+          const bx = clamp(x + 14 * DPR, 8 * DPR, w - tw - 34 * DPR);
+          const by = clamp(y - 30 * DPR, 8 * DPR, h - 30 * DPR);
+          ctx.globalAlpha = aA;
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e4e4e4';
+          ctx.beginPath();
+          ctx.roundRect(bx, by, tw + 24 * DPR, 22 * DPR, 6 * DPR);
+          ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#1b63f8';
+          ctx.beginPath(); ctx.arc(bx + 10 * DPR, by + 11 * DPR, 2.4 * DPR, 0, 7); ctx.fill();
+          ctx.fillStyle = '#171717';
+          ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+          ctx.fillText(txt, bx + 17 * DPR, by + 11.5 * DPR);
+          ctx.globalAlpha = 1;
+        }
+      }
+    };
+  });
+
+  /* --------------------------------------------------------- recognition -- */
+  register('expcv', (ctx, w, h) => {
+    const A = [
+      { x: 0.375, y: 0.295, bw: 0.095, bh: 0.085, txt: 'Returning guest' },
+      { x: 0.495, y: 0.415, bw: 0.115, bh: 0.145, txt: 'On the guest list' },
+      { x: 0.635, y: 0.385, bw: 0.100, bh: 0.115, txt: 'Booked a table' },
+      { x: 0.195, y: 0.475, bw: 0.115, bh: 0.150, txt: 'First visit' },
+      { x: 0.075, y: 0.545, bw: 0.110, bh: 0.140, txt: 'Bought 2 tickets' },
+      { x: 0.790, y: 0.510, bw: 0.120, bh: 0.150, txt: 'Joined on WiFi' }
+    ];
+    const LOOP = 9600, DUR = 3400, STEP = 1600;
+
+    function bracket(bx, by, bw, bh, q, alpha) {
+      const c = Math.min(bw, bh) * 0.32 * q;
+      ctx.strokeStyle = `rgba(143,176,255,${0.95 * alpha})`;
+      ctx.lineWidth = 1.5 * DPR;
+      ctx.beginPath();
+      ctx.moveTo(bx, by + c); ctx.lineTo(bx, by); ctx.lineTo(bx + c, by);
+      ctx.moveTo(bx + bw - c, by); ctx.lineTo(bx + bw, by); ctx.lineTo(bx + bw, by + c);
+      ctx.moveTo(bx + bw, by + bh - c); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw - c, by + bh);
+      ctx.moveTo(bx + c, by + bh); ctx.lineTo(bx, by + bh); ctx.lineTo(bx, by + bh - c);
+      ctx.stroke();
+    }
+
+    return (t) => {
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(143,176,255,0.4)';
+      ctx.lineWidth = DPR;
+      const m = 10 * DPR, L = 14 * DPR;
+      ctx.beginPath();
+      ctx.moveTo(m, m + L); ctx.lineTo(m, m); ctx.lineTo(m + L, m);
+      ctx.moveTo(w - m - L, m); ctx.lineTo(w - m, m); ctx.lineTo(w - m, m + L);
+      ctx.moveTo(w - m, h - m - L); ctx.lineTo(w - m, h - m); ctx.lineTo(w - m - L, h - m);
+      ctx.moveTo(m + L, h - m); ctx.lineTo(m, h - m); ctx.lineTo(m, h - m - L);
+      ctx.stroke();
+
+      for (let i = 0; i < A.length; i++) {
+        const a = A[i];
+        let q = 1, alpha = 1;
+        if (!REDUCED) {
+          const tt = (t - i * STEP) % LOOP;
+          if (tt < 0 || tt > DUR) continue;
+          q = smooth(clamp(tt / 350, 0, 1));
+          alpha = tt > DUR - 300 ? (DUR - tt) / 300 : q;
+        }
+        const br = 1 + 0.012 * Math.sin(t * 0.004 + i * 2.1);
+        const bw = a.bw * w * br, bh = a.bh * h * br;
+        const bx = a.x * w - (bw - a.bw * w) / 2;
+        const by = a.y * h - (bh - a.bh * h) / 2;
+        bracket(bx, by, bw, bh, q, alpha);
+
+        if (alpha > 0.05 && q > 0.6) {
+          const la = clamp((alpha - 0.6) / 0.4, 0, 1);
+          ctx.font = `500 ${9.5 * DPR}px 'Geist Mono', monospace`;
+          const txt = a.txt.toUpperCase();
+          const tw = ctx.measureText(txt).width;
+          const below = by + bh + 30 * DPR < h;
+          const ly = below ? by + bh + 8 * DPR : by - 30 * DPR;
+          const lx = clamp(bx, 6 * DPR, w - tw - 28 * DPR);
+          ctx.globalAlpha = la;
+          ctx.fillStyle = 'rgba(8,12,24,0.78)';
+          ctx.strokeStyle = 'rgba(143,176,255,0.35)';
+          ctx.lineWidth = DPR;
+          ctx.beginPath();
+          ctx.roundRect(lx, ly, tw + 22 * DPR, 20 * DPR, 5 * DPR);
+          ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#5b8bff';
+          ctx.beginPath(); ctx.arc(lx + 9 * DPR, ly + 10 * DPR, 2.2 * DPR, 0, 7); ctx.fill();
+          ctx.fillStyle = '#f5f5f5';
+          ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+          ctx.fillText(txt, lx + 15 * DPR, ly + 10.5 * DPR);
+          ctx.globalAlpha = 1;
+        }
+      }
+    };
+  });
+
+  /* ------------------------------------- social tile: the mark, gathering -- */
+  register('mockmark', (ctx, w, h) => {
+    const base = sampleMark(4);
+    const scale = Math.min(w, h) * 0.5;
+    const ox = (w - scale) / 2, oy = (h - scale) / 2 - h * 0.04;
+    const parts = base.map(([nx, ny]) => {
+      const g = (nx + ny) / 2;
+      const stray = Math.random() < 0.16;
+      return {
+        tx: ox + nx * scale, ty: oy + ny * scale,
+        sx: Math.random() * w, sy: Math.random() * h,
+        e: stray ? 0.2 + Math.random() * 0.5 : 1,
+        ph: Math.random() * 7,
+        r: Math.floor(167 + (27 - 167) * g),
+        g2: Math.floor(192 + (99 - 192) * g),
+        b: 255
+      };
+    });
+    return (t) => {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of parts) {
+        const x = p.sx + (p.tx - p.sx) * p.e + Math.sin(t * 0.0006 + p.ph) * 2 * DPR * (1 - p.e + 0.2);
+        const y = p.sy + (p.ty - p.sy) * p.e + Math.cos(t * 0.0005 + p.ph) * 2 * DPR * (1 - p.e + 0.2);
+        const a = 0.35 + 0.45 * p.e + 0.2 * Math.sin(t * 0.0015 + p.ph);
+        ctx.fillStyle = `rgba(${p.r},${p.g2},${p.b},${clamp(a, 0, 1)})`;
+        ctx.fillRect(x, y, 1.9 * DPR, 1.9 * DPR);
+      }
+    };
+  });
+
+  /* --------------------------------------------------------- run control -- */
+  for (const exp of experiments) build(exp);
+
+  if (REDUCED) {
+    document.fonts.ready.then(() => {
+      for (const exp of experiments) { exp.api(0); exp.api(1200); exp.api(2400); }
+    });
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const exp = experiments.find((x) => x.canvas === e.target);
+        if (exp) exp.active = e.isIntersecting;
+      }
+    }, { rootMargin: '80px' });
+    for (const exp of experiments) io.observe(exp.canvas);
+
+    function loop(t) {
+      for (const exp of experiments) if (exp.active) exp.api(t);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    let rT;
+    window.addEventListener('resize', () => {
+      clearTimeout(rT);
+      rT = setTimeout(() => { for (const exp of experiments) build(exp); }, 180);
+    });
+
+    document.fonts.ready.then(() => { for (const exp of experiments) build(exp); });
+  }
+
+  const rio = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); }
+  }, { rootMargin: '-40px' });
+  document.querySelectorAll('.reveal').forEach((el) => rio.observe(el));
+
+  /* ---------------------------------------------------------- guidelines -- */
+  const chapters = [...document.querySelectorAll('.chapter')];
+  const navBtns = [...document.querySelectorAll('#gnav button')];
+  const prev = document.getElementById('gPrev');
+  const next = document.getElementById('gNext');
+  const count = document.getElementById('gCount');
+  let cur = 0;
+
+  function showChapter(i) {
+    cur = clamp(i, 0, chapters.length - 1);
+    chapters.forEach((c, j) => {
+      if (j === cur) {
+        c.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => c.classList.add('show')));
+      } else {
+        c.hidden = true;
+        c.classList.remove('show');
+      }
+    });
+    navBtns.forEach((b, j) => b.classList.toggle('active', j === cur));
+    prev.disabled = cur === 0;
+    next.disabled = cur === chapters.length - 1;
+    count.textContent = `${String(cur + 1).padStart(2, '0')} / ${String(chapters.length).padStart(2, '0')}`;
+  }
+  navBtns.forEach((b) => { b.onclick = () => showChapter(+b.dataset.ch); });
+  prev.onclick = () => showChapter(cur - 1);
+  next.onclick = () => showChapter(cur + 1);
+  showChapter(0);
+})();
+</script>
+<script>
+/* Templates: photographs redrawn as dots, the same recipe as dotScreen in
+   site.js. Redraws only when a canvas changes size. */
+(() => {
+  'use strict';
+  const imgs = {};
+  function paint(canvas) {
+    const img = imgs[canvas.dataset.dots];
+    if (!img || !img.complete || !img.naturalWidth) return;
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h || w > 4096 || h > 4096) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const key = w + 'x' + h + '@' + dpr;
+    if (canvas._key === key) return;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    const cell = w < 360 ? 4 : 6;
+    const cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
+    const off = document.createElement('canvas');
+    off.width = cols; off.height = rows;
+    const o = off.getContext('2d', { willReadFrequently: true });
+    const sr = img.naturalWidth / img.naturalHeight, dr = w / h;
+    const sw = sr > dr ? img.naturalHeight * dr : img.naturalWidth;
+    const sh = sr > dr ? img.naturalHeight : img.naturalWidth / dr;
+    o.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, 0, 0, cols, rows);
+    let d;
+    try { d = o.getImageData(0, 0, cols, rows).data; } catch (e) { return; }
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const half = cell / 2, TAU = Math.PI * 2;
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      const i = (y * cols + x) << 2;
+      let l = (d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114) / 255;
+      l = (l - 0.06) * 1.42;
+      if (l < 0.03) continue;
+      if (l > 1) l = 1;
+      const g = (188 + l * 67) | 0;
+      ctx.fillStyle = `rgb(${g},${g},${Math.min(255, g + (l * 14) | 0)})`;
+      ctx.beginPath();
+      ctx.arc(x * cell + half, y * cell + half, Math.sqrt(l) * cell * 0.6, 0, TAU);
+      ctx.fill();
+    }
+    canvas._key = key;
+  }
+  const canvases = [...document.querySelectorAll('canvas[data-dots]')];
+  canvases.forEach((c) => {
+    const src = c.dataset.dots;
+    if (!imgs[src]) {
+      const img = new Image();
+      img.onload = () => canvases.forEach((k) => { if (k.dataset.dots === src) paint(k); });
+      img.src = src;
+      imgs[src] = img;
+    }
+  });
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => paint(e.target)));
+  canvases.forEach((c) => ro.observe(c));
+})();
+</script>
+<script src="points.js?v=7878eec9cc"></script>
+</body>
+</html>

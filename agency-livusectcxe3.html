@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capacity Digital | Site concept</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer" />
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
+<style>
+/* ==========================================================================
+   Capacity Digital, a compact site concept for wearecapacity.co. Internal and
+   unlisted. Uses the agency brand (brand-vqa7gbkxqsky) as written, and ties
+   back to the platform wherever the agency's claim depends on it.
+   ========================================================================== */
+
+@font-face { font-family: 'Tanker'; src: url('assets/fonts/Tanker-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('assets/fonts/GeistMono-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+
+:root {
+  --neon: #ff2e88;
+  --blush: #ff9cc6;
+  --blue: #1b63f8;
+  --night: #0a0a0a;
+  --ash: #141414;
+  --line: #262626;
+  --paper: #f6f6f6;
+  --muted: #8f8f8f;
+  --radius: 8px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --display: 'Tanker', 'Arial Narrow', Impact, sans-serif;
+  --mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  --gutter: clamp(20px, 5vw, 48px);
+  --measure: 1180px;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); letter-spacing: -0.02em; background: var(--night); color: #f5f5f5; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: var(--measure); margin-inline: auto; padding-inline: var(--gutter); }
+.mono { font-family: var(--mono); font-weight: 500; font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.dsp { font-family: var(--display); font-weight: 400; font-synthesis: none; text-transform: uppercase; line-height: 0.86; letter-spacing: 0.005em; }
+.pk { color: var(--neon); }
+.muted { color: var(--muted); }
+.nw { white-space: nowrap; }
+.ph { border-bottom: 1px dashed currentColor; opacity: 0.85; }
+/* Agency objects are points.js objects under neon; the platform's stay blue. */
+[data-points] { filter: brightness(0.7) grayscale(1) sepia(1) saturate(12) hue-rotate(-65deg) contrast(1.1); }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 0.9375rem; letter-spacing: -0.02em; transition: transform 0.12s var(--ease), background 0.2s var(--ease); }
+.btn:active { transform: scale(0.97); }
+.btn--neon { background: var(--neon); color: #0a0a0a; }
+.btn--ghost { border: 1px solid #3a3a3a; color: #f5f5f5; }
+.btn--ghost:hover { border-color: #5a5a5a; }
+.btn--night { background: #0a0a0a; color: var(--neon); }
+.sec { padding-block: clamp(72px, 9vw, 128px); }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: clamp(28px, 4vw, 48px); flex-wrap: wrap; }
+.sec-head h2 { font-size: clamp(3rem, 1.6rem + 5vw, 6rem); }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Concept bar */
+.concept { background: var(--neon); color: #0a0a0a; text-align: center; padding: 7px 12px; }
+.concept a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* Nav */
+.nav { position: sticky; top: 0; z-index: 20; background: rgba(10,10,10,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #1a1a1a; }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 20px; }
+.lock { display: flex; align-items: center; gap: 10px; }
+.lock svg { width: 28px; height: 21px; }
+.lock b { font-family: var(--display); font-weight: 400; font-size: 1.75rem; line-height: 1; letter-spacing: 0.01em; }
+.lock span { color: var(--muted); }
+.nav-links { display: flex; align-items: center; gap: 26px; font-size: 0.9375rem; font-weight: 500; }
+.nav-links a:not(.btn) { color: #cfcfcf; }
+.nav-links a:not(.btn):hover { color: #fff; }
+.nav-plat { display: inline-flex; align-items: center; gap: 7px; }
+.nav-plat svg { width: 14px; height: 11px; }
+.nav .btn { padding: 9px 16px; font-size: 0.875rem; }
+@media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; }
+.hero .wrap { position: relative; z-index: 2; min-height: min(calc(100vh - 100px), 820px); display: grid; align-content: center; padding-block: 64px 40px; }
+.hero-obj { position: absolute; z-index: 1; right: -12%; top: 14%; width: min(44vw, 620px); height: 80%; }
+.hero h1 { font-size: clamp(3.2rem, 0.6rem + 7.4vw, 7.4rem); }
+.hero h1 > span { display: block; }
+.hero-sub { margin-top: 26px; max-width: 520px; font-size: 1.125rem; color: #bdbdbd; }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+.hero-kick { color: var(--muted); margin-bottom: 22px; }
+@media (max-width: 760px) { .hero-obj { width: 100%; right: 0; top: 0; height: 250px; } .hero .wrap { padding-top: 230px; min-height: 0; } }
+
+/* Ticker */
+.ticker { overflow: hidden; border-block: 1px solid var(--line); white-space: nowrap; }
+.ticker-run { display: inline-flex; gap: 52px; padding: 15px 0; animation: tick 40s linear infinite; }
+.ticker-run span { color: var(--muted); }
+.ticker-run b { color: #f5f5f5; font-weight: 500; }
+.ticker-run i { font-style: normal; color: var(--neon); }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* Proof numbers */
+.nums { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
+.nums div { padding: 34px 20px 30px 0; }
+.nums div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+.nums b { display: block; font-family: var(--display); font-weight: 400; font-size: clamp(2.8rem, 1.6rem + 3vw, 4.4rem); line-height: 0.9; }
+.nums span { display: block; margin-top: 10px; color: var(--muted); }
+@media (max-width: 760px) { .nums { grid-template-columns: 1fr 1fr; } .nums div:nth-child(3) { border-left: 0; padding-left: 0; } .nums div { border-top: 1px solid var(--line); } }
+
+/* Services */
+.svc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 900px) { .svc { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .svc { grid-template-columns: 1fr; } }
+.card { background: var(--ash); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+.card-obj { position: relative; aspect-ratio: 16 / 9; border-bottom: 1px solid var(--line); }
+.card-obj > div { position: absolute; inset: 0; }
+.card-body { padding: 18px 18px 22px; }
+.card-body .mono { color: var(--neon); }
+.card-body h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 2.3rem; line-height: 0.9; margin: 10px 0 10px; }
+.card-body p { color: #a9a9a9; font-size: 0.9375rem; }
+
+/* Built on Capacity */
+.tie { background: #050505; border-block: 1px solid var(--line); }
+.tie-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+@media (max-width: 900px) { .tie-grid { grid-template-columns: 1fr; } }
+.tie h2 { font-size: clamp(3rem, 1.4rem + 5vw, 5.6rem); }
+.made { margin-top: 28px; color: #6b6b6b; }
+.made a { color: #cfcfcf; border-bottom: 1px solid #3a3a3a; }
+.made a:hover { color: #fff; }
+.boast { margin-top: 22px; color: var(--muted); }
+.foot-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.foot-nav { display: flex; gap: 22px; flex-wrap: wrap; color: #cfcfcf; font-size: 0.9375rem; }
+.foot-nav a:hover { color: #fff; }
+.foot-sib { margin-top: 22px; color: var(--muted); font-size: 0.9375rem; }
+.foot-sib a { color: #f5f5f5; border-bottom: 1px solid #3a3a3a; }
+.tie-lede { margin-top: 22px; color: #bdbdbd; font-size: 1.0625rem; max-width: 520px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px; max-width: 520px; }
+.split div { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+.split .mono { display: flex; align-items: center; gap: 8px; }
+.split svg { width: 14px; height: 11px; }
+.split p { margin-top: 8px; font-size: 0.9375rem; color: #cfcfcf; }
+.plat-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; color: #f5f5f5; font-weight: 600; border-bottom: 1px solid #3a3a3a; padding-bottom: 2px; }
+.plat-link svg { width: 18px; height: 14px; }
+.plat-link:hover { border-color: #f5f5f5; }
+
+/* The platform's own UI, in the platform's own blue */
+.pui { background: #141415; border: 1px solid #262628; border-radius: 16px; padding: 20px; color: #f3f3f4; font-variant-numeric: tabular-nums; }
+.pui-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.pui-top .who { display: flex; align-items: center; gap: 12px; }
+.pui-av { width: 40px; height: 40px; border-radius: 50%; background: #232326; color: #d4d4d4; display: grid; place-items: center; font-weight: 700; font-size: 0.9375rem; }
+.pui-top b { display: block; font-size: 1rem; }
+.pui-top small { color: #8d8d92; font-size: 0.8125rem; }
+.pui-badge { display: inline-flex; align-items: center; gap: 6px; color: #8d8d92; font-size: 0.75rem; }
+.pui-badge svg { width: 14px; height: 11px; }
+.pui-row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-top: 1px solid #232326; font-size: 0.875rem; }
+.pui-row span { color: #8d8d92; }
+.pui-row b { font-weight: 600; text-align: right; }
+.pui-src { display: inline-flex; align-items: center; gap: 6px; }
+.pui-src i { width: 8px; height: 8px; border-radius: 50%; background: var(--neon); display: inline-block; }
+.pui-dots { display: flex; gap: 5px; margin-top: 14px; }
+.pui-dots i { flex: 1; height: 28px; border-radius: 4px; background: #1d1d20; }
+.pui-dots i.on { background: linear-gradient(180deg, #7aa0ff, #4d7bf3); }
+.pui-cap { display: flex; justify-content: space-between; margin-top: 8px; color: #6b6b70; font-size: 0.6875rem; }
+
+/* Work */
+.work { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 900px) { .work { grid-template-columns: 1fr; } }
+.case { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--ash); }
+.case-img { position: relative; aspect-ratio: 4 / 3; background: #0a0a0a; }
+.case-img canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.case-img .stk { position: absolute; left: 16px; bottom: 16px; }
+.stk { display: inline-block; background: var(--neon); color: #0a0a0a; font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 1.5rem; line-height: 1; padding: 6px 10px 4px; border-radius: 5px; transform: rotate(-3deg); }
+.case-body { padding: 18px 18px 22px; }
+.case-body .mono { color: var(--muted); }
+.case-body h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 2.2rem; line-height: 0.9; margin: 10px 0; }
+.case-body p { color: #a9a9a9; font-size: 0.9375rem; }
+
+/* Steps */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+.steps div { padding: 26px 22px 8px 0; }
+.steps div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+@media (max-width: 760px) { .steps div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
+.steps .n { font-family: var(--display); font-size: 4.6rem; line-height: 0.8; color: var(--neon); }
+.steps h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 2.2rem; line-height: 0.9; margin: 14px 0 8px; }
+.steps p { color: #a9a9a9; max-width: 32ch; }
+
+/* CTA */
+.cta { background: var(--neon); color: #0a0a0a; }
+.cta .wrap { padding-block: clamp(64px, 8vw, 112px); display: grid; gap: 22px; justify-items: start; }
+.cta h2 { font-size: clamp(3.2rem, 1rem + 6.6vw, 7.2rem); }
+.cta p { font-size: 1.125rem; max-width: 520px; color: rgba(10,10,10,0.78); }
+
+/* Footer: both brands, one company */
+.foot { padding-block: 56px 40px; }
+.foot-top { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 700px) { .foot-top { grid-template-columns: 1fr; } }
+.sib { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 12px; }
+.sib-h { display: flex; align-items: center; gap: 10px; }
+.sib-h svg { width: 26px; height: 20px; }
+.sib-h b { font-weight: 700; font-size: 1.0625rem; }
+.sib p { color: var(--muted); font-size: 0.9375rem; }
+.sib .mono { color: #cfcfcf; }
+.sib--plat .mono { color: #9fbaff; }
+.foot-legal { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; color: #6b6b6b; font-size: 0.8125rem; }
+.foot-legal a:hover { color: #cfcfcf; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .ticker-run { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <path id="capacity-mark" d="M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z"/>
+  </defs>
+</svg>
+
+<div class="concept mono">Site concept, not live &middot; <a href="brand-vqa7gbkxqsky">Digital brand</a> &middot; <a href="brand-gnv7ztt1hgki">Platform brand</a></div>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="lock" href="#top" aria-label="Capacity Digital">
+      <svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+      <b>Capacity</b><span class="mono">Digital</span>
+    </a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#platform">Platform</a>
+      <a class="btn btn--neon" href="#start">Start a project</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="hero-obj" data-points="tent" data-auto="spin" data-zoom="1.2" data-pitch="0.2"></div>
+  <div class="wrap">
+    <p class="hero-kick mono">Nightlife &middot; Hospitality &middot; Live events</p>
+    <h1 class="dsp"><span>The creative agency</span> <span>for <span class="pk">venues and events.</span></span></h1>
+    <p class="hero-sub">Brand, social, content, PR, launches and paid media, from one team that only works in our industry.</p>
+    <div class="hero-cta">
+      <a class="btn btn--neon" href="#start">Start a project</a>
+      <a class="btn btn--ghost" href="#work">See the work</a>
+    </div>
+    <p class="made mono">Made by the team behind <a href="#platform">Capacity</a>, the operating system for venues</p>
+  </div>
+</header>
+
+<div class="ticker mono" aria-hidden="true">
+  <div class="ticker-run">
+    <span><b>Now</b> <span class="ph">[Venue]</span> opening</span>
+    <span><b>Now</b> <span class="ph">[Festival]</span> 2027 campaign</span>
+    <span><b>Now</b> <span class="ph">[Club night]</span> rebrand</span>
+    <span><b>Now</b> <span class="ph">[Bar group]</span> social and UGC</span>
+    <span><b>Now</b> <span class="ph">[Event]</span> press</span>
+    <span><b>Now</b> <span class="ph">[Venue]</span> opening</span>
+    <span><b>Now</b> <span class="ph">[Festival]</span> 2027 campaign</span>
+    <span><b>Now</b> <span class="ph">[Club night]</span> rebrand</span>
+    <span><b>Now</b> <span class="ph">[Bar group]</span> social and UGC</span>
+    <span><b>Now</b> <span class="ph">[Event]</span> press</span>
+  </div>
+</div>
+
+<!-- Services -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="dsp">One industry. <span class="pk">Every discipline.</span></h2>
+      <p class="muted" style="max-width:380px">Full service without being spread thin. We don't do banks or skincare, so everything we know is about getting people through a door.</p>
+    </div>
+    <div class="svc reveal">
+      <article class="card">
+        <div class="card-obj"><div data-points="sparkle" data-zoom="0.9"></div></div>
+        <div class="card-body"><span class="mono">01</span><h3>Brand</h3><p>Names, identities and the look of a place, from the sign to the wristband.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="socials" data-zoom="0.9"></div></div>
+        <div class="card-body"><span class="mono">02</span><h3>Social and UGC</h3><p>Channels run day to day, and content shot on the night by the people in it.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="megaphone" data-yaw="0.35" data-zoom="0.9"></div></div>
+        <div class="card-body"><span class="mono">03</span><h3>PR</h3><p>Launch stories, features and interviews, pitched to the writers your guests read.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="cdj" data-zoom="1.3"></div></div>
+        <div class="card-body"><span class="mono">04</span><h3>Launches</h3><p>New venues and new nights, from the first teaser to the first full room.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="chart" data-zoom="0.95"></div></div>
+        <div class="card-body"><span class="mono">05</span><h3>Paid media</h3><p>Meta, TikTok and Google, behind the content that's already working.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-obj"><div data-points="tickets" data-zoom="0.95"></div></div>
+        <div class="card-body"><span class="mono">06</span><h3>Web and ticketing</h3><p>Sites and event pages that look like the brand and sell like a shop.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Work -->
+<section class="sec" id="work" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="dsp">The work.</h2>
+      <a class="btn btn--ghost" href="#work">All work</a>
+    </div>
+    <div class="work reveal">
+      <article class="case">
+        <div class="case-img"><canvas data-dots="assets/venue/venue-10.jpg" aria-hidden="true"></canvas><span class="stk">Launch</span></div>
+        <div class="case-body"><span class="mono"><span class="ph">[Venue]</span> / Name, identity, launch, PR</span><h3>Opened to a queue.</h3><p>A new club, from its name to its first weekend. <span class="ph">[Fully booked for the first month.]</span></p></div>
+      </article>
+      <article class="case">
+        <div class="case-img"><canvas data-dots="assets/venue/venue-05.jpg" aria-hidden="true"></canvas><span class="stk">Social</span></div>
+        <div class="case-body"><span class="mono"><span class="ph">[Festival]</span> / Social, UGC, paid</span><h3>A season filmed by the crowd.</h3><p>Content from the fields, cut the same night and put behind the next release.</p></div>
+      </article>
+      <article class="case">
+        <div class="case-img"><canvas data-dots="assets/venue/venue-02.jpg" aria-hidden="true"></canvas><span class="stk">Rebrand</span></div>
+        <div class="case-body"><span class="mono"><span class="ph">[Club night]</span> / Brand, social</span><h3>Ten years old, new again.</h3><p>A new identity for a long-running night that kept its regulars and found a younger crowd.</p></div>
+      </article>
+    </div>
+    <p class="boast mono reveal"><span class="ph">[35,000+]</span> tickets sold for clients &middot; <span class="ph">[8x]</span> average return on ad spend</p>
+  </div>
+</section>
+
+<!-- With the platform -->
+<section class="sec tie" id="platform">
+  <div class="wrap tie-grid">
+    <div class="reveal">
+      <p class="mono muted" style="margin-bottom:18px">With Capacity</p>
+      <h2 class="dsp">We know who <span class="pk">came.</span></h2>
+      <p class="tie-lede">We're part of Capacity, the operating system for venues. The venues we work with can run on it, so briefs start from real guests, and the work is judged on who came through the door rather than who liked the post.</p>
+      <a class="plat-link" href="https://getcapacity.co">About the platform &rarr;</a>
+    </div>
+    <div class="pui reveal" aria-label="A guest profile in Capacity">
+      <div class="pui-top">
+        <div class="who"><span class="pui-av">JM</span><div><b>Jess M.</b><small>Labyrinth Nightclub</small></div></div>
+        <span class="pui-badge"><svg viewBox="240 440 1520 1120" fill="#8d8d92" aria-hidden="true"><use href="#capacity-mark"/></svg>Capacity</span>
+      </div>
+      <div class="pui-row"><span>First found</span><b class="pui-src"><i></i>Opening week reel</b></div>
+      <div class="pui-row"><span>Visits since March</span><b>6</b></div>
+      <div class="pui-row"><span>Usual night</span><b>Saturday</b></div>
+      <div class="pui-row"><span>Last seen</span><b>Saturday, 11:42pm</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- How we start -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2 class="dsp">How it starts.</h2></div>
+    <div class="steps reveal">
+      <div><span class="n">01</span><h3>Talk</h3><p>Tell us what you're opening, running or relaunching.</p></div>
+      <div><span class="n">02</span><h3>Plan</h3><p>One plan across brand, content, press and media, with dates.</p></div>
+      <div><span class="n">03</span><h3>Make it</h3><p>We make it, run it and show you what it did.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="start">
+  <div class="wrap">
+    <h2 class="dsp">Opening something?</h2>
+    <p>Tell us what it is and when. We'll come back with how we'd do it.</p>
+    <a class="btn btn--night" href="#start">Start a project</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-row">
+      <a class="lock" href="#top" aria-label="Capacity Digital">
+        <svg viewBox="240 440 1520 1120" fill="#ff2e88"><use href="#capacity-mark"/></svg>
+        <b>Capacity</b><span class="mono">Digital</span>
+      </a>
+      <nav class="foot-nav"><a href="#work">Work</a><a href="#services">Services</a><a href="#start">Contact</a><a href="#">Instagram</a><a href="#">LinkedIn</a></nav>
+    </div>
+    <p class="foot-sib">Part of Capacity. The platform lives at <a href="https://getcapacity.co">getcapacity.co</a>.</p>
+    <div class="foot-legal">
+      <span>&copy; Capacity Digital Ltd 2026 &middot; Company No. 14487697</span>
+      <span>167-169 Great Portland Street, London W1W 5PF</span>
+      <span><a href="#">Privacy</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  const rio = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); }
+  }, { rootMargin: '-40px' });
+  document.querySelectorAll('.reveal').forEach((el) => rio.observe(el));
+
+  /* Photographs as neon dots: the platform's dot recipe on the agency ramp. */
+  const RAMP = [[0, [61, 5, 32]], [0.5, [255, 46, 136]], [1, [255, 224, 238]]];
+  const tone = (l) => {
+    for (let k = 1; k < RAMP.length; k++) if (l <= RAMP[k][0]) {
+      const [a, ca] = RAMP[k - 1], [b, cb] = RAMP[k], t = (l - a) / (b - a);
+      return ca.map((v, i) => (v + (cb[i] - v) * t) | 0);
+    }
+    return RAMP[RAMP.length - 1][1];
+  };
+  function paint(canvas, img) {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h || !img.naturalWidth) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const key = w + 'x' + h + '@' + dpr;
+    if (canvas._key === key) return;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    const cell = w < 360 ? 4 : 6, cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
+    const off = document.createElement('canvas'); off.width = cols; off.height = rows;
+    const o = off.getContext('2d', { willReadFrequently: true });
+    const sr = img.naturalWidth / img.naturalHeight, dr = w / h;
+    const sw = sr > dr ? img.naturalHeight * dr : img.naturalWidth, sh = sr > dr ? img.naturalHeight : img.naturalWidth / dr;
+    o.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, 0, 0, cols, rows);
+    let d; try { d = o.getImageData(0, 0, cols, rows).data; } catch (e) { return; }
+    const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+    /* These venue shots are dark; stretch each one to its own range first. */
+    let lo = 1, hi = 0; const L = new Float32Array(cols * rows);
+    for (let i = 0; i < L.length; i++) { const v = (d[i * 4] * 0.299 + d[i * 4 + 1] * 0.587 + d[i * 4 + 2] * 0.114) / 255; L[i] = v; if (v < lo) lo = v; if (v > hi) hi = v; }
+    const span = Math.max(0.2, hi - lo);
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      let l = (L[y * cols + x] - lo) / span; l = (l - 0.06) * 1.2;
+      if (l < 0.04) continue; if (l > 1) l = 1;
+      const c = tone(l); ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      ctx.beginPath(); ctx.arc(x * cell + cell / 2, y * cell + cell / 2, Math.sqrt(l) * cell * 0.6, 0, Math.PI * 2); ctx.fill();
+    }
+    canvas._key = key;
+  }
+  document.querySelectorAll('canvas[data-dots]').forEach((c) => {
+    const img = new Image();
+    img.onload = () => { paint(c, img); new ResizeObserver(() => paint(c, img)).observe(c); };
+    img.src = c.dataset.dots;
+  });
+})();
+</script>
+<script src="points.js?v=7878eec9cc"></script>
+</body>
+</html>
