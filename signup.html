@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,9 +9,15 @@
 <meta property="og:title" content="Book a demo | Capacity" />
 <meta property="og:description" content="Twenty minutes, on a call. See exactly what Capacity would change for your venue, with venue data like yours." />
 <meta property="og:type" content="website" />
+<meta property="og:site_name" content="Capacity" />
+<meta property="og:locale" content="en_GB" />
 <meta property="og:url" content="https://getcapacity.co/signup" />
 <link rel="canonical" href="https://getcapacity.co/signup" />
-<meta property="og:image" content="https://getcapacity.co/assets/og-card.png?v=a51cf4ee21" />
+<meta property="og:image" content="https://getcapacity.co/assets/og/signup.png?v=7846c79e7a" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Book a demo | Capacity" />
+<meta name="twitter:image" content="https://getcapacity.co/assets/og/signup.png?v=7846c79e7a" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a6689e9c9e" />
 <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png?v=eafb25fc21" />
@@ -20,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" />
 <link rel="stylesheet" href="tokens.css?v=3e34301e7a" />
-<link rel="stylesheet" href="site.css?v=000d3573eb" />
+<link rel="stylesheet" href="site.css?v=6a82545f36" />
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -58,12 +64,14 @@
   <symbol id="i-trending-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></symbol>
   <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><path d="M7.5 7.5h.01"/></symbol>
   <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-handshake" viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></symbol>
 </svg>
 
 <nav class="nav" id="nav" aria-label="Main">
   <div class="wrap">
    <div class="nav__inner">
-    <a class="nav__logo" href="home" aria-label="Capacity home">
+    <a class="nav__logo" href="/" aria-label="Capacity home">
       <img src="assets/capacity-logomark-blue.png?v=10f6b48b7f" alt="Capacity" />
     </a>
     <div style="margin-right:auto"></div>
@@ -75,30 +83,25 @@
   </div>
 </nav>
 
-<section class="band on-light pagehead pagehead--full demo-head">
-  <canvas class="hero__field hero__field--light" id="pixelField" data-tone="light" aria-hidden="true"></canvas>
+<section class="band on-light pagehead pagehead--full demo-head" data-points-bg="light" data-points-horizon="-0.25">
 
   <div class="wrap demo-split">
 
     <div>
-      <a class="back" href="home"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>Back to home</a>
-      <h1 class="h2 cta__title cta__title--left" data-r>Ready to reach Capacity?</h1>
-      <p class="lede" data-r style="--rd:1; margin-top: var(--space-5)">
-        Twenty minutes, on a call. We look at how you run things today, then show you exactly
-        what Capacity would change, with data from venues like yours.
-      </p>
+            <h1 class="h1" data-r>See it in action.</h1>
+      <p class="lede" data-r style="--rd:1; margin-top: var(--space-5)">A 30 minute call, built around your numbers. We&rsquo;ll find where Capacity can save you time and money.</p>
       <ul class="demo-list" data-r style="--rd:2">
         <li>
-          <svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>
-          <span><b>20 minutes, no hard sell</b><span>If it&rsquo;s not a fit, we&rsquo;ll tell you straight.</span></span>
+          <svg class="ic" aria-hidden="true"><use href="#i-circle-check"/></svg>
+          <span><b>No hard sell</b><span>If it&rsquo;s not a fit, we&rsquo;ll say so.</span></span>
         </li>
         <li>
-          <svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg>
-          <span><b>Live in days, not weeks</b><span>Free setup call. We connect what you already run.</span></span>
+          <svg class="ic" aria-hidden="true"><use href="#i-handshake"/></svg>
+          <span><b>Personal, not plug and play</b><span>Set up around how your venue runs.</span></span>
         </li>
         <li>
           <svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg>
-          <span><b>Built around your venue</b><span>Bars, restaurants, clubs, leisure sites and event series. We fit the way you run.</span></span>
+          <span><b>Built for venues</b><span>Clubs, bars, leisure and events.</span></span>
         </li>
       </ul>
     </div>
@@ -108,16 +111,11 @@
          wholesale with a Cal.com or Calendly embed. See ASSETS-NEEDED.md. -->
     <div class="card" id="card" data-r style="--rd:1">
       <form class="form" id="form" novalidate>
-        <div>
-          <h2 class="h3">Book your demo</h2>
-          <p class="dim" style="font-size: var(--text-sm); margin-top: var(--space-2)">
-            Tell us a little about your venue and we&rsquo;ll be in touch within one working day.
-          </p>
-        </div>
+        <h2 class="h3">Book your demo</h2>
 
         <div class="field">
-          <label for="venue">Venue name <span class="req">*</span></label>
-          <input id="venue" name="venue" type="text" placeholder="Your venue name" required autocomplete="organization" />
+          <label for="venue">Venue or business <span class="req">*</span></label>
+          <input id="venue" name="venue" type="text" placeholder="Your venue, event or company" required autocomplete="organization" />
           <span class="field__err">Please tell us the venue name.</span>
         </div>
 
@@ -146,7 +144,7 @@
         </div>
 
         <div class="field">
-          <label for="type">Venue type</label>
+          <label for="type">What you run</label>
           <select id="type" name="type">
             <option>Bar or pub</option>
             <option>Music or live events venue</option>
@@ -171,10 +169,7 @@
         <p class="form__note" id="formError" role="alert" hidden></p>
         <!-- Article 13 requires the privacy information to be given at the point
              the data is collected, not somewhere findable afterwards. -->
-        <p class="dim" style="font-size: var(--text-sm); line-height: var(--leading-relaxed)">
-          We use these details to respond to your enquiry and to tell you about Capacity. See our
-          <a href="privacy" style="color: var(--brand-text); text-decoration: underline; text-underline-offset: 3px">Privacy Policy</a>.
-        </p>
+        <p class="form__privacy"><a href="privacy">Privacy Policy</a></p>
       </form>
 
       <div class="done" id="done" hidden>
@@ -191,8 +186,8 @@
   <div class="wrap">
     <div class="footer__inner">
       <div class="footer__brand">
-        <a href="home" aria-label="Capacity home"><img src="assets/capacity-logomark-white.png?v=fb245a8e45" alt="Capacity" /></a>
-        <p>Ticketing, bookings and marketing for venues. Sell under your own brand, own the customer, and bring them back.</p>
+        <a href="/" aria-label="Capacity home"><img src="assets/capacity-logomark-white.png?v=fb245a8e45" alt="Capacity" /></a>
+        <p>The operating system for venues.</p>
         <div class="footer__socials">
           <a href="https://instagram.com/wearecapacity" aria-label="Capacity on Instagram"><svg class="ic ic--brand" aria-hidden="true"><use href="#i-instagram"/></svg></a>
           <a href="https://www.linkedin.com/company/wearecapacity" aria-label="Capacity on LinkedIn"><svg class="ic ic--brand" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
@@ -200,20 +195,19 @@
       </div>
       <nav class="footer__col" aria-label="Product">
         <h3>Product</h3>
-        <a href="home#platform">Platform</a>
+        <a href="/#platform">Platform</a>
         <a href="integrations">Integrations</a>
-        <a href="home#how">How it works</a>
+        <a href="/#how">How it works</a>
         <!-- MVP-HIDDEN: temporarily hidden for MVP launch. Restore by deleting this comment wrapper.
-      <a href="home#results">Results</a>
+      <a href="/#results">Results</a>
       -->
       </nav>
       <nav class="footer__col" aria-label="Company">
         <h3>Company</h3>
         <a href="https://www.wearecapacity.co/">Agency</a>
-        <a href="security">Security</a>
         <a href="hiring">Careers</a>
         <a href="signup">Contact</a>
-        <a href="home#faq">FAQ</a>
+        <a href="/#faq">FAQ</a>
       </nav>
       <nav class="footer__col" aria-label="Get started">
         <h3>Get started</h3>
@@ -233,12 +227,14 @@
       <span>&copy; Capacity Digital Ltd 2026 &middot; Company No. 14487697</span>
       <span class="footer__legal">
         <a href="cookies" data-consent-settings>Cookie settings</a>
+        <a href="security">Security</a>
       </span>
       <span>167-169 Great Portland Street, London W1W 5PF</span>
     </div>
   </div>
 </footer>
 
-<script src="site.js?v=09d7252bba" defer></script>
+<script src="points.js?v=7878eec9cc" defer></script>
+<script src="site.js?v=72bf12c76b" defer></script>
 </body>
 </html>

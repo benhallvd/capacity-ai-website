@@ -4,7 +4,7 @@
 Vercel serves site.css and site.js as immutable for a year (vercel.json), so a
 stale reference would pin a visitor to the previous build. The hash is the first
 ten hex characters of the file's SHA-256, which is what the existing markup
-already carries. Run after every edit to site.css, site.js or hiring.js.
+already carries. Run after every edit to site.css, site.js, hiring.js or points.js.
 """
 
 import hashlib
@@ -13,7 +13,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).parent
-STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js")
+STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js", "points.js")
 
 REF = re.compile(r'((?:href|src)=")([A-Za-z0-9_.\-]+\.(?:css|js))(\?v=[0-9a-f]+)?(")')
 
