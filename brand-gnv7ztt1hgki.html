@@ -1199,10 +1199,10 @@ h2 {
       <p class="tlabel mono">Profiles, covers, video</p>
 
       <div class="tpl" style="aspect-ratio:1584/396" data-export="linkedin-cover" data-export-size="1584x396">
-        <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" aria-hidden="true" style="left:62%;width:38%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%)"></canvas>
-        <div class="tpl-in" style="justify-content:center;padding:0 0 0 24cqw">
-          <div class="tpl-h" style="font-size:3cqw">The operating system for venues.</div>
-          <span class="tpl-tag" style="font-size:1.1cqw;margin-top:1.4cqw">wearecapacity.co</span>
+        <canvas class="tpl-dots" data-dots="assets/venue/venue-10.jpg" data-dots-tone="blue" aria-hidden="true" style="left:48%;width:52%;-webkit-mask-image:linear-gradient(90deg,transparent 14%,#000 48%);mask-image:linear-gradient(90deg,transparent 14%,#000 48%)"></canvas>
+        <div class="tpl-in" style="justify-content:center;padding:0 0 5cqw 8cqw">
+          <svg viewBox="240 440 1520 1120" fill="#1b63f8" style="width:3.4cqw;height:2.6cqw;margin-bottom:1.8cqw" aria-hidden="true"><use href="#capacity-mark"/></svg>
+          <div class="tpl-h" style="font-size:3.4cqw">The operating system for venues.</div>
         </div>
       </div>
       <p class="mock-cap mono">LinkedIn cover / 1584 &times; 396</p>
@@ -2343,8 +2343,15 @@ depth = brightness, so the room stands up in 3D</pre>
       l = (l - 0.06) * 1.42;
       if (l < 0.03) continue;
       if (l > 1) l = 1;
-      const g = (188 + l * 67) | 0;
-      ctx.fillStyle = `rgb(${g},${g},${Math.min(255, g + (l * 14) | 0)})`;
+      if (canvas.dataset.dotsTone === 'blue') {
+        /* Deep navy in the shadows, brand blue in the room, near white in the lights. */
+        const t = l < 0.55 ? l / 0.55 : (l - 0.55) / 0.45;
+        const [c0, c1] = l < 0.55 ? [[14, 34, 92], [77, 123, 243]] : [[77, 123, 243], [226, 235, 255]];
+        ctx.fillStyle = `rgb(${c0.map((v, k) => (v + (c1[k] - v) * t) | 0).join(',')})`;
+      } else {
+        const g = (188 + l * 67) | 0;
+        ctx.fillStyle = `rgb(${g},${g},${Math.min(255, g + (l * 14) | 0)})`;
+      }
       ctx.beginPath();
       ctx.arc(x * cell + half, y * cell + half, Math.sqrt(l) * cell * 0.6, 0, TAU);
       ctx.fill();
