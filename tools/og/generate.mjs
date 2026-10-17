@@ -36,14 +36,14 @@ const CARDS = {
   'forms': 'Signup forms',
   'files': 'Files',
   'reports': 'Reports',
-  'intelligence': 'Intelligence',
+  'intelligence': 'Capacity Intelligence',
   'nightclubs': 'Nightclubs',
   'bars': 'Bars',
   'competitive-socialising': 'Competitive socialising',
   'festivals': 'Festivals',
   'promoters': 'Event promoters',
   integrations: 'Integrations',
-  signup: 'Book a demo',
+  signup: 'Book an audit',
   hiring: 'Careers',
   'case-neon-rooms': 'Case study',
 };
@@ -56,7 +56,7 @@ const SHARE = {
 const FILE = { home: 'index' };
 /* Headlines that should not be the page H1 on the card. */
 const HEADLINE = {
-  home: 'The operating system<br>for venues.',
+  home: 'Built around how<br>your venue runs.',
   hiring: 'Help us build the future<br>of hospitality.',
 };
 
