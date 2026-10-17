@@ -13,7 +13,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).parent
-STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js", "points.js")
+STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js", "points.js", "ascii.js")
 
 REF = re.compile(r'((?:href|src)=")([A-Za-z0-9_.\-]+\.(?:css|js))(\?v=[0-9a-f]+)?(")')
 

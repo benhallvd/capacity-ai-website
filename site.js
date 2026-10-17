@@ -31,7 +31,7 @@
       var target = window.scrollY;
       var current = target;
       var running = false;
-      var EASE = 0.115;
+      var EASE = 0.14;
 
       function frame() {
         current += (target - current) * EASE;
@@ -334,7 +334,10 @@
           stTrack.classList.toggle('is-handover', late);
           wasLate = late;
         }
-        stTrack.classList.toggle('is-inverted', p >= stop.invert);
+        /* A little hysteresis, so sitting on the threshold cannot flick it. */
+        var inv = stTrack.classList.contains('is-inverted');
+        if (!inv && p >= stop.invert) stTrack.classList.add('is-inverted');
+        else if (inv && p < stop.invert - 0.08) stTrack.classList.remove('is-inverted');
       });
     }
   }
@@ -792,11 +795,14 @@
      phone) it wraps, and the line keeps the height of the tallest word so
      nothing under the heading moves as they change. */
 
-  var rot = $('.rot[data-rot]');
+  var rots = $$('.rot[data-rot]');
 
-  if (rot && !reduced) {
-    var words = rot.getAttribute('data-rot').split('|');
-    var title = rot.closest('.hero__title');
+  if (rots.length && !reduced) {
+    /* Every rotator on the page changes on the same beat, so a word in the
+       heading and its partner in the line under it always agree. An inline
+       one (.rot--inline) sits mid-sentence: its width eases from the old
+       word to the new, so the words around it slide rather than jump. */
+    var title = rots[0].closest('.hero__title') || rots[0];
     var wi = 0, heroOn = true;
 
     if ('IntersectionObserver' in window) {
@@ -821,17 +827,6 @@
         n++;
         el.appendChild(w);
       });
-    };
-
-    var reserve = function () {
-      rot.style.minHeight = '';
-      var probe = document.createElement('span');
-      probe.className = 'rot__word rot__probe';
-      rot.appendChild(probe);
-      var tallest = 0;
-      words.forEach(function (w) { probe.textContent = w; tallest = Math.max(tallest, probe.offsetHeight); });
-      probe.remove();
-      rot.style.minHeight = tallest + 'px';
     };
 
     /* Split letters lose the font's kerning, so the word would sit a touch
@@ -863,10 +858,38 @@
       });
     };
 
-    var current = $('.rot__word', rot);
+    var states = rots.map(function (el) {
+      return {
+        el: el,
+        words: el.getAttribute('data-rot').split('|'),
+        inline: el.classList.contains('rot--inline'),
+        current: $('.rot__word', el)
+      };
+    });
 
-    var roll = function (text) {
-      var old = current;
+    /* A block rotator keeps the height of its tallest word, so nothing
+       under the heading moves as they change. */
+    var reserve = function () {
+      states.forEach(function (st) {
+        if (st.inline) { st.el.style.width = ''; return; }
+        var rot = st.el;
+        rot.style.minHeight = '';
+        var probe = document.createElement('span');
+        probe.className = 'rot__word rot__probe';
+        rot.appendChild(probe);
+        var tallest = 0;
+        st.words.forEach(function (w) { probe.textContent = w; tallest = Math.max(tallest, probe.offsetHeight); });
+        probe.remove();
+        rot.style.minHeight = tallest + 'px';
+      });
+    };
+
+    var roll = function (st, text) {
+      var rot = st.el, old = st.current;
+      /* Once the heading has landed its line stops clipping, and a soft
+         mask takes over, so the word fades at the edges as it rolls. */
+      var line = rot.closest('[data-r="line"]');
+      if (line) line.classList.add('is-free');
       var next = document.createElement('span');
       next.className = 'rot__word is-next is-below';
       letters(next, text);
@@ -874,22 +897,25 @@
       letters(old, old.textContent);
       kern(next);
       kern(old);
+      if (st.inline) rot.style.width = rot.offsetWidth + 'px';
       void next.offsetWidth;
+      if (st.inline) rot.style.width = next.offsetWidth + 'px';
       old.classList.add('is-out');
       next.classList.remove('is-below');
-      current = next;
+      st.current = next;
       setTimeout(function () {
         old.remove();
         next.classList.remove('is-next');
         next.textContent = text;
+        if (st.inline) rot.style.width = '';
       }, 1500);
     };
 
     var cycle = function () {
       setTimeout(function () {
         if (heroOn && !document.hidden) {
-          wi = (wi + 1) % words.length;
-          roll(words[wi]);
+          wi += 1;
+          states.forEach(function (st) { roll(st, st.words[wi % st.words.length]); });
         }
         cycle();
       }, 3200);
@@ -925,7 +951,7 @@
   var hcta = $('.hcta');
 
   if (hcta) {
-    if (reduced) {
+    if (reduced || hcta.hasAttribute('data-static')) {
       hcta.classList.add('is-static', 'is-in');
     } else {
       var hIn = false;
@@ -1287,25 +1313,6 @@
     }
   }
 
-  /* ------------------------------------------------------------- week ----- */
-  /* Industry page. The bars build once the chart is on screen. */
-
-  var weekBand = $('.week-band');
-
-  if (weekBand) {
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries, obs) {
-        entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          weekBand.classList.add('is-in');
-          obs.unobserve(e.target);
-        });
-      }, { threshold: 0.3 }).observe(weekBand);
-    } else {
-      weekBand.classList.add('is-in');
-    }
-  }
-
   /* ------------------------------------------------------------- accordion -- */
   /* <details> has no transition of its own: the browser shows and hides the
      content outright. So intercept the toggle, animate the wrapper's height,
@@ -1424,7 +1431,7 @@
       }).catch(function (err) {
         if (button) {
           button.disabled = false;
-          button.innerHTML = 'Book my demo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>';
+          button.innerHTML = 'Book my audit <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>';
         }
         showError('That did not send. Please try again in a moment.');
         console.error('[demo]', err);
@@ -1550,7 +1557,12 @@
     drivers.push(function () {
       var mid = nav.getBoundingClientRect().top + 42;
       var over = false;
-      for (var i = 0; i < darkBands.length; i++) {
+      /* A pinned dark section that has turned to the light page counts as light. */
+      var turned = $$('.inv-track.is-inverted').some(function (el) {
+        var t = el.getBoundingClientRect();
+        return t.top <= mid && t.bottom >= mid;
+      });
+      if (!turned) for (var i = 0; i < darkBands.length; i++) {
         var r = darkBands[i].getBoundingClientRect();
         if (r.height && r.top <= mid && r.bottom >= mid && isDark(darkBands[i])) { over = true; break; }
       }
@@ -3935,242 +3947,16 @@
    Audience pages. Each block returns at once on any other page.
    ========================================================================= */
 
-/* ---- Festivals (for-festivals) ---- */
-/* ---------------------------------------------------------- festivals --- */
-/* for-festivals.html: replays one edition's on-sale, announcement to sold
-   out, against the year before. The markup is the finished edition, so with
-   script blocked or reduced motion nothing moves and nothing is missing.
-   Every figure is read back out of the two paths in the page, so the chart
-   and the numbers beside it cannot disagree. */
-(function () {
-  'use strict';
 
-  var run = document.getElementById('xfRun');
-  if (!run || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var PLAY = 11000;   // announcement to sold out
-  var HOLD = 4200;    // the finished edition, before it goes round again
-
-  var cap = +run.getAttribute('data-cap');
-  var days = +run.getAttribute('data-days');
-  var start = new Date(run.getAttribute('data-start') + 'T12:00:00');
-  var plot = run.querySelector('.xf-plot');
-
-  /* "M0,96.00L1,91.32..." holds one point per day; y maps back to tickets. */
-  function sold(path) {
-    return path.getAttribute('d').slice(1).split('L').map(function (p) {
-      return Math.round((96 - parseFloat(p.split(',')[1])) / 90 * cap);
-    });
-  }
-  var now = sold(run.querySelector('.xf-plot__line'));
-  var last = sold(run.querySelector('.xf-plot__last path'));
-  var end = now.length - 1;
-
-  var phases = Array.prototype.map.call(run.querySelectorAll('.xf-ph'), function (el) {
-    return {
-      el: el,
-      pill: el.querySelector('.ui-pill'),
-      from: +el.getAttribute('data-from'),
-      to: +el.getAttribute('data-to'),
-      ret: +el.getAttribute('data-ret'),
-      date: el.getAttribute('data-date'),
-      name: el.querySelector('b').textContent
-    };
-  });
-  /* The day each release went on sale: the day the one before it sold out. */
-  phases.forEach(function (p) {
-    for (p.open = 0; now[p.open] < p.from; p.open++) {}
-  });
-  var outs = run.querySelectorAll('.xf-plot__out');
-  var x = {};
-  Array.prototype.forEach.call(run.querySelectorAll('[data-x]'), function (el) {
-    x[el.getAttribute('data-x')] = el;
-  });
-  var back = run.querySelector('.xf-who__back');
-  var fresh = run.querySelector('.xf-who__new');
-
-  function fmt(v) { return v.toLocaleString('en-GB'); }
-  function day(d) {
-    var t = new Date(start.getTime() + d * 864e5);
-    return t.getDate() + ' ' + t.toLocaleString('en-GB', { month: 'short' });
-  }
-  function set(el, text) { if (el.textContent !== text) el.textContent = text; }
-
-  function render(d) {
-    var s = now[d];
-    var gap = s - last[d];
-    set(x.sold, fmt(s));
-    set(x.gap, (gap < 0 ? '−' : '+') + fmt(Math.abs(gap)));
-    x.gap.classList.toggle('is-down', gap < 0);
-    set(x.left, (days - d) + ' days');
-
-    var cur = null, ret = 0;
-    phases.forEach(function (p, i) {
-      var inTier = Math.max(0, Math.min(s, p.to) - p.from);
-      ret += inTier * p.ret;
-      var out = s >= p.to, on = !out && s >= p.from;
-      if (on) cur = p;
-      p.el.classList.toggle('is-now', on);
-      p.pill.className = 'ui-pill ' + (on ? 'ui-pill--live' : 'ui-pill--mute');
-      set(p.pill, out ? 'Sold out ' + p.date : on ? 'On sale' : 'Queued');
-      outs[i].classList.toggle('is-on', out);
-    });
-    set(x.phase, cur ? cur.name : 'Sold out');
-    set(x.when, cur ? 'since ' + day(cur.open) : phases[phases.length - 1].date);
-
-    ret = Math.round(ret);
-    set(x.back, fmt(ret));
-    set(x.new, fmt(s - ret));
-    back.style.setProperty('--v', (ret / cap * 100) + '%');
-    fresh.style.setProperty('--v', ((s - ret) / cap * 100) + '%');
-
-    plot.style.setProperty('--p', d / days);
-    plot.style.setProperty('--hx', (d / days * 100) + '%');
-    plot.style.setProperty('--hy', (96 - s / cap * 90) + '%');
-  }
-
-  /* Plays only while it is on screen, and picks up where it left off. */
-  var t0 = 0, held = 0, visible = false, raf = 0, started = false;
-
-  function frame(ts) {
-    if (!t0) t0 = ts - held;
-    var t = ts - t0;
-    if (t >= PLAY + HOLD) { t0 = ts; t = 0; }
-    held = t;
-    /* Eased gently at both ends, so the announcement and the sell-out each
-       get a beat rather than the line setting off at full speed. */
-    var k = Math.min(1, t / PLAY);
-    k = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-    render(Math.round(k * end));
-    raf = requestAnimationFrame(frame);
-  }
-
-  new IntersectionObserver(function (en) {
-    visible = en[0].isIntersecting;
-    if (visible && !raf) {
-      if (!started) { started = true; run.classList.add('is-live'); held = 0; }
-      t0 = 0;
-      raf = requestAnimationFrame(frame);
-    } else if (!visible && raf) {
-      cancelAnimationFrame(raf);
-      raf = 0;
-    }
-  }, { threshold: 0.35 }).observe(run);
-})();
-
-/* ---- Event promoters (for-promoters) ---- */
-/* ---------------------------------------------------------- promoters --- */
-/* for-promoters.html: replays a month of four nights, one after another,
-   while the list underneath grows and the people who come back light up in
-   the place they already hold. The markup is the finished month, so with
-   script blocked or reduced motion nothing moves and nothing is missing. */
-(function () {
-  'use strict';
-
-  var tour = document.getElementById('xpTour');
-  if (!tour || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var STEP = 2900;    // one night selling
-  var GAP = 500;      // a beat between nights
-  var HOLD = 4200;    // the finished month, before it goes round again
-
-  var rate = +tour.getAttribute('data-rate');
-  var $$ = function (sel, root) { return Array.prototype.slice.call((root || tour).querySelectorAll(sel)); };
-  var one = function (el, key) { return el.querySelector('[data-x="' + key + '"]'); };
-
-  var dates = $$('.xp-date').map(function (el) {
-    return {
-      el: el, cap: +el.getAttribute('data-cap'), sold: +el.getAttribute('data-sold'), back: +el.getAttribute('data-back'),
-      n: one(el, 'sold'), b: one(el, 'back'), pill: one(el, 'state'), bar: el.querySelector('.ui-bar i')
-    };
-  });
-  var reps = $$('.xp-rep').map(function (el) {
-    return { el: el, s: el.getAttribute('data-s').split(',').map(Number), n: one(el, 'n'), c: one(el, 'c') };
-  });
-  /* Each date's dots, in page order: the new faces it adds, and the earlier
-     faces who came back for it. */
-  var dots = $$('.xp-dots i');
-  var joins = dates.map(function (d, i) { return dots.filter(function (el) { return +el.getAttribute('data-d') === i; }); });
-  var backs = dates.map(function (d, i) { return dots.filter(function (el) { return el.getAttribute('data-b') === String(i); }); });
-  var people = one(tour, 'people'), tickets = one(tour, 'tickets'), backTotal = one(tour, 'backs'), total = one(tour, 'total');
-
-  function fmt(v) { return v.toLocaleString('en-GB'); }
-  function money(v) { return '£' + v.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-  function set(el, text) { if (el.textContent !== text) el.textContent = text; }
-
-  /* i is the date selling now, f how far through it is. Earlier dates are
-     done, later ones have not started. */
-  function render(i, f) {
-    var sumPeople = 0, sumTickets = 0, sumBack = 0, owed = 0;
-    dates.forEach(function (d, j) {
-      var k = j < i ? 1 : j === i ? f : 0;
-      var s = Math.round(d.sold * k), b = Math.round(d.back * k);
-      sumTickets += s; sumBack += b; sumPeople += s - b;
-      set(d.n, fmt(s));
-      set(d.b, fmt(b));
-      d.bar.style.setProperty('--v', (s / d.cap * 100) + '%');
-      d.el.classList.toggle('is-now', j === i && f < 1);
-      d.el.classList.toggle('is-next', j > i);
-      var done = j < i || (j === i && f >= 1);
-      d.pill.className = 'ui-pill ' + (j === i && !done ? 'ui-pill--live' : 'ui-pill--mute');
-      set(d.pill, done ? (s === d.cap ? 'Sold out' : Math.round(s / d.cap * 100) + '% sold') : j === i ? 'On sale' : 'Next');
-
-      var join = joins[j], came = backs[j];
-      join.forEach(function (el, n) { el.classList.toggle('is-on', n < Math.round(join.length * k)); });
-      came.forEach(function (el, n) { el.classList.toggle('is-back', n < Math.round(came.length * k)); });
-    });
-    reps.forEach(function (r) {
-      var n = r.s.reduce(function (a, v, j) { return a + Math.round(v * (j < i ? 1 : j === i ? f : 0)); }, 0);
-      owed += n * rate;
-      set(r.n, fmt(n));
-      set(r.c, money(n * rate));
-      r.el.classList.toggle('is-now', r.s[i] > 0 && f < 1);
-    });
-    set(people, fmt(sumPeople));
-    set(tickets, fmt(sumTickets));
-    set(backTotal, fmt(sumBack));
-    set(total, money(owed));
-  }
-
-  /* Plays only while it is on screen, and picks up where it left off. */
-  var LOOP = dates.length * (STEP + GAP) + HOLD;
-  var t0 = 0, held = 0, raf = 0, started = false;
-
-  function frame(ts) {
-    if (!t0) t0 = ts - held;
-    var t = ts - t0;
-    if (t >= LOOP) { t0 = ts; t = 0; }
-    held = t;
-    var i = Math.min(dates.length - 1, Math.floor(t / (STEP + GAP)));
-    var f = Math.min(1, (t - i * (STEP + GAP)) / STEP);
-    /* Sales come in quickly after the announcement and tail off towards the
-       night, which is how a date actually sells. */
-    render(i, 1 - Math.pow(1 - f, 2.2));
-    raf = requestAnimationFrame(frame);
-  }
-
-  new IntersectionObserver(function (en) {
-    var on = en[0].isIntersecting;
-    if (on && !raf) {
-      if (!started) { started = true; tour.classList.add('is-live'); held = 0; }
-      t0 = 0;
-      raf = requestAnimationFrame(frame);
-    } else if (!on && raf) {
-      cancelAnimationFrame(raf);
-      raf = 0;
-    }
-  }, { threshold: 0.3 }).observe(tour);
-})();
 
 /* ---- Bars (for-bars) ---- */
 /* ------------------------------------------------------------- for bars -- */
 /* A typical week at The Botanic, played out. The markup is the finished
-   state, which is what reduced motion and no-JS get. Otherwise, while the
-   chart is on screen, it empties and rebuilds: the nights one by one,
-   Tuesday flagged, the message sent, and this Tuesday's bookings arriving.
-   Off screen it stops, and starts again from empty next time it is in view. */
+   state, which is what reduced motion and no-JS get. Otherwise, once the
+   chart is on screen, it empties and rebuilds inside about three seconds:
+   the nights one by one, Tuesday flagged, the message sent, and this
+   Tuesday's bookings arriving. It then rests on the finished week, and only
+   plays again if it leaves the viewport and comes back. */
 
 (function () {
   'use strict';
@@ -4221,7 +4007,7 @@
   function reset() {
     timers.forEach(clearTimeout);
     timers = [];
-    root.classList.remove('is-flag', 'is-msg', 'is-feed', 'is-fade');
+    root.classList.remove('is-flag', 'is-msg', 'is-feed', 'is-done');
     root.classList.add('is-live');
     days.forEach(function (d) { d.classList.remove('is-on'); });
     rows.forEach(function (r) { r.classList.remove('is-on'); });
@@ -4236,54 +4022,52 @@
 
   function play() {
     reset();
-    var t = 500;
+    var t = 80;
 
     /* The typical week, a night at a time. */
     days.forEach(function (d) {
       at(t, function () {
         d.classList.add('is-on');
-        count(d.querySelector('.xb-day__n'), total(d, 0), plain, 800);
+        count(d.querySelector('.xb-day__n'), total(d, 0), plain, 400);
       });
-      t += 480;
+      t += 120;
     });
 
-    t += 900;
+    t += 200;
     at(t, function () { root.classList.add('is-flag'); });
 
-    t += 1800;
+    t += 240;
     at(t, function () { root.classList.add('is-msg'); });
 
-    t += 1400;
-    at(t, function () { setPill('Sending', 'ui-pill--blue'); count(sent, 186, plain, 900); });
+    t += 200;
+    at(t, function () { setPill('Sending', 'ui-pill--blue'); count(sent, 186, plain, 350); });
 
-    t += 1200;
+    t += 240;
     at(t, function () {
       setPill('Sent', 'ui-pill--live');
-      count(read, 88, function (v) { return v + '%'; }, 2600);
+      count(read, 88, function (v) { return v + '%'; }, 600);
       root.classList.add('is-feed');
     });
 
     /* This Tuesday's bookings, one after another, each one adding to the
        night that was empty. */
     var x = 0, n = 0;
-    t += 900;
+    t += 60;
     rows.forEach(function (r) {
       at(t, function () {
         x += +r.getAttribute('data-g');
         n += +(r.getAttribute('data-n') || 1);
         r.classList.add('is-on');
         flagDay.style.setProperty('--x', (x / SCALE * 100).toFixed(1));
-        count(flagDay.querySelector('.xb-day__n'), total(flagDay, x), plain, 600);
-        count(booked, n, plain, 400);
+        count(flagDay.querySelector('.xb-day__n'), total(flagDay, x), plain, 300);
+        count(booked, n, plain, 250);
         covers.textContent = '+' + x + ' guests';
       });
-      t += 950;
+      t += 80;
     });
 
-    /* Hold the finished week, fade, and go again. */
-    t += 5200;
-    at(t, function () { root.classList.add('is-fade'); });
-    at(t + 700, play);
+    /* Done: rest on the finished week. */
+    at(t + 250, function () { root.classList.add('is-done'); });
   }
 
   function stop() {
@@ -4305,8 +4089,9 @@
    Saturday, which is what reduced motion and no-JS get. Otherwise, while the
    board is on screen, it runs in two acts: the bookings land in the order
    they were made, then the board turns to Wednesday and the quiet afternoon
-   fills from the offer to the weekend-only bookers. Off screen it stops, and
-   starts again from the top next time it is in view. */
+   fills from the offer to the weekend-only bookers. The whole run lands
+   inside about three seconds and rests on the filled Wednesday; it only
+   plays again if it leaves the viewport and comes back. */
 
 (function () {
   'use strict';
@@ -4378,7 +4163,7 @@
 
   function reset() {
     stop();
-    root.classList.remove('is-offer', 'is-fade');
+    root.classList.remove('is-offer', 'is-done');
     root.classList.add('is-live');
     day(false);
     sat.concat(fresh).forEach(function (b) { b.classList.remove('is-on'); });
@@ -4394,7 +4179,7 @@
 
   function play() {
     reset();
-    var t = 400, n = 0, nb = 0, ng = 0;
+    var t = 80, n = 0, nb = 0, ng = 0;
 
     /* Act one: Saturday books up. */
     sat.forEach(function (b) {
@@ -4403,42 +4188,40 @@
         n += span(b); nb += 1; ng += size(b);
         booking(n); totals(nb, ng);
       });
-      t += 110;
+      t += 22;
     });
-    at(t + 200, function () { pill(sumState, 'Busy', 'ui-pill--live'); });
+    at(t + 100, function () { pill(sumState, 'Busy', 'ui-pill--live'); });
 
     /* Act two: Wednesday, quiet, with the afternoon offered to the bookers
        who only ever come at the weekend. */
-    t += 2600;
+    t += 400;
     var wb = wedBase.length, wg = guestsIn(wedBase);
     at(t, function () {
       day(true); booking(WED_BASE); totals(wb, wg);
       sumDay.textContent = 'Wednesday';
       pill(sumState, 'Quiet', 'ui-pill--amber');
     });
-    t += 1300;
+    t += 240;
     at(t, function () { root.classList.add('is-offer'); });
-    t += 1100;
-    at(t, function () { pill(state, 'Sending', 'ui-pill--blue'); count(sent, 214, plain, 900); });
-    t += 1200;
-    at(t, function () { pill(state, 'Sent', 'ui-pill--live'); count(read, 81, pct, 2400); });
-    t += 900;
+    t += 200;
+    at(t, function () { pill(state, 'Sending', 'ui-pill--blue'); count(sent, 214, plain, 350); });
+    t += 220;
+    at(t, function () { pill(state, 'Sent', 'ui-pill--live'); count(read, 81, pct, 500); });
+    t += 100;
     var w = WED_BASE, k = 0;
     fresh.forEach(function (b) {
       at(t, function () {
         b.classList.add('is-on');
         w += span(b); k += 1; wb += 1; wg += size(b);
         booking(w); totals(wb, wg);
-        count(booked, k, plain, 300);
+        count(booked, k, plain, 200);
       });
-      t += 650;
+      t += 50;
     });
     at(t, function () { pill(sumState, '+' + fresh.length + ' from the offer', 'ui-pill--live'); });
 
-    /* Hold on the filled Wednesday, then back to Saturday and round again. */
-    t += 4800;
-    at(t, function () { root.classList.add('is-fade'); });
-    at(t + 700, play);
+    /* Done: rest on the filled Wednesday. */
+    at(t + 250, function () { root.classList.add('is-done'); });
   }
 
   new IntersectionObserver(function (entries) {
@@ -4448,3 +4231,646 @@
   }, { threshold: 0.25 }).observe(root);
 })();
 
+
+/* ========================================================== step players ==== */
+/* The how-we-work steps and the recent-work tabs share one shape: a set of
+   triggers, a panel each, and a hairline that fills over the open one's run
+   (a CSS animation; its end opens the next). Hover, focus, or the block being
+   off screen pauses the line. */
+(function () {
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function player(root, cfg) {
+    var tabs = $$(cfg.tab, root), panels = $$(cfg.panel, root), bars = $$(cfg.bar, root);
+    var n = tabs.length, at = -1;
+    if (!n) return;
+
+    var show = function (k, focus) {
+      k = (k + n) % n;
+      if (k === at) return;
+      at = k;
+      tabs.forEach(function (t, i) {
+        var on = i === at;
+        t.classList.toggle('is-on', on);
+        t.classList.toggle('is-done', i < at);
+        if (cfg.aria === 'tab') { t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1; }
+        if (cfg.aria === 'expanded') { var b = t.querySelector('button'); if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false'); }
+      });
+      panels.forEach(function (p, i) { p.classList.toggle('is-on', i === at); });
+      /* Restart the fill from zero on the newly open one. */
+      bars.forEach(function (b) { b.style.animation = 'none'; });
+      void root.offsetWidth;
+      bars.forEach(function (b) { b.style.animation = ''; });
+      if (focus) (tabs[at].querySelector('button') || tabs[at]).focus();
+    };
+
+    tabs.forEach(function (t, i) {
+      var b = t.matches('button') ? t : t.querySelector('button');
+      if (!b) return;
+      b.addEventListener('click', function () { show(i); });
+      b.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); show(at + 1, true); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); show(at - 1, true); }
+      });
+    });
+    if (!reduced) {
+      bars.forEach(function (b, i) {
+        b.addEventListener('animationend', function () { if (i === at) show(at + 1); });
+      });
+    }
+    var hold = function (on) { root.classList.toggle('is-held', on); };
+    root.addEventListener('pointerenter', function () { hold(true); });
+    root.addEventListener('pointerleave', function () { hold(false); });
+    root.addEventListener('focusin', function () { hold(true); });
+    root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) hold(false); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        root.classList.toggle('is-away', !en[0].isIntersecting);
+      }, { threshold: 0.3 }).observe(root);
+    }
+    show(0);
+  }
+
+  $$('[data-hw]').forEach(function (root) {
+    player(root, { tab: '.hw__step', panel: '.hw__panel', bar: '.hw__bar', aria: 'expanded' });
+    /* On a phone or tablet the open step's visual sits inside the step,
+       under its text, so tapping a step shows its visual right there rather
+       than somewhere below the list. */
+    var stage = root.querySelector('.hw__stage');
+    var steps = $$('.hw__step', root), panels = $$('.hw__panel', root);
+    var narrow = window.matchMedia('(max-width: 860px)');
+    var place = function () {
+      panels.forEach(function (p, i) {
+        var host = narrow.matches ? steps[i] && steps[i].querySelector('.hw__body > div') : stage;
+        if (host && p.parentNode !== host) host.appendChild(p);
+      });
+    };
+    place();
+    if (narrow.addEventListener) narrow.addEventListener('change', place);
+  });
+  $$('[data-pf]').forEach(function (root) {
+    player(root, { tab: '.pf__tab', panel: '.pf__panel', bar: '.pf__line', aria: 'tab' });
+  });
+})();
+
+/* ============================================================== room ======= */
+/* The question fills in word by word once it is on screen, and the list of
+   businesses brings up each one's room as the pointer or focus moves. */
+(function () {
+  var $  = function (sel, root) { return (root || document).querySelector(sel); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  $$('[data-fill-in]').forEach(function (el) {
+    var words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    var spans = words.map(function (w, i) {
+      var sp = document.createElement('span'); sp.className = 'w'; sp.textContent = w;
+      el.appendChild(sp);
+      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+      return sp;
+    });
+    var light = function () { spans.forEach(function (sp, i) { setTimeout(function () { sp.classList.add('is-on'); }, reduced ? 0 : 120 + i * 55); }); };
+    if (!('IntersectionObserver' in window)) return light();
+    var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { light(); io.disconnect(); } }, { threshold: 0.5 });
+    io.observe(el);
+  });
+
+  $$('[data-who]').forEach(function (root) {
+    var items = $$('.who__item', root), shots = $$('.who__shot', root);
+    var show = function (i) {
+      items.forEach(function (a, k) { a.classList.toggle('is-on', k === i); });
+      shots.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
+    };
+    items.forEach(function (a, i) {
+      a.addEventListener('pointerenter', function () { show(i); });
+      a.addEventListener('focus', function () { show(i); });
+      a.addEventListener('click', function () { show(i); });
+    });
+  });
+})();
+
+/* ========================================================== +more grid ==== */
+(function () {
+  Array.prototype.slice.call(document.querySelectorAll('[data-more]')).forEach(function (btn) {
+    var grid = document.getElementById(btn.getAttribute('data-more'));
+    if (!grid) return;
+    var label = btn.querySelector('span');
+    var n = grid.querySelectorAll('.fcard.is-more').length;
+    btn.addEventListener('click', function () {
+      var open = grid.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (label) label.textContent = open ? 'Show fewer' : '+ ' + n + ' more';
+    });
+  });
+})();
+
+/* ============================================================ home, v5 ==== */
+(function () {
+  var $  = function (sel, root) { return (root || document).querySelector(sel); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- the hero dashboard: a business selector, auto-rotate until touched, numbers count up */
+  $$('[data-demo]').forEach(function (root) {
+    var panels = $$('.dm__panel', root);
+    var sel = $('[data-dm-sel]', root), btn = $('.dm__sel-btn', sel), menu = $('.dm__menu', sel), opts = $$('li', menu);
+    var label = $('[data-dm-label]', root), venue = $('[data-dm-venue]', root), ini = $('[data-dm-ini]', root);
+    var at = -1, timer = 0, touched = false, visible = true, focus = -1;
+    var count = function (panel) {
+      if (reduced) return;
+      $$('[data-n]', panel).forEach(function (el) {
+        var raw = el.getAttribute('data-n'), target = parseFloat(raw.replace(/,/g, '')), t0 = performance.now();
+        var dec = (raw.split('.')[1] || '').length;
+        (function step(now) {
+          var p = Math.min(1, (now - t0) / 900), e = 1 - Math.pow(1 - p, 3);
+          var v = target * e;
+          el.textContent = (dec ? v.toFixed(dec) : Math.round(v)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+          if (p < 1) requestAnimationFrame(step); else el.textContent = raw;
+        })(t0);
+      });
+    };
+    var show = function (k) {
+      k = (k + panels.length) % panels.length;
+      if (k === at) return;
+      at = k;
+      opts.forEach(function (o, i) { o.setAttribute('aria-selected', i === k ? 'true' : 'false'); });
+      panels.forEach(function (p, i) { p.classList.toggle('is-on', i === k); });
+      var p = panels[k];
+      if (label) label.textContent = opts[k].textContent;
+      if (venue) venue.textContent = p.getAttribute('data-venue');
+      if (ini) ini.textContent = p.getAttribute('data-ini');
+      count(p);
+    };
+    var open = function (on) {
+      menu.hidden = !on;
+      btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) { focus = at; opts.forEach(function (o, i) { o.classList.toggle('is-focus', i === focus); }); }
+    };
+    var tick = function () {
+      clearTimeout(timer);
+      if (touched || reduced) return;
+      timer = setTimeout(function () { if (visible && !document.hidden && menu.hidden) show(at + 1); tick(); }, 6500);
+    };
+    btn.addEventListener('click', function () { touched = true; clearTimeout(timer); open(menu.hidden); });
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); touched = true; open(true); }
+    });
+    opts.forEach(function (o, i) {
+      o.addEventListener('click', function () { show(i); open(false); btn.focus(); });
+    });
+    sel.addEventListener('keydown', function (e) {
+      if (menu.hidden) return;
+      if (e.key === 'Escape') { open(false); btn.focus(); }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        focus = (focus + (e.key === 'ArrowDown' ? 1 : -1) + opts.length) % opts.length;
+        opts.forEach(function (o, i) { o.classList.toggle('is-focus', i === focus); });
+      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(focus); open(false); btn.focus(); }
+    });
+    document.addEventListener('pointerdown', function (e) { if (!sel.contains(e.target)) open(false); });
+    root.addEventListener('pointerenter', function () { clearTimeout(timer); });
+    root.addEventListener('pointerleave', function () { tick(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }, { threshold: .2 }).observe(root);
+    show(0); tick();
+  });
+
+  /* ---- the layer map: wires from each tool to the core and out to each outcome */
+  $$('[data-layer]').forEach(function (map) {
+    var svg = $('.ly__wires', map), core = $('.ly__core', map);
+    var ins = $$('.ly__in > li', map), outs = $$('.ly__outs > li', map);
+    var draw = function () {
+      if (getComputedStyle(svg).display === 'none') return;
+      var m = map.getBoundingClientRect(), c = core.getBoundingClientRect();
+      var cl = c.left - m.left, cr = c.right - m.left, cy = c.top - m.top + c.height / 2;
+      svg.setAttribute('viewBox', '0 0 ' + m.width + ' ' + m.height);
+      var d = '';
+      ins.forEach(function (el) {
+        var r = el.getBoundingClientRect(); var x = r.right - m.left, y = r.top - m.top + r.height / 2;
+        var mx = (x + cl) / 2;
+        d += '<path d="M' + x + ' ' + y + ' C' + mx + ' ' + y + ' ' + mx + ' ' + cy + ' ' + cl + ' ' + cy + '"/><circle cx="' + x + '" cy="' + y + '" r="3"/>';
+      });
+      outs.forEach(function (el) {
+        var r = el.getBoundingClientRect(); var x = r.left - m.left, y = r.top - m.top + r.height / 2;
+        var mx = (cr + x) / 2;
+        d += '<path class="is-out" d="M' + cr + ' ' + cy + ' C' + mx + ' ' + cy + ' ' + mx + ' ' + y + ' ' + x + ' ' + y + '"/><circle cx="' + x + '" cy="' + y + '" r="3"/>';
+      });
+      svg.innerHTML = d;
+    };
+    var rt = 0;
+    var later = function () { clearTimeout(rt); rt = setTimeout(draw, 80); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw); else draw();
+    if ('ResizeObserver' in window) new ResizeObserver(later).observe(map); else window.addEventListener('resize', later, { passive: true });
+  });
+
+  /* ---- the solution strips: pinned, both rows pass through as the track scrolls */
+  $$('[data-strip]').forEach(function (strip) {
+    if (reduced) return;
+    var track = strip.closest('.bento-track') || strip;
+    var rows = $$('.bento__row--strip', strip);
+    var paint = function () {
+      if (window.innerWidth <= 1100) { rows.forEach(function (r) { r.style.transform = ''; }); return; }
+      var r = track.getBoundingClientRect(), vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      var travel = r.height - vh;
+      /* Hold still while the stage settles into the pin, then run. */
+      var p = travel > 0 ? Math.min(1, Math.max(0, (-r.top / travel - 0.12) / 0.78)) : 0;
+      rows.forEach(function (row) {
+        var dir = +row.getAttribute('data-dir') || -1;
+        var over = row.scrollWidth - strip.clientWidth;
+        if (over <= 0) { row.style.transform = ''; return; }
+        var x = dir < 0 ? -over * p : -over * (1 - p);
+        row.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      });
+    };
+    window.addEventListener('scroll', paint, { passive: true });
+    window.addEventListener('resize', paint, { passive: true });
+    paint();
+  });
+
+  /* ---- integrations hero: pointing at a mark in the stack brings it to the
+     front and slides the ones after it over; leaving puts them back. */
+  $$('[data-istack]').forEach(function (stack) {
+    var tiles = $$('i', stack);
+    var show = function (n) { tiles.forEach(function (t, j) { t.classList.toggle('is-out', j === n); }); };
+    tiles.forEach(function (t, j) { t.addEventListener('pointerenter', function () { show(j); }); });
+    stack.addEventListener('pointerleave', function () { show(-1); });
+  });
+
+  /* ---- the layer map on a phone or tablet: read as a run down the page.
+     Each tool lights as it reaches the lower part of the screen, the line
+     fills into the Capacity mark, which lights, and the line carries on into
+     what comes out. CSS only dims anything while .is-journey is set. */
+  $$('[data-layer]').forEach(function (map) {
+    if (reduced) return;
+    var narrow = window.matchMedia('(max-width: 900px)');
+    var core = map.querySelector('.ly__core');
+    var items = $$('.ly__chip, .ly__out', map);
+    var SEG = 64;
+    var paint = function () {
+      if (!narrow.matches) { map.classList.remove('is-journey'); return; }
+      map.classList.add('is-journey');
+      var line = window.innerHeight * 0.66;
+      items.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        el.classList.toggle('is-on', r.top + r.height / 2 < line);
+      });
+      var c = core.getBoundingClientRect();
+      var f1 = Math.min(1, Math.max(0, (line - (c.top - SEG)) / SEG));
+      var f2 = Math.min(1, Math.max(0, (line - c.bottom) / SEG));
+      core.style.setProperty('--f1', f1.toFixed(3));
+      core.style.setProperty('--f2', f2.toFixed(3));
+      core.classList.toggle('is-lit', f1 >= 1);
+    };
+    window.addEventListener('scroll', paint, { passive: true });
+    window.addEventListener('resize', paint, { passive: true });
+    paint();
+  });
+
+  /* ---- the layer section turns to black once it has been read */
+  /* On tablets and phones (and with reduced motion) these sections are not
+     pinned and simply scroll, so there is nothing to turn. */
+  var unpinned = window.matchMedia('(max-width: 1024px)');
+  $$('.ly-track, .inv-track').forEach(function (track) {
+    if (reduced) return;
+    var paint = function () {
+      if (unpinned.matches) { track.classList.remove('is-inverted'); return; }
+      var r = track.getBoundingClientRect(), vh = window.innerHeight;
+      var travel = r.height - vh;
+      var p = travel > 0 ? -r.top / travel : 1;
+      var inv = track.classList.contains('is-inverted');
+      if (!inv && p >= 0.62) track.classList.add('is-inverted');
+      else if (inv && p < 0.52) track.classList.remove('is-inverted');
+    };
+    window.addEventListener('scroll', paint, { passive: true });
+    paint();
+  });
+})();
+
+/* ---------------------------------------------------------- festivals --- */
+/* festivals.html, "Ahead of the curve": the on-sale plan. Every moment is a
+   button; picking one moves the playhead and the dot on the curve to its
+   day and shows its detail card. Left alone, the plan walks through the
+   moments on its own, four seconds each, pausing while the pointer or the
+   focus is on it and stopping for good once the reader picks one. The
+   markup already shows the first moment, so without script it still reads. */
+(function () {
+  'use strict';
+
+  var root = document.getElementById('fx');
+  if (!root) return;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STEP = 4000;
+
+  /* ---- tabs ---- */
+  var tabs = Array.prototype.slice.call(root.querySelectorAll('.fx-tab'));
+  function showTab(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { showTab(t); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : -1;
+      if (j < 0 || j >= tabs.length) return;
+      e.preventDefault();
+      showTab(tabs[j]);
+      tabs[j].focus();
+    });
+  });
+
+  /* ---- the moments ---- */
+  var tl = root.querySelector('.fx-tl');
+  var pins = Array.prototype.slice.call(root.querySelectorAll('.fx-pin'));
+  var cards = Array.prototype.slice.call(root.querySelectorAll('.fx-dt'));
+  var scroller = root.querySelector('.fx-scroll');
+  var cap = 6000;
+  var index = Math.max(0, pins.findIndex(function (p) { return p.classList.contains('is-on'); }));
+
+  /* On a phone the plan fits the screen without its labels, so the moments
+     also sit in a row of chips above it, which can be swiped and tapped.
+     CSS only shows the row on narrow screens. */
+  var chipRow = document.createElement('div');
+  chipRow.className = 'fx-chips';
+  chipRow.setAttribute('aria-hidden', 'true');
+  var chips = pins.map(function (p, i) {
+    var c = document.createElement('button');
+    c.type = 'button';
+    c.className = 'fx-chip';
+    c.tabIndex = -1;
+    var l = p.querySelector('.fx-pin__l');
+    c.textContent = l ? l.textContent : p.getAttribute('aria-label');
+    c.addEventListener('click', function () { p.click(); });
+    chipRow.appendChild(c);
+    return c;
+  });
+  scroller.parentNode.insertBefore(chipRow, scroller);
+
+  function show(i) {
+    index = (i + pins.length) % pins.length;
+    var pin = pins[index];
+    var id = pin.getAttribute('data-fx');
+    pins.forEach(function (p) {
+      var on = p === pin;
+      p.classList.toggle('is-on', on);
+      p.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    cards.forEach(function (c) { c.hidden = c.getAttribute('data-fx') !== id; });
+    tl.style.setProperty('--x', pin.style.getPropertyValue('--x'));
+    tl.style.setProperty('--p', (+pin.getAttribute('data-sold') || 0) / cap);
+    chips.forEach(function (c, k) { c.classList.toggle('is-on', k === index); });
+    if (chipRow.scrollWidth > chipRow.clientWidth) {
+      var chip = chips[index];
+      chipRow.scrollTo({ left: Math.max(0, chip.offsetLeft - chipRow.clientWidth / 2 + chip.offsetWidth / 2), behavior: reduced ? 'auto' : 'smooth' });
+    }
+    /* On a phone the plan is wider than the card, so keep the open moment in
+       view. This scrolls the card's own strip, never the page. */
+    if (scroller.scrollWidth > scroller.clientWidth) {
+      var x = pin.offsetLeft + tl.offsetLeft - scroller.clientWidth / 2;
+      scroller.scrollTo({ left: Math.max(0, x), behavior: reduced ? 'auto' : 'smooth' });
+    }
+  }
+
+  /* ---- the walk through ---- */
+  var timer = 0, visible = false, paused = false, stopped = reduced;
+  function tick() { show(index + 1); }
+  function sync() {
+    var run = visible && !paused && !stopped;
+    if (run && !timer) timer = setInterval(tick, STEP);
+    if (!run && timer) { clearInterval(timer); timer = 0; }
+  }
+
+  pins.forEach(function (p, i) {
+    p.addEventListener('click', function () { stopped = true; show(i); sync(); });
+    p.addEventListener('focus', function () { show(i); });
+  });
+  root.addEventListener('mouseenter', function () { paused = true; sync(); });
+  root.addEventListener('mouseleave', function () { paused = false; sync(); });
+  root.addEventListener('focusin', function () { paused = true; sync(); });
+  root.addEventListener('focusout', function (e) {
+    if (!root.contains(e.relatedTarget)) { paused = false; sync(); }
+  });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) {
+      visible = en[0].isIntersecting;
+      sync();
+    }, { threshold: 0.3 }).observe(root);
+  }
+
+  show(index);
+})();
+
+/* ---- Event promoters (promoters.html): the month, the list and the next night ---- */
+/* Plays the month once when it comes into view: the four nights sell one
+   after another, the list grows under them, the next date goes out to the
+   people who came and the result lands, all inside three seconds. Then it
+   rests on the finished frame, which is what the markup already holds, so
+   with script blocked or reduced motion nothing moves and nothing is
+   missing. */
+(function () {
+  'use strict';
+
+  var root = document.getElementById('pxMonth');
+  if (!root || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var NIGHT = 450;   // one night after the next
+  var SELL = 550;    // how long each night takes to sell
+  var SEND = 1900;   // the next night's send goes out
+  var RESULT = 2400; // and the result comes in
+  var END = 3000;
+
+  var $$ = function (sel, el) { return Array.prototype.slice.call((el || root).querySelectorAll(sel)); };
+
+  function fmt(el, v) {
+    var f = el.getAttribute('data-fmt');
+    if (f === 'gbp') return '£' + v.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (f === 'n') return Math.round(v).toLocaleString('en-GB');
+    return String(Math.round(v));
+  }
+  function idx(el) { return +el.style.getPropertyValue('--i') || 0; }
+
+  /* When each figure counts, and for how long. */
+  function win(el) {
+    var night = el.closest('.px-night'), col = el.closest('.px-col');
+    if (night) return [idx(night) * NIGHT, SELL];
+    if (col) return [idx(col) * NIGHT, SELL];
+    if (el.closest('.px-send')) return [SEND, RESULT - SEND];
+    if (el.closest('.px-next__res')) return [RESULT, END - RESULT];
+    if (el.closest('.px-reps')) return [200, SEND - 200];
+    return [0, SEND];
+  }
+
+  var nums = $$('[data-to]').map(function (el) {
+    var w = win(el);
+    return { el: el, to: +el.getAttribute('data-to'), done: el.textContent, t0: w[0], dur: w[1] };
+  });
+  var nightPills = $$('.px-night .ui-pill').map(function (el) {
+    return { el: el, text: el.textContent, cls: el.className, i: idx(el.closest('.px-night')) };
+  });
+  var nextPill = root.querySelector('[data-px="pill"]');
+  var nextDone = { text: nextPill.textContent, cls: nextPill.className };
+
+  function pill(el, text, cls) { el.textContent = text; el.className = 'ui-pill ' + cls; }
+
+  var timers = [];
+  function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+
+  function arm() {
+    root.classList.add('is-arm');
+    nums.forEach(function (n) { n.el.textContent = fmt(n.el, 0); });
+    nightPills.forEach(function (p) { pill(p.el, 'Next', 'ui-pill--mute'); });
+    pill(nextPill, 'Draft', 'ui-pill--mute');
+    void root.offsetWidth;
+    root.classList.remove('is-arm');
+    root.classList.add('is-play');
+  }
+
+  function finish() {
+    nums.forEach(function (n) { n.el.textContent = n.done; });
+    nightPills.forEach(function (p) { p.el.textContent = p.text; p.el.className = p.cls; });
+    nextPill.textContent = nextDone.text; nextPill.className = nextDone.cls;
+    root.classList.remove('is-play');
+    root.classList.add('is-done');
+  }
+
+  function play() {
+    arm();
+    nightPills.forEach(function (p) {
+      at(p.i * NIGHT, function () { pill(p.el, 'On sale', 'ui-pill--live'); });
+      at(p.i * NIGHT + SELL, function () { p.el.textContent = p.text; p.el.className = p.cls; });
+    });
+    at(SEND, function () { pill(nextPill, 'Sending', 'ui-pill--blue'); });
+    at(RESULT, function () { nextPill.textContent = nextDone.text; nextPill.className = nextDone.cls; });
+
+    var start = performance.now();
+    (function frame(now) {
+      var t = now - start;
+      nums.forEach(function (n) {
+        var p = Math.min(1, Math.max(0, (t - n.t0) / n.dur));
+        var e = 1 - Math.pow(1 - p, 3);
+        n.el.textContent = p >= 1 ? n.done : fmt(n.el, n.to * e);
+      });
+      if (t < END) requestAnimationFrame(frame); else finish();
+    })(start);
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    play();
+  }, { threshold: 0.3 });
+  io.observe(root);
+})();
+
+/* ---- Nightclubs: the run-up, played out (.nx-) ---- */
+/* The four-week run-up to one club night. The markup is the finished state,
+   which is what reduced motion and no-JS get. Otherwise the plan is emptied
+   on load and, once it is on screen, the chips land in day order while the
+   ticket curve draws and the counters climb, all inside about 2.4 seconds.
+   It then rests on the finished frame; it only plays again if it leaves the
+   viewport and comes back. */
+
+(function () {
+  'use strict';
+
+  var root = document.getElementById('nxRun');
+  if (!root || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  /* Cumulative tickets by the end of each day, matching the curve path. */
+  var SALES = [0, 38, 54, 64, 70, 92, 210, 248, 266, 282, 292, 300, 310, 316, 320, 324, 328, 392, 438, 462, 478, 490, 500, 512, 518, 522, 588, 640, 640, 640, 640, 640, 640];
+  var N = 32, CAP = 640, SOLD_DAY = 27;
+  var REACH = 4180, LIST = 5260, READ = 74;
+  var DUR = 2400;
+
+  function q(k) { return root.querySelector('[data-nx="' + k + '"]'); }
+  var state = q('state');
+  var sold = q('sold'), soldBar = q('soldbar');
+  var reach = q('reach'), reachBar = q('reachbar');
+  var read = q('read'), readBar = q('readbar');
+
+  var timers = [], raf = 0, running = false;
+
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pill(text, cls) { state.textContent = text; state.className = 'ui-pill ' + cls; }
+  function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+  function bar(el, v) { el.style.setProperty('--v', v.toFixed(1) + '%'); }
+
+  function salesAt(day) {
+    var i = Math.floor(day);
+    if (i >= N) return CAP;
+    return SALES[i] + (SALES[i + 1] - SALES[i]) * (day - i);
+  }
+
+  /* One frame of the counters: tickets follow the curve, the list and the
+     read rate settle the way a live screen does. */
+  function paint(p) {
+    var s = Math.round(salesAt(p * N));
+    var e = 1 - Math.pow(1 - p, 3);
+    var r = Math.round(REACH * e);
+    var rd = Math.round(READ * (1 - Math.pow(1 - Math.min(p / .8, 1), 3)));
+    sold.textContent = fmt(s);
+    bar(soldBar, s / CAP * 100);
+    reach.textContent = fmt(r);
+    bar(reachBar, r / LIST * 100);
+    read.textContent = rd + '%';
+    bar(readBar, rd);
+  }
+
+  function stop() {
+    timers.forEach(clearTimeout);
+    timers = [];
+    cancelAnimationFrame(raf);
+  }
+
+  function reset() {
+    stop();
+    root.classList.remove('is-on', 'is-sold', 'is-done');
+    root.classList.add('is-live');
+    pill('On sale', 'ui-pill--blue');
+    paint(0);
+  }
+
+  function play() {
+    reset();
+    /* Two frames, so the emptied plan is painted before the landing starts. */
+    raf = requestAnimationFrame(function () {
+      raf = requestAnimationFrame(function () {
+        if (!running) return;
+        root.classList.add('is-on');
+        var t0 = performance.now();
+        (function step(now) {
+          if (!running) return;
+          var p = Math.min((now - t0) / DUR, 1);
+          paint(p);
+          if (p < 1) raf = requestAnimationFrame(step);
+        })(t0);
+        at(SOLD_DAY / N * DUR, function () {
+          root.classList.add('is-sold');
+          pill('Sold out', 'ui-pill--live');
+        });
+        at(DUR + 300, function () { root.classList.add('is-done'); });
+      });
+    });
+  }
+
+  /* Emptied straight away, so the first thing on screen is the landing. */
+  root.classList.add('is-live');
+
+  new IntersectionObserver(function (entries) {
+    var on = entries[0].isIntersecting;
+    if (on && !running) { running = true; play(); }
+    else if (!on && running) { running = false; stop(); }
+  }, { threshold: 0.25 }).observe(root);
+})();

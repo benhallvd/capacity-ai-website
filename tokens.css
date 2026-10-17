@@ -67,7 +67,7 @@
 
   --gutter:    clamp(20px, 5vw, 44px);
   --measure:   1200px;
-  --section-y: clamp(96px, 11vw, 200px);
+  --section-y: clamp(72px, 8vw, 136px);
 
   /* ---- Motion ----------------------------------------------------------- */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
