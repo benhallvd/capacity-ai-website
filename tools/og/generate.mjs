@@ -4,8 +4,8 @@
      cd tools/export && node ../og/generate.mjs
 
    Uses the Playwright install in tools/export. Serves the repo itself, reads
-   each page's own H1, draws a 1200 x 630 card in the site's type and colours,
-   writes assets/og/<slug>.png, then points the page's og:image and
+   each page's own H1, draws a 1200 x 630 card in the site's room hero style,
+   writes assets/og/<slug>.jpg (JPEG keeps it small enough for WhatsApp's preview), then points the page's og:image and
    twitter:image at it with a content hash, so a changed card is refetched.
    Pages without a card of their own (the legal pages) get the home card.
    ========================================================================== */
@@ -43,7 +43,7 @@ const CARDS = {
   'festivals': 'Festivals',
   'promoters': 'Event promoters',
   integrations: 'Integrations',
-  signup: 'Book an audit',
+  signup: '',
   hiring: 'Careers',
   'case-neon-rooms': 'Case study',
 };
@@ -56,13 +56,17 @@ const SHARE = {
 const FILE = { home: 'index' };
 /* Headlines that should not be the page H1 on the card. */
 const HEADLINE = {
-  home: 'Built around how<br>your venue runs.',
+  home: 'We help venues and events<br>reach capacity.',
   hiring: 'Help us build the future<br>of hospitality.',
 };
 
-const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
+const TYPES = { '.html': 'text/html', '.jpg': 'image/jpeg', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
+/* The card being drawn, served from the same origin as the photo so the
+   glyph field can read its pixels. */
+let current = '';
 const server = createServer(async (req, res) => {
   try {
+    if (req.url === '/__card') { res.writeHead(200, { 'Content-Type': 'text/html' }); return res.end(current); }
     const p = join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
     if (!p.startsWith(ROOT)) throw 0;
     const body = await readFile(p);
@@ -73,35 +77,49 @@ const server = createServer(async (req, res) => {
 const HOST = `http://localhost:${server.address().port}/`;
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-const card = (label, headline) => `<!DOCTYPE html><html><head><meta charset="utf-8">
+/* The card is the site's room hero: the page's own photo in black and white,
+   the ascii.js glyph field over it, and the headline set on the left. */
+const card = (label, headline, photo) => `<!DOCTYPE html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400..800&display=swap">
 <style>
+  @font-face { font-family: 'Geist Mono'; src: url(${HOST}assets/fonts/GeistMono-Regular.woff2) format('woff2'); font-weight: 400; }
+  @font-face { font-family: 'Geist Mono'; src: url(${HOST}assets/fonts/GeistMono-Medium.woff2) format('woff2'); font-weight: 500; }
   * { margin: 0; box-sizing: border-box; }
   html, body { width: 1200px; height: 630px; }
-  body { background: #0a0a0a; color: #f5f5f5; font-family: 'Rethink Sans', sans-serif; letter-spacing: -0.03em;
+  body { background: #0a0a0a; color: #f5f5f5; font-family: 'Rethink Sans', sans-serif;
          position: relative; overflow: hidden; -webkit-font-smoothing: antialiased; }
-  /* The site's dot horizon, laid flat and fading up into the dark. */
-  .field { position: absolute; left: 0; right: 0; bottom: 0; height: 300px;
-           background-image: radial-gradient(circle, rgba(111, 150, 255, .5) 1.2px, transparent 1.8px);
-           background-size: 14px 14px;
-           -webkit-mask-image: radial-gradient(120% 100% at 50% 100%, #000 15%, transparent 70%);
-           mask-image: radial-gradient(120% 100% at 50% 100%, #000 15%, transparent 70%); }
-  .glow { position: absolute; left: 50%; bottom: -260px; width: 1300px; height: 520px; transform: translateX(-50%);
-          background: radial-gradient(closest-side, rgba(27, 99, 248, .22), transparent); }
-  .in { position: absolute; inset: 72px 80px 64px; display: flex; flex-direction: column; }
-  .mark { width: 46px; height: auto; }
+  .room { position: absolute; inset: 0; }
+  .room img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
+              filter: grayscale(1) blur(3px) brightness(.72) contrast(1.06); transform: scale(1.03); }
+  /* Darker on the left, where the headline sits. */
+  .shade { position: absolute; inset: 0; z-index: 1;
+           background: linear-gradient(90deg, rgba(10,10,10,.86) 0%, rgba(10,10,10,.6) 45%, rgba(10,10,10,.12) 100%),
+                       linear-gradient(180deg, rgba(10,10,10,.35) 0%, transparent 40%, rgba(10,10,10,.55) 100%); }
+  canvas.ascii { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; mix-blend-mode: screen;
+                 -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,.14) 0%, rgba(0,0,0,.3) 42%, #000 72%);
+                 mask-image: linear-gradient(90deg, rgba(0,0,0,.14) 0%, rgba(0,0,0,.3) 42%, #000 72%); }
+  .in { position: absolute; inset: 64px 80px 60px; z-index: 3; display: flex; flex-direction: column; }
+  .mark { width: 44px; height: auto; }
   .body { margin-top: auto; margin-bottom: auto; }
-  .label { font-size: 26px; font-weight: 600; color: #7fa4ff; letter-spacing: -0.01em; margin-bottom: 18px; }
-  h1 { font-size: 80px; line-height: 1.02; font-weight: 700; max-width: 1000px; text-wrap: balance; }
-  .url { font-size: 22px; color: #8f8f8f; letter-spacing: -0.01em; }
+  .label, .url { font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 18px; letter-spacing: .14em; text-transform: uppercase; }
+  .label { color: #7aa3ff; margin-bottom: 22px; }
+  h1 { font-size: 78px; line-height: 1; font-weight: 700; letter-spacing: -0.045em; max-width: 820px; text-wrap: balance; }
+  .url { color: #9a9ea6; }
 </style></head><body>
-  <div class="glow"></div><div class="field"></div>
+  <div class="room"><img src="${HOST}assets/photo/${photo}" alt="" data-ascii></div>
+  <div class="shade"></div>
   <div class="in">
     <img class="mark" src="${HOST}assets/capacity-logomark-blue.png" alt="">
     <div class="body">${label ? `<p class="label">${esc(label)}</p>` : ''}<h1>${headline}</h1></div>
     <p class="url">getcapacity.co</p>
   </div>
+  <script src="${HOST}ascii.js"></script>
 </body></html>`;
+
+/* The photo behind each card: the page's own hero photo, or these for pages
+   without one. */
+const PHOTO = { home: 'room-booth.jpg', signup: 'room-mirror-ball.jpg', hiring: 'room-confetti.jpg' };
+const pagePhoto = (html) => (html.match(/<img class="room-bg" src="assets\/photo\/([^"]+)"/) || [])[1];
 
 const pageH1 = (html) => {
   const m = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
@@ -118,12 +136,16 @@ const hashes = {};
 for (const [slug, label] of Object.entries(CARDS)) {
   const html = await readFile(join(ROOT, (FILE[slug] || slug) + '.html'), 'utf8');
   const headline = HEADLINE[slug] || pageH1(html);
-  await page.setContent(card(label, headline), { waitUntil: 'networkidle' });
+  const photo = PHOTO[slug] || pagePhoto(html) || 'room-booth.jpg';
+  current = card(label, headline, photo);
+  await page.goto(HOST + '__card', { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
-  const png = await page.screenshot({ type: 'png' });
-  await writeFile(join(OUT, slug + '.png'), png);
+  await page.waitForSelector('canvas.ascii.is-on');
+  await page.waitForTimeout(400);
+  const png = await page.screenshot({ type: 'jpeg', quality: 86 });
+  await writeFile(join(OUT, slug + '.jpg'), png);
   hashes[slug] = createHash('sha256').update(png).digest('hex').slice(0, 10);
-  console.log(`${slug}.png  ${headline}`);
+  console.log(`${slug}.jpg  ${headline}`);
 }
 await browser.close();
 server.close();
@@ -133,7 +155,7 @@ const pages = { ...Object.fromEntries(Object.keys(CARDS).map((s) => [s, s])), ..
 for (const [slug, cardSlug] of Object.entries(pages)) {
   const file = join(ROOT, (FILE[slug] || slug) + '.html');
   let html = await readFile(file, 'utf8');
-  const url = `${SITE}/assets/og/${cardSlug}.png?v=${hashes[cardSlug]}`;
+  const url = `${SITE}/assets/og/${cardSlug}.jpg?v=${hashes[cardSlug]}`;
   const title = (html.match(/<meta property="og:title" content="([^"]*)"/) || [])[1] || 'Capacity';
   const tags =
     `<meta property="og:image" content="${url}" />\n` +

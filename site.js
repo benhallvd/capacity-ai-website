@@ -2507,11 +2507,12 @@
 
 /* ---- WhatsApp (feature-whatsapp) ---- */
 /* ============================================================================
-   WhatsApp feature page: the community and the guestlist, live.
-   The broadcast is typed and sent, the ticks go to read, replies come in, and
-   each IN becomes a name on the guestlist while the counts beside it rise. It
-   plays only while on screen and loops calmly; under reduced motion the
-   finished state in the markup stays as it is.
+   WhatsApp feature page: one customer's chat, and the guestlist filling.
+   On the phone, Friday's message arrives with an I'm in button, Leah taps it
+   and adds two guests. Beside it, the venue's view: every tap from the
+   segment becomes a name on the guestlist while the counts rise. It plays
+   only while on screen and loops calmly; under reduced motion the finished
+   state in the markup stays as it is.
    ========================================================================== */
 
 (function () {
@@ -2526,8 +2527,6 @@
   if (reduced) return;
 
   var chat = $('#fwChat', stage);
-  var typeEl = $('#fwType', stage);
-  var sendBtn = $('.fw-comp__send', stage);
   var list = $('#fwList', stage);
   var bar = $('#fwBar', stage);
   var stateEl = $('#fwState', stage);
@@ -2536,21 +2535,22 @@
   var num = {};
   $$('[data-fw]', stage).forEach(function (el) { num[el.getAttribute('data-fw')] = el; });
 
-  var MESSAGE = 'Friday guestlist is open for Dirty Disco. Reply IN and you’re on it.';
   var CAP = 250;
   /* Where the send ends up, as the hero shows it. */
   var FINAL = { read: 91, replies: 164, guests: 212, q: 9 };
+  var TICKS = '<svg class="ic" aria-hidden="true"><use href="#i-check-check"/></svg>';
 
-  /* The replies you can see. Everyone else's arrive off screen and only move
-     the counts, as they would on a list of 2,418. */
-  var REPLIES = [
-    { n: 'Leah', full: 'Leah Carter', ini: 'LC', av: 'violet', t: 'IN, plus two!', plus: 2, at: '18:03' },
-    { n: 'Marcus', full: 'Marcus Reid', ini: 'MR', av: 'cyan', t: 'IN', at: '18:03' },
-    { n: 'Aisha', full: 'Aisha Khan', ini: 'AK', av: '', t: 'IN, see you there', at: '18:04' },
-    { n: 'Josh', full: 'Josh Bennett', t: 'What time do doors open?', q: true },
-    { n: 'Priya', full: 'Priya Shah', ini: 'PS', av: 'violet', t: 'IN', at: '18:05' },
-    { n: 'Tom', full: 'Tom Hughes', ini: 'TH', av: 'cyan', t: 'IN plus one', plus: 1, at: '18:06' }
+  /* Leah's tap is the one on the phone. Everyone else's arrive off screen and
+     only move the panel, as they would across a segment of 2,418. */
+  var LEAH = { full: 'Leah Carter', ini: 'LC', av: 'violet', plus: 2, at: '18:03' };
+  var OTHERS = [
+    { full: 'Marcus Reid', ini: 'MR', av: 'cyan', at: '18:03' },
+    { full: 'Aisha Khan', ini: 'AK', av: '', at: '18:04' },
+    { full: 'Josh Bennett', t: 'What time do doors open?', q: true },
+    { full: 'Priya Shah', ini: 'PS', av: 'violet', at: '18:05' },
+    { full: 'Tom Hughes', ini: 'TH', av: 'cyan', plus: 1, at: '18:06' }
   ];
+  var TOTAL = OTHERS.length + 1;
 
   var el = function (tag, cls, html) {
     var e = document.createElement(tag);
@@ -2590,51 +2590,39 @@
   var wait = function (ms, g) {
     return new Promise(function (res, rej) { setTimeout(function () { g === gen ? res() : rej(STOP); }, ms); });
   };
-  var type = function (node, text, g) {
-    node.textContent = '';
-    node.classList.add('is-text', 'is-typing');
-    var i = 0;
-    return new Promise(function (res, rej) {
-      (function step() {
-        if (g !== gen) { node.classList.remove('is-typing'); rej(STOP); return; }
-        if (i >= text.length) { node.classList.remove('is-typing'); res(); return; }
-        node.textContent += text.charAt(i++);
-        setTimeout(step, 22 + Math.random() * 30);
-      })();
-    });
-  };
 
   var reset = function () {
     chat.innerHTML = '<span class="fw-day">Today</span>';
     list.textContent = '';
-    typeEl.classList.remove('is-text', 'is-typing');
-    typeEl.textContent = 'Message';
     qText.textContent = 'Nothing yet';
     qRow.classList.remove('is-flash');
     stateEl.textContent = 'Ready';
     ['read', 'replies', 'guests', 'q'].forEach(function (k) { paint(k, 0); });
   };
 
-  var sendOut = function () {
-    typeEl.classList.remove('is-text');
-    typeEl.textContent = 'Message';
-    var p = el('p', 'fw-out is-new');
-    p.innerHTML = 'Friday guestlist is open for Dirty Disco. Reply <b>IN</b> and you&rsquo;re on it.' +
-      '<em class="fw-ticks">18:02 <svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></em>';
-    chat.appendChild(p);
-    stateEl.textContent = 'Filling';
-    return p;
+  /* A message from the venue, with its reply buttons if it has any. */
+  var incoming = function (text, buttons) {
+    var node;
+    if (buttons) {
+      node = el('div', 'fw-msg is-new', '<p class="fw-in">' + text + '</p>');
+      var wrap = buttons.length > 1 ? node.appendChild(el('div', 'fw-btns')) : node;
+      buttons.forEach(function (b) { wrap.appendChild(el('span', 'fw-btn', b)); });
+    } else node = el('p', 'fw-in is-new', text);
+    chat.appendChild(node);
+    return node;
+  };
+  /* Leah taps a button: it presses, and her answer goes out as a reply. */
+  var tap = function (msg, label, at, g) {
+    var btn = $$('.fw-btn', msg).filter(function (b) { return b.textContent === label; })[0];
+    btn.classList.add('is-press');
+    return wait(180, g).then(function () {
+      btn.classList.remove('is-press');
+      chat.appendChild(el('p', 'fw-out is-new', label + '<em class="fw-ticks is-read">' + at + ' ' + TICKS + '</em>'));
+    });
   };
 
-  var reply = function (r, i, g) {
-    var p = el('p', 'fw-in is-new');
-    p.appendChild(el('b')).textContent = r.n;
-    p.appendChild(document.createTextNode(r.t));
-    chat.appendChild(p);
-    /* Older bubbles scroll off the top: keep the chat to what fits. */
-    var bubbles = $$('.fw-in, .fw-out', chat);
-    if (bubbles.length > 7) bubbles[0].remove();
-
+  /* One more answer in the venue's view. */
+  var count = function (r, i, g) {
     if (r.q) {
       qText.textContent = r.full + ' · ' + r.t;
       qRow.classList.add('is-flash');
@@ -2645,13 +2633,13 @@
         (r.plus ? '<span class="ui-pill ui-pill--violet">+' + r.plus + '</span>' : '');
       $('.ui-av', row).textContent = r.ini;
       $('b', row).textContent = r.full;
-      $('small', row).textContent = 'Replied IN · ' + r.at;
+      $('small', row).textContent = 'Tapped I’m in · ' + r.at;
       list.insertBefore(row, list.firstChild);
       $$('.ui-row', list).forEach(function (o, n) { if (n > 0) o.classList.remove('is-new'); if (n > 4) o.remove(); });
     }
 
-    /* The whole list is replying, not just the six on screen. */
-    var f = (i + 1) / REPLIES.length;
+    /* The whole segment is answering, not just the names on screen. */
+    var f = (i + 1) / TOTAL;
     tween('read', Math.round(FINAL.read * (0.55 + 0.45 * f)), g);
     tween('replies', Math.round(FINAL.replies * f), g);
     tween('guests', Math.round(FINAL.guests * f), g);
@@ -2659,29 +2647,33 @@
   };
 
   var cycle = function (g) {
-    var out;
+    var msg;
     reset();
     return wait(900, g)
-      .then(function () { return type(typeEl, MESSAGE, g); })
-      .then(function () { return wait(500, g); })
-      .then(function () { sendBtn.classList.add('is-press'); return wait(160, g); })
-      .then(function () { sendBtn.classList.remove('is-press'); out = sendOut(); return wait(900, g); })
       .then(function () {
-        var ticks = $('.fw-ticks', out);
-        ticks.innerHTML = '18:02 <svg class="ic" aria-hidden="true"><use href="#i-check-check"/></svg>';
-        return wait(900, g);
-      })
-      .then(function () {
-        $('.fw-ticks', out).classList.add('is-read');
+        msg = incoming('Friday guestlist is open for Dirty Disco. Tap below and you’re on it.', ['I’m in']);
+        stateEl.textContent = 'Filling';
         tween('read', Math.round(FINAL.read * 0.4), g);
-        return wait(1000, g);
+        return wait(1600, g);
+      })
+      .then(function () { return tap(msg, 'I’m in', '18:03', g); })
+      .then(function () { return wait(900, g); })
+      .then(function () {
+        msg = incoming('You’re on Friday’s guestlist. Bringing anyone?', ['Just me', '+1', '+2']);
+        return wait(1500, g);
+      })
+      .then(function () { return tap(msg, '+2', '18:03', g); })
+      .then(function () { count(LEAH, 0, g); return wait(800, g); })
+      .then(function () {
+        incoming('See you Friday, Leah. You’re on with two guests.');
+        return wait(1300, g);
       })
       .then(function () {
-        return REPLIES.reduce(function (p, r, i) {
-          return p.then(function () { reply(r, i, g); return wait(1500, g); });
+        return OTHERS.reduce(function (p, r, i) {
+          return p.then(function () { count(r, i + 1, g); return wait(1300, g); });
         }, Promise.resolve());
       })
-      .then(function () { stateEl.textContent = 'Filling'; return wait(5200, g); })
+      .then(function () { return wait(5200, g); })
       .then(function () { return cycle(g); });
   };
 
@@ -3513,7 +3505,7 @@
         'Last week took <mark>&pound;19,600</mark>, <mark>6% more</mark> than the week before. Saturday did half of it, and the bar alone took <mark>&pound;6,240</mark> from 486 people through the door.',
         'Thursday is still climbing: <mark>&pound;2,600</mark>, up <mark>24%</mark> on the week before. Friday was the only night down, by <mark>&pound;200</mark>.',
         '<mark>446</mark> new guests came in, and <mark>61%</mark> of the crowd had been before.',
-        '<b>What worked.</b> Dirty Disco sold out its early bird in <mark>two days</mark>, and the Friday guestlist went out to <mark>2,418</mark> Insiders on WhatsApp.',
+        '<b>What worked.</b> Dirty Disco sold out its early bird in <mark>two days</mark>, and the Friday guestlist went out to <mark>2,418</mark> Regulars on WhatsApp.',
         '<b>Next.</b> Saturday Residency has <mark>88</mark> tier two tickets left. Send your list a reminder on Thursday.'
       ]
     }
