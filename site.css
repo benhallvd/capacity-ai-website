@@ -1968,8 +1968,10 @@ a.bt:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 .bx-wa__chat p { max-width: 85%; padding: .5em .75em; border-radius: .8em; font-size: .88em; line-height: 1.35; }
 .bx-wa__out { justify-self: end; background: var(--u-blue); color: #fff; border-top-right-radius: .2em; }
 .bx-wa__out em { display: block; text-align: right; font-style: normal; font-size: .72em; color: rgba(255, 255, 255, .72); margin-top: .15em; }
-.bx-wa__in { justify-self: start; background: var(--u-raise); border-top-left-radius: .2em; animation: bx-pop .55s var(--ease) both; animation-delay: calc(.6s + var(--i) * .6s); }
-.bx-wa__in b { display: block; font-size: .8em; color: #9db8ff; }
+.bx-wa__in { justify-self: start; background: var(--u-raise); border-top-left-radius: .2em; }
+/* The venue's reply button, tucked under its message as WhatsApp shows it. */
+.bx-wa__btn { justify-self: start; min-width: 60%; margin-top: -.3em; padding: .45em .75em; border-radius: .45em; background: var(--u-raise); color: #9db8ff; font-size: .84em; font-weight: 600; text-align: center; }
+.bx-wa__in, .bx-wa__btn, .bx-wa__out { animation: bx-pop .55s var(--ease) both; animation-delay: calc(.6s + var(--i) * .6s); }
 @keyframes bx-pop { from { opacity: 0; transform: translateY(.5em) scale(.96); } to { opacity: 1; transform: none; } }
 
 /* Social: posts drop into the week one after another. */
@@ -5280,6 +5282,16 @@ html.is-locked { overflow: hidden; }
 .fw-in { justify-self: start; max-width: 80%; padding: .45em .75em; border-radius: .2em .9em .9em .9em; background: var(--u-raise); font-size: .88em; line-height: 1.35; }
 .fw-in b { display: block; font-size: .8em; font-weight: 600; color: #9db8ff; }
 .fw-chat .is-new { animation: fw-pop .45s var(--ease) both; }
+/* A message from the venue with its reply buttons under it, as WhatsApp
+   shows a template's quick replies. */
+.fw-msg { justify-self: start; display: grid; gap: 2px; max-width: 80%; }
+.fw-msg .fw-in { max-width: none; }
+.fw-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.fw-btn {
+  display: block; padding: .5em .6em; border-radius: .45em; background: var(--u-raise); color: #9db8ff;
+  font-size: .84em; font-weight: 600; text-align: center; transition: transform .15s var(--ease), background-color .15s var(--ease);
+}
+.fw-btn.is-press { transform: scale(.95); background: color-mix(in srgb, var(--u-blue) 30%, var(--u-raise)); }
 @keyframes fw-pop { from { opacity: 0; transform: translateY(.6em) scale(.97); } }
 
 .fw-comp { display: flex; align-items: center; gap: .5em; padding: .6em .7em 1.1em; background: #0d0d0d; border-top: 1px solid var(--u-line); }
