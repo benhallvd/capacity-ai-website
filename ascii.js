@@ -1,7 +1,8 @@
-/* The room as Capacity reads it: a dense monospace grid of letters and
-   digits laid over a photograph, every cell lit by how bright the picture is
-   under it. On its own it stays quiet, a character stepping to a new one now
-   and then, each cell on its own slow clock. The reader moves it: a click
+/* The room as Capacity reads it: a dense grid of small tiles laid over a
+   photograph, each carrying a character, every cell lit by how bright the
+   picture is under it. Brighter cells run from navy through brand blue to a
+   pale tile with a dark character. On its own it stays quiet, a character
+   stepping to a new one now and then, each cell on its own slow clock. The reader moves it: a click
    drops into the grid like a stone into water, and the pointer leaves a faint
    trail that lifts the characters it passes over.
 
@@ -19,9 +20,15 @@
   var els = Array.prototype.slice.call(document.querySelectorAll('img[data-ascii]'));
   if (!els.length || reduced) return;
 
-  var CHARS = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  /* Characters from dark to bright, three per step so a cell can change its
+     character without changing its light. */
+  var BANDS = [['.', ':', "'"], ['-', '=', '~'], ['+', 't', '*'], ['x', 's', 'z'], ['X', 'S', 'Z'], ['#', '8', '%'], ['@', '0', '&']];
+  var VARS = 3;
+  var TONES = 14;        /* light steps baked into the atlas */
+  var LIFT = 1.6;        /* how a cell's light maps onto the tone steps */
+  var CREST = .38;       /* the light a ripple's crest lifts a cell to, mid brand blue */
+  var TRAIL = .3;        /* the light the pointer's trail lifts a cell to */
   var FONT = '"Geist Mono", ui-monospace, Menlo, monospace';
-  var GREY = '#c4c8cf', BLUE = '#7aa3ff';
   var FPS = 30;
   var REST_EVERY = 1.2;  /* seconds between refreshes of the resting grid */
   var TRAIL_R = 42;      /* px, how wide the pointer's trail is */
@@ -35,6 +42,15 @@
     var h = (a * 374761393 + b * 668265263) | 0;
     h = (h ^ (h >>> 13)) * 1274126177 | 0;
     return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  }
+  function mix(a, b, t) { return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ')'; }
+  /* Tile colour: navy up to brand blue, then on to pale. */
+  function tileColour(k) { return k < .65 ? mix([10, 26, 84], [34, 92, 230], k / .65) : mix([34, 92, 230], [206, 220, 255], (k - .65) / .35); }
+  /* Which tone step a cell's light lands on, or -1 for nothing. */
+  function toneOf(a, floor) {
+    if (a < .02) return -1;
+    var k = Math.max(floor || 0, Math.min(1, a * LIFT));
+    return Math.min(TONES - 1, (k * TONES) | 0);
   }
 
   function piece(el) {
@@ -58,7 +74,7 @@
     var atlas = document.createElement('canvas');
     var actx = atlas.getContext('2d');
 
-    var cols = 0, rows = 0, cw = 7, ch = 13, w = 0, h = 0, dpr = 1, gw = 0, gh = 0;
+    var cols = 0, rows = 0, cw = 8, ch = 11, w = 0, h = 0, dpr = 1, gw = 0, gh = 0;
     var lum, seed, tint, restA, restC, liftBuf, damp;
     /* The water: two height fields on a square grid twice the width of a
        glyph, read back smoothly, so the rings come out round and wide. */
@@ -66,28 +82,39 @@
     var trail = [];
     var on = false, raf = 0, last = 0, lastRest = -1e9, wasActive = false, t0 = performance.now();
 
-    var gain = soft ? .48 : .64;
+    var gain = soft ? .48 : .74;
     var base = soft ? .06 : .07;
     var span = soft ? .44 : .55;
 
-    /* Every character drawn once, in grey, blue and white, so drawing is
-       just copies out of this sheet. */
+    /* Every tone drawn once as a tile with its character, in both of its
+       characters, so drawing is just copies out of this sheet. */
     function buildAtlas() {
-      var size = soft ? 11 : 12;
-      actx.font = '400 ' + size + 'px ' + FONT;
-      cw = Math.ceil(actx.measureText('M').width * 10) / 10 || 7;
-      ch = Math.round(size * 1.12);
-      gw = Math.ceil(cw * dpr); gh = Math.ceil(ch * dpr);
-      atlas.width = gw * CHARS.length; atlas.height = gh * 3;
-      actx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      actx.font = '400 ' + size + 'px ' + FONT;
+      cw = soft ? 7 : 8; ch = soft ? 10 : 11;
+      gw = Math.round(cw * dpr); gh = Math.round(ch * dpr);
+      atlas.width = gw * TONES * VARS; atlas.height = gh;
+      actx.setTransform(1, 0, 0, 1, 0, 0);
+      actx.clearRect(0, 0, atlas.width, atlas.height);
+      actx.font = '500 ' + Math.round(gh * .72) + 'px ' + FONT;
       actx.textBaseline = 'middle'; actx.textAlign = 'center';
-      for (var i = 0; i < CHARS.length; i++) {
-        actx.fillStyle = GREY; actx.fillText(CHARS[i], (i * gw) / dpr + cw / 2, ch / 2);
-        actx.fillStyle = BLUE; actx.fillText(CHARS[i], (i * gw) / dpr + cw / 2, ch + ch / 2);
-        actx.fillStyle = '#ffffff'; actx.fillText(CHARS[i], (i * gw) / dpr + cw / 2, ch * 2 + ch / 2);
+      var g = Math.max(1, Math.round(gw * .14)), r = Math.max(1, gw * .16);
+      for (var t = 0; t < TONES; t++) {
+        var k = (t + .5) / TONES;
+        for (var v = 0; v < VARS; v++) {
+          var x = (t * VARS + v) * gw;
+          actx.globalAlpha = .14 + .7 * k;
+          actx.fillStyle = tileColour(k);
+          actx.beginPath();
+          if (actx.roundRect) actx.roundRect(x + g / 2, g / 2, gw - g, gh - g, r); else actx.rect(x + g / 2, g / 2, gw - g, gh - g);
+          actx.fill();
+          if (k < .08) continue;
+          actx.globalAlpha = k > .7 ? .85 : .24 + .46 * k;
+          actx.fillStyle = k > .7 ? '#04102e' : mix([96, 140, 255], [220, 230, 255], k);
+          actx.fillText(BANDS[Math.min(BANDS.length - 1, (k * BANDS.length) | 0)][v], x + gw / 2, gh / 2 + .5);
+        }
       }
+      actx.globalAlpha = 1;
     }
+    function tile(c, tn, v, x, y) { c.drawImage(atlas, (tn * VARS + v) * gw, 0, gw, gh, x, y, gw, gh); }
 
     /* Size everything to the photo, and sample it at one value per cell,
        cropped the way object-fit: cover shows it. */
@@ -154,7 +181,7 @@
         for (var x = 0; x < cols; x++) {
           var i = y * cols + x, v = lum[i], hz = seed[i];
           var gen = Math.floor((t + hz * 60) / (wave ? 3 + hz * 6 : 8 + hz * 14));
-          restC[i] = (hash(i, gen) * CHARS.length) | 0;
+          restC[i] = (hash(i, gen) * VARS) | 0;
           var a;
           if (wave) {
             /* Three slow travelling waves added together, so the lit patches
@@ -173,12 +200,11 @@
             a = (base + v * span) * gain;
           }
           restA[i] = a;
-          if (a < .02) continue;
-          rctx.globalAlpha = a;
-          rctx.drawImage(atlas, restC[i] * gw, tint[i] ? gh : 0, gw, gh, Math.round(x * cw * dpr), Math.round(y * ch * dpr), gw, gh);
+          var tn = toneOf(tint[i] ? a * 1.35 : a);
+          if (tn < 0) continue;
+          tile(rctx, tn, restC[i], Math.round(x * cw * dpr), Math.round(y * ch * dpr));
         }
       }
-      rctx.globalAlpha = 1;
       lastRest = t;
     }
 
@@ -287,27 +313,25 @@
           any = true;
 
           var a0 = restA[i] || .02 * gain;
-          var a = a0, blue = tint[i], white = false, ci = restC[i];
+          var a = a0, ci = restC[i];
           if (wv > 0) {
-            /* A crest lights up blue and stirs the characters it carries. */
+            /* A crest lifts a cell towards brand blue and stirs the characters it carries. */
             var c = Math.min(1, wv * 1.1);
-            a = a0 + (.95 - a0) * c;
-            if (c > .12) blue = 1;
-            if (c > .35) ci = (hash(i, Math.floor(t * 9)) * CHARS.length) | 0;
+            if (a0 < CREST) a = a0 + (CREST - a0) * c;
+            if (c > .35) ci = (hash(i, Math.floor(t * 9)) * VARS) | 0;
           } else if (wv < 0) {
             /* A trough dims what is under it. */
             a = a0 * (1 - Math.min(.85, -wv * 1.1));
           }
-          /* The trail is white, so it reads against the grey field. */
-          if (lift > 0) { a = a + (1 - a) * lift; if (lift > .2 && !(wv > .1)) { white = true; blue = 0; } }
+          /* The trail lifts what it passes over a little. */
+          if (lift > 0 && a < TRAIL) a = a + (TRAIL - a) * lift;
           var px = Math.round(x * cw * dpr), py = Math.round(y * ch * dpr);
           ctx.clearRect(px, py, gw, gh);
-          if (a < .02) continue;
-          ctx.globalAlpha = a > 1 ? 1 : a;
-          ctx.drawImage(atlas, ci * gw, white ? gh * 2 : blue ? gh : 0, gw, gh, px, py, gw, gh);
+          var tn = toneOf(a);
+          if (tn < 0) continue;
+          tile(ctx, tn, ci, px, py);
         }
       }
-      ctx.globalAlpha = 1;
       wasActive = any;
     }
 

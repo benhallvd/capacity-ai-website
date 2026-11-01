@@ -4,7 +4,7 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/(brand-gnv7ztt1hgki|brand-vqa7gbkxqsky|agency-livusectcxe3|test-tickets)(.*)",
+      "source": "/(design-system|test-tickets)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -39,6 +39,11 @@
     {
       "source": "/home",
       "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/signup",
+      "destination": "/discovery",
       "permanent": true
     },
     {

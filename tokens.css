@@ -24,6 +24,10 @@
   /* ---- Type ------------------------------------------------------------- */
   --font-sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
                Helvetica, Arial, sans-serif;
+  /* Headings only: Mona Sans at its widest. Never inside a product mockup. */
+  --font-display: 'Mona Sans', 'Rethink Sans', -apple-system, BlinkMacSystemFont,
+                  'Segoe UI', Helvetica, Arial, sans-serif;
+  --display-stretch: 125%;
 
   /* No 300, brand.md: light text renders at 400. */
   --weight-regular:  400;
@@ -36,7 +40,11 @@
   --tracking-tight: -0.018em;   /* display headings */
   --tracking-display: -0.008em; /* the hero line */
   --tracking-wide:   0.08em;    /* uppercase eyebrows */
+  --tracking-caps:  -0.012em;   /* wide capitals, headings */
+  --tracking-display: -0.02em;  /* wide sentence case, headings */
 
+  --leading-caps:    0.98;
+  --leading-display: 1.08;
   --leading-tight:   1.06;
   --leading-snug:    1.2;
   --leading-normal:  1.5;
@@ -71,6 +79,22 @@
 
   /* ---- Motion ----------------------------------------------------------- */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* The light: the room's light as colour, on the mark and on photos, always
+     with the grain over it. Day on white, night on black. */
+  --light-day:
+    radial-gradient(46% 52% at 20% 4%, #cfeaff 0%, rgba(207, 234, 255, 0) 78%),
+    radial-gradient(44% 48% at 4% 60%, #6f52f0 0%, rgba(111, 82, 240, 0) 76%),
+    radial-gradient(60% 56% at 22% 104%, #0512e8 0%, rgba(5, 18, 232, 0) 74%),
+    radial-gradient(44% 52% at 104% 82%, #1fc3f5 0%, rgba(31, 195, 245, 0) 72%),
+    linear-gradient(#2563ff, #2563ff);
+  --light-night:
+    radial-gradient(64% 62% at 24% -4%, #9a63ff 0%, rgba(154, 99, 255, 0) 74%),
+    radial-gradient(58% 58% at 104% 0%, #5a3cf5 0%, rgba(90, 60, 245, 0) 74%),
+    radial-gradient(66% 66% at -4% 104%, #2fb4ff 0%, rgba(47, 180, 255, 0) 74%),
+    linear-gradient(#356bff, #356bff);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0' result='a'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.7' intercept='-.35'/%3E%3CfeFuncG type='linear' slope='1.7' intercept='-.35'/%3E%3CfeFuncB type='linear' slope='1.7' intercept='-.35'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --mark-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='240 440 1520 1120'%3E%3Cpath d='M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z'/%3E%3C/svg%3E");
 }
 
 /* ---- Surface tokens, light -------------------------------------------- */

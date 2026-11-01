@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Templates | Capacity</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Mona+Sans:wdth,wght@125,600..800&display=swap" />
+<link rel="stylesheet" href="../tokens.css?v=65c181014d" />
+<link rel="stylesheet" href="../site.css?v=0dacef1900" />
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../design-system.css?v=c8646c715a" />
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.4211.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.1623.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.439.645 1.439 1.439z"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><circle cx="8" cy="18" r="4"/><path d="M12 18V2l7 4"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></symbol>
+  <symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-message-square" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></symbol>
+  <symbol id="i-credit-card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+  <symbol id="i-trending-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+  <symbol id="i-trending-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><path d="M7.5 7.5h.01"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <path id="capacity-mark" d="M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z"/>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.439.645 1.439 1.439z"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+  </defs>
+</svg>
+
+<div class="bk-top">
+  <a class="bk-top__mark" href="../design-system" aria-label="Capacity design system"><svg viewBox="240 440 1520 1120" fill="currentColor" aria-hidden="true"><use href="#capacity-mark"/></svg></a>
+  <nav aria-label="Design system">
+    <a href="../design-system">Design system</a><a href="templates">Templates</a><a href="outreach">Outreach</a>
+  </nav>
+</div>
+
+<div style="display:none" aria-hidden="true"><div class="ics"><figure data-icon="ticketing"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 12H31V36H4V30L8 24L4 18Z"/><path class="lit" d="M34 12H44V18L40 24L44 30V36H34Z"/></svg><figcaption>ticketing</figcaption></figure><figure data-icon="enquiries"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 5H38V21H22V30H15L9 39V30H4Z"/><path class="lit" d="M25 24H44V39H41V45L37 39H25Z"/></svg><figcaption>enquiries</figcaption></figure><figure data-icon="profiles"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 44L15.33 27H32.67L44 44Z"/><path class="lit" d="M14 14a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z"/></svg><figcaption>profiles</figcaption></figure><figure data-icon="social"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 18H17L35 6V42L17 30H5Z M9 33H18V44H16.33Z"/><path class="lit" d="M38 13H43V35H38Z"/></svg><figcaption>social</figcaption></figure><figure data-icon="email"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 13.5L24 26.83L44 13.5V39H4Z"/><path class="lit" d="M4 9H44L24 22.33Z"/></svg><figcaption>email</figcaption></figure><figure data-icon="forms"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 5H44V16H4Z M4 19H44V30H4Z"/><path class="lit" d="M4 33H31.33L24 44H4Z"/></svg><figcaption>forms</figcaption></figure><figure data-icon="analytics"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4.5 44V29L8.5 23H15.5V44Z M18.5 44V19L22.5 13H29.5V44Z"/><path class="lit" d="M32.5 44V9L36.5 3H43.5V44Z"/></svg><figcaption>analytics</figcaption></figure><figure data-icon="till"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H40V14H8Z M8 28H40V44L34.67 36L29.33 44L24 36L18.67 44L13.33 36L8 44Z"/><path class="lit" d="M8 17H40V25H8Z"/></svg><figcaption>till</figcaption></figure><figure data-icon="reports"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H27.33L40 23V44H8Z M14 28V32H34V28Z M14 36V40H27V36Z"/><path class="lit" d="M30.33 4H40V18.5Z"/></svg><figcaption>reports</figcaption></figure><figure data-icon="files"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 7H19L23 13H44V20H4Z"/><path class="lit" d="M4 23H44V41H4Z"/></svg><figcaption>files</figcaption></figure><figure data-icon="bookings"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 6H44V15H4Z M4 18H15.33V29H4Z M18.33 18H29.67V29H18.33Z M32.67 18H44V29H32.67Z M4 32H15.33V43H4Z M32.67 32H44V43H32.67Z"/><path class="lit" d="M18.33 32H29.67V43H18.33Z"/></svg><figcaption>bookings</figcaption></figure><figure data-icon="intelligence"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path class="lit" d="M5.26 29.18L17.64 29.18L12.06 37.49L20.31 37.49L24 31.99L27.7 37.49L35.95 37.49L30.37 29.18L42.74 29.18L38.24 22.49L30.38 22.49L34.3 16.64L30.17 10.51L24 19.7L17.84 10.51L13.7 16.64L17.63 22.49L9.76 22.49L5.26 29.18Z"/></svg><figcaption>intelligence</figcaption></figure><figure data-icon="nightclubs"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 4H38V44H10V13Z M20 14a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z M13.5 30a10.5 10.5 0 1 0 21 0a10.5 10.5 0 1 0 -21 0Z"/><path class="lit" d="M17.5 30a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0Z"/></svg><figcaption>nightclubs</figcaption></figure><figure data-icon="bars"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 18H32L26 27V40H34V44H14V40H22V27Z"/><path class="lit" d="M8 6H40L34 15H14Z"/></svg><figcaption>bars</figcaption></figure><figure data-icon="socialising"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 24a20 20 0 1 0 40 0a20 20 0 1 0 -40 0Z M11.5 24a12.5 12.5 0 1 0 25 0a12.5 12.5 0 1 0 -25 0Z"/><path class="lit" d="M15.5 24a8.5 8.5 0 1 0 17 0a8.5 8.5 0 1 0 -17 0Z"/></svg><figcaption>socialising</figcaption></figure><figure data-icon="festivals"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 9L44 39H4Z M24 23L13.33 39H34.67Z"/><path class="lit" d="M24 28L31.33 39H16.67Z"/></svg><figcaption>festivals</figcaption></figure><figure data-icon="promoters"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 1H18.67L24 9L29.33 1H34L26 13H22Z M11 16H37V46H11Z M19 20V23H29V20Z M15 28V42H33V28Z"/><path class="lit" d="M18 31H30V39H18Z"/></svg><figcaption>promoters</figcaption></figure><figure data-icon="audit"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 19a16 16 0 1 0 32 0a16 16 0 1 0 -32 0Z M11 19a9 9 0 1 0 18 0a9 9 0 1 0 -18 0Z"/><path class="lit" d="M30 33H36L43.33 44H37.33Z"/></svg><figcaption>audit</figcaption></figure><figure data-icon="team"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 15a9 9 0 1 0 18 0a9 9 0 1 0 -18 0Z M3 43L12.33 29H21.67L31 43Z"/><path class="lit" d="M29.5 19a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0Z M26.5 29H38.33L47 43H35.83Z"/></svg><figcaption>team</figcaption></figure><figure data-icon="connect"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 20H36V30L29.33 40H26V46H22V40H18.67L12 30Z"/><path class="lit" d="M15 5H21V17H15Z M27 5H33V17H27Z"/></svg><figcaption>connect</figcaption></figure><figure data-icon="door"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H40V44H35V9H13V44H8Z"/><path class="lit" d="M16 12H32V36L16 44Z"/></svg><figcaption>door</figcaption></figure><figure data-icon="tick"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 4H44V44H4Z M9 9V39H39V9Z"/><path class="lit" d="M12.67 24H18L22 30L30 18H35.33L24.67 34H19.33Z"/></svg><figcaption>tick</figcaption></figure><figure data-icon="clock"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 24a20 20 0 1 0 40 0a20 20 0 1 0 -40 0Z M10 24a14 14 0 1 0 28 0a14 14 0 1 0 -28 0Z"/><path class="lit" d="M21 13H26V23.67L31.33 31.67H25.33L21 25.17Z"/></svg><figcaption>clock</figcaption></figure><figure data-icon="pen"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6H34L20 27H10Z M21 40H44V45H17.67Z"/><path class="lit" d="M8 30H18L8 45Z"/></svg><figcaption>pen</figcaption></figure><figure data-icon="tag"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M13.33 10H44V38H13.33L4 24Z M12.5 24a6.5 6.5 0 1 0 13.0 0a6.5 6.5 0 1 0 -13.0 0Z"/><path class="lit" d="M15.5 24a3.5 3.5 0 1 0 7.0 0a3.5 3.5 0 1 0 -7.0 0Z"/></svg><figcaption>tag</figcaption></figure><figure data-icon="qr"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 4H20V20H4Z M10 10V14H14V10Z M28 4H44V20H28Z M34 10V14H38V10Z M4 28H20V44H4Z M10 34V38H14V34Z"/><path class="lit" d="M28 28H44V36H36V44H28Z M39 39H44V44H39Z"/></svg><figcaption>qr</figcaption></figure><figure data-icon="wifi"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4.03 11.05A36 36 0 0 1 43.97 11.05L39.53 17.7A28 28 0 0 0 8.47 17.7Z M10.13 20.2A25 25 0 0 1 37.87 20.2L33.43 26.86A17 17 0 0 0 14.57 26.86Z"/><path class="lit" d="M16.23 29.35A14 14 0 0 1 31.77 29.35L24 41Z"/></svg><figcaption>wifi</figcaption></figure><figure data-icon="flag"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H13V44H8Z"/><path class="lit" d="M16 7H44L38.67 15L44 23H16Z"/></svg><figcaption>flag</figcaption></figure><figure data-icon="lock"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M13 17V14a11 11 0 0 1 22 0V17H30V14a6 6 0 0 0 -12 0V17Z M8 20H40V44H8Z M19 25V39H29V25Z"/><path class="lit" d="M22 28H26V36H22Z"/></svg><figcaption>lock</figcaption></figure><figure data-icon="link"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 10H20V16H10V32H20V38H4Z M44 10H28V16H38V32H28V38H44Z"/><path class="lit" d="M14 21H34V27H14Z"/></svg><figcaption>link</figcaption></figure><figure data-icon="stack"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M9.33 21H44L38.67 29H4Z M9.33 32H44L38.67 40H4Z"/><path class="lit" d="M12 6H44L36 18H4Z"/></svg><figcaption>stack</figcaption></figure><figure data-icon="phone"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 3H36V45H12Z M15 7V37H33V7Z M22 40V42H26V40Z"/><path class="lit" d="M18 10H30V34H18Z"/></svg><figcaption>phone</figcaption></figure><figure data-icon="pin"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 45L11.33 26A15 15 0 1 1 36.67 26Z M17 18a7 7 0 1 0 14 0a7 7 0 1 0 -14 0Z"/><path class="lit" d="M20 18a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z"/></svg><figcaption>pin</figcaption></figure></div></div>
+
+<section class="bk-ch" id="templates">
+  <div class="bk-wrap">
+    <div class="bk-head"><h2 class="h2">Templates.</h2>
+      <ul class="bk-rules">
+        <li>Every template exports at its real size: <code>cd tools/export &amp;&amp; node export.mjs</code>.</li>
+        <li>Dashed text is a placeholder. Replace it before anything goes out.</li>
+      </ul>
+    </div>
+<!-- Social posts, 4:5 -->
+    <div class="tgroup">
+      <p class="tlabel mono">Social posts / 4:5</p>
+      <div class="tgrid">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-stat" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag">Labyrinth / Saturday</span>
+              </div>
+              <div>
+                <div class="tpl-big">1,184</div>
+                <div class="tpl-rule"></div>
+                <div class="tpl-h" style="font-size:4.9cqw">through the door.<br /><span class="b">412 of them were new.</span></div>
+              </div>
+              <span class="tpl-tag">getcapacity.co</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Stat</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-feature" data-export-size="1080x1350">
+            <div class="tpl-obj" style="bottom:38%"><img class="tpl-photo" data-glyph="ticketing" alt="" data-ascii /></div>
+            <div class="tpl-in" style="justify-content:flex-end">
+              <span class="tpl-tag" style="margin-bottom:3cqw">Ticketing</span>
+              <div class="tpl-h">Take control of your ticketing.</div>
+              <p class="tpl-p">Fully white-labelled. Your name on the checkout, your data in your hands.</p>
+              <span class="tpl-cta">See how it works</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Feature, with its icon</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-quote" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div style="font-weight:800;font-size:22cqw;line-height:0.7;color:#1b63f8;height:12cqw">&ldquo;</div>
+              <div class="tpl-h" style="font-size:5.5cqw"><span class="ph">[Client quote, cleared by the client]</span></div>
+              <div class="tpl-row" style="align-items:flex-end">
+                <div>
+                  <div style="font-weight:700;font-size:4cqw"><span class="ph">[Name]</span></div>
+                  <div class="tpl-p" style="margin-top:1cqw;font-size:3.6cqw"><span class="ph">[Role]</span>, <span class="ph">[Venue]</span></div>
+                </div>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Quote</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-photo" data-export-size="1080x1350">
+            <img class="tpl-photo" src="../assets/photo/room-hands-up.jpg" alt="" data-ascii="soft" />
+            <div class="tpl-scrim" style="background:linear-gradient(180deg,rgba(10,10,10,0.75) 0%,rgba(10,10,10,0) 24%,rgba(10,10,10,0) 40%,rgba(10,10,10,0.85) 100%)"></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <div class="tpl-h">Your busiest night already told you who to invite next.</div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Photo, redrawn as dots</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:4/5" data-export="post-statement" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <span class="tpl-tag">Monday thought</span>
+              <div class="tpl-h" style="font-size:7.4cqw"><span class="b">Your till</span> knows your regulars better than your CRM does.</div>
+              <div class="tpl-row">
+                <span class="tpl-tag">Built around how your business runs</span>
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Statement</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-proof" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div>
+                <span class="tpl-tag">Wednesday, 6pm</span>
+                <div class="tpl-h" style="margin-top:3cqw">412 of 600 sold. <span class="b">Three days out.</span></div>
+              </div>
+              <div class="tui">
+                <div class="tui-top">Saturday Residency <span class="tui-pill">On sale</span></div>
+                <div class="tui-n">412 <small>/ 600 sold</small></div>
+                <div class="tui-bar"><i style="width:69%"></i></div>
+                <div class="tui-row">Sold this week <b>138</b></div>
+                <div class="tui-row">Returning guests <b>57%</b></div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Product proof</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Announcements, 4:5 -->
+    <div class="tgroup">
+      <p class="tlabel mono">Announcements / 4:5</p>
+      <div class="tgrid">
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:4/5" data-export="post-integration" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <span class="tpl-tag">New integration</span>
+              <div style="display:flex;align-items:center;justify-content:center;gap:6cqw">
+                <svg viewBox="240 440 1520 1120" fill="#171717" style="width:18cqw;height:13.5cqw"><use href="#capacity-mark"/></svg>
+                <span style="display:flex;gap:1.6cqw" aria-hidden="true"><i style="width:1.6cqw;height:1.6cqw;border-radius:50%;background:#d4d4d4"></i><i style="width:1.6cqw;height:1.6cqw;border-radius:50%;background:#1b63f8"></i><i style="width:1.6cqw;height:1.6cqw;border-radius:50%;background:#d4d4d4"></i></span>
+                <img src="../assets/brands/dice.svg" alt="DICE" style="width:26cqw;height:auto" />
+              </div>
+              <div>
+                <div class="tpl-h" style="font-size:5.6cqw">DICE is coming to Capacity.</div>
+                <p class="tpl-p">Ticket sales and attendee data, straight into every guest's profile.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Integration, with the partner's own logo</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:4/5" data-export="post-new-venue" data-export-size="1080x1350">
+            <div class="tpl-obj" style="bottom:36%"><img class="tpl-photo" data-glyph="nightclubs" alt="" data-ascii /></div>
+            <div class="tpl-in" style="justify-content:flex-end">
+              <span class="tpl-tag" style="margin-bottom:3cqw">Now on Capacity</span>
+              <div class="tpl-h h--caps" style="font-size:7.0cqw">Welcome, <span class="b"><span class="ph">[Venue]</span></span>.</div>
+              <p class="tpl-p"><span class="ph">[Three rooms, 1,400 capacity, open since 2009]</span>. Every guest, one picture.</p>
+            </div>
+          </div>
+          <p class="mock-cap mono">New venue, icon by venue type</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:4/5" data-export="post-event" data-export-size="1080x1350">
+            <div class="tpl-in" style="justify-content:space-between">
+              <div class="tpl-row">
+                <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+                <span class="tpl-tag">Events</span>
+              </div>
+              <div>
+                <div class="tpl-h h--caps" style="font-size:7.0cqw">Capacity at <span class="b"><span class="ph">[Event]</span></span>.</div>
+                <p class="tpl-p">Bring your Saturday numbers and see who is behind them.</p>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #e4e4e4;padding-top:4cqw;gap:3cqw">
+                <div><span class="tpl-tag" style="font-size:2.6cqw">Date</span><div style="font-weight:700;font-size:4.4cqw;margin-top:1cqw"><span class="ph">[14 Oct]</span></div></div>
+                <div><span class="tpl-tag" style="font-size:2.6cqw">City</span><div style="font-weight:700;font-size:4.4cqw;margin-top:1cqw"><span class="ph">[City]</span></div></div>
+                <div><span class="tpl-tag" style="font-size:2.6cqw">Stand</span><div style="font-weight:700;font-size:4.4cqw;margin-top:1cqw"><span class="ph">[B12]</span></div></div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Event</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Stories, 9:16 -->
+    <div class="tgroup">
+      <p class="tlabel mono">Stories / 9:16</p>
+      <div class="tgrid tgrid--4">
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-announce" data-export-size="1080x1920">
+            <div class="tpl-obj" style="bottom:30%"><img class="tpl-photo" data-glyph="social" alt="" data-ascii /></div>
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5" style="align-self:center"><use href="#capacity-mark"/></svg>
+              <div>
+                <div class="tpl-h" style="font-size:7.4cqw">Every guest, every channel, one inbox.</div>
+                <span class="tpl-cta" style="font-size:4.6cqw">Book an audit</span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Announce</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:9/16" data-export="story-poll" data-export-size="1080x1920">
+            <img class="tpl-photo" src="../assets/photo/room-hands-up.jpg" alt="" data-ascii="soft" />
+            <div class="tpl-scrim" style="background:rgba(10,10,10,0.55)"></div>
+            <div class="tpl-in" style="justify-content:center">
+              <div class="poll">
+                <b>Which night is hardest to fill?</b>
+                <span>Monday <em>18%</em></span>
+                <span>Tuesday <em>9%</em></span>
+                <span>Wednesday <em>21%</em></span>
+                <span>Thursday <em>52%</em></span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Poll</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:9/16" data-export="story-stat" data-export-size="1080x1920">
+            <div class="tpl-in" style="justify-content:space-between">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              <div>
+                <span class="tpl-tag">Friday, 11pm</span>
+                <div class="tpl-big" style="font-size:34cqw;margin-top:3cqw">&pound;46</div>
+                <div class="tpl-h" style="font-size:6.7cqw;margin-top:4cqw">spent per head at the bar. <span class="b">Up &pound;6 on last month.</span></div>
+              </div>
+              <span class="tpl-tag">getcapacity.co</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Stat</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--paper" style="aspect-ratio:9/16" data-export="story-question" data-export-size="1080x1920">
+            <div class="tpl-in" style="justify-content:center;gap:6cqw">
+              <span class="tpl-tag">Ask your venue anything</span>
+              <div style="background:#ffffff;border:1px solid #e4e4e4;border-radius:4cqw;padding:5cqw;font-size:5cqw;font-weight:600;letter-spacing:-0.02em">Who came three Fridays running and hasn't booked this week?</div>
+              <div style="background:#0a0a0a;color:#f5f5f5;border-radius:4cqw;padding:5cqw;font-size:4.6cqw;line-height:1.45">
+                <b style="font-size:9cqw;letter-spacing:-0.03em">64 guests.</b><br />
+                <span style="color:#8f8f8f">41 have a phone number. Want me to draft them a message for Thursday?</span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Intelligence Q&amp;A</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="tgroup">
+      <p class="tlabel mono">Carousel / 4:5, seven slides</p>
+      <div class="car">
+
+        <div class="tpl" data-export="carousel-01" data-export-size="1080x1350">
+          <div class="tpl-obj" style="top:18%;bottom:30%"><img class="tpl-photo" data-glyph="analytics" alt="" data-ascii /></div>
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <span class="tpl-tag">01 / 07</span>
+            </div>
+            <div>
+              <div class="tpl-h" style="font-size:7.0cqw">Five numbers to check every Monday.</div>
+              <span class="tpl-tag" style="display:block;margin-top:4cqw;color:#7fa4ff">Swipe &rarr;</span>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:14.3%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-02" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">01</span><span class="tpl-tag">02 / 07</span></div>
+            <div>
+              <div class="tpl-h h--caps">Through the door</div>
+              <p class="tpl-p" style="font-size:5cqw">Not tickets sold. People in the room. The gap between the two is your no-show rate.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:28.6%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-03" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">02</span><span class="tpl-tag">03 / 07</span></div>
+            <div>
+              <div class="tpl-h h--caps">Spend per head</div>
+              <p class="tpl-p" style="font-size:5cqw">Bar takings over headcount. If it drops while the room is full, look at the queue, not the prices.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:42.9%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-04" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">03</span><span class="tpl-tag">04 / 07</span></div>
+            <div>
+              <div class="tpl-h h--caps">New faces</div>
+              <p class="tpl-p" style="font-size:5cqw">How many came for the first time, and how many of them left you a way to invite them back.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:57.1%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-05" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">04</span><span class="tpl-tag">05 / 07</span></div>
+            <div>
+              <div class="tpl-h h--caps">Who came back</div>
+              <p class="tpl-p" style="font-size:5cqw">Last month's guests who returned. The one number your promoters never send you.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:71.4%"></i></div>
+        </div>
+
+        <div class="tpl tpl--white" data-export="carousel-06" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row"><span class="car-n">05</span><span class="tpl-tag">06 / 07</span></div>
+            <div>
+              <div class="tpl-h h--caps">Tables still open</div>
+              <p class="tpl-p" style="font-size:5cqw">Anything unbooked at 5pm Thursday is a message you haven't sent yet.</p>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:85.7%"></i></div>
+        </div>
+
+        <div class="tpl" data-export="carousel-07" data-export-size="1080x1350">
+          <div class="tpl-in" style="justify-content:space-between">
+            <div class="tpl-row">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg>
+              <span class="tpl-tag">07 / 07</span>
+            </div>
+            <div>
+              <div class="tpl-h" style="font-size:7.0cqw">All five, on one screen, before your coffee.</div>
+              <span class="tpl-cta">Book an audit</span>
+              <span class="tpl-tag" style="display:block;margin-top:5cqw">getcapacity.co</span>
+            </div>
+          </div>
+          <div class="car-prog"><i style="width:100%"></i></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="tgroup">
+      <p class="tlabel mono">Email</p>
+      <div class="tgrid tgrid--2" style="align-items:start">
+
+        <div>
+          <div class="mail" data-export="email-footer-light" data-export-size="2x">
+            <div class="mail-bar"><i></i><i></i><i></i></div>
+            <div class="mail-body">
+              <div class="mail-line" style="width:62%;height:12px;background:#e4e4e4"></div>
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
+            </div>
+            <div class="efoot">
+              <svg class="m" viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              <div class="line">Built around how your business runs.</div>
+              <nav><a class="cta" href="#">Book an audit</a><a href="#">Integrations</a><a href="#">Careers</a><a href="#">getcapacity.co</a></nav>
+              <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
+              <p class="fine">You're getting this because you joined the Capacity waitlist. <a href="#">Unsubscribe</a> or <a href="#">choose what you get</a>.<br />Capacity Digital Ltd &middot; Company No. 14487697 &middot; 167-169 Great Portland Street, London W1W 5PF</p>
+            </div>
+          </div>
+          <p class="mock-cap mono">Footer / light, default</p>
+        </div>
+
+        <div>
+          <div class="mail mail--dark" data-export="email-footer-dark" data-export-size="2x">
+            <div class="mail-bar"><i></i><i></i><i></i></div>
+            <div class="mail-body">
+              <div class="mail-line" style="width:62%;height:12px;background:#262626"></div>
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:74%"></div>
+            </div>
+            <div class="efoot">
+              <svg class="m" viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+              <div class="line">Built around how your business runs.</div>
+              <nav><a class="cta" href="#">Book an audit</a><a href="#">Integrations</a><a href="#">Careers</a><a href="#">getcapacity.co</a></nav>
+              <div class="soc"><svg><use href="#i-instagram"/></svg><svg><use href="#i-linkedin"/></svg></div>
+              <p class="fine">You're getting this because you joined the Capacity waitlist. <a href="#">Unsubscribe</a> or <a href="#">choose what you get</a>.<br />Capacity Digital Ltd &middot; Company No. 14487697 &middot; 167-169 Great Portland Street, London W1W 5PF</p>
+            </div>
+          </div>
+          <p class="mock-cap mono">Footer / dark, launches and product news</p>
+        </div>
+
+        <div>
+          <div class="mail" data-export="email-newsletter-header" data-export-size="2x">
+            <div class="mast">
+              <div class="tpl-row">
+                <svg viewBox="240 440 1520 1120" fill="#f5f5f5"><use href="#capacity-mark"/></svg>
+                <span class="mono" style="color:#8f8f8f">Issue <span class="ph">04</span> / <span class="ph">29 Sep 2026</span></span>
+              </div>
+              <h3>The Monday numbers.</h3>
+            </div>
+            <div class="mail-body" style="padding-bottom:22px">
+              <div class="mail-line"></div><div class="mail-line"></div><div class="mail-line" style="width:58%"></div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Newsletter header</p>
+        </div>
+
+        <div>
+          <div class="mail" data-export="email-signature" data-export-size="2x">
+            <div class="sig">
+              <svg viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg>
+              <div>
+                <b><span class="ph">[Your name]</span></b>
+                <span class="role"><span class="ph">[Role]</span>, Capacity</span>
+                <div class="pos mono">Built around how your business runs</div>
+                <div class="links"><a href="#">getcapacity.co</a><a class="cta" href="#">Book an audit</a><a href="#"><span class="ph">[Mobile]</span></a></div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Signature</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Profiles, covers and video -->
+    <div class="tgroup">
+      <p class="tlabel mono">Profiles, covers, video</p>
+
+      <div class="tpl" style="aspect-ratio:1584/396" data-export="linkedin-cover" data-export-size="1584x396">
+        <img class="tpl-photo" src="../assets/photo/room-hands-up.jpg" alt="" data-ascii="soft" />
+      </div>
+      <p class="mock-cap mono">LinkedIn cover / 1584 &times; 396</p>
+
+      <div class="tgrid" style="margin-top:14px;align-items:start">
+        <div>
+          <div class="avatar-row">
+            <div class="avatar" style="background:#0a0a0a;border-color:#262626" data-export="avatar-dark" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#1b63f8"><use href="#capacity-mark"/></svg></div>
+            <div class="avatar" style="background:#ffffff" data-export="avatar-light" data-export-size="800x800"><svg viewBox="240 440 1520 1120" fill="#171717"><use href="#capacity-mark"/></svg></div>
+          </div>
+          <p class="mock-cap mono">Avatar / every platform</p>
+        </div>
+
+        <div style="grid-column:span 2">
+          <div class="tpl tpl--white" style="aspect-ratio:1200/630" data-export="blog-preview" data-export-size="1200x630">
+            <div class="markwin" style="right:-4%;top:10%;width:56%"><img src="../assets/people/trilogy-confetti.jpg" alt="" style="object-position:50% 50%" /></div>
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:48%">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <div>
+                <span class="tpl-tag" style="font-size:1.4cqw">Guide</span>
+                <div class="tpl-h h--caps" style="font-size:3.4cqw;margin-top:1.4cqw">How to fill a Thursday.</div>
+              </div>
+              <span class="tpl-tag" style="font-size:1.4cqw">getcapacity.co</span>
+            </div>
+          </div>
+          <p class="mock-cap mono">Blog and link preview / 1200 &times; 630</p>
+        </div>
+      </div>
+
+      <div class="tgrid" style="margin-top:14px">
+        <div>
+          <div class="tpl" style="aspect-ratio:16/9" data-export="video-title" data-export-size="1920x1080">
+            <div class="tpl-obj" style="left:50%"><img class="tpl-photo" data-glyph="intelligence" alt="" data-ascii /></div>
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw;right:45%">
+              <span class="tpl-tag" style="font-size:1.8cqw">Product tour / <span class="ph">02</span></span>
+              <div class="tpl-h h--caps" style="font-size:4.0cqw">Ask your venue anything.</div>
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#f5f5f5" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+            </div>
+          </div>
+          <p class="mock-cap mono">Video title card / 16:9</p>
+        </div>
+
+        <div>
+          <div class="tpl" style="aspect-ratio:16/9" data-export="video-lower-third" data-export-size="1920x1080">
+            <img class="tpl-photo" src="../assets/photo/room-hands-up.jpg" alt="" data-ascii="soft" />
+            <div class="l3"><i></i><div><b><span class="ph">[Name]</span></b><span><span class="ph">[Role]</span>, Labyrinth Nightclub</span></div></div>
+            <svg viewBox="240 440 1520 1120" fill="#f5f5f5" style="position:absolute;right:4cqw;top:4cqw;width:3.4cqw;height:2.6cqw;z-index:4;opacity:0.8"><use href="#capacity-mark"/></svg>
+          </div>
+          <p class="mock-cap mono">Lower third and bug / 16:9</p>
+        </div>
+
+        <div>
+          <div class="tpl tpl--white" style="aspect-ratio:16/9" data-export="deck-title" data-export-size="1920x1080">
+            <div class="tpl-in" style="justify-content:space-between;padding:5cqw">
+              <svg class="tpl-mark" viewBox="240 440 1520 1120" fill="#171717" style="width:4.4cqw;height:3.3cqw"><use href="#capacity-mark"/></svg>
+              <div>
+                <div class="tpl-h" style="font-size:4.4cqw">Capacity for <span class="b">Labyrinth Nightclub</span>.</div>
+                <div class="tpl-rule" style="width:8cqw;height:0.4cqw;margin:2.4cqw 0"></div>
+                <span class="tpl-tag" style="font-size:1.6cqw">Proposal / <span class="ph">September 2026</span></span>
+              </div>
+            </div>
+          </div>
+          <p class="mock-cap mono">Deck title slide / 16:9</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bk-foot"><svg viewBox="240 440 1520 1120" fill="currentColor" aria-hidden="true"><use href="#capacity-mark"/></svg><span class="bk-meta">Internal. Not linked from the site.</span></footer>
+
+<script src="../design-system.js?v=45ee79b993"></script>
+<script src="../ascii.js?v=91c172e174"></script>
+</body>
+</html>
