@@ -2,9 +2,9 @@
    Hiring: the application dialog
    =====================================================================
 
-   Three short steps in one <dialog>:
-     1. Contact     name and email required; phone, city, LinkedIn optional
-     2. Experience  a CV, a portfolio link or a LinkedIn: at least one
+   A role opens on its info, then three short steps, all in one <dialog>:
+     1. Contact     name and email required; phone, city, social links optional
+     2. Experience  a CV, unless step one has a social link
      3. Video       optional; record it here, upload a file, or paste a link
 
    WHERE IT GOES
@@ -20,7 +20,8 @@
 
    OPENING A ROLE
    Add an <article class="role" data-role="Title"> to hiring.html with a
-   <button data-apply="Title">. Nothing here needs to change.
+   <button data-apply="Title"> and a hidden .role__info holding the role's own
+   sections. Nothing here needs to change.
    ===================================================================== */
 
 (function () {
@@ -35,6 +36,7 @@
   var MAX_CV = 10 * 1024 * 1024;
   var MAX_VIDEO = 100 * 1024 * 1024;
   var MAX_SECONDS = 120;
+  var MAX_SOCIALS = 6;
   var CV_MIME = {
     pdf: 'application/pdf',
     doc: 'application/msword',
@@ -50,7 +52,12 @@
   var backBtn = $('applyBack');
   var errBox = $('applyError');
   var upBox = $('applyUpload');
+  var info = $('applyInfo');
+  var progressBox = form.querySelector('.apply__progress');
+  var bodyBox = form.querySelector('.apply__body');
   var at = 0;
+  var hasInfo = false;          /* this role has an info screen */
+  var infoOn = false;           /* and it is the one showing */
   var sending = false;
   var recorded = null;          /* Blob from the camera, if any */
   var mode = 'record';          /* which video tab is showing */
@@ -58,11 +65,25 @@
   /* ---------------------------------------------------------- open/close */
 
   function open(role) {
-    $('applyRole').textContent = role || 'General application';
-    form.setAttribute('data-role', role || 'General application');
+    role = role || 'General application';
+    $('applyRole').textContent = role;
+    form.setAttribute('data-role', role);
     document.documentElement.classList.add('is-locked');
     dlg.showModal();
+    if (!$('applyDone').hidden) return;
+
+    var details = document.querySelector('.role[data-role="' + role + '"] .role__info');
+    hasInfo = !!details;
+    if (details) {
+      $('applyInfoRole').innerHTML = details.innerHTML;
+      showInfo();
+      return;
+    }
     show(at);
+    focusStep();
+  }
+
+  function focusStep() {
     var first = steps[at].querySelector('input, textarea');
     if (first) setTimeout(function () { first.focus(); }, 60);
   }
@@ -88,16 +109,31 @@
     if (e.target.closest('[data-close]') && dlg.open && !sending) close();
   });
 
-  /* A shared link to #apply opens straight onto the form. */
-  if (location.hash === '#apply') {
-    var only = document.querySelector('[data-apply]');
-    open(only ? only.getAttribute('data-apply') : '');
-  }
+  /* A shared link to #apply opens straight onto the form. It names no role, so
+     it files as a general application. */
+  if (location.hash === '#apply') open('');
 
   /* ------------------------------------------------------------- steps */
 
+  function showInfo() {
+    infoOn = true;
+    info.hidden = false;
+    steps.forEach(function (s) { s.hidden = true; s.classList.remove('is-on'); });
+    progressBox.hidden = true;
+    backBtn.hidden = true;
+    $('applyTitle').textContent = 'Role info';
+    nextBtn.innerHTML = 'Apply <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>';
+    bodyBox.scrollTop = 0;
+    hideError();
+  }
+
   function show(i) {
     at = i;
+    infoOn = false;
+    info.hidden = true;
+    progressBox.hidden = false;
+    $('applyTitle').textContent = 'Apply';
+    bodyBox.scrollTop = 0;
     steps.forEach(function (s, n) {
       s.hidden = n !== i;
       s.classList.toggle('is-on', n === i);
@@ -108,7 +144,7 @@
     });
     bar.style.width = ((i + 1) / steps.length * 100) + '%';
     barWrap.setAttribute('aria-valuenow', String(i + 1));
-    backBtn.hidden = i === 0;
+    backBtn.hidden = i === 0 && !hasInfo;
     var last = i === steps.length - 1;
     nextBtn.innerHTML = (last ? (hasVideo() ? 'Send application' : 'Send without a video') : 'Continue') +
       ' <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>';
@@ -138,6 +174,13 @@
   var asUrl = function (v) { v = v.trim(); return !v || /^https?:\/\//i.test(v) ? v : 'https://' + v; };
   var val = function (id) { return $(id).value.trim(); };
 
+  /* The social links anyone actually filled in, blank rows left out. */
+  function socials() {
+    return Array.prototype.map.call($('socials').querySelectorAll('input'), function (i) {
+      return i.value.trim();
+    }).filter(Boolean);
+  }
+
   function cvFile() { return $('a_cv').files && $('a_cv').files[0] ? $('a_cv').files[0] : null; }
 
   function cvOk(file) {
@@ -148,16 +191,17 @@
     if (i === 0) {
       var ok = flag('name', !val('a_name'));
       ok = flag('email', !isEmail(val('a_email'))) && ok;
-      ok = flag('linkedin', val('a_linkedin') && !isUrl(val('a_linkedin'))) && ok;
+      ok = flag('socials', socials().some(function (v) { return !isUrl(v); })) && ok;
       return ok;
     }
     if (i === 1) {
       var file = cvFile();
       var ok1 = flag('cv', file && !cvOk(file));
-      var link = val('a_portfolio');
-      /* Any one of the three will do; LinkedIn from step one counts. */
-      var some = !!file || !!link || !!val('a_linkedin');
-      ok1 = flag('portfolio', (link && !isUrl(link)) || !some) && ok1;
+      /* Socials are optional, but there has to be something to read. */
+      if (!file && !socials().length) {
+        showError('Add your CV, or go back and add a link.');
+        return false;
+      }
       return ok1;
     }
     if (mode === 'link') return flag('video_link', val('a_video_link') && !isUrl(val('a_video_link')));
@@ -178,11 +222,49 @@
   function showError(msg) { errBox.textContent = msg; errBox.hidden = false; }
   function hideError() { errBox.hidden = true; }
 
-  backBtn.addEventListener('click', function () { if (at > 0 && !sending) show(at - 1); });
+  backBtn.addEventListener('click', function () {
+    if (sending) return;
+    if (at > 0) show(at - 1);
+    else if (hasInfo) showInfo();
+  });
+
+  /* ------------------------------------------------------- social links */
+
+  var socialBox = $('socials');
+  var socialAdd = $('socialAdd');
+
+  socialAdd.addEventListener('click', function () {
+    var row = socialBox.firstElementChild.cloneNode(true);
+    var input = row.querySelector('input');
+    input.removeAttribute('id');
+    input.value = '';
+    input.setAttribute('aria-label', 'Another social link');
+
+    var remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'socials__remove';
+    remove.setAttribute('aria-label', 'Remove this link');
+    remove.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#i-x"/></svg>';
+    row.appendChild(remove);
+
+    socialBox.appendChild(row);
+    socialAdd.hidden = socialBox.children.length >= MAX_SOCIALS;
+    input.focus();
+  });
+
+  socialBox.addEventListener('click', function (e) {
+    var remove = e.target.closest('.socials__remove');
+    if (!remove) return;
+    remove.parentNode.remove();
+    socialAdd.hidden = false;
+    flag('socials', false);
+    socialAdd.focus();
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (sending) return;
+    if (infoOn) { show(at); focusStep(); return; }
     if (!check(at)) {
       var bad = steps[at].querySelector('.field.is-invalid input, .field.is-invalid textarea');
       if (bad) bad.focus();
@@ -273,6 +355,7 @@
     retakeBtn.hidden = state !== 'done';
     timeEl.hidden = state === 'off';
     form.querySelector('.vcam').classList.toggle('is-rec', state === 'rec');
+    form.querySelector('.vcam').classList.toggle('is-live', state === 'ready' || state === 'rec');
   }
 
   function live() {
@@ -407,8 +490,7 @@
       email: val('a_email'),
       phone: val('a_phone'),
       location: val('a_location'),
-      linkedin: asUrl(val('a_linkedin')),
-      portfolio: asUrl(val('a_portfolio')),
+      socials: socials().map(asUrl).join('\n'),
       extra: val('a_extra'),
       video_link: mode === 'link' ? asUrl(val('a_video_link')) : '',
       submitted_at: new Date().toISOString(),

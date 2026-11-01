@@ -1,2 +1,22 @@
 # Local tooling, never deployed.
 tools/
+
+# Shelved work and agent config, never deployed.
+archive/
+.claude/
+
+# The editable copy file, never deployed.
+site-copy.md
+
+# Internal docs and build scripts, never deployed.
+ASSETS-NEEDED.md
+brand.md
+context.md
+legal-pages.md
+legal-verification-prompt.md
+midjourney-prompts.md
+stamp.py
+_sprite.html
+
+# A fictional template for real case studies, never deployed.
+case-neon-rooms.html

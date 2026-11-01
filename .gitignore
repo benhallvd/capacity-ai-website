@@ -4,3 +4,6 @@ node_modules/
 .env.*
 .DS_Store
 tools/export/out/
+
+tools/remotion/out/
+tools/remotion/.remotion/

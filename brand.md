@@ -2,6 +2,7 @@
 
 ## Typography
 - Font: **Rethink Sans** (Google Fonts, self-host via next/font). Weights 400–800; NO 300 — light text renders at 400.
+- Headings on the marketing site: **Mona Sans** at width 125, in capitals for heroes and closing lines and sentence case for section headings. Everything else, mockups included, stays Rethink Sans. Full rules in `tools/brand/BRAND.md`.
 - Body letter-spacing: **-0.025em** (applies globally to body).
 - Numerals: always `tabular-nums` for figures, KPIs, table values.
 - Weights: body 400, labels/nav 500–600, KPI values 700.

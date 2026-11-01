@@ -4,7 +4,7 @@
 Vercel serves site.css and site.js as immutable for a year (vercel.json), so a
 stale reference would pin a visitor to the previous build. The hash is the first
 ten hex characters of the file's SHA-256, which is what the existing markup
-already carries. Run after every edit to site.css, site.js, hiring.js or points.js.
+already carries. Run after every edit to site.css, site.js or hiring.js.
 """
 
 import hashlib
@@ -13,9 +13,9 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).parent
-STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js", "points.js", "ascii.js")
+STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js", "ascii.js", "design-system.css", "design-system.js")
 
-REF = re.compile(r'((?:href|src)=")([A-Za-z0-9_.\-]+\.(?:css|js))(\?v=[0-9a-f]+)?(")')
+REF = re.compile(r'((?:href|src)="(?:\.\./)?)([A-Za-z0-9_.\-]+\.(?:css|js))(\?v=[0-9a-f]+)?(")')
 
 
 def digest(name: str) -> str:
@@ -26,7 +26,7 @@ def main() -> int:
     hashes = {name: digest(name) for name in STAMPED if (ROOT / name).exists()}
     changed = []
 
-    for page in sorted(ROOT.glob("*.html")):
+    for page in sorted(ROOT.glob("*.html")) + sorted(ROOT.glob("design-system/*.html")):
         text = page.read_text()
 
         def swap(m: "re.Match[str]") -> str:

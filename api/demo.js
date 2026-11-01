@@ -1,4 +1,4 @@
-/* POST /api/demo - a demo request from signup.html.
+/* POST /api/demo - a demo request from discovery.html.
 
    Emails the lead to whoever LEAD_TO_EMAIL points at. Deliberately simple:
    this is the placeholder until a real funnel exists.
@@ -64,7 +64,7 @@ export async function POST(request) {
     '<p style="margin:0 0 16px;color:#666">' + escapeHtml(data.venue) + ' via the demo form</p>' +
     '<table style="border-collapse:collapse">' + rows + '</table>' +
     '<p style="margin:20px 0 0;color:#999;font-size:13px">' +
-    escapeHtml(clean(body.page, 300) || 'getcapacity.co/signup') + '</p></div>';
+    escapeHtml(clean(body.page, 300) || 'getcapacity.co/discovery') + '</p></div>';
 
   try {
     await sendLead(data, html);

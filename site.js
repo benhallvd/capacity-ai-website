@@ -614,15 +614,15 @@
       });
     });
 
-    /* The inbox: three new enquiries arrive, then it holds. */
+    /* The inbox: three new messages arrive, then it holds. */
     $$('[data-bento="inbox"]', bento).forEach(function (el) {
       var list = $('.bx-inbox__list', el);
       var initial = list.innerHTML;
       var POOL = [
         ['assets/brands/whatsapp.svg', 'Sam Okafor', 'Any tables left for Saturday?'],
         ['assets/brands/instagram.svg', '@wearecapacity', 'What time do doors open?'],
-        ['', 'Chris Lane', 'Leaving do for 14, next Friday'],
-        ['assets/brands/gmail.svg', 'Nadia Rahman', 'Hen party, can you do a package?'],
+        ['', 'Chris Lane', 'I left my card behind the bar'],
+        ['assets/brands/gmail.svg', 'Nadia Rahman', 'How old do you have to be to get in?'],
         ['assets/brands/whatsapp.svg', 'Olly Grant', 'Is Rooftop open this weekend?'],
         ['assets/brands/whatsapp.svg', 'Dan Price', 'Guestlist for 4 please']
       ];
@@ -911,11 +911,27 @@
       }, 1500);
     };
 
+    /* On a phone the heading sizes to the screen, so a word wider than the line
+       sits that screen out rather than shrinking the whole heading to fit it. */
+    var fits = function (st, text) {
+      if (window.innerWidth > 760) return true;
+      var probe = document.createElement('span');
+      probe.className = 'rot__word rot__probe';
+      probe.textContent = text;
+      st.el.appendChild(probe);
+      var wide = probe.scrollWidth;
+      probe.remove();
+      return wide <= st.el.clientWidth;
+    };
+
     var cycle = function () {
       setTimeout(function () {
         if (heroOn && !document.hidden) {
           wi += 1;
-          states.forEach(function (st) { roll(st, st.words[wi % st.words.length]); });
+          states.forEach(function (st) {
+            for (var n = 0; n < st.words.length && !fits(st, st.words[wi % st.words.length]); n++) wi += 1;
+            roll(st, st.words[wi % st.words.length]);
+          });
         }
         cycle();
       }, 3200);
@@ -1232,52 +1248,42 @@
   }
 
   /* ---------------------------------------------------------- journey ----- */
-  /* Slides the rail so the active screen is centred, and steps on a timer once
-     the section is on view. Clicking a neighbour or a step jumps straight to it.
-     Pauses off screen, so the reader never arrives partway through. */
+  /* The section is tall and its stage pinned, so scroll position picks the
+     stage. Each stage holds while it is read, then eases on to the next. */
 
-  var jflow = $('#jflow');
+  var jstage = $('#jscroll');
 
-  if (jflow) {
-    var jtrack = $('#jtrack', jflow);
-    var jslides = $$('.jslide', jflow);
-    var jdots = $$('.jdot', jflow);
-    var jcaps = $$('.jcap', jflow);
-    var DWELL = 4600;
-    var at = 0, timer = null;
+  if (jstage) {
+    var jwrap = jstage.parentElement;
+    var jtrack = $('#jtrack', jstage);
+    var jslides = $$('.jslide', jstage);
+    var jcopies = $$('.jcopy', jstage);
+    var jat = 0;
 
-    var show = function (i) {
-      at = i;
-      jtrack.style.setProperty('--i', i);
-      jslides.forEach(function (el, n) { el.classList.toggle('is-on', n === i); });
-      jcaps.forEach(function (el, n) { el.classList.toggle('is-on', n === i); });
-      jdots.forEach(function (el, n) {
-        el.classList.toggle('is-on', n === i);
-        el.classList.toggle('is-done', n < i);
-        el.setAttribute('aria-current', n === i ? 'true' : 'false');
+    var jset = function (x) {
+      jtrack.style.setProperty('--x', x.toFixed(4));
+      jslides.forEach(function (el, n) {
+        el.style.setProperty('--d', Math.min(1, Math.abs(n - x)).toFixed(3));
+      });
+      var near = Math.round(x);
+      if (near === jat) return;
+      jat = near;
+      jcopies.forEach(function (el, n) {
+        el.classList.toggle('is-on', n === near);
+        el.setAttribute('aria-hidden', n === near ? 'false' : 'true');
       });
     };
 
-    var stop = function () { if (timer) { clearInterval(timer); timer = null; } };
-    var start = function () {
-      if (timer || reduced) return;
-      timer = setInterval(function () { show((at + 1) % jslides.length); }, DWELL);
-    };
-    var jump = function (i) { stop(); show(i); start(); };
-
-    jflow.style.setProperty('--jdwell', DWELL + 'ms');
-    jslides.concat(jdots).forEach(function (el) {
-      el.addEventListener('click', function () { jump(+el.getAttribute('data-i')); });
+    jset(0);
+    drivers.push(function () {
+      var r = jwrap.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+      var run = clamp(-r.top / (r.height - window.innerHeight), 0, 1) * (jslides.length - 1);
+      var whole = Math.min(Math.floor(run), jslides.length - 2);
+      /* Still for the first and last fifth of each step, smooth between. */
+      var f = clamp((run - whole - 0.2) / 0.6, 0, 1);
+      jset(whole + f * f * (3 - 2 * f));
     });
-    show(0);
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) { e.isIntersecting ? start() : stop(); });
-      }, { threshold: 0.3 }).observe(jflow);
-    } else {
-      start();
-    }
   }
 
   /* --------------------------------------------------------- identify ----- */
@@ -1497,6 +1503,86 @@
       wemail.closest('.field').classList.remove('is-invalid');
     });
   }
+
+  /* ------------------------------------------------------- edge ascii ----- */
+  /* Small characters drifting in from the edges of a band. Noise sets how far
+     in they reach at each point, so some stretches run deep, some thin out and
+     some stay bare, rather than the even falloff of a vignette. Drawn once, and
+     again when the band changes size. The sides stay inside the page gutter so
+     the characters never run behind the copy. */
+  $$('.edge-ascii').forEach(function (canvas) {
+    var ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx) return;
+
+    var FONT = '11px "Geist Mono", ui-monospace, Menlo, monospace';
+    var GLYPHS = ['.', ':', '-', '+', '*', 'x', '#'];
+    var CELL_W = 9, CELL_H = 14;
+    var TOP_REACH = 64;
+    var wrap = $('.wrap', canvas.parentNode);
+
+    function hash(a, b) {
+      var h = (a * 374761393 + b * 668265263) | 0;
+      h = (h ^ (h >>> 13)) * 1274126177 | 0;
+      return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+    }
+    function noise(x, y) {
+      var xi = Math.floor(x), yi = Math.floor(y);
+      var fx = x - xi, fy = y - yi;
+      fx = fx * fx * (3 - 2 * fx);
+      fy = fy * fy * (3 - 2 * fy);
+      var a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+      return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+    }
+    function layered(x, y) {
+      return noise(x, y) * .6 + noise(x * 2.1 + 9, y * 2.1 + 4) * .3 + noise(x * 4.3 + 3, y * 4.3 + 7) * .1;
+    }
+
+    function draw() {
+      var w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = FONT;
+      ctx.textBaseline = 'top';
+
+      var gutter = wrap ? wrap.getBoundingClientRect().left - canvas.getBoundingClientRect().left : 0;
+      var side = Math.min(Math.max(gutter, 24), 220);
+      var bottom = Math.min(h * .16, 150);
+
+      for (var r = 0; r * CELL_H < h; r++) {
+        for (var c = 0; c * CELL_W < w; c++) {
+          var x = c * CELL_W, y = r * CELL_H;
+          var edge = Math.min(x / side, (w - x - CELL_W) / side, y / TOP_REACH, (h - y - CELL_H) / bottom);
+          if (edge >= 1) continue;
+          var depth = (layered(x / 260, y / 260) - .36) / .38;
+          if (depth <= 0) continue;
+          var t = 1 - Math.max(edge, 0) / depth;
+          if (t <= 0 || hash(c, r + 31) > .12 + t * .55) continue;
+          /* Mixed characters and patchy strength, so the outermost cells read
+             as texture and not as a ruled line. */
+          var glyph = GLYPHS[Math.min(GLYPHS.length - 1, Math.floor((t * .6 + hash(c + 13, r) * .45) * GLYPHS.length))];
+          var alpha = (.04 + t * .14) * (.35 + layered(x / 80 + 5, y / 80 + 2) * 1.3);
+          var blue = hash(r, c + 7) < .1;
+          ctx.fillStyle = 'rgba(' + (blue ? '27, 99, 248' : '23, 23, 23') + ', ' + alpha.toFixed(3) + ')';
+          ctx.fillText(glyph, x, y);
+        }
+      }
+    }
+
+    if (document.fonts && document.fonts.load) document.fonts.load(FONT).then(draw, draw); else draw();
+
+    if (window.ResizeObserver) {
+      var last = '';
+      new ResizeObserver(function () {
+        var box = canvas.clientWidth + 'x' + canvas.clientHeight;
+        if (box === last) return;
+        last = box;
+        draw();
+      }).observe(canvas);
+    }
+  });
 
   /* --------------------------------------------------------- nav menu ----- */
   /* Hover already opens the dropdown in CSS. This is for touch and keyboard,
@@ -1793,7 +1879,7 @@
 /* ---- Enquiries (feature-enquiries) ---- */
 /* ============================================================================
    Enquiries feature page: the working inbox.
-   New enquiries drop into the list, one opens, its reply is drafted from the
+   New messages drop into the list, one opens, its reply is drafted from the
    guest's history and sent. It plays only while on screen and loops calmly;
    any click takes over (open a thread, filter a channel, press Send) and the
    loop picks up again once the reader has left it alone for a few seconds.
@@ -1827,30 +1913,30 @@
      first and lands in the same thread, which is the point of the page. */
   var threads = [
     { id: 'jess', ch: 'wa', name: 'Jess Morgan', ini: 'JM', av: 'violet', tag: 'Regular', since: 'Customer since March',
-      visits: '6', spend: '&pound;388', last: '3 wks', booking: 'Booth 2 &middot; Dirty Disco &middot; 6 guests', on: ['wa', 'em'], at: '2m',
+      visits: '6', spend: '&pound;388', last: 'Sat', booking: 'Booth 2 &middot; Dirty Disco &middot; 6 guests', on: ['wa', 'em'], at: '2m',
       log: [{ sep: 'Aug &middot; by email' }, { them: 'Could we get Booth 2 for Dirty Disco on the 14th? Six of us.' },
             { me: 'Booth 2 is yours on the 14th. See you then, Jess.' }, { sep: 'Today &middot; on WhatsApp' },
-            { them: 'Can we get a booth for 8 on Friday?' }],
-      draft: 'Hi Jess, Booth 4 is free on Friday and seats 8. Shall I hold it for you until 6pm tomorrow?' },
+            { them: 'I think I left my jacket in Barcadia on Saturday' }],
+      draft: 'Hi Jess, a black denim jacket was handed in on Saturday. We can keep it at the door for you until Friday. Does that work?' },
     { id: 'ben', ch: 'ig', name: '@benhalll6', ini: 'B', av: '', tag: 'Returning', since: 'Customer since July',
       visits: '2', spend: '&pound;46', last: '1 wk', booking: '2 &times; Tier two &middot; Saturday Residency', on: ['ig'], at: '9m',
       log: [{ sep: 'Today &middot; on Instagram' }, { them: 'Is there a guestlist for Saturday?' }],
       draft: 'Hey! Saturday is ticketed rather than guestlist. Tier two is £12 and there are 88 left. Want the link?' },
-    { id: 'tom', ch: 'web', name: 'Tom Hughes', ini: 'TH', av: 'cyan', tag: 'New', since: 'First time in touch',
-      visits: '0', spend: '&pound;0', last: 'Never', booking: 'None yet', on: ['web'], at: '21m',
-      log: [{ sep: 'Today &middot; website form' }, { them: 'Birthday for 20 people, 17 Oct. What can you do?' }],
-      draft: 'Hi Tom, happy to help. For 20 on Saturday 17 Oct we would give you two booths side by side in Barcadia. Shall I send the options?' },
+    { id: 'tom', ch: 'web', name: 'Tom Hughes', ini: 'TH', av: 'cyan', tag: 'New', since: 'First ticket in October',
+      visits: '0', spend: '&pound;12', last: 'Never', booking: '1 &times; Tier two &middot; Saturday Residency', on: ['web'], at: '21m',
+      log: [{ sep: 'Today &middot; website form' }, { them: 'Can I move my ticket to a friend?' }],
+      draft: 'Hi Tom, of course. Send me their name and email and I will move it across today.' },
     { id: 'ella', ch: 'em', name: 'Ella Park', ini: 'EP', av: '', tag: 'Returning', since: 'Customer since May',
       visits: '3', spend: '&pound;1,120', last: '5 wks', booking: 'Rooftop Sessions &middot; 12 guests', on: ['em'], at: '1h', done: true,
       preview: 'You: Rooftop is yours on the 4th',
       log: [{ sep: 'Tue &middot; by email' }, { them: 'Corporate booking for 20 on the Rooftop, Sunday 4 Oct?' },
             { me: 'Rooftop is yours on the 4th. I will send the details over today.', meta: 'Sent by email' }],
       draft: '' },
-    { id: 'priya', ch: 'wa', name: 'Priya Shah', ini: 'PS', av: 'violet', tag: 'Regular', since: 'Customer since 2024',
+    { id: 'hannah', ch: 'wa', name: 'Hannah Reid', ini: 'HR', av: 'violet', tag: 'Regular', since: 'Customer since 2024',
       visits: '9', spend: '&pound;417', last: '6 days', booking: '2 &times; Tier two &middot; Saturday Residency', on: ['wa', 'em'], at: '3h', done: true,
-      preview: 'You: See you Saturday, Priya',
-      log: [{ sep: 'Today &middot; on WhatsApp' }, { them: 'Are we OK to bring a birthday cake on Saturday?' },
-            { me: 'Of course. Leave it with the door team and we will bring it out. See you Saturday, Priya.', meta: 'Sent on WhatsApp' }],
+      preview: 'You: See you Saturday, Hannah',
+      log: [{ sep: 'Today &middot; on WhatsApp' }, { them: 'What time is last entry on Saturday?' },
+            { me: 'Last entry is 1am. See you Saturday, Hannah.', meta: 'Sent on WhatsApp' }],
       draft: '' }
   ];
 
@@ -1864,16 +1950,16 @@
       draft: 'Of course, Ella. Five more takes you to 25 on the Rooftop on the 4th. Shall I update the booking?' },
     { id: 'nadia', ch: 'em', name: 'Nadia Rahman', ini: 'NR', av: 'cyan', tag: 'New', since: 'First time in touch',
       visits: '0', spend: '&pound;0', last: 'Never', booking: 'None yet', on: ['em'],
-      text: 'Hen party for 12 in November. Can you do a package?',
-      draft: 'Hi Nadia, we can. For 12 we would put you in a booth in Disco Disco with entry together. Which Saturday are you thinking of?' },
+      text: 'How old do you have to be to get in?',
+      draft: 'Hi Nadia, it is over 18s only, and please bring photo ID. See you soon.' },
     { id: 'olly', ch: 'ig', name: 'Olly Grant', ini: 'OG', av: '', tag: 'Returning', since: 'Customer since June',
       visits: '4', spend: '&pound;152', last: '2 wks', booking: '2 &times; Rooftop Sessions', on: ['ig'],
       text: 'Is Rooftop open this weekend?',
       draft: 'It is, Olly. Rooftop Sessions is on Sunday from 16:00 and tickets are £10. Want the link?' },
     { id: 'chris', ch: 'web', name: 'Chris Lane', ini: 'CL', av: 'cyan', tag: 'Returning', since: 'Customer since August',
       visits: '1', spend: '&pound;24', last: '4 wks', booking: '2 &times; Dirty Disco', on: ['web'],
-      text: 'Leaving do for 14, next Friday',
-      draft: 'Hi Chris, next Friday is Dirty Disco. For 14 I can hold two booths side by side. Shall I send the details?' },
+      text: 'I left my card behind the bar last night',
+      draft: 'Hi Chris, a card was handed in at the end of the night. Bring photo ID and the door team will get it to you.' },
     { id: 'dan', ch: 'wa', name: 'Dan Price', ini: 'DP', av: 'violet', tag: 'Regular', since: 'Customer since 2024',
       visits: '7', spend: '&pound;296', last: '2 wks', booking: 'Guestlist &middot; Dirty Disco &middot; 4', on: ['wa'],
       text: 'Guestlist for 4 on Friday please',
@@ -2014,7 +2100,7 @@
     if (state.open === t.id) drawThread(t);
   };
 
-  /* A new enquiry. A guest already in the list keeps their thread: it moves to
+  /* A new message. A guest already in the list keeps their thread: it moves to
      the top with the new message on the end, whatever channel it came in on. */
   var arrive = function () {
     var d = POOL[nextIn++ % POOL.length];
@@ -2347,6 +2433,15 @@
     return b.w.map(function (w) { return b.total * w / 100; });
   });
   var door = [70, 150, 170, 120, 55, 17, 0];
+  /* Who rang it through: each person's share of the hour, so the staff always
+     add up to the bars. Beth finishes at 02:00, Aaron starts at midnight. */
+  var staff = [
+    [3.4, 3.1, 3, 3.3, 3.2, 2.9, 3],
+    [2.6, 2.9, 3.2, 3, 2.5, 3, 2],
+    [0, 2, 2.7, 3.1, 3.3, 3, 2.4],
+    [3, 3.3, 2.4, 1.5, .9, 0, 0],
+    [0, 0, 0, 1.1, 2.1, 2.3, 2.1]
+  ];
   var drinks = [
     { price: 6.2, n: [6, 24, 54, 72, 66, 48, 20] },
     { price: 8.5, n: [3, 12, 27, 42, 48, 36, 16] },
@@ -2368,6 +2463,23 @@
     return bars.reduce(function (s, b) { return s + b[i]; }, 0);
   });
   var busiest = bars[0].reduce(function (s, v) { return s + v; }, 0);
+  var staffHours = staff.map(function (shares) {
+    return shares.map(function (share, h) {
+      var all = staff.reduce(function (s, p) { return s + p[h]; }, 0);
+      return hourly[h] * share / all;
+    });
+  });
+  var staffTop = staffHours.reduce(function (top, p) {
+    return Math.max(top, p.reduce(function (s, v) { return s + v; }, 0));
+  }, 0);
+  /* Spend per head holds steady through a night rather than climbing with the
+     takings: a slow drift up with a little give either way, landing on the
+     night's real figure at close. */
+  var sphAt = function (m) {
+    var f = m / END;
+    var give = (0.3 * Math.sin(m / 41) + 0.16 * Math.sin(m / 17 + 1)) * (1 - Math.pow(f, 8));
+    return 21.1 + 1.96 * f + give;
+  };
 
   var gbp = function (v, dp) {
     return '£' + v.toLocaleString('en-GB', { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 });
@@ -2381,6 +2493,7 @@
   var range = $('range'), clock = $('clock'), play = $('play');
   var elTakings = $('takings'), elVs = $('vs'), elDoor = $('door'), elDoorBar = $('doorbar'), elSph = $('sph');
   var barRows = Array.prototype.slice.call($('bars').children);
+  var staffRows = Array.prototype.slice.call($('staff').children);
   var topRows = Array.prototype.slice.call($('top').children);
   var histBars = Array.prototype.slice.call($('hist').children);
 
@@ -2396,6 +2509,11 @@
       row.querySelector('i').style.setProperty('--v', (v / busiest * 100).toFixed(2) + '%');
       row.querySelector('b').textContent = gbp(Math.round(v));
     });
+    staffRows.forEach(function (row, i) {
+      var v = upTo(staffHours[i], m);
+      row.querySelector('i').style.setProperty('--v', (v / staffTop * 100).toFixed(2) + '%');
+      row.querySelector('b').textContent = gbp(Math.round(v));
+    });
     var inside = Math.round(upTo(door, m));
 
     clock.textContent = clockAt(m);
@@ -2404,7 +2522,7 @@
     elVs.textContent = '+' + Math.round(6 + 3 * m / END) + '%';
     elDoor.textContent = inside.toLocaleString('en-GB');
     elDoorBar.style.setProperty('--v', (inside / CAPACITY * 100).toFixed(1) + '%');
-    elSph.textContent = gbp(inside ? takings / inside : 0, 2);
+    elSph.textContent = gbp(sphAt(m), 2);
 
     var sold = drinks.map(function (d) { return Math.floor(upTo(d.n, m)); });
     order.sort(function (a, b) { return sold[b] - sold[a] || lastRank[a] - lastRank[b]; });
@@ -2424,7 +2542,7 @@
     });
 
     var frac = m / END;
-    range.value = Math.round(m);
+    range.value = m;
     range.style.setProperty('--p', 'calc(var(--thumb) / 2 + ' + frac.toFixed(4) + ' * (100% - var(--thumb)))');
     range.setAttribute('aria-valuetext', clockAt(m));
   };
@@ -2547,7 +2665,7 @@
     { full: 'Marcus Reid', ini: 'MR', av: 'cyan', at: '18:03' },
     { full: 'Aisha Khan', ini: 'AK', av: '', at: '18:04' },
     { full: 'Josh Bennett', t: 'What time do doors open?', q: true },
-    { full: 'Priya Shah', ini: 'PS', av: 'violet', at: '18:05' },
+    { full: 'Hannah Reid', ini: 'HR', av: 'violet', at: '18:05' },
     { full: 'Tom Hughes', ini: 'TH', av: 'cyan', plus: 1, at: '18:06' }
   ];
   var TOTAL = OTHERS.length + 1;
@@ -2951,7 +3069,7 @@
     { name: 'Dirty Disco', paid: '£16.00' },
     { name: 'Rooftop Sessions', paid: '£20.00' }
   ];
-  var NAMES = ['Priya Shah', 'Jess Morgan', 'Tom Hughes', 'Ella Park', 'Sam Okafor', 'Leah Turner', 'Marcus Bell', 'Aisha Khan', 'Chloe Reid', 'Dan Walsh'];
+  var NAMES = ['Hannah Reid', 'Jess Morgan', 'Tom Hughes', 'Ella Park', 'Sam Okafor', 'Leah Turner', 'Marcus Bell', 'Aisha Khan', 'Chloe Reid', 'Dan Walsh'];
   var STAGE = ['Visit', 'Event page', 'Checkout', 'Booked'];
   var list = $('[data-fa="feed"]');
   var current = 'all', nameAt = 0;
@@ -4436,7 +4554,7 @@
     var draw = function () {
       if (getComputedStyle(svg).display === 'none') return;
       var m = map.getBoundingClientRect(), c = core.getBoundingClientRect();
-      var cl = c.left - m.left, cr = c.right - m.left, cy = c.top - m.top + c.height / 2;
+      var cl = c.left - m.left + c.width * .05, cr = c.right - m.left - c.width * .05, cy = c.top - m.top + c.height * .6;
       svg.setAttribute('viewBox', '0 0 ' + m.width + ' ' + m.height);
       var d = '';
       ins.forEach(function (el) {

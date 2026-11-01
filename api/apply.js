@@ -33,8 +33,7 @@ const FIELDS = [
   ['email', 'Email', 200],
   ['phone', 'Phone', 60],
   ['location', 'Based', 120],
-  ['linkedin', 'LinkedIn', 400],
-  ['portfolio', 'Portfolio', 400],
+  ['socials', 'Socials', 1900],       /* one link per line; Slack caps a field at 2000 */
   ['video_link', 'Video link', 400],
   ['extra', 'Anything else', 1500]
 ];
@@ -88,8 +87,8 @@ export async function POST(request) {
   if (hasVideo && !isVideoPathname(videoPath)) {
     return json({ error: 'That video reference is not valid' }, 400, headers);
   }
-  if (!hasCv && !data.portfolio && !data.linkedin) {
-    return json({ error: 'A CV, portfolio or LinkedIn is required' }, 400, headers);
+  if (!hasCv && !data.socials) {
+    return json({ error: 'A CV or a social link is required' }, 400, headers);
   }
 
   try {
