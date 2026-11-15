@@ -1,52 +1,31 @@
-/* The room as Capacity reads it: a dense grid of small tiles laid over a
-   photograph, each carrying a character, every cell lit by how bright the
-   picture is under it. Brighter cells run from navy through brand blue to a
-   pale tile with a dark character. On its own it stays quiet, a character
-   stepping to a new one now and then, each cell on its own slow clock. The reader moves it: a click
-   drops into the grid like a stone into water, and the pointer leaves a faint
-   trail that lifts the characters it passes over.
-
-   The water is a real ripple simulation on a grid the size of the glyphs, so
-   rings bend, cross and fade the way water does, and every drop lands a
-   little differently. The resting grid is drawn once into its own canvas and
-   only refreshed every second or so; each frame copies it and redraws just
-   the cells the water or the pointer is touching.
-
-   <img data-ascii> sets the light; data-ascii="soft" is the quieter version
-   for cards and closes. Without JS, or with reduced motion, the image shows
-   as a photo. */
 (function () {
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var els = Array.prototype.slice.call(document.querySelectorAll('img[data-ascii]'));
   if (!els.length || reduced) return;
 
-  /* Characters from dark to bright, three per step so a cell can change its
-     character without changing its light. */
   var BANDS = [['.', ':', "'"], ['-', '=', '~'], ['+', 't', '*'], ['x', 's', 'z'], ['X', 'S', 'Z'], ['#', '8', '%'], ['@', '0', '&']];
   var VARS = 3;
-  var TONES = 14;        /* light steps baked into the atlas */
-  var LIFT = 1.6;        /* how a cell's light maps onto the tone steps */
-  var CREST = .38;       /* the light a ripple's crest lifts a cell to, mid brand blue */
-  var TRAIL = .3;        /* the light the pointer's trail lifts a cell to */
+  var TONES = 14;
+  var LIFT = 1.6;
+  var CREST = .38;
+  var TRAIL = .3;
   var FONT = '"Geist Mono", ui-monospace, Menlo, monospace';
   var FPS = 30;
-  var REST_EVERY = 1.2;  /* seconds between refreshes of the resting grid */
-  var TRAIL_R = 42;      /* px, how wide the pointer's trail is */
-  var TRAIL_LIFE = .8;   /* seconds a point of the trail lasts */
-  var DAMP = .963;       /* how quickly the water settles */
-  var SPONGE = 8;        /* cells at the edge that soak waves up instead of bouncing them back */
+  var REST_EVERY = 1.2;
+  var TRAIL_R = 42;
+  var TRAIL_LIFE = .8;
+  var DAMP = .963;
+  var SPONGE = 8;
 
-  /* A small, repeatable hash so a cell's character and clock come out the
-     same every time without storing them. */
   function hash(a, b) {
     var h = (a * 374761393 + b * 668265263) | 0;
     h = (h ^ (h >>> 13)) * 1274126177 | 0;
     return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
   }
   function mix(a, b, t) { return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ')'; }
-  /* Tile colour: navy up to brand blue, then on to pale. */
+
   function tileColour(k) { return k < .65 ? mix([10, 26, 84], [34, 92, 230], k / .65) : mix([34, 92, 230], [206, 220, 255], (k - .65) / .35); }
-  /* Which tone step a cell's light lands on, or -1 for nothing. */
+
   function toneOf(a, floor) {
     if (a < .02) return -1;
     var k = Math.max(floor || 0, Math.min(1, a * LIFT));
@@ -55,8 +34,7 @@
 
   function piece(el) {
     var soft = el.getAttribute('data-ascii') === 'soft';
-    /* "wave": the home hero. The grid is mostly empty, and patches of it
-       fade in and out as slow bands of light travel across. */
+
     var wave = el.getAttribute('data-ascii') === 'wave';
     var host = el.parentNode;
     if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
@@ -76,8 +54,7 @@
 
     var cols = 0, rows = 0, cw = 8, ch = 11, w = 0, h = 0, dpr = 1, gw = 0, gh = 0;
     var lum, seed, tint, restA, restC, liftBuf, damp;
-    /* The water: two height fields on a square grid twice the width of a
-       glyph, read back smoothly, so the rings come out round and wide. */
+
     var sw = 0, sh = 0, sc = 14, wa = null, wb = null, awake = false, calm = 0;
     var trail = [];
     var on = false, raf = 0, last = 0, lastRest = -1e9, wasActive = false, t0 = performance.now();
@@ -86,8 +63,6 @@
     var base = soft ? .06 : .07;
     var span = soft ? .44 : .55;
 
-    /* Every tone drawn once as a tile with its character, in both of its
-       characters, so drawing is just copies out of this sheet. */
     function buildAtlas() {
       cw = soft ? 7 : 8; ch = soft ? 10 : 11;
       gw = Math.round(cw * dpr); gh = Math.round(ch * dpr);
@@ -116,8 +91,6 @@
     }
     function tile(c, tn, v, x, y) { c.drawImage(atlas, (tn * VARS + v) * gw, 0, gw, gh, x, y, gw, gh); }
 
-    /* Size everything to the photo, and sample it at one value per cell,
-       cropped the way object-fit: cover shows it. */
     function sample() {
       var r = el.getBoundingClientRect();
       w = Math.round(r.width); h = Math.round(r.height);
@@ -149,16 +122,14 @@
         seed[i] = hash(x, y);
         tint[i] = hash(x * 7 + 3, y * 13 + 1) < (soft ? .07 : .09) ? 1 : 0;
       }
-      /* Stretch so the darkest cell is 0 and the brightest 1, then ease it so
-         the subject stands out of a quiet field. */
+
       var spanL = Math.max(.08, hi - lo);
       for (var k = 0; k < n; k++) { var q = (lum[k] - lo) / spanL; lum[k] = q * q * (3 - 2 * q); }
 
       sc = cw * 2;
       sw = Math.ceil(w / sc) + 2; sh = Math.ceil(h / sc) + 2;
       wa = new Float32Array(sw * sh); wb = new Float32Array(sw * sh);
-      /* The water settles everywhere, and much faster near the edges, so a
-         ring runs out at the edge of the section rather than coming back. */
+
       damp = new Float32Array(sw * sh);
       for (var dy = 0; dy < sh; dy++) {
         for (var dx = 0; dx < sw; dx++) {
@@ -172,8 +143,6 @@
       return true;
     }
 
-    /* The resting grid: each cell's character and light with nothing
-       touching it, drawn into its own canvas. */
     function drawRest(t) {
       rctx.setTransform(1, 0, 0, 1, 0, 0);
       rctx.clearRect(0, 0, rest.width, rest.height);
@@ -184,9 +153,7 @@
           restC[i] = (hash(i, gen) * VARS) | 0;
           var a;
           if (wave) {
-            /* Three slow travelling waves added together, so the lit patches
-               swell, drift and break up. Each cell's own threshold is a
-               little different, which gives the patches ragged edges. */
+
             var nx = x * cw, ny = y * ch;
             var n = (Math.sin(nx * .006 + ny * .004 - t * .55)
               + .8 * Math.sin(nx * .0035 - ny * .007 + t * .4 + 1.7)
@@ -195,7 +162,7 @@
             m = m * m * (3 - 2 * m);
             a = m * (.13 + v * .5);
           } else {
-            /* The quietest corners thin out rather than sitting as a flat sheet. */
+
             if (v < .06 && hz < .55) { restA[i] = 0; continue; }
             a = (base + v * span) * gain;
           }
@@ -208,8 +175,6 @@
       lastRest = t;
     }
 
-    /* A drop: a dip in the water, never quite the same size, strength or
-       shape, sometimes with a smaller splash or two beside it. */
     function drop(px, py, power, splash) {
       var cx = px / sc + 1, cy = py / sc + 1;
       var big = power > 1;
@@ -238,8 +203,6 @@
       start();
     }
 
-    /* One step of the water: each point moves towards the average of its
-       neighbours and away from where it just was, then settles a little. */
     function step() {
       var peak = 0;
       for (var y = 1; y < sh - 1; y++) {
@@ -269,8 +232,6 @@
       ctx.drawImage(rest, 0, 0);
       if (!awake && !trail.length) { wasActive = false; return; }
 
-      /* The trail, stamped point by point into the cells around each one,
-         keeping the brightest. */
       if (trail.length) {
         liftBuf.fill(0);
         var rr = TRAIL_R * TRAIL_R;
@@ -302,7 +263,7 @@
           var i = y * cols + x;
           var wv = 0;
           if (awake) {
-            /* Read the water between its four nearest points. */
+
             var fx = (x * cw + cw / 2) / sc + 1, ix = fx | 0, kx = fx - ix;
             if (ix >= sw - 1) { ix = sw - 2; kx = 1; }
             var k0 = iy * sw + ix;
@@ -315,15 +276,15 @@
           var a0 = restA[i] || .02 * gain;
           var a = a0, ci = restC[i];
           if (wv > 0) {
-            /* A crest lifts a cell towards brand blue and stirs the characters it carries. */
+
             var c = Math.min(1, wv * 1.1);
             if (a0 < CREST) a = a0 + (CREST - a0) * c;
             if (c > .35) ci = (hash(i, Math.floor(t * 9)) * VARS) | 0;
           } else if (wv < 0) {
-            /* A trough dims what is under it. */
+
             a = a0 * (1 - Math.min(.85, -wv * 1.1));
           }
-          /* The trail lifts what it passes over a little. */
+
           if (lift > 0 && a < TRAIL) a = a + (TRAIL - a) * lift;
           var px = Math.round(x * cw * dpr), py = Math.round(y * ch * dpr);
           ctx.clearRect(px, py, gw, gh);
@@ -344,10 +305,6 @@
     function start() { if (!on) { on = true; if (!raf) raf = requestAnimationFrame(frame); } }
     function stop() { on = false; }
 
-    /* The pointer is read off the section the grid sits in, so moving over
-       the copy or a card on top of it still counts. Moving leaves a trail
-       along the whole path, filled in between the points the browser
-       reports so a quick movement still draws a line; a click is the stone. */
     host.addEventListener('pointermove', function (e) {
       if (e.pointerType === 'touch' || !wa) return;
       var r = canvas.getBoundingClientRect();

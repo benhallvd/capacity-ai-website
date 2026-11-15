@@ -1,47 +1,33 @@
-/* ============================================================================
-   Capacity design tokens
-   Single source of truth for colour, type, space and shape. Values follow
-   brand.md exactly. Surfaces are neutral (no colour cast); brand blue is
-   reserved for primary buttons, active nav and focus rings.
-
-   Themes are scoped, not global: `.on-light` and `.on-dark` set the surface
-   tokens for a whole band, so a dark hero and a light body can coexist on one
-   page without any JS.
-   ========================================================================== */
-
 :root {
-  /* ---- Brand ------------------------------------------------------------ */
-  --brand:            #1b63f8;  /* fill */
-  --brand-on-fill:    #ffffff;  /* label sitting on the fill */
-  --brand-text-light: #1b63f8;  /* brand as text, light background */
-  --brand-text-dark:  #3b79f9;  /* brand as text, dark background */
 
-  /* ---- Shape ------------------------------------------------------------ */
+  --brand:            #1b63f8;
+  --brand-on-fill:    #ffffff;
+  --brand-text-light: #1b63f8;
+  --brand-text-dark:  #3b79f9;
+
   --radius:      8px;
   --radius-sm:   4px;
   --radius-full: 9999px;
 
-  /* ---- Type ------------------------------------------------------------- */
   --font-sans: 'Rethink Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
                Helvetica, Arial, sans-serif;
-  /* Headings only: Mona Sans at its widest. Never inside a product mockup. */
+
   --font-display: 'Mona Sans', 'Rethink Sans', -apple-system, BlinkMacSystemFont,
                   'Segoe UI', Helvetica, Arial, sans-serif;
   --display-stretch: 125%;
 
-  /* No 300, brand.md: light text renders at 400. */
   --weight-regular:  400;
   --weight-medium:   500;
   --weight-semibold: 600;
   --weight-bold:     700;
   --weight-extra:    800;
 
-  --tracking-body:  -0.025em;   /* global body tracking */
-  --tracking-tight: -0.018em;   /* display headings */
-  --tracking-display: -0.008em; /* the hero line */
-  --tracking-wide:   0.08em;    /* uppercase eyebrows */
-  --tracking-caps:  -0.012em;   /* wide capitals, headings */
-  --tracking-display: -0.02em;  /* wide sentence case, headings */
+  --tracking-body:  -0.025em;
+  --tracking-tight: -0.018em;
+  --tracking-display: -0.008em;
+  --tracking-wide:   0.08em;
+  --tracking-caps:  -0.012em;
+  --tracking-display: -0.02em;
 
   --leading-caps:    0.98;
   --leading-display: 1.08;
@@ -50,7 +36,6 @@
   --leading-normal:  1.5;
   --leading-relaxed: 1.62;
 
-  /* Fluid display sizes, one scale, no per-section overrides. */
   --text-xs:      0.75rem;
   --text-sm:      0.875rem;
   --text-base:    1rem;
@@ -61,7 +46,6 @@
   --text-h2:      clamp(2rem, 1.35rem + 2.7vw, 3.5rem);
   --text-display: clamp(2.5rem, 0.5rem + 7vw, 6.75rem);
 
-  /* ---- Space ------------------------------------------------------------ */
   --space-1:  0.25rem;
   --space-2:  0.5rem;
   --space-3:  0.75rem;
@@ -77,11 +61,8 @@
   --measure:   1200px;
   --section-y: clamp(72px, 8vw, 136px);
 
-  /* ---- Motion ----------------------------------------------------------- */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* The light: the room's light as colour, on the mark and on photos, always
-     with the grain over it. Day on white, night on black. */
   --light-day:
     radial-gradient(46% 52% at 20% 4%, #cfeaff 0%, rgba(207, 234, 255, 0) 78%),
     radial-gradient(44% 48% at 4% 60%, #6f52f0 0%, rgba(111, 82, 240, 0) 76%),
@@ -97,9 +78,6 @@
   --mark-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='240 440 1520 1120'%3E%3Cpath d='M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z'/%3E%3C/svg%3E");
 }
 
-/* ---- Surface tokens, light -------------------------------------------- */
-/* These classes also apply `color`, so a scoped surface works on any element,
-   not just on a `.band`. */
 :root,
 .on-light {
   color: var(--foreground);
@@ -110,11 +88,10 @@
   --border:           #e4e4e4;
   --secondary:        #efefef;
   --brand-text:       var(--brand-text-light);
-  /* Faint brand wash for hover surfaces, never a solid brand block. */
+
   --brand-wash:       color-mix(in srgb, var(--brand) 8%, var(--card));
 }
 
-/* ---- Surface tokens, dark --------------------------------------------- */
 .on-dark {
   color: var(--foreground);
   --background:       #0a0a0a;

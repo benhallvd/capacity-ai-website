@@ -1,9 +1,7 @@
-/* The shared behaviour for the new look: the light and dark switch in the
-   menu, the phone menu's sections, and How we work's lit step. */
 (function () {
   'use strict';
   var root = document.documentElement, KEY = 'capacity-theme';
-  /* the close takes the scheme of the section before it */
+
   var cta = document.querySelector('.band.cta-photo');
   if (cta) {
     var prev = cta.previousElementSibling;
@@ -11,27 +9,70 @@
     if (prev && prev.classList.contains('on-light')) { cta.classList.remove('on-dark'); cta.classList.add('on-light'); }
   }
   var flips = Array.prototype.slice.call(document.querySelectorAll('header.on-dark, section.on-dark, article.on-dark, div.band.on-dark')).filter(function (el) { return !el.closest('footer'); });
-  var btn = document.getElementById('themeBtn');
+
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#themeBtn, [data-theme-btn]'));
   function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function device() { return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
   function apply(t) {
     root.setAttribute('data-nx-theme', t);
     flips.forEach(function (el) { el.classList.toggle('on-dark', t === 'dark'); el.classList.toggle('on-light', t === 'light'); });
-    if (btn) {
+    btns.forEach(function (btn) {
       btn.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
       var l = btn.querySelector('.nx-theme__l');
       if (l) l.textContent = t === 'light' ? 'Dark mode' : 'Light mode';
-    }
+    });
   }
-  if (btn) btn.addEventListener('click', function () {
-    var t = root.getAttribute('data-nx-theme') === 'light' ? 'dark' : 'light';
-    try { localStorage.setItem(KEY, t); } catch (e) {}
-    apply(t);
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var t = root.getAttribute('data-nx-theme') === 'light' ? 'dark' : 'light';
+      try { localStorage.setItem(KEY, t); } catch (e) {}
+      apply(t);
+    });
   });
   apply(saved() || device());
   if (window.matchMedia) window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function () { if (!saved()) apply(device()); });
 
-  /* phone menu: a heading opens its list */
+  var dn = document.querySelector('.dn'), dnp = document.querySelector('.dn__panels');
+  if (dn && dnp) {
+    var ts = Array.prototype.slice.call(dn.querySelectorAll('.dn__t')), closeT = 0;
+    var panelOf = function (t) { return document.getElementById(t.getAttribute('aria-controls')); };
+    var place = function (t, p) {
+
+      var wrap = dnp.parentNode.getBoundingClientRect(), b = t.getBoundingClientRect();
+      p.style.left = Math.max(0, b.left - wrap.left - 8) + 'px';
+    };
+    var shut = function (except) {
+      ts.forEach(function (t) {
+        if (t === except) return;
+        t.setAttribute('aria-expanded', 'false');
+        panelOf(t).classList.remove('is-open');
+      });
+    };
+    var open = function (t) {
+      clearTimeout(closeT);
+      var p = panelOf(t);
+      shut(t);
+      place(t, p);
+      t.setAttribute('aria-expanded', 'true');
+      p.classList.add('is-open');
+    };
+    var later = function () { clearTimeout(closeT); closeT = setTimeout(function () { shut(); }, 160); };
+    ts.forEach(function (t) {
+      t.addEventListener('click', function () { if (t.getAttribute('aria-expanded') === 'true') shut(); else open(t); });
+      t.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') open(t); });
+      t.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') later(); });
+    });
+    Array.prototype.forEach.call(dnp.children, function (p) {
+      p.addEventListener('pointerenter', function () { clearTimeout(closeT); });
+      p.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') later(); });
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.dn__t, .dn__panels')) shut(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
+    dnp.addEventListener('click', function (e) { if (e.target.closest('a')) shut(); });
+    dnp.addEventListener('focusout', function (e) { if (!dnp.contains(e.relatedTarget) && !dn.contains(e.relatedTarget)) shut(); });
+    window.addEventListener('resize', function () { shut(); });
+  }
+
   Array.prototype.forEach.call(document.querySelectorAll('.mp__col .mp__k'), function (k) {
     k.addEventListener('click', function () {
       var col = k.parentNode, open = !col.classList.contains('is-open');
@@ -40,9 +81,6 @@
     });
   });
 
-  /* how we work: the step nearest the middle of the screen is lit, and the
-     card beside the heading changes with it; on narrow screens each card
-     sits inside its own step instead */
   var hw = document.querySelector('.nx-hw');
   if (hw) {
     var list = hw.querySelector('.nx-hw__list'), stage = hw.querySelector('.nx-hw__stage');
@@ -65,7 +103,7 @@
     window.addEventListener('scroll', function () { if (!tick) tick = requestAnimationFrame(pick); }, { passive: true });
     window.addEventListener('resize', function () { place(); pick(); });
   }
-  /* the line: one word turns over, the slot easing to the next word's width */
+
   var cyc = document.querySelector('.nx-cycle');
   if (cyc && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
     var words = (cyc.getAttribute('data-words') || '').split('|').filter(Boolean), at = 0;
@@ -94,7 +132,7 @@
       setTimeout(function () { old.remove(); next.classList.remove('is-in'); }, 600);
     }, 2600);
   }
-  /* the integrations library: a pill dims every tile outside its group */
+
   var lib = document.querySelector('[data-lib]');
   if (lib) {
     var pills = Array.prototype.slice.call(document.querySelectorAll('[data-lib-filter]'));
@@ -107,7 +145,7 @@
       });
     });
   }
-  /* the integrations page: a type to show and a search, both narrowing the cards */
+
   var ilib = document.querySelector('[data-ilib]');
   if (ilib) {
     var icards = Array.prototype.slice.call(ilib.children);
@@ -131,7 +169,7 @@
     });
     if (iq) iq.addEventListener('input', inarrow);
   }
-  /* dots under a swiping row: the card nearest the start is lit */
+
   Array.prototype.forEach.call(document.querySelectorAll('.nx-dots'), function (dots) {
     var rail = dots.previousElementSibling;
     if (!rail) return;

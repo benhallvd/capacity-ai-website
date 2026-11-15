@@ -20,7 +20,7 @@ const { chromium } = require('playwright');
 
 const ROOT = resolve(import.meta.dirname, '../..');
 const OUT = join(ROOT, 'assets/og');
-const SITE = 'https://getcapacity.co';
+const SITE = 'https://www.getcapacity.co';
 
 /* slug: label shown above the headline ('' for none). The headline is the
    page's own H1, so the card always says what the page says. */
@@ -28,7 +28,7 @@ const CARDS = {
   home: '',
   'ticketing': 'Ticketing',
   'enquiries': 'Enquiries',
-  'profiles': 'Customer profiles',
+  'profiles': 'Predictive CRM',
   'till': 'Till and POS',
   'whatsapp': 'WhatsApp',
   'social': 'Social media',
@@ -45,7 +45,16 @@ const CARDS = {
   integrations: 'Integrations',
   discovery: '',
   hiring: 'Careers',
-  'case-neon-rooms': 'Case study',
+  faq: 'FAQs',
+  updates: 'Updates',
+  compare: 'Compare',
+  'compare/dice': 'Capacity vs DICE',
+  'compare/skiddle': 'Capacity vs Skiddle',
+  'compare/fatsoma': 'Capacity vs Fatsoma',
+  'compare/fixr': 'Capacity vs FIXR',
+  'compare/eventbrite': 'Capacity vs Eventbrite',
+  'compare/designmynight': 'Capacity vs DesignMyNight',
+  'compare/furiosa': 'Capacity vs Furiosa',
 };
 /* Pages that share another page's card. */
 const SHARE = {
@@ -56,7 +65,6 @@ const SHARE = {
 const FILE = { home: 'index' };
 /* Headlines that should not be the page H1 on the card. */
 const HEADLINE = {
-  home: 'Get your venue or events<br>to capacity.',
   hiring: 'Help us build the future<br>of hospitality.',
 };
 
@@ -77,50 +85,49 @@ const server = createServer(async (req, res) => {
 const HOST = `http://localhost:${server.address().port}/`;
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-/* The card is the site's room hero: the page's own photo in black and white,
-   the ascii.js glyph field over it, and the headline set on the left. */
-const card = (label, headline, photo, sentence) => `<!DOCTYPE html><html><head><meta charset="utf-8">
+/* The card is the site as it is now: the dark ground with its dot grid and the
+   light low in one corner, the headline on the left, and on the right the lit
+   tile: the solution's own app icon, or the mark for every other page. */
+const card = (label, headline, glyph, sentence) => `<!DOCTYPE html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400..800&family=Mona+Sans:wdth,wght@125,600..800&display=swap">
 <style>
   @font-face { font-family: 'Geist Mono'; src: url(${HOST}assets/fonts/GeistMono-Regular.woff2) format('woff2'); font-weight: 400; }
   @font-face { font-family: 'Geist Mono'; src: url(${HOST}assets/fonts/GeistMono-Medium.woff2) format('woff2'); font-weight: 500; }
   * { margin: 0; box-sizing: border-box; }
   html, body { width: 1200px; height: 630px; }
-  body { background: #0a0a0a; color: #f5f5f5; font-family: 'Rethink Sans', sans-serif;
-         position: relative; overflow: hidden; -webkit-font-smoothing: antialiased; }
-  .room { position: absolute; inset: 0; }
-  .room img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
-              filter: grayscale(1) contrast(1.06) brightness(.8); }
-  /* Darker on the left, where the headline sits. */
-  .shade { position: absolute; inset: 0; z-index: 1;
-           background: linear-gradient(90deg, rgba(10,10,10,.86) 0%, rgba(10,10,10,.6) 45%, rgba(10,10,10,.12) 100%),
-                       linear-gradient(180deg, rgba(10,10,10,.35) 0%, transparent 40%, rgba(10,10,10,.55) 100%); }
-  canvas.ascii { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; mix-blend-mode: screen; opacity: .16;
-                 -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,.14) 0%, rgba(0,0,0,.3) 42%, #000 72%);
-                 mask-image: linear-gradient(90deg, rgba(0,0,0,.14) 0%, rgba(0,0,0,.3) 42%, #000 72%); }
+  body { color: #f5f5f5; font-family: 'Rethink Sans', sans-serif; position: relative; overflow: hidden; -webkit-font-smoothing: antialiased;
+         background-color: #0a0a0a;
+         background-image: radial-gradient(70% 90% at 92% 110%, rgba(27, 99, 248, .22), transparent 70%), radial-gradient(rgba(255, 255, 255, .09) 1.2px, transparent 1.6px);
+         background-size: auto, 28px 28px; background-position: 0 0, 14px 14px; }
   .in { position: absolute; inset: 64px 80px 60px; z-index: 3; display: flex; flex-direction: column; }
   .mark { width: 44px; height: auto; }
-  .body { margin-top: auto; margin-bottom: auto; }
+  .body { margin-top: auto; margin-bottom: auto; max-width: 750px; }
   .label, .url { font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 18px; letter-spacing: .14em; text-transform: uppercase; }
   .label { color: #7aa3ff; margin-bottom: 22px; }
-  h1 { font-family: 'Mona Sans', sans-serif; font-stretch: 125%; font-size: 60px; line-height: .98; font-weight: 700; letter-spacing: -0.012em; text-transform: uppercase; max-width: 960px; text-wrap: balance; }
+  h1 { font-family: 'Mona Sans', sans-serif; font-stretch: 125%; font-size: 58px; line-height: .98; font-weight: 700; letter-spacing: -0.012em; text-transform: uppercase; text-wrap: balance; }
   h1.s { text-transform: none; font-weight: 600; letter-spacing: -0.02em; line-height: 1.08; }
   .url { color: #9a9ea6; }
+  .tile { position: absolute; right: 96px; top: 50%; translate: 0 -50%; width: 248px; height: 248px; border-radius: 27%; display: grid; place-items: center; overflow: hidden;
+          background: ${LIGHT}; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14) inset, 0 40px 120px rgba(27, 99, 248, .45); }
+  .tile::after { content: ""; position: absolute; inset: 0; background: ${GRAIN}; background-size: 160px; mix-blend-mode: overlay; opacity: .35; }
+  .tile svg { width: 58%; height: 58%; fill: #fff; fill-rule: evenodd; position: relative; z-index: 1; }
+  .tile svg .lit { fill: rgba(255, 255, 255, .55); }
+  .tile img { width: 60%; height: auto; position: relative; z-index: 1; }
 </style></head><body>
-  <div class="room"><img src="${HOST}assets/photo/${photo}" alt="" data-ascii></div>
-  <div class="shade"></div>
+  <div class="tile">${glyph || `<img src="${HOST}assets/capacity-logomark-white.png" alt="">`}</div>
   <div class="in">
     <img class="mark" src="${HOST}assets/capacity-logomark-blue.png" alt="">
     <div class="body">${label ? `<p class="label">${esc(label)}</p>` : ''}<h1${sentence ? ' class="s"' : ''}>${headline}</h1></div>
     <p class="url">getcapacity.co</p>
   </div>
-  <script src="${HOST}ascii.js"></script>
 </body></html>`;
 
-/* The photo behind each card: the page's own hero photo, or these for pages
-   without one. */
-const PHOTO = { home: 'room-booth.jpg', discovery: 'room-mirror-ball.jpg', hiring: 'room-confetti.jpg' };
-const pagePhoto = (html) => (html.match(/<img class="room-bg" src="assets\/photo\/([^"]+)"/) || [])[1];
+/* The brand light and grain, read from the site's own tokens. */
+const TOKENS = await readFile(join(ROOT, 'tokens.css'), 'utf8');
+const LIGHT = TOKENS.match(/--light-night:([\s\S]*?);/)[1].trim();
+const GRAIN = TOKENS.match(/--grain:\s*(url\("[^"]+"\))/)[1];
+/* A solution page's app icon, from its own badge. */
+const pageGlyph = (html) => (html.match(/<p class="nx-app"[^>]*><span class="app-ic[^"]*"[^>]*>(<svg[\s\S]*?<\/svg>)<\/span>/) || [])[1];
 
 const pageH1 = (html) => {
   const m = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
@@ -136,16 +143,16 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 const hashes = {};
 for (const [slug, label] of Object.entries(CARDS)) {
   const html = await readFile(join(ROOT, (FILE[slug] || slug) + '.html'), 'utf8');
-  const headline = HEADLINE[slug] || pageH1(html);
-  const photo = PHOTO[slug] || pagePhoto(html) || 'room-booth.jpg';
+  const headline = HEADLINE[slug] || pageH1(html).replace(/<br>/g, ' '); /* the card balances its own lines */
+  const glyph = pageGlyph(html);
   /* Case follows the page: see h--sentence in site.css. */
   const sentence = slug === 'hiring' || /<h1[^>]*h--sentence/.test(html);
-  current = card(label, headline, photo, sentence);
+  current = card(label, headline, glyph, sentence);
   await page.goto(HOST + '__card', { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForSelector('canvas.ascii.is-on');
   await page.waitForTimeout(400);
   const png = await page.screenshot({ type: 'jpeg', quality: 86 });
+  await mkdir(join(OUT, slug, '..'), { recursive: true });
   await writeFile(join(OUT, slug + '.jpg'), png);
   hashes[slug] = createHash('sha256').update(png).digest('hex').slice(0, 10);
   console.log(`${slug}.jpg  ${headline}`);

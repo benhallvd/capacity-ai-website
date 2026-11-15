@@ -1,25 +1,23 @@
 (function () {
-  /* The Tiles chapter has the live stage; the subpages only need print stills. */
+
   var BASE = document.currentScript.src.replace(/[^/]*$/, '');
   var stage = document.getElementById('stage');
   var cv = stage && stage.querySelector('canvas');
   var ctx = cv && cv.getContext('2d');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var TONES = 24;       /* tone steps baked into the atlas */
-  var HOLD = 0.8;       /* how much of a cell's light survives each frame */
-  var D = 4;            /* camera distance */
+  var TONES = 24;
+  var HOLD = 0.8;
+  var D = 4;
   var FONT = '"Geist Mono", ui-monospace, Menlo, monospace';
 
-  /* How each variant draws a cell. cols is cells across the panel, aspect
-     is cell height over width. */
   var VARIANTS = [
     { id: 'tiles',  label: 'Tiles',  cols: 118, aspect: 1.4 },
     { id: 'light',  label: 'Light',  cols: 132, aspect: 1.75, light: true }
   ];
   var TILE_RAMP = ['.', '-', '+', 'x', 'X', '#', '@'];
   var NAVY = [8, 22, 72], BLUE = [27, 99, 248], PALE = [230, 238, 255];
-  /* The tile colours. Blue is Capacity; a client's own subject brings its own. */
+
   var TINTS = {
     blue:      { deep: [10, 26, 84], mid: [34, 92, 230], hi: [206, 220, 255], on: '#04102e', lo: [96, 140, 255], top: [220, 230, 255], cell: BLUE, ink: [74, 128, 250], inkHi: [10, 42, 122] },
     labyrinth: { deep: [58, 8, 42], mid: [255, 46, 136], hi: [255, 216, 233], on: '#1c0614', lo: [255, 120, 180], top: [255, 228, 240], cell: [255, 46, 136], ink: [244, 92, 158], inkHi: [120, 6, 62] }
@@ -33,14 +31,13 @@
   function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
   function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
   function rgb(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + a + ')'; }
-  /* navy through brand blue to near white */
+
   function pal(k) { return k < 0.6 ? mix(NAVY, BLUE, k / 0.6) : mix(BLUE, PALE, (k - 0.6) / 0.4); }
 
   var V = VARIANTS[0];
   var cellU, W, H, dpr, cw, ch, cols, rows, ox, oy, scale, cx, cy;
   var val, tone, atlas, cwp, chp, stars;
 
-  /* ---- Atlas: every tone drawn once, three versions of each ---------- */
   function buildAtlas() {
     cwp = Math.round(cw * dpr); chp = Math.round(ch * dpr);
     atlas = document.createElement('canvas');
@@ -64,8 +61,7 @@
           a.fillStyle = rgb(pal(Math.pow(k, 0.6)), 0.55 + 0.45 * k);
           a.fillText(V.ramp[Math.min(V.ramp.length - 1, 1 + Math.floor(k * (V.ramp.length - 1)))], mx, my);
         } else if (V.id === 'light') {
-          /* soft tinted cells on white with one quiet blue digit, so the shape
-             carries the weight and the digits stay a texture */
+
           var kk = clamp((k - 0.08) / 0.7);
           a.font = '500 ' + Math.round(chp * 0.58) + 'px ' + FONT;
           a.fillStyle = rgb(P.cell, 0.07 + 0.43 * kk);
@@ -90,8 +86,7 @@
     var rc = fw ? { width: fw, height: fh } : stage.getBoundingClientRect();
     W = rc.width; H = rc.height; dpr = fw ? 2 : Math.min(window.devicePixelRatio || 1, 2);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-    /* a stage can ask for a cell size in px (data-cell), so a wide stage keeps
-       small characters; it never goes coarser than the variant's own count */
+
     var want = W / ((fw ? stillCols : V.cols) * (S.dense || 1));
     if (!fw && stage && stage.dataset.cell) want = Math.min(+stage.dataset.cell, want);
     cw = Math.max(4, Math.floor(want)); ch = Math.round(cw * V.aspect);
@@ -99,7 +94,7 @@
     ox = (W - cols * cw) / 2; oy = (H - rows * ch) / 2;
     val = new Float32Array(cols * rows); tone = new Int8Array(cols * rows).fill(-1);
     var fillH = (!fw && stage && stage.dataset.fill) ? +stage.dataset.fill : 0.56;
-    /* a stylesheet can size the mark per screen (--mark-w, --mark-h) */
+
     var css = (!fw && stage) ? getComputedStyle(stage) : null;
     var fillW = (css && parseFloat(css.getPropertyValue('--mark-w'))) || 0.78;
     if (css && parseFloat(css.getPropertyValue('--mark-h'))) fillH = parseFloat(css.getPropertyValue('--mark-h'));
@@ -111,34 +106,24 @@
     buildAtlas();
   }
 
-  /* ---- Marks: a flat logo extruded into a slab ----------------------- */
   var CAP_PATH = 'M287.74,1196.66h470.67l-212.19,315.84h313.72l140.15-208.88,140.33,208.88h313.72l-212.19-315.84h470.32l-171.07-254h-298.7l149.08-222.18-157.13-232.97-234.35,348.92-234.35-348.92-157.13,232.97,149.26,222.18h-298.89l-171.25,254Z';
   var PAD = 10;
-  var SLAB = 0.11;      /* half its thickness, set per mark */
-  /* Each mark is drawn white on black into its own mask. U is its width in
-     scene units, h the height to fit; inset adds the second line inside the
-     edge; outline lights the edge itself, which fills small holes, so a
-     detailed logo goes without, and a thin slab so its holes are not walled
-     in by their own sides. */
+  var SLAB = 0.11;
+
   var MARKS = {
     capacity: { MW: 320, MH: 236, U: 2.2, h: 1.6, slab: 0.11, inset: true, outline: true, draw: function (g, MW, MH) {
       var s = (MW - 2 * PAD) / 1424.52;
       g.setTransform(s, 0, 0, s, MW / 2 - 1000 * s, MH / 2 - 999.75 * s);
       g.fill(new Path2D(CAP_PATH));
     } }
-    /* Any logo works: give it src (a light-on-black PNG) and a draw that
-       places the image, for example
-       name: { MW: 480, MH: 480, U: 2.2, h: 2, slab: 0.03, inset: false, outline: false, src: 'logo.png',
-               draw: function (g, MW, MH, img) { g.drawImage(img, PAD, PAD, MW - 2 * PAD, MH - 2 * PAD); } } */
+
     , labyrinth: { MW: 620, MH: 620, U: 2.2, h: 2.2, slab: 0.03, inset: false, outline: false, src: BASE + 'assets/clients/labyrinth-logo.png',
       draw: function (g, MW, MH, img) { g.drawImage(img, PAD, PAD, MW - 2 * PAD, MH - 2 * PAD); } }
-    /* Real solids have no mask: their light is worked out from the ray. */
+
     , ball: { U: 2.2, h: 2.1, solid: true }, band: { U: 2.2, h: 1.7, solid: true }, pin: { U: 1.5, h: 2.1, solid: true }
   };
   var MW, MH, U, MARK_H, INSET, OUTLINE, dist, toMask;
 
-  /* Fill the mark into a small mask, then a signed chamfer distance to its
-     edge so the face can carry an outline and an inset line. */
   function buildMark(m, img) {
     MW = m.MW; MH = m.MH;
     var c = document.createElement('canvas'); c.width = MW; c.height = MH;
@@ -202,7 +187,7 @@
 
   function rot(yaw, pitch, roll) {
     var cy_ = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch), cr = Math.cos(roll), sr = Math.sin(roll);
-    /* R = Ry * Rx * Rz */
+
     return [
       cy_ * cr + sy * sp * sr, -cy_ * sr + sy * sp * cr, sy * cp,
       cp * sr, cp * cr, -sp,
@@ -211,19 +196,16 @@
   }
   function ap(m, x, y, z) { return [m[0] * x + m[1] * y + m[2] * z, m[3] * x + m[4] * y + m[5] * z, m[6] * x + m[7] * y + m[8] * z]; }
 
-  /* It sways on its own, and every nine seconds turns once all the way round. */
   var steady = !!(stage && stage.dataset.spin === 'steady');
   function markPose(t) {
     var p = (t - 4) % 9 / 2.6, turn = t < 4 || p >= 1 ? 0 : Math.PI * (1 - Math.cos(Math.PI * p));
-    if (steady) turn = 0.55 * Math.sin(t * 0.5);   /* an even sway, never edge-on */
+    if (steady) turn = 0.55 * Math.sin(t * 0.5);
     R = rot(steady ? turn : 0.5 * Math.sin(t * 0.45) + turn, -0.22 + 0.08 * Math.sin(t * 0.37), 0.04 * Math.sin(t * 0.29));
     oL = [R[6] * D, R[7] * D, R[8] * D];
     lamF = 0.55 + 0.45 * Math.abs(R[2] * L[0] + R[5] * L[1] + R[8] * L[2]);
-    sheen = 2.4 * Math.sin(t * 0.45 + turn);  /* where the light band crosses the face */
+    sheen = 2.4 * Math.sin(t * 0.45 + turn);
   }
 
-  /* March the ray through the slab: the first sample lands on a face, any
-     later hit is the extruded side. */
   function markLight(x, y) {
     var dx = R[0] * x + R[3] * y - R[6] * D, dy = R[1] * x + R[4] * y - R[7] * D, dz = R[2] * x + R[5] * y - R[8] * D;
     if (Math.abs(dz) < 1e-6) return 0;
@@ -233,7 +215,7 @@
       var tt = t0 + dt * k, lx = oL[0] + dx * tt, ly = oL[1] + dy * tt, sd = sdAt(lx, ly);
       if (k === 0) {
         if (sd < 0) {
-          /* outline and inset line are sized in cells so they survive the grid */
+
           var edge = OUTLINE ? 1 - clamp((-sd - 0.9 * cellU) / cellU) : 0, inner = INSET ? 1 - clamp((Math.abs(sd + 3.6 * cellU) - 0.35 * cellU) / (0.7 * cellU)) : 0;
           var b = lx * 0.8 + ly * 0.6 - sheen, band = Math.exp(-b * b * 3);
           var fill = ((OUTLINE ? 0.38 : 0.58) + 0.5 * band) * lamF;
@@ -250,20 +232,16 @@
     return glow;
   }
 
-
-  /* ---- Solids: real 3D objects, lit the same way as the slabs ---------- */
   function ray(x, y) {
     var dx = R[0] * x + R[3] * y - R[6] * D, dy = R[1] * x + R[4] * y - R[7] * D, dz = R[2] * x + R[5] * y - R[8] * D, n = Math.hypot(dx, dy, dz);
     return [dx / n, dy / n, dz / n];
   }
-  /* Print is flat: no turn, no sides, the same cells straight on with a soft
-     diagonal fall of tone. Mask subjects only. */
+
   function flatLight(x, y) {
     if (sdAt(x, y) >= 0) return 0;
     return clamp(0.66 + 0.09 * (y - x * 0.6));
   }
-  /* A mirror ball: rows of square facets, each with its own flat normal, and
-     a few catching the light in turn. */
+
   var FACETS = 16;
   function ballLight(x, y) {
     var d = ray(x, y), b = oL[0] * d[0] + oL[1] * d[1] + oL[2] * d[2], disc = b * b - (D * D - 1);
@@ -276,7 +254,7 @@
     var gap = Math.abs(f - col - 0.5) > 0.42 ? 0.55 : 1;
     return clamp((0.14 + 0.32 * hash(seed, 3) + 0.62 * Math.pow(s, 5) + (tw > 0.93 ? 0.55 : 0)) * gap * (0.55 + 0.45 * Math.abs(nw[2])));
   }
-  /* Sphere trace inside a bounding ball, then shade from the surface normal. */
+
   function march(sd, B, shade) {
     return function (x, y) {
       var d = ray(x, y), b = oL[0] * d[0] + oL[1] * d[1] + oL[2] * d[2], near = D * D - b * b;
@@ -294,7 +272,7 @@
       return 0;
     };
   }
-  /* A wristband: a flat ring laid at an angle, with a printed strip. */
+
   var TILT = 1.02, TC = Math.cos(TILT), TS = Math.sin(TILT);
   function bandSd(x, y, z) {
     var yy = TC * y - TS * z, zz = TS * y + TC * z, q = Math.hypot(x, zz) - 0.95, ax = Math.abs(q) - 0.02, ay = Math.abs(yy) - 0.3;
@@ -304,7 +282,7 @@
     var yy = TC * y - TS * z, zz = TS * y + TC * z, a = Math.atan2(zz, x), strip = Math.abs(yy) < 0.1 && Math.sin(a * 44) > 0 ? 0.38 : 0, lip = Math.abs(yy) > 0.25 ? 0.3 : 0;
     return clamp(0.12 + 0.62 * lam + strip + lip + 0.3 * rim);
   }
-  /* A bowling pin: three spheres blended, cut flat at the foot, two stripes. */
+
   function smin(a, b, k) { var h = clamp(0.5 + 0.5 * (b - a) / k); return b + (a - b) * h - k * h * (1 - h); }
   function pinSd(x, y, z) {
     var r = Math.hypot(x, z), body = Math.hypot(r, y + 0.42) - 0.54, neck = Math.hypot(r * 1.3, (y - 0.36) * 0.62) - 0.14, head = Math.hypot(r, y - 0.74) - 0.27;
@@ -316,8 +294,6 @@
   }
   var ballRay = ballLight, bandRay = march(bandSd, 1.08, bandShade), pinRay = march(pinSd, 1.12, pinShade);
 
-  /* Each subject is the mark or an icon, drawn into its own mask from the
-     grid in the Icons chapter and turned the same way. */
   ['ticketing', 'nightclubs', 'bars', 'festivals', 'socialising', 'enquiries', 'profiles', 'social', 'analytics', 'phone'].forEach(function (id) {
     var parts = document.querySelectorAll('[data-icon="' + id + '"] path');
     MARKS[id] = { MW: 320, MH: 320, U: 1.9, h: 1.9, slab: 0.07, inset: false, outline: true, draw: function (g, MW) {
@@ -346,7 +322,6 @@
   var S = SUBJECTS[0], light = markLight, now = 0, ready = false, still = false, stillCols = 72, cut = 0.045;
   function useSubject() { useMark(MARKS[S.mark]); light = S.ray || markLight; }
 
-  /* ---- Frame ----------------------------------------------------------- */
   function frame(t) {
     var n = cols * rows, sub = 0.25 / scale;
     now = t;
@@ -371,8 +346,6 @@
       ctx.fillRect(Math.round(st[0] * dpr), Math.round(st[1] * dpr), dpr, dpr);
     }
 
-    /* binary flips its digits on each cell's own slow clock; the rest only
-       change when the tone does */
     var flip = V.id === 'binary' || V.id === 'light' ? 0.6 : 0;
     for (var j = 0; j < n; j++) {
       var tj = tone[j];
@@ -383,7 +356,6 @@
     }
   }
 
-  /* ---- Switches ------------------------------------------------------- */
   var subBar = document.getElementById('subjects'), bar = document.getElementById('variants');
   function pills(el, list, pick) {
     list.forEach(function (v) {
@@ -412,7 +384,7 @@
   })();
 
   var t0 = 0;
-  /* This page is long, so the stage only draws while it is on screen. */
+
   var inView = false;
   if (stage) new IntersectionObserver(function (e) { inView = e[0].isIntersecting; }).observe(stage);
   function loop(now) {
@@ -421,9 +393,6 @@
     requestAnimationFrame(loop);
   }
 
-  /* Print pieces use a still of the same render: canvas[data-tile="subject/style"],
-     with data-cols the cell count and the box the shape. They are flat, because
-     the turned render does not survive print; data-live keeps it for screens. */
   function stills() {
     var keep = [V, S, cv, ctx];
     still = true;
@@ -433,7 +402,7 @@
       S = find(SUBJECTS, p[0]) || S; V = find(VARIANTS, p[1]) || V;
       cv = document.createElement('canvas'); ctx = cv.getContext('2d');
       useSubject();
-      /* data-live keeps the turned render, for screens only */
+
       var live = 'live' in c.dataset;
       if (!live) light = flatLight;
       cut = live ? 0.045 : 0.28;
@@ -457,8 +426,6 @@
   });
 })();
 
-/* An icon through the tiles: white on black at its box's own shape, so the
-   tile layer crops nothing. */
 document.querySelectorAll('img[data-glyph]').forEach(function (img) {
   var box = img.parentNode.getBoundingClientRect(), parts = document.querySelectorAll('[data-icon="' + img.dataset.glyph + '"] path');
   var h = 48 / 0.72, w = h * box.width / box.height, x = 24 - w / 2, y = 24 - h / 2;
