@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Mona+Sans:wdth,wght@125,600..800&display=swap" />
 <link rel="stylesheet" href="tokens.css?v=65c181014d" />
-<link rel="stylesheet" href="site.css?v=0dacef1900" />
+<link rel="stylesheet" href="site.css?v=a07aa42197" />
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="design-system.css?v=c8646c715a" />
+<link rel="stylesheet" href="design-system.css?v=0dded6e554" />
 </head>
 <body>
 
@@ -61,7 +61,7 @@
 <div class="bk-top">
   <a class="bk-top__mark" href="#top" aria-label="Capacity brand"><svg viewBox="240 440 1520 1120" fill="currentColor" aria-hidden="true"><use href="#capacity-mark"/></svg></a>
   <nav aria-label="Chapters">
-    <a href="#mark">Mark</a><a href="#type">Type</a><a href="#colour">Colour</a><a href="#icons">Icons</a><a href="#light">Light</a><a href="#tiles">Tiles</a><a href="#photography">Photography</a><a href="#graphics">Graphics</a><a href="#motion">Motion</a><a href="design-system/templates">Templates</a><a href="design-system/outreach">Outreach</a><a href="#ai">For AI</a>
+    <a href="#mark">Mark</a><a href="#type">Type</a><a href="#colour">Colour</a><a href="#icons">Icons</a><a href="#apps">Apps</a><a href="#light">Light</a><a href="#tiles">Tiles</a><a href="#photography">Photography</a><a href="#graphics">Graphics</a><a href="#motion">Motion</a><a href="design-system/templates">Templates</a><a href="design-system/outreach">Outreach</a><a href="#ai">For AI</a>
   </nav>
 </div>
 
@@ -100,7 +100,7 @@
         <li>Mona Sans Wide for headings. Rethink Sans for everything you read.</li>
         <li>Capitals for every hero and closing line on the site.</li>
         <li>Sentence case for every section heading. No exceptions by length.</li>
-        <li>Mona never goes inside a mockup. The product stays in Rethink Sans.</li>
+        <li>Inside a mockup, figures and screen titles are Mona, as they are in the product. Everything else in the product is Rethink Sans.</li>
         <li>Geist Mono for labels and readouts, in plain English.</li>
       </ul>
     </div>
@@ -127,7 +127,7 @@
     <div class="bk-head"><h2 class="h2">Colour.</h2>
       <ul class="bk-rules">
         <li>One blue. It marks the action on the page and the light in the tiles.</li>
-        <li>Neutrals carry no colour cast. Light is the default on the site, with dark bands for moments.</li>
+        <li>Neutrals carry no colour cast. The site follows the visitor&rsquo;s light or dark setting, with a switch in the menu. In dark, light bands carry the moments; in light, it is light throughout.</li>
         <li>Green and red are for status text only, never for chart marks.</li>
       </ul>
     </div>
@@ -180,13 +180,29 @@
 
 <!-- ============================================================ TILES ==== -->
 <!-- =========================================================== LIGHT ==== -->
+
+<!-- ============================================================= APPS ==== -->
+<section class="bk-ch bk-ch--dark" id="apps">
+  <div class="bk-wrap">
+    <div class="bk-head"><h2 class="h2">Apps.</h2>
+      <ul class="bk-rules">
+        <li>Each solution is an app in one suite, the way Adobe or Apple&rsquo;s Pro apps are told apart.</li>
+        <li>One rounded tile, the icon cut out in white. The lit tile is the chosen one.</li>
+        <li>On the site it sits small beside the name: in the menu, on the solutions strip and over each solution page&rsquo;s line.</li>
+      </ul>
+    </div>
+    <h3 class="apps__h">Lit (chosen)</h3><p class="apps__p">The tile carries the light: the brand gradient with grain, the icon in white.</p><div class="apps apps--lit"><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 44L15.33 27H32.67L44 44Z"/><path class="lit" d="M14 14a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z"/></svg></div><figcaption>Predictive CRM</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 12H31V36H4V30L8 24L4 18Z"/><path class="lit" d="M34 12H44V18L40 24L44 30V36H34Z"/></svg></div><figcaption>Ticketing</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 5H38V21H22V30H15L9 39V30H4Z"/><path class="lit" d="M25 24H44V39H41V45L37 39H25Z"/></svg></div><figcaption>Enquiries</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 720 720" aria-hidden="true"><path d="M360,0C161.18,0,0,161.18,0,360c0,65.41,17.45,126.75,47.94,179.61L0,720l187.02-44.21c51.34,28.18,110.28,44.21,172.98,44.21,198.82,0,360-161.18,360-360S558.82,0,360,0ZM360,655.52c-60.17,0-116.13-17.98-162.82-48.87l-110.49,28.14,30.99-105.61c-33.53-47.93-53.2-106.26-53.2-169.19,0-163.21,132.31-295.52,295.52-295.52s295.52,132.31,295.52,295.52-132.31,295.52-295.52,295.52Z M444.35,407.52l87.1,41.06c4,1.88,6.56,5.94,6.2,10.34-.94,11.46-5.54,34.43-26.13,55.02-58.12,58.12-162.49-7.64-166.74-10.18-25.67-13.79-50.06-32.24-73.19-55.36-23.12-23.12-41.58-47.52-55.37-73.19-2.55-4.24-68.31-108.61-10.18-166.74,20.59-20.59,43.56-25.19,55.02-26.13,4.41-.36,8.46,2.2,10.34,6.2l41.07,87.1c1.94,4.12,1.09,9.02-2.13,12.24l-30.61,30.61c-6.62,6.62-8.56,16.93-4,25.11,11.17,20.03,26.19,39.32,43.59,57.07,17.75,17.4,37.04,32.43,57.07,43.59,8.18,4.56,18.48,2.62,25.11-4l30.61-30.61c3.22-3.22,8.12-4.08,12.24-2.13Z"/></svg></div><figcaption>WhatsApp</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 18H17L35 6V42L17 30H5Z M9 33H18V44H16.33Z"/><path class="lit" d="M38 13H43V35H38Z"/></svg></div><figcaption>Social media</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 5H44V16H4Z M4 19H44V30H4Z"/><path class="lit" d="M4 33H31.33L24 44H4Z"/></svg></div><figcaption>Signup forms</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4.5 44V29L8.5 23H15.5V44Z M18.5 44V19L22.5 13H29.5V44Z"/><path class="lit" d="M32.5 44V9L36.5 3H43.5V44Z"/></svg></div><figcaption>Website</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H40V14H8Z M8 28H40V44L34.67 36L29.33 44L24 36L18.67 44L13.33 36L8 44Z"/><path class="lit" d="M8 17H40V25H8Z"/></svg></div><figcaption>Till and POS</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H27.33L40 23V44H8Z M14 28V32H34V28Z M14 36V40H27V36Z"/><path class="lit" d="M30.33 4H40V18.5Z"/></svg></div><figcaption>Reports</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 7H19L23 13H44V20H4Z"/><path class="lit" d="M4 23H44V41H4Z"/></svg></div><figcaption>Files</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M5.26 29.18L17.64 29.18L12.06 37.49L20.31 37.49L24 31.99L27.7 37.49L35.95 37.49L30.37 29.18L42.74 29.18L38.24 22.49L30.38 22.49L34.3 16.64L30.17 10.51L24 19.7L17.84 10.51L13.7 16.64L17.63 22.49L9.76 22.49L5.26 29.18Z"/></svg></div><figcaption>Intelligence</figcaption></figure></div>
+    <h3 class="apps__h">Flat</h3><p class="apps__p">The same tiles on black, the lit part of the icon in brand blue. For print and anywhere the light would be too much.</p><div class="apps apps--mono"><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 44L15.33 27H32.67L44 44Z"/><path class="lit" d="M14 14a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z"/></svg></div><figcaption>Predictive CRM</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 12H31V36H4V30L8 24L4 18Z"/><path class="lit" d="M34 12H44V18L40 24L44 30V36H34Z"/></svg></div><figcaption>Ticketing</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 5H38V21H22V30H15L9 39V30H4Z"/><path class="lit" d="M25 24H44V39H41V45L37 39H25Z"/></svg></div><figcaption>Enquiries</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 720 720" aria-hidden="true"><path d="M360,0C161.18,0,0,161.18,0,360c0,65.41,17.45,126.75,47.94,179.61L0,720l187.02-44.21c51.34,28.18,110.28,44.21,172.98,44.21,198.82,0,360-161.18,360-360S558.82,0,360,0ZM360,655.52c-60.17,0-116.13-17.98-162.82-48.87l-110.49,28.14,30.99-105.61c-33.53-47.93-53.2-106.26-53.2-169.19,0-163.21,132.31-295.52,295.52-295.52s295.52,132.31,295.52,295.52-132.31,295.52-295.52,295.52Z M444.35,407.52l87.1,41.06c4,1.88,6.56,5.94,6.2,10.34-.94,11.46-5.54,34.43-26.13,55.02-58.12,58.12-162.49-7.64-166.74-10.18-25.67-13.79-50.06-32.24-73.19-55.36-23.12-23.12-41.58-47.52-55.37-73.19-2.55-4.24-68.31-108.61-10.18-166.74,20.59-20.59,43.56-25.19,55.02-26.13,4.41-.36,8.46,2.2,10.34,6.2l41.07,87.1c1.94,4.12,1.09,9.02-2.13,12.24l-30.61,30.61c-6.62,6.62-8.56,16.93-4,25.11,11.17,20.03,26.19,39.32,43.59,57.07,17.75,17.4,37.04,32.43,57.07,43.59,8.18,4.56,18.48,2.62,25.11-4l30.61-30.61c3.22-3.22,8.12-4.08,12.24-2.13Z"/></svg></div><figcaption>WhatsApp</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 18H17L35 6V42L17 30H5Z M9 33H18V44H16.33Z"/><path class="lit" d="M38 13H43V35H38Z"/></svg></div><figcaption>Social media</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 5H44V16H4Z M4 19H44V30H4Z"/><path class="lit" d="M4 33H31.33L24 44H4Z"/></svg></div><figcaption>Signup forms</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4.5 44V29L8.5 23H15.5V44Z M18.5 44V19L22.5 13H29.5V44Z"/><path class="lit" d="M32.5 44V9L36.5 3H43.5V44Z"/></svg></div><figcaption>Website</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H40V14H8Z M8 28H40V44L34.67 36L29.33 44L24 36L18.67 44L13.33 36L8 44Z"/><path class="lit" d="M8 17H40V25H8Z"/></svg></div><figcaption>Till and POS</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 4H27.33L40 23V44H8Z M14 28V32H34V28Z M14 36V40H27V36Z"/><path class="lit" d="M30.33 4H40V18.5Z"/></svg></div><figcaption>Reports</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 7H19L23 13H44V20H4Z"/><path class="lit" d="M4 23H44V41H4Z"/></svg></div><figcaption>Files</figcaption></figure><figure><div class="app"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M5.26 29.18L17.64 29.18L12.06 37.49L20.31 37.49L24 31.99L27.7 37.49L35.95 37.49L30.37 29.18L42.74 29.18L38.24 22.49L30.38 22.49L34.3 16.64L30.17 10.51L24 19.7L17.84 10.51L13.7 16.64L17.63 22.49L9.76 22.49L5.26 29.18Z"/></svg></div><figcaption>Intelligence</figcaption></figure></div>
+  </div>
+</section>
+
 <section class="bk-ch" id="light">
   <div class="bk-wrap">
     <div class="bk-head"><h2 class="h2">The light.</h2>
       <ul class="bk-rules">
         <li>The room's light as colour: pale at the top, violet and deep blue underneath, cyan on the far side. Always with grain.</li>
         <li>Its best use is the mark as a window onto a real night, with the shot in black and white and the light falling on it.</li>
-        <li>Keep it on the mark and on photos. A bare gradient panel reads as any tech company.</li>
+        <li>Keep it on the mark and on photos. The one panel that carries it bare is the close behind Start with an audit: the light moving slowly under grain.</li>
         <li>Anyone in focus is a real person from a real night. Generated images stay as rooms and crowds, never faces.</li>
       </ul>
     </div>
@@ -274,7 +290,11 @@
       <ul class="bk-rules">
         <li>Pieces of the real product, cropped tight. One piece, one action.</li>
         <li>Dark UI on a dotted panel, or on tiles. Real figures from the demo venue, Labyrinth.</li>
-        <li>No illustration, no icons in circles, no arrows between boxes, no outlined boxes as decoration.</li>
+        <li>On a phone a screen shows only what its heading is about, and stays under two thirds of the screen.</li>
+        <li>Every figure says what it measures: &ldquo;Likely to come if you message her, 90%&rdquo;, never &ldquo;If she hears from you, 90%&rdquo;.</li>
+        <li>No illustration beyond the isometric drawings below, no icons in circles, no arrows between boxes, no outlined boxes as decoration.</li>
+        <li>Where no screen can show the point, an isometric drawing does: thin lines, one lit part, made in tools/iso.</li>
+        <li>Other tools appear as their own logos in their own colours, on a dark tile. Never redrawn, never tinted.</li>
       </ul>
     </div>
 
@@ -350,6 +370,7 @@
         <li>Slow and certain. Headings rise line by line. Numbers count up once.</li>
         <li>Light to dark is a wipe or a timed fade, never scrubbed by scroll, so nobody parks on grey.</li>
         <li>Tiles barely move until touched. The camera never moves.</li>
+        <li>The mark in the home hero turns on a slow, even sway, never a flip.</li>
       </ul>
     </div>
     <div class="bk-cols">
@@ -381,7 +402,7 @@
 
 <footer class="bk-foot"><svg viewBox="240 440 1520 1120" fill="currentColor" aria-hidden="true"><use href="#capacity-mark"/></svg><span class="bk-meta">Internal. Not linked from the site.</span></footer>
 
-<script src="design-system.js?v=45ee79b993"></script>
+<script src="design-system.js?v=ec9f12214a"></script>
 <script src="ascii.js?v=91c172e174"></script>
 </body>
 </html>

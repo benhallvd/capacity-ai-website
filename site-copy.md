@@ -16,36 +16,48 @@ from a page, say so and it will be taken out of the page itself.
 
 ## Shared
 
+- **H2:** Solutions <!-- c-900fe12f -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Predictive CRM <!-- c-84ea30c0 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Ticketing <!-- c-26321882 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Enquiries <!-- c-c19dfbe0 -->
+- **Link:** {keep1}{keep2}</i>{keep3}WhatsApp <!-- c-73750c44 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Social media <!-- c-0ffc85ce -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Signup forms <!-- c-53948a6f -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Website <!-- c-c19b34d2 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Till and POS <!-- c-ffbe45fe -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Reports <!-- c-0ad3dec6 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Files <!-- c-c642c484 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}Intelligence <!-- c-11347324 -->
+- **Label:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Operations<em>In build</em> <!-- c-1f606b09 -->
+- **Label:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Stock<em>In build</em> <!-- c-cdb6f0b8 -->
+- **Label:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Tills<em>In build</em> <!-- c-b23f572c -->
+- **H2:** Who it’s for <!-- c-71ef524a -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Nightclubs <!-- c-ce3156f9 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Bars <!-- c-5404a881 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Competitive socialising <!-- c-530e18e6 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Festivals <!-- c-477d8497 -->
+- **Link:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Event promoters <!-- c-59975ec0 -->
+- **H2:** Company <!-- c-de4743c8 -->
 - **Link:** How we work <!-- c-44d3c489 -->
-- **Button:** Solutions <!-- c-900fe12f -->
-- **Label:** Ticketing <!-- c-4241a862 -->
-- **Label:** Enquiries <!-- c-a653a209 -->
-- **Label:** Customer profiles <!-- c-c2af413f -->
-- **Label:** WhatsApp <!-- c-6a40edf1 -->
-- **Label:** Social media <!-- c-b904a771 -->
-- **Label:** Signup forms <!-- c-8b25cdcd -->
-- **Label:** Website <!-- c-b5a229ac -->
-- **Label:** Till and POS <!-- c-9058da70 -->
-- **Label:** Reports <!-- c-dacca3cb -->
-- **Label:** Files <!-- c-abc7e989 -->
-- **Label:** Capacity Intelligence <!-- c-fbfa1526 -->
-- **Button:** Who it’s for <!-- c-71ef524a -->
-- **Label:** Nightclubs <!-- c-69756826 -->
-- **Label:** Bars <!-- c-f2c35269 -->
-- **Label:** Competitive socialising <!-- c-f4f4779d -->
-- **Label:** Festivals <!-- c-4b9c598f -->
-- **Label:** Event promoters <!-- c-7e2ffcec -->
 - **Link:** Integrations <!-- c-090512d9 -->
-- **Button:** Book an audit <!-- c-b829ca70 -->
-- **H2:** What you get. <!-- c-56d76f28 -->
-- **Text:** Each one tailored to your business, starting with whatever will create the most value. <!-- c-8c1a4f9f -->
-- **H2:** Questions, / answered. <!-- c-c3e5b32d -->
-- **H2:** Start with an audit. <!-- c-2bed6c59 -->
-- **Text:** Built around how your business runs. <!-- c-8681a182 -->
-- **H3:** Company <!-- c-de4743c8 -->
+- **Link:** Updates <!-- c-22e2bada -->
+- **Link:** FAQs <!-- c-9856b743 -->
 - **Link:** Careers <!-- c-7e658675 -->
+- **Button:** Book an audit <!-- c-b829ca70 -->
+- **Text:** Each one tailored to your business, starting with whatever will create the most value. <!-- c-8c1a4f9f -->
+- **Text:** Built around how your business runs. <!-- c-8681a182 -->
+- **Link:** Ticketing <!-- c-4241a862 -->
+- **Link:** Enquiries <!-- c-a653a209 -->
+- **Link:** Predictive CRM <!-- c-8913a8f9 -->
+- **Link:** WhatsApp <!-- c-6a40edf1 -->
+- **Link:** Social media <!-- c-b904a771 -->
+- **Link:** Signup forms <!-- c-8b25cdcd -->
+- **Link:** Website <!-- c-b5a229ac -->
+- **Link:** Till and POS <!-- c-9058da70 -->
+- **Link:** Reports <!-- c-dacca3cb -->
+- **Link:** Files <!-- c-abc7e989 -->
+- **Link:** Capacity Intelligence <!-- c-fbfa1526 -->
 - **Link:** Contact <!-- c-2b5c3d26 -->
-- **Link:** FAQ <!-- c-dbc468a1 -->
 - **H3:** Get started <!-- c-61e8d44a -->
 - **H3:** Legal <!-- c-4787eaf7 -->
 - **Link:** Terms <!-- c-ede54899 -->
@@ -59,9 +71,12 @@ from a page, say so and it will be taken out of the page itself.
 - **Label:** 167-169 Great Portland Street, London W1W 5PF <!-- c-6272b9d4 -->
 - **H2:** More solutions <!-- c-e3fae3bd -->
 - **Label:** Solution <!-- c-22927695 -->
+- **Label:** Customer profiles <!-- c-c2af413f -->
+- **H2:** Start with an audit. <!-- c-2bed6c59 -->
 - **H2:** Solutions set up and run for you. <!-- c-2a87c746 -->
 - **H3:** Email and SMS <!-- c-ac44c732 -->
 - **Text:** + more. Every solution is tailored to how your business runs. <!-- c-3dbc9216 -->
+- **H2:** Questions, / answered. <!-- c-c3e5b32d -->
 - **Button:** Back <!-- c-76900f1b -->
 - **Label:** Uploading <!-- c-8b898ca3 -->
 - **Button:** Continue <!-- c-31fbef16 -->
@@ -71,58 +86,27 @@ from a page, say so and it will be taken out of the page itself.
 
 ### Search and sharing
 
-- **Search description:** Solutions that help you reach capacity, built and run around how your business works. For nightclubs, bars, competitive socialising venues, festivals and promoters. <!-- c-10b4358b -->
-- **Page title:** Capacity | Get your venue or events to capacity <!-- c-31ac8be0 -->
-
-### Other
-
-- **Label:** Get your / {keep1} <!-- c-5d1d97f9 -->
-- **Rolling words:** nightclub|bar|live venue|festival|events|activity venue <!-- c-952189d5 -->
-- **Label:** to capacity. <!-- c-2211a7e1 -->
-- **Text:** Keep the tools you already use. Capacity builds what your business needs on top and runs it with your team. <!-- c-a790c623 -->
-
-### One layer across everything you already run.
-
-- **H2:** One layer across everything you already run. <!-- c-b0aaad7c -->
-- **Text:** Your tools stay as they are. Capacity sits across them, so each customer is one record. <!-- c-9fd0c5dc -->
-
-### What you get.
-
-- **Text:** Set up around how you trade, and worked on with your team every week. <!-- c-ad97e547 -->
-- **H3:** Tickets and bookings, sold under your name. <!-- c-02539d9a -->
-- **Text:** On your own site, with every buyer added to your list and scanned in at the event. <!-- c-94a85ab9 -->
-- **H3:** Every customer, known by name. <!-- c-51da6d06 -->
-- **Text:** Ticket sales, bookings, door scans and WiFi sign-ups matched to one record per person. <!-- c-8f60d1c9 -->
-- **H3:** The run-up to every event, planned and sent. <!-- c-b20765b7 -->
-- **Text:** Email, SMS, WhatsApp and the ads, planned around each event with your team and measured on the tickets they sell. <!-- c-ba67e1d5 -->
+- **Search description:** Capacity builds and runs the technology behind nightclubs, bars, festivals and live venues, set up around how your business already works. <!-- c-b3534ca0 -->
+- **Page title:** Capacity | The technology venues and events run on <!-- c-dd2a42b7 -->
 
 ### Solutions built and run for you.
 
 - **H2:** Solutions built and run for you. <!-- c-60f62b88 -->
-- **Text:** Tickets and bookings sold on your own site under your brand, with every buyer added to the list. <!-- c-1c344a18 -->
-- **Text:** Every customer message, from lost property to private hire, answered in one place with their history beside it. <!-- c-72e599d5 -->
-- **Text:** Ticket sales, bookings, door scans and WiFi sign-ups matched to one record per customer. <!-- c-07469e8a -->
-- **Text:** Takings from the till you already use, read night by night and bar by bar. <!-- c-91b05da9 -->
-- **Text:** Guestlists and announcements on the app your regulars already use. <!-- c-9c313a11 -->
-- **Text:** Posts planned across every channel in one calendar, measured on the tickets they sell. <!-- c-29c0c895 -->
-- **Text:** Where your website visitors come from, and which of them go on to book. <!-- c-1630f256 -->
-- **Text:** Guest WiFi, interactive competitions and forms on your site, all growing the list you can reach. <!-- c-87abc0a3 -->
-- **Text:** Artwork, video, menus and contracts kept in one place your team and Capacity share. <!-- c-beb4db3e -->
-- **Text:** A written summary of what changed and why, ready for Monday. <!-- c-7c1bff42 -->
-- **Text:** Understands your venue from all of its business data, and answers questions as you ask them. <!-- c-4576fd28 -->
-
-### How we work.
-
-- **H2:** How we work. <!-- c-30167b37 -->
-- **Text:** Every business runs differently, so everything starts with learning how yours does. <!-- c-d177f4f4 -->
-- **Label:** The audit <!-- c-7f7fed4a -->
-- **Text:** A look at how your business trades today, where its customer data sits and what sells, ending with an agreed place to start. <!-- c-c890909b -->
-- **Label:** The build <!-- c-682bd535 -->
-- **Text:** Ticketing, bookings and marketing built around your business and carrying your brand, on top of whatever you already run. <!-- c-c1a96253 -->
-- **Label:** Running it <!-- c-b89c3eaf -->
-- **Text:** Campaigns go out, bookings get answered and every week gets reported on, with sign-off staying with you. <!-- c-52e27fe4 -->
-- **Label:** Taking on more <!-- c-ba0444cf -->
-- **Text:** You start with whatever will create the most value, then add more as your business grows. <!-- c-9531a4cc -->
+- **Text:** One profile per customer, and what they’ll do next. <!-- c-25df944a -->
+- **Text:** Tickets and bookings sold on your own site. <!-- c-11302c3d -->
+- **H3:** {keep1}{keep2}{keep3}{keep4}{keep5}WhatsApp <!-- c-61e13562 -->
+- **Text:** Guestlists and announcements where your regulars already are. <!-- c-4805c681 -->
+- **Text:** Planned and posted by our team, signed off by you. <!-- c-38c28579 -->
+- **Text:** Your site, built to sell tickets and bookings. <!-- c-11924828 -->
+- **Text:** Every signup added to your list. <!-- c-e053ba51 -->
+- **Text:** Artwork, video and menus in one place. <!-- c-9db82bdf -->
+- **Text:** What changed each week, and why. <!-- c-f845a18d -->
+- **H3:** {keep1}{keep2}{keep3}{keep4}{keep5}Capacity Intelligence <!-- c-0ff710a8 -->
+- **Text:** Ask about your business in plain words. <!-- c-7ea65f23 -->
+- **H3:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Enquiries {keep7}Coming soon</em> <!-- c-3ad52caf -->
+- **Text:** Every customer message answered in one place. <!-- c-17f8af66 -->
+- **H3:** {keep1}{keep2}{keep3}{keep4}{keep5}{keep6}Till and POS {keep7}Coming soon</em> <!-- c-530ffb40 -->
+- **Text:** Takings from the till you already use. <!-- c-536a54bb -->
 
 ### Integrates with what you already run.
 
@@ -133,21 +117,30 @@ from a page, say so and it will be taken out of the page itself.
 ### Who it’s for.
 
 - **H2:** Who it’s for. <!-- c-18eee9df -->
-- **Label:** Club nights and residencies, with the run-up to each one planned and sent on time, and the regulars known by name. <!-- c-d2f2262f -->
-- **Label:** Regulars, private hire and party bookings, across every trading session in the week. <!-- c-14ee389a -->
-- **Label:** Game and lane bookings spread across the week, with past bookers invited back before the quiet sessions. <!-- c-6ae5665c -->
-- **Label:** Steady sales from on-sale to the event, with last year’s buyers reached before the first announcement. <!-- c-0f5294ee -->
-- **Label:** Reporting and customer data on top of the ticketing you already use, so every night you run grows a list you own. <!-- c-56a530c1 -->
-- **Label:** Groups and estates <!-- c-0913c5ae -->
-- **Label:** Every site’s customers in one view, with site-level and group reporting for the owner and the marketing lead. <!-- c-96a2c6c2 -->
-- **Label:** New venues <!-- c-5ec8ba19 -->
-- **Label:** Opening a new venue? Have it ready to trade before opening night, with the marketing planned for the months after. <!-- c-eccc47eb -->
+- **H3:** Nightclubs <!-- c-9e31958a -->
+- **Text:** Club nights and residencies, with every run-up planned and your regulars known by name. <!-- c-ce055532 -->
+- **H3:** Bars <!-- c-492d1d66 -->
+- **Text:** Regulars, private hire and party bookings across every trading session. <!-- c-48beb169 -->
+- **H3:** Competitive socialising <!-- c-75c4562f -->
+- **Text:** Sessions booked across the week, with past bookers invited back. <!-- c-76dc3ef1 -->
+- **H3:** Festivals <!-- c-7494aaf9 -->
+- **Text:** Steady sales from on-sale to the event, with last year’s buyers back first. <!-- c-0276732e -->
+- **H3:** Event promoters <!-- c-915ee1df -->
+- **Text:** Reporting and customer data on top of the ticketing you already use. <!-- c-70cda0b5 -->
+- **H3:** Groups and estates <!-- c-f3ca69c6 -->
+- **Text:** Every site’s customers in one view, for the owner and the marketing lead. <!-- c-39a19f11 -->
+- **H3:** New venues <!-- c-d480cbb4 -->
+- **Text:** Ready to trade before opening night, with the months after planned. <!-- c-de576913 -->
+- **H3:** Something else? <!-- c-cdc5fca2 -->
+- **Text:** If you run venues or events, start with an audit. <!-- c-2eb2d4bd -->
 
 ### Questions, answered.
 
-- **Text:** Anything else, ask during the audit. <!-- c-bc7792f1 -->
+- **H2:** Questions, answered. <!-- c-77a105d6 -->
 - **FAQ question:** What does Capacity do? <!-- c-a1562d56 -->
 - **Text:** Capacity builds technology into your business, and its team does the work. Depending on what will make the most difference to you, that might start with ticketing on your own site or a clearer view of who your customers are, with more added as Capacity learns how you run. <!-- c-d4ad3604 -->
+- **FAQ question:** What is the predictive CRM? <!-- c-64c3f95c -->
+- **Text:** It’s the customer record behind everything Capacity runs. Every ticket, booking, visit and message builds a profile for each customer, and from those Capacity predicts who is likely to come and who would come with a nudge. Each event gets a forecast and a short list of suggested moves, and nothing goes out until you approve it. <!-- c-8b1204fa -->
 - **FAQ question:** Do we have to change the tools we use? <!-- c-6c4a23fd -->
 - **Text:** No. Everything connects to the systems you already run, from your till to your email tool, so nothing gets switched off and your team keeps working the way it does now. <!-- c-4948ee3b -->
 - **FAQ question:** Who does the work? <!-- c-e4c329fd -->
@@ -160,17 +153,14 @@ from a page, say so and it will be taken out of the page itself.
 - **Text:** You talk through how you trade today and where your customer data sits, then agree where to start and what it will involve. It is a conversation, with no commitment. <!-- c-7137887e -->
 - **FAQ question:** Is our customer data safe? <!-- c-4188c8c6 -->
 - **Text:** Yes. Your data stays yours and is never sold on. Data capture and messaging are GDPR compliant, and you can export everything whenever you like. <!-- c-0995e5e1 -->
-
-### Start with an audit.
-
-- **Text:** It looks at how your business runs before anything is built, and pricing is set around it from there. <!-- c-25bc5ec9 -->
+- **Button:** All questions <!-- c-52039ad3 -->
 
 ## Ticketing
 `ticketing.html`
 
 ### Search and sharing
 
-- **Search description:** Ticketing in your own name, on your own site. Start with your next event while your current ticketing carries on, and keep every buyer as a customer you can reach again. <!-- c-63d4247f -->
+- **Search description:** Ticketing in your own name, on your own site. Start with your next event while your current ticketing carries on, and keep every buyer as a customer. <!-- c-e66304bb -->
 - **Page title:** Ticketing for venues and events, in your own name | Capacity <!-- c-29920cfd -->
 
 ### Sell your next event in your own name.
@@ -178,10 +168,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Sell your next event / in your own name. <!-- c-10a5258f -->
 - **Text:** Ticketing on your own site, with your name on every screen from the listing to the wallet pass, set up and run with your team. <!-- c-02ef5d17 -->
 
-### Ticketing set up around how you sell.
+### Other
 
-- **H2:** Ticketing set up around / how you sell. <!-- c-e0789a05 -->
-- **Text:** Each event built around how you already sell it, from the release plan to the door, with every platform you use in one place. <!-- c-9299aba8 -->
 - **H3:** Built to your plan <!-- c-caa05aa9 -->
 - **Text:** Tiers, booths and release windows, set up the way you sell. <!-- c-c434d8d1 -->
 - **H3:** Your name on every screen <!-- c-7551208e -->
@@ -218,10 +206,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Every customer message, / in one inbox. <!-- c-ee05ac22 -->
 - **Text:** From lost property to ticket questions, every message lands in one inbox with the customer’s history beside it and a reply drafted for your team to check and send. <!-- c-ab5c483d -->
 
-### Set up around the channels you already use.
+### Other
 
-- **H2:** Set up around the channels / you already use. <!-- c-43b90266 -->
-- **Text:** A lost jacket on Instagram, a ticket question by email. Every channel connected as it is today, landing in one inbox. <!-- c-9d68046f -->
 - **H3:** Every channel, one inbox <!-- c-5250b545 -->
 - **Text:** Website, email, WhatsApp, Instagram and Facebook arrive together. <!-- c-04afce7f -->
 - **H3:** One thread per customer <!-- c-a9e5326a -->
@@ -245,36 +231,54 @@ from a page, say so and it will be taken out of the page itself.
 
 - **Text:** It looks at where your customer messages come in today, then shows you them in one inbox. <!-- c-b07f4ba1 -->
 
-## Customer profiles
+## Predictive CRM
 `profiles.html`
 
 ### Search and sharing
 
-- **Search description:** Tickets, bookings, door scans and WiFi sign-ups matched to one profile per customer, so you can see who your regulars are and reach them with their consent. <!-- c-4ed9bd8b -->
-- **Page title:** Customer profiles for venues | Capacity <!-- c-adc3226f -->
+- **Search description:** One profile for every customer, built from tickets, bookings, door scans, WiFi and messages, with a prediction of who's coming and a forecast for every event. <!-- c-8285e8ec -->
+- **Page title:** Predictive CRM for venues and events | Capacity <!-- c-bca4f530 -->
 
-### Know your customers by name.
+### Know who’s coming before they book.
 
-- **H1:** Know your customers / by name. <!-- c-654976e3 -->
-- **Text:** Ticket sales, bookings, door scans and WiFi sign-ups on one profile per person, with consent on record. <!-- c-730af0a2 -->
+- **H1:** Know who’s coming / before they book. <!-- c-253dbb94 -->
+- **Text:** One profile for every customer and a forecast for every event, so you know who to reach and when. <!-- c-94e55a33 -->
 
-### One record for each customer.
+### How it works.
 
-- **H2:** One record for / each customer. <!-- c-ffba204d -->
-- **Text:** Each system you run holds part of the picture, and put together it shows how often someone comes. <!-- c-78238ce5 -->
-- **H3:** Matched from every source <!-- c-08e06161 -->
-- **Text:** Tickets, bookings and sign-ups land on one profile. <!-- c-ec1174d1 -->
-- **H3:** Tagged by what they do <!-- c-0549f094 -->
-- **Text:** Regular or Lapsed, kept up to date without anyone touching it. <!-- c-10266521 -->
-- **H3:** Consent on every channel <!-- c-e6f27d38 -->
-- **Text:** Recorded with where and when it was given. <!-- c-d318ead3 -->
-- **H3:** Lists in plain terms <!-- c-35b3b64d -->
-- **Text:** Say who you want to reach and see how many you can. <!-- c-b3e3a143 -->
+- **H2:** How it works. <!-- c-3e8cc7f6 -->
+- **Text:** Each step builds on the last, and every week it learns from what actually happened. <!-- c-62ff1f43 -->
+- **Label:** Step 01 <!-- c-ba9bc65d -->
+- **Label:** Fig 1.01 <!-- c-7b3bcf97 -->
+- **H3:** Every customer, one profile. <!-- c-3aebdb60 -->
+- **Text:** Tickets, bookings, door scans, WiFi and messages, matched to the same person. <!-- c-9dcf85da -->
+- **Label:** Step 02 <!-- c-c2053970 -->
+- **Label:** Fig 1.02 <!-- c-0c12a013 -->
+- **H3:** See who’s coming next. <!-- c-28860a1b -->
+- **Text:** Each profile is scored on how likely that person is to come, and whether a message would change it. <!-- c-c9ae8347 -->
+- **Label:** Step 03 <!-- c-ca8f79d1 -->
+- **Label:** Fig 1.03 <!-- c-7cf55d77 -->
+- **H3:** Every event, forecast early. <!-- c-1dd24bed -->
+- **Text:** Each night, session or date gets a forecast and the few moves most likely to fill it. <!-- c-3ea6cd1d -->
+- **Label:** Step 04 <!-- c-8eea4c49 -->
+- **Label:** Fig 1.04 <!-- c-540be268 -->
+- **H3:** Know what worked. <!-- c-51034b25 -->
+- **Text:** Results are measured against people who weren’t messaged, and the next forecast learns from them. <!-- c-a5c1c301 -->
 
-### The people behind the numbers.
+### A forecast for every event.
 
-- **H2:** The people behind / the numbers. <!-- c-9f556cf9 -->
-- **Text:** If Saturday did 600, you can see who they were and who to invite back. <!-- c-d78e2593 -->
+- **H2:** A forecast for every event. <!-- c-c6351919 -->
+- **Text:** See early how each night, session or date is tracking, with the moves most likely to close the gap. <!-- c-0b149711 -->
+
+### Other
+
+- **Label:** Scenarios <!-- c-12faf0d9 -->
+- **Label:** Fig 3.01 <!-- c-9453ad64 -->
+- **H3:** Test a decision first. <!-- c-fe76a0fc -->
+- **Text:** Try a price change, a new night or a clash with a big event on a model of your crowd, and see the likely range before you commit. <!-- c-9a8b9592 -->
+- **Label:** Fig 3.02 <!-- c-db2363da -->
+- **H3:** Ask, and get the next move. <!-- c-d6f90e46 -->
+- **Text:** Answers come from your own numbers, show where each one came from, and arrive with the next step drafted for your approval. <!-- c-879bcc59 -->
 
 ### More solutions
 
@@ -282,7 +286,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### Start with an audit.
 
-- **Text:** It looks at where your customer details sit today, then shows you one profile per customer. <!-- c-a1a3148d -->
+- **Text:** It looks at where your customer details sit today, then shows you what they could tell you about who’s coming next. <!-- c-ca6a161a -->
 
 ## WhatsApp
 `whatsapp.html`
@@ -297,10 +301,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Stay close to your regulars / on WhatsApp. <!-- c-ded29804 -->
 - **Text:** Messages on the app your customers already use, sent to the people who opted in, with each one written for you and sent once you sign it off. <!-- c-06128e15 -->
 
-### Every message to the customers it suits.
+### Other
 
-- **H2:** Every message to the / customers it suits. <!-- c-a3835855 -->
-- **Text:** If your regulars already talk to you on WhatsApp, build on it, with each message measured on the tickets it sold. <!-- c-d0932a3e -->
 - **H3:** Segments for each crowd <!-- c-5ffcbdd9 -->
 - **Text:** Regulars and students each hear what suits them. <!-- c-a07a0923 -->
 - **H3:** Guestlists by reply <!-- c-d64939bb -->
@@ -337,10 +339,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Posts planned around / what sells tickets. <!-- c-12225e26 -->
 - **Text:** The week’s posts planned and scheduled on your own accounts, with every ticket traced to the post that sold it. <!-- c-e641b0eb -->
 
-### Your week on social, planned and posted.
+### Other
 
-- **H2:** Your week on social, / planned and posted. <!-- c-ef7e3863 -->
-- **Text:** Each week is planned with you and posted once approved, with what each post sold tracked beside it. <!-- c-d5346f1d -->
 - **H3:** One calendar for every channel <!-- c-8c748856 -->
 - **Text:** The whole week planned in one sitting. <!-- c-48b931a6 -->
 - **H3:** One caption, fitted to each network <!-- c-282a79ad -->
@@ -372,10 +372,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Grow your list / every night you open. <!-- c-54613151 -->
 - **Text:** Sign-ups from guest WiFi, your website, QR codes and interactive competitions, matched to who you already know. <!-- c-42b79652 -->
 
-### Every sign-up lands in the same list.
+### Other
 
-- **H2:** Every sign-up lands / in the same list. <!-- c-99f62b60 -->
-- **Text:** A form wherever your customers meet you, on the night or online, with every answer on the right profile. <!-- c-09e5b55d -->
 - **H3:** On your own site <!-- c-d7f68f4e -->
 - **Text:** Embedded in your colours, or hosted on your domain. <!-- c-797e3ca8 -->
 - **H3:** At the door and on the tables <!-- c-248308c3 -->
@@ -407,10 +405,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Your website, / made easy. <!-- c-16b147c2 -->
 - **Text:** See what your site brings in and keep it up to date, with clear numbers and updates handled for you. <!-- c-e0cbc820 -->
 
-### Clear numbers, simple updates.
+### Other
 
-- **H2:** Clear numbers, / simple updates. <!-- c-e1a351fe -->
-- **Text:** Everything about your website in one place, from who visited to what changed this week. <!-- c-3c006f75 -->
 - **H3:** See what it brings in <!-- c-4d34a3c2 -->
 - **Text:** Visits and orders in plain numbers. <!-- c-d1140e50 -->
 - **H3:** Where visitors came from <!-- c-2a185466 -->
@@ -439,7 +435,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### Search and sharing
 
-- **Search description:** Till reporting for nightclubs and bars, connected to the till you already use. See takings bar by bar and hour by hour, with spend per head worked out from the door count. <!-- c-88ec5371 -->
+- **Search description:** Till reporting for nightclubs and bars from the till you already use. See takings bar by bar and hour by hour, with spend per head from the door count. <!-- c-e4a85e94 -->
 - **Page title:** Till and POS reporting for venues | Capacity <!-- c-274488e0 -->
 
 ### See how every bar is trading.
@@ -447,10 +443,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** See how every / bar is trading. <!-- c-eeca4b66 -->
 - **Text:** The till you already use, reported around your bars, so each night shows what every bar sold hour by hour next to the door count. <!-- c-856b495c -->
 
-### Where the night sells, and when.
+### Other
 
-- **H2:** Where the night / sells, and when. <!-- c-431904a1 -->
-- **Text:** Sales arrive from the till as they ring through, beside the door count for the same night. <!-- c-4f75513a -->
 - **H3:** Every till, one screen <!-- c-14f66c44 -->
 - **Text:** Sales from every bar arrive as they ring through. <!-- c-cb15fb44 -->
 - **H3:** Bar by bar, hour by hour <!-- c-55b4189d -->
@@ -487,10 +481,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Monday’s report, / already written. <!-- c-3ef5a7b5 -->
 - **Text:** A report written up for you every Monday in plain English, covering how the week went and what is worth doing next. <!-- c-cb378386 -->
 
-### Every number, and what it means.
+### Other
 
-- **H2:** Every number, and what / it means. <!-- c-df81b190 -->
-- **Text:** The figures come from the tools you already use, then the report says in plain words what they add up to. <!-- c-4e9bcc0e -->
 - **H3:** Written in plain English <!-- c-dc13038b -->
 - **Text:** Every figure comes with a sentence on what it means. <!-- c-66dd0e0c -->
 - **H3:** Every number in one place <!-- c-2d6a26a7 -->
@@ -522,10 +514,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** Everything each event / needs, in one place. <!-- c-3033b5fa -->
 - **Text:** One library with a folder for each event, where artwork goes straight into posts and event pages and promoters get a link on your terms. <!-- c-628170db -->
 
-### Everything the week runs on, kept together.
+### Other
 
-- **H2:** Everything the week / runs on, kept together. <!-- c-9935aeaf -->
-- **Text:** Every night’s artwork and paperwork, filed by event and ready when a post or promoter needs it. <!-- c-b9dc2d5c -->
 - **H3:** Everything in one library <!-- c-48eb89d7 -->
 - **Text:** The whole team works from the same artwork. <!-- c-cf0164e5 -->
 - **H3:** A folder for every event <!-- c-b5a00986 -->
@@ -549,7 +539,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### Search and sharing
 
-- **Search description:** Capacity Intelligence understands your venue from all of its business data. Ask a question in plain English and get the full picture back, with the next step attached. <!-- c-5556c0b1 -->
+- **Search description:** Capacity Intelligence understands your venue from all of its business data. Ask in plain English and get the full picture back, with the next step attached. <!-- c-8ed07fe8 -->
 - **Page title:** Capacity Intelligence for venues | Capacity <!-- c-6ad5ed13 -->
 
 ### See the full picture of your venue.
@@ -557,10 +547,8 @@ from a page, say so and it will be taken out of the page itself.
 - **H1:** See the full picture / of your venue. <!-- c-e4cfaccc -->
 - **Text:** Ask about your venue in plain English and get the full picture back, with the next step attached. <!-- c-17b90048 -->
 
-### The answer, and what to do about it.
+### Other
 
-- **H2:** The answer, and what / to do about it. <!-- c-e6c88f19 -->
-- **Text:** Ask the way you would ask your manager, instead of an evening with a spreadsheet. <!-- c-295294a5 -->
 - **H3:** Ask in plain English <!-- c-ca52a12b -->
 - **Text:** Get the number back with the reason behind it. <!-- c-79252b98 -->
 - **H3:** Every source, read together <!-- c-d52e8440 -->
@@ -604,6 +592,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### What you get.
 
+- **H2:** What you get. <!-- c-481bcde0 -->
 - **Text:** Everything connects to the tools you already use, and you keep sign-off on what goes out. <!-- c-9acdbdfc -->
 - **H3:** One record of every night <!-- c-dd1ac9e8 -->
 - **Text:** Each sale and sign-up is matched to a person. <!-- c-8bd7d83a -->
@@ -661,6 +650,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### What you get.
 
+- **H2:** What you get. <!-- c-3b86e49c -->
 - **Text:** Everything connects to the tools you already use, and you sign off on what goes out. <!-- c-5d04960d -->
 - **H3:** One list of your customers <!-- c-6d714b88 -->
 - **Text:** Bookings and WiFi sign-ups land on one profile per person. <!-- c-38a153a3 -->
@@ -703,7 +693,7 @@ from a page, say so and it will be taken out of the page itself.
 ### Search and sharing
 
 - **Search description:** Bookings and marketing for competitive socialising, from darts to karaoke, run with your team. Get weekday sessions booked and party enquiries answered quickly. <!-- c-8d3c967b -->
-- **Page title:** Bookings and marketing for competitive socialising venues | Capacity <!-- c-628bd101 -->
+- **Page title:** Competitive socialising bookings and marketing | Capacity <!-- c-c848aa9c -->
 
 ### Weekday sessions, booked up.
 
@@ -722,6 +712,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### What you get.
 
+- **H2:** What you get. <!-- c-41922df6 -->
 - **Text:** It is set up around the tools you already use, and you sign off on what goes out. <!-- c-0278cf86 -->
 - **H3:** One list of bookers <!-- c-01ba4875 -->
 - **Text:** Every booker gets a profile, whichever game they played. <!-- c-bdeadf62 -->
@@ -783,6 +774,7 @@ from a page, say so and it will be taken out of the page itself.
 
 ### What you get.
 
+- **H2:** What you get. <!-- c-9262b63e -->
 - **Text:** Everything is set up around your ticketing and run through to the next edition. <!-- c-5e777415 -->
 - **H3:** Each tier, set against last year <!-- c-660879e3 -->
 - **Text:** A slower release shows up months before the event. <!-- c-775f925b -->
@@ -890,59 +882,6 @@ from a page, say so and it will be taken out of the page itself.
 - **Search description:** Connect the tools you already use, from DICE, Skiddle and your till to Instagram, Meta Ads, WhatsApp and GA4, so nothing has to be switched off. <!-- c-51c2939b -->
 - **Page title:** Integrations for venues and events | Capacity <!-- c-b1e41623 -->
 
-### Works with what you run.
-
-- **Label:** Connects with <!-- c-00fb9d11 -->
-- **H1:** Works with what you run. <!-- c-66ebdc5b -->
-- **Text:** The ticketing, tills, inboxes and social accounts you already use all connect. If yours is not listed, ask about it. <!-- c-f762c017 -->
-
-### Other
-
-- **Label:** Instagram <!-- c-29408cf6 -->
-- **Label:** Posts, Reels, insights and direct messages <!-- c-4ee7c1b3 -->
-- **Label:** Gmail <!-- c-52bb5df6 -->
-- **Label:** Enquiry email, in the shared inbox <!-- c-cfdcb48b -->
-- **Label:** Facebook <!-- c-74b16c8b -->
-- **Label:** Pages, posts and Meta Ads campaigns <!-- c-bc861347 -->
-- **Label:** Google Ads <!-- c-67133e69 -->
-- **Label:** Search, display and Performance Max <!-- c-46b0087f -->
-- **Label:** TikTok <!-- c-cdd5c34c -->
-- **Label:** Organic posts and TikTok Ads <!-- c-3a5b2f53 -->
-- **Label:** Customer messages, in the shared inbox <!-- c-3f6e1e12 -->
-- **Label:** Google <!-- c-bedc51ff -->
-- **Label:** Search Console and organic performance <!-- c-a1e2c3ee -->
-- **Label:** Claude <!-- c-1c0c0f01 -->
-- **Label:** Answer-engine visibility, monitored and improved <!-- c-85a8c13c -->
-- **Label:** GA4 <!-- c-191d58a7 -->
-- **Label:** Website analytics and conversions <!-- c-124ba657 -->
-- **Label:** Gemini <!-- c-baeebc51 -->
-- **Label:** Answer-engine visibility, monitored and improved <!-- c-9f3ccbf5 -->
-- **Label:** ChatGPT <!-- c-1a3e4b11 -->
-- **Label:** Answer-engine visibility, monitored and improved <!-- c-dbec7c1d -->
-- **Label:** Snapchat <!-- c-51065e98 -->
-- **Label:** Snap Ads and audience data <!-- c-d4b732bb -->
-- **Label:** Google Business <!-- c-7464e5dd -->
-- **Label:** Reviews, posts and profile insights <!-- c-29f7bf68 -->
-- **Label:** DICE <!-- c-bd3c9736 -->
-- **Label:** Ticket sales and attendee data <!-- c-ca8b4267 -->
-- **Label:** Square <!-- c-4d1dd367 -->
-- **Label:** Payments, till data and customer records <!-- c-5be52996 -->
-- **Label:** Skiddle <!-- c-79d96468 -->
-- **Label:** Ticket sales and attendee data <!-- c-b7e53532 -->
-- **Label:** EPOS Now <!-- c-f56213eb -->
-- **Label:** Till transactions and spend per head <!-- c-5251f1a0 -->
-- **Label:** FIXR <!-- c-839607bb -->
-- **Label:** Ticket sales and attendee data <!-- c-bca5d5db -->
-- **Label:** Eventbrite <!-- c-e4ad1c94 -->
-- **Label:** Ticket sales and attendee data <!-- c-44ded93d -->
-- **Label:** ICRTouch <!-- c-47fea9a7 -->
-- **Label:** Till transactions and wet sales <!-- c-f843c043 -->
-
-### Running something else?
-
-- **H2:** Running something else? <!-- c-6fc352fe -->
-- **Text:** Share what your venue runs on during the audit, and the connections that matter to you are built from there. <!-- c-ba40be71 -->
-
 ## Book an audit
 `discovery.html`
 
@@ -950,25 +889,6 @@ from a page, say so and it will be taken out of the page itself.
 
 - **Search description:** Book an audit of how your business runs. Share a few details about your venue or events to arrange a time to talk. <!-- c-2654534a -->
 - **Page title:** Book an audit | Capacity <!-- c-bb003abc -->
-
-### Book an audit.
-
-- **H1:** Book an audit. <!-- c-bc45c8f6 -->
-- **Text:** We look at how your business runs before anything is built. It’s a conversation with no commitment, and pricing is set from there. <!-- c-973439fe -->
-- **Field label:** Venue or business {keep1}*{keep2} <!-- c-8921e67e -->
-- **Label:** Please add the venue name. <!-- c-97bb5cea -->
-- **Field label:** Your name {keep1}*{keep2} <!-- c-1b55224e -->
-- **Label:** Please add your name. <!-- c-fa520707 -->
-- **Field label:** Your role <!-- c-2d6f2518 -->
-- **Field label:** Email {keep1}*{keep2} <!-- c-2e463c62 -->
-- **Label:** Please enter a valid email address. <!-- c-635f6296 -->
-- **Field label:** Phone <!-- c-07267660 -->
-- **Field label:** What you run <!-- c-674cf718 -->
-- **Field label:** What would you like to focus on? <!-- c-7b8a7015 -->
-- **Button:** Book my audit <!-- c-8c9180c7 -->
-- **Link:** Privacy Policy <!-- c-cf6a382a -->
-- **H2:** Request received <!-- c-af85b608 -->
-- **Text:** Thanks, {keep1}there{keep2}. Expect an email within one working day to lock in a time. <!-- c-25c43433 -->
 
 ## Careers
 `hiring.html`
@@ -1063,12 +983,46 @@ from a page, say so and it will be taken out of the page itself.
 - **Text:** Thanks, {keep1}there{keep2}. It is with the team now, and you will hear back either way. <!-- c-59e717e6 -->
 - **Button:** Close <!-- c-2e718581 -->
 
+## FAQs
+`faq.html`
+
+### Search and sharing
+
+- **Search description:** What Capacity does, how the audit works, who does the work, what it costs and how your customer data is kept. <!-- c-fd3177b7 -->
+- **Page title:** FAQs | Capacity <!-- c-13d44419 -->
+
+### Questions, answered.
+
+- **H1:** Questions, answered. <!-- c-6345a3d6 -->
+- **Text:** Anything else, ask during the audit. <!-- c-2b38a3b9 -->
+
+### Start with an audit.
+
+- **Text:** It looks at how your business runs before anything is built, and pricing is set around it from there. <!-- c-b885a1ca -->
+
+## Updates
+`updates.html`
+
+### Search and sharing
+
+- **Search description:** What’s new at Capacity, from the predictive CRM to the solutions being built next for nightclubs, bars and live venues. <!-- c-c89acf7f -->
+- **Page title:** Updates | Capacity <!-- c-b76297f2 -->
+
+### Updates.
+
+- **H1:** Updates. <!-- c-c5e50d84 -->
+- **Text:** What’s new and what’s in build. <!-- c-b1bbb47c -->
+
+### Start with an audit.
+
+- **Text:** It looks at how your business runs before anything is built, and pricing is set around it from there. <!-- c-84f6c158 -->
+
 ## Waitlist
 `waitlist.html`
 
 ### Search and sharing
 
-- **Search description:** Get your venue or events to capacity. Leave your email to hear when early access opens. <!-- c-c292da7d -->
+- **Search description:** Get your venue to capacity. Leave your email to hear when early access opens. <!-- c-b7333bba -->
 - **Page title:** Capacity | Join the waitlist <!-- c-eaf74a7f -->
 
 ### Get early access.

@@ -1,0 +1,1063 @@
+/* home-next: the home page composed from the brand page's own graphics.
+   The first block is copied from design-system.css (fragments, the mark as
+   a window) so this page does not load the brand page's stylesheet. */
+.frag { container-type: inline-size; position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; border-radius: 14px; background-color: #fff; background-image: radial-gradient(#d9d9d9 1px, transparent 1.2px); background-size: 4cqw 4cqw; box-shadow: inset 0 0 0 1px #e4e4e4; }
+.frag .ui { font-size: 3.4cqw; width: 78cqw; }
+.fr { display: grid; gap: .9em; padding: 1.15em; background: var(--u-panel); border: 1px solid var(--u-line); border-radius: 1em; box-shadow: 0 1.2em 3em rgba(10, 10, 10, .16); }
+.fr--bare { background: none; border: 0; box-shadow: none; padding: 0; }
+.fr b { font-weight: 600; }
+.fr small { display: block; color: var(--u-mute); font-size: .86em; }
+.fr-tier { display: flex; align-items: center; justify-content: space-between; gap: 1em; padding: .85em 1em; border: 1px solid var(--u-blue); border-radius: .7em; }
+.fr-tier--dim { border-color: var(--u-line); color: var(--u-mute); }
+.fr-step { display: inline-flex; align-items: center; gap: .7em; font-variant-numeric: tabular-nums; }
+.fr-step i { width: 1.5em; height: 1.5em; border-radius: 50%; display: grid; place-items: center; font-style: normal; background: var(--u-raise); }
+.fr-step i:last-child { background: var(--u-text); color: #0a0a0a; }
+.fr-ok { display: flex; align-items: center; gap: .55em; color: var(--u-mute); }
+.fr-ok .ic { color: #9db8ff; }
+.fr-msg { display: flex; align-items: center; gap: .8em; min-width: 0; }
+.fr-msg .ui-wa, .fr-msg > .ic { width: 1.7em; height: 1.7em; flex: none; }
+.fr-msg > span { min-width: 0; }
+.fr-ask { padding: .8em 1em; border: 1px solid var(--u-line); border-radius: .7em; background: var(--u-panel); }
+.fr-ans { color: var(--u-mute); line-height: 1.5; }
+.fr-ans b { color: var(--u-text); }
+.fr-btn { justify-self: start; padding: .55em 1em; border-radius: .55em; background: var(--brand); color: #fff; font-weight: 600; }
+.frag .fr-bar { height: .55em; border-radius: 1em; background: var(--u-raise); overflow: hidden; }
+.frag .fr-bar i { display: block; height: 100%; background: var(--u-blue); border-radius: 1em; }
+.fr-logos { display: flex; gap: .6em; }
+.fr-logos span { flex: 1; aspect-ratio: 1; display: grid; place-items: center; border-radius: .7em; background: #fff; }
+.fr-logos img { width: 56%; height: 56%; object-fit: contain; }
+.bk-big { font-family: var(--font-sans); font-weight: 700; letter-spacing: -0.03em; line-height: .9; font-variant-numeric: tabular-nums; }
+.markwin { position: absolute; isolation: isolate; overflow: hidden; aspect-ratio: 1520 / 1120; -webkit-mask: var(--mark-mask) center / 100% 100% no-repeat; mask: var(--mark-mask) center / 100% 100% no-repeat; }
+.markwin img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.16) brightness(1.3); }
+.markwin::before, .markwin::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.markwin::before { mix-blend-mode: multiply; }
+.markwin::after { z-index: 2; background-image: var(--light-day); mix-blend-mode: screen; opacity: .34; }
+.markwin--night::after { background-image: var(--light-night); opacity: .26; }
+
+/* ---------------------------------------------------- the page and its ground -- */
+/* One quiet ground runs behind every dark section and stays put while the
+   page scrolls: a dot grid, and the light low in one corner. */
+body.nx { background: #0a0a0a; }
+html[data-nx-theme="light"] body.nx { background: #f6f6f6; }
+.nx .band.on-dark, .nx .nx-hero.on-dark {
+  background-color: #0a0a0a;
+  background-image: radial-gradient(70vw 70vh at 88% 108%, rgba(27, 99, 248, .07), transparent 70%), radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.3px);
+  background-size: auto, 28px 28px; background-attachment: fixed;
+}
+.nx .band.on-light:not(.band--white), .nx .nx-hero.on-light {
+  background-color: #f6f6f6;
+  background-image: radial-gradient(70vw 70vh at 88% 108%, rgba(27, 99, 248, .05), transparent 70%), radial-gradient(rgba(10, 10, 10, .09) 1px, transparent 1.3px);
+  background-size: auto, 28px 28px; background-attachment: fixed;
+}
+@media (hover: none) { .nx .band.on-dark, .nx .nx-hero.on-dark, .nx .band.on-light:not(.band--white), .nx .nx-hero.on-light { background-attachment: scroll, scroll; background-image: radial-gradient(rgba(128, 128, 128, .14) 1px, transparent 1.3px); background-size: 28px 28px; } }
+
+/* ------------------------------------------------------------------ hero -- */
+.nx-hero { position: relative; isolation: isolate; overflow: hidden; margin-top: -72px; min-height: max(760px, 100svh); display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; padding-top: 72px; }
+.nx-hero__copy { position: relative; z-index: 2; display: grid; justify-items: center; text-align: center; gap: clamp(18px, 2.6vh, 30px); padding-top: clamp(48px, 8vh, 96px); }
+.nx-hero__title { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-bold); font-size: clamp(2.1rem, 1rem + 3.2vw, 3.9rem); line-height: .98; letter-spacing: -0.02em; text-transform: uppercase; max-width: 26ch; text-wrap: balance; }
+.nx-hero__copy .lede { max-width: 42ch; font-size: clamp(1.1rem, 1rem + .5vw, 1.4rem); color: var(--muted-foreground); }
+.stage { position: relative; overflow: hidden; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.nx-hero__stage { width: min(100%, 1240px); justify-self: center; min-height: clamp(380px, 60vh, 700px); margin-top: clamp(-72px, -6vh, -24px); -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 80%, transparent); mask-image: linear-gradient(180deg, transparent, #000 14%, #000 80%, transparent); }
+
+/* ---------------------------------------------------------------- venues -- */
+.nx-tick { padding-block: clamp(28px, 3.4vw, 48px) clamp(44px, 5vw, 72px); }
+.nx-tick__k { margin-bottom: clamp(24px, 2.8vw, 36px); text-align: center; font-size: 15px; color: var(--muted-foreground); }
+.nx-tick__k b { font-weight: var(--weight-semibold); color: var(--foreground); }
+.nx .nx-tick__row { width: min(100% - var(--gutter) * 2, 1040px); -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.nx .nx-tick__row .vt__track { animation-duration: 44s; }
+.nx .nx-tick__row li { margin-right: clamp(56px, 6vw, 96px); }
+.nx .nx-tick__row img { height: 52px; width: auto; filter: brightness(0); opacity: .7; }
+.nx .on-dark .nx-tick__row img, .nx .on-dark.nx-tick img { filter: brightness(0) invert(1); opacity: .66; }
+
+/* ------------------------------------------------------------- statement -- */
+.nx-say { padding-block: clamp(72px, 9vw, 140px) clamp(72px, 8vw, 120px); }
+.nx-say__line { max-width: 24ch; font-size: clamp(1.7rem, .9rem + 2.9vw, 3.4rem); }
+.nx-say .st__pts { margin-top: clamp(56px, 7vw, 104px); }
+.on-light .st__line .w { color: rgba(23, 23, 23, .2); }
+.on-light .st__line .w.is-on { color: #171717; }
+
+/* ------------------------------------------------- solutions on the canvas -- */
+.on-dark .bt__stage, .on-dark .bt.is-hot .bt__stage { background-color: #1c1c1c; background-image: radial-gradient(#303030 1px, transparent 1.2px); background-size: 14px 14px; }
+.nx .bt.is-hot .bt__stage > .bx { transform: none; }
+.nx .bt { transition: border-color .5s var(--ease); }
+.on-dark .bt.is-hot { border-color: rgba(59, 121, 249, .5); }
+.on-dark .bt__stage > .bx { box-shadow: 0 18px 40px rgba(0, 0, 0, .5); }
+.nx-soon { margin-left: 8px; padding: 3px 8px; border: 1px solid var(--border); border-radius: 4px; font-style: normal; font-size: 11.5px; font-weight: var(--weight-medium); letter-spacing: 0; color: var(--muted-foreground); vertical-align: middle; white-space: nowrap; }
+
+/* ---------------------------------------------------------------- the CRM -- */
+.nx-crm { overflow: hidden; }
+.nx-steps { --edge: max(var(--gutter), calc((100vw - var(--measure)) / 2 + var(--gutter))); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0 var(--edge); list-style: none; }
+.nx-step { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--card); }
+.nx-step__txt { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; row-gap: 10px; align-items: center; padding: clamp(20px, 2vw, 26px); }
+.nx-step__n { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; background: color-mix(in srgb, var(--brand) 16%, transparent); color: var(--brand); font-size: 13.5px; font-weight: var(--weight-semibold); }
+.on-dark .nx-step__n { color: var(--brand-text-dark); }
+.nx-step h3 { font-size: clamp(1.2rem, 1rem + .6vw, 1.5rem); font-weight: var(--weight-semibold); letter-spacing: -0.02em; }
+.nx-step__txt p { grid-column: 1 / -1; color: var(--muted-foreground); line-height: var(--leading-normal); text-wrap: pretty; }
+.nx-canvas { container-type: inline-size; display: grid; place-items: center; padding: clamp(18px, 2vw, 28px); border-top: 1px solid var(--border); background-color: #f1f1f1; background-image: radial-gradient(#d4d4d4 1px, transparent 1.2px); background-size: 14px 14px; }
+.on-dark .nx-canvas { background-color: #1c1c1c; background-image: radial-gradient(#303030 1px, transparent 1.2px); }
+.nx-card { width: 100%; display: grid; gap: 1em; padding: 1.2em; border-radius: 12px; background: var(--u-panel); border: 1px solid var(--u-line); box-shadow: 0 18px 40px rgba(0, 0, 0, .28); font-size: clamp(12px, 3.6cqw, 14px); align-self: stretch; align-content: start; }
+.nx-card small { color: var(--u-mute); }
+.nx-card .ui-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5em; }
+.nx-act { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--u-line); }
+.nx-act li { display: grid; grid-template-columns: 5.6em minmax(0, 1fr); gap: .8em; padding: .62em 0; border-bottom: 1px solid var(--u-line); font-size: .92em; }
+.nx-act li:last-child { border-bottom: 0; padding-bottom: 0; }
+.nx-act time { color: #7fa2ff; font-variant-numeric: tabular-nums; }
+.nx-act span { color: var(--u-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-act b { color: var(--u-text); font-weight: 500; }
+.nx-pr { display: grid; grid-template-columns: 1fr auto; gap: .5em 1em; }
+.nx-pr b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.nx-pr i { grid-column: 1 / -1; height: .42em; border-radius: 1em; background: var(--u-raise); overflow: hidden; }
+.nx-pr u { display: block; height: 100%; width: var(--v); border-radius: 1em; background: var(--u-blue); transform-origin: 0 50%; }
+.js .nx-step .nx-pr u { scale: 0 1; }
+.js .nx-step.is-in .nx-pr u { scale: 1; transition: scale 1.2s var(--ease) .35s; }
+.nx-tags { display: flex; flex-wrap: wrap; gap: .4em; padding-top: .3em; }
+.nx-card__h { display: block; margin-top: .25em; font-size: 1.3em; font-weight: 600; letter-spacing: -0.02em; }
+.nx-moves { display: grid; gap: .5em; margin: 0; padding: 0; list-style: none; }
+.nx-moves li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1em; align-items: center; padding: .8em .9em; border: 1px solid var(--u-line); border-radius: .7em; }
+.nx-moves em { font-style: normal; font-weight: 600; font-size: .9em; padding: .45em .8em; border-radius: .5em; background: var(--brand); color: #fff; }
+.nx-moves em.is-done { background: var(--u-raise); color: var(--u-mute); }
+.nx-card__f { display: flex; align-items: center; gap: .5em; }
+.nx-card__f .ic { width: 1.1em; height: 1.1em; }
+.nx-crm__more { margin-top: clamp(28px, 3.4vw, 48px); }
+
+/* ------------------------------------------------------------ how we work -- */
+.nx-how__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); margin: 0; padding: clamp(28px, 3vw, 44px) 0 0; list-style: none; border-top: 1px solid var(--border); }
+.nx-how__step { display: grid; gap: var(--space-2); align-content: start; }
+.nx-lv { position: relative; display: block; width: 72px; aspect-ratio: 1520 / 1120; margin-bottom: clamp(20px, 2.4vw, 32px); }
+.nx-lv svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: #e4e4e4; }
+.nx-lv .nx-lv__on { fill: var(--brand); clip-path: inset(calc(100% - var(--lv)) 0 0 0); }
+.js .nx-how__row .nx-lv__on { clip-path: inset(100% 0 0 0); }
+.js .nx-how__row.is-in .nx-lv__on { clip-path: inset(calc(100% - var(--lv)) 0 0 0); transition: clip-path 1.1s var(--ease); transition-delay: calc(.2s + var(--i, 0) * .25s); }
+.nx-how__step p { color: var(--muted-foreground); line-height: var(--leading-normal); text-wrap: pretty; }
+.js .nx-how__step > :not(.nx-lv) { opacity: 0; translate: 0 12px; }
+.js .nx-how__row.is-in .nx-how__step > :not(.nx-lv) { opacity: 1; translate: none; transition: opacity .7s var(--ease), translate .8s var(--ease); transition-delay: calc(.3s + var(--i, 0) * .25s); }
+.js .nx-how__row[data-r] { opacity: 1; transform: none; translate: none; clip-path: none; }
+
+/* ---------------------------------------------------------------- results -- */
+#integrations.band { padding-top: clamp(96px, 11vw, 168px); }
+.nx-res__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.nx-res__card { position: relative; isolation: isolate; overflow: hidden; aspect-ratio: 4 / 5; border-radius: 14px; background: #0a0a0a; display: grid; align-content: space-between; padding: clamp(20px, 2.2vw, 28px); }
+.nx-res__ph { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(.8); }
+.nx-res__ph.is-crop { scale: 2.5; transform-origin: 0 0; object-position: 0 0; filter: grayscale(1) contrast(1.1) brightness(.7) blur(1px); }
+.nx-res__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10, 10, 10, .55), rgba(10, 10, 10, .15) 38%, rgba(10, 10, 10, .88)); }
+.nx-res__logo { height: 40px; width: auto; justify-self: start; filter: brightness(0) invert(1); }
+.nx-res__logo.wide { height: 26px; }
+.nx-res__txt b { display: block; font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-bold); font-size: clamp(2.6rem, 1.4rem + 3.2vw, 4.4rem); line-height: 1; letter-spacing: -0.03em; color: #f5f5f5; }
+.nx-res__txt p { margin-top: 12px; max-width: 26ch; color: rgba(245, 245, 245, .78); }
+
+/* ------------------------------------------------------------------ close -- */
+.nx .band.nx-close { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(120px, 16vw, 240px); }
+.nx-close__ball { position: absolute; z-index: -1; left: 50%; top: 50%; width: min(120vw, 1100px); aspect-ratio: 16 / 10; translate: -50% -40%; opacity: .3; -webkit-mask-image: radial-gradient(closest-side, #000 40%, transparent); mask-image: radial-gradient(closest-side, #000 40%, transparent); }
+.on-light .nx-close__ball { opacity: .16; }
+.nx-close__in { position: relative; display: grid; justify-items: center; text-align: center; gap: clamp(18px, 2.2vw, 26px); }
+.nx-close__title { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-bold); font-size: clamp(2rem, 1rem + 3.6vw, 4.2rem); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+.nx-close .lede { max-width: 40ch; }
+
+/* ------------------------------------------------- the menu, full screen -- */
+.nx .mp { padding-top: 0; }
+.nx .mp__panel { width: 100%; min-height: 100svh; max-height: 100svh; overflow-y: auto; border: 0; border-radius: 0; padding: 104px max(var(--gutter), calc((100vw - var(--measure)) / 2 + var(--gutter))) 0; display: grid; grid-template-rows: 1fr auto; background: #0a0a0a; clip-path: inset(0 0 100% 0); transition: clip-path .7s cubic-bezier(.7, 0, .2, 1); }
+.nx .mp.is-open .mp__panel { clip-path: inset(0); }
+.nx .mp__grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, .8fr); gap: clamp(24px, 4vw, 72px); align-content: center; }
+.nx .mp__col { padding: 0; }
+.nx .mp__col + .mp__col { border-left: 0; }
+.nx .mp__k { margin-bottom: 18px; }
+.nx .mp__row, .nx .mp__links a { min-height: 0; padding: 9px 0; margin: 0; background: none !important; font-size: clamp(1.2rem, .9rem + 1vw, 1.75rem); font-weight: var(--weight-medium); letter-spacing: -0.02em; transition: color .3s var(--ease), translate .4s var(--ease); }
+.nx a.mp__row:hover, .nx .mp__links a:hover { color: var(--brand-text-dark); translate: 6px 0; }
+.nx .mp__ic { width: 30px; height: 30px; background: none; }
+.nx .mp__ic .glyph, .nx .mp__ic .ui-wa { width: 22px; height: 22px; }
+.nx .mp__row em { font-size: 11.5px; }
+.nx .mp__foot { margin-inline: calc(-1 * max(var(--gutter), calc((100vw - var(--measure)) / 2 + var(--gutter)))); padding: 18px max(var(--gutter), calc((100vw - var(--measure)) / 2 + var(--gutter))); background: none; }
+.js .nx .mp .mp__row, .js .nx .mp .mp__links a, .js .nx .mp .mp__k { opacity: 0; translate: 0 22px; }
+.js .nx .mp.is-open .mp__row, .js .nx .mp.is-open .mp__links a, .js .nx .mp.is-open .mp__k { opacity: 1; translate: none; transition: opacity .6s var(--ease), translate .8s cubic-bezier(.2, .8, .2, 1), color .3s var(--ease); transition-delay: calc(260ms + var(--i, 0) * 28ms); }
+html[data-nx-theme="light"] .nx .mp__panel { background: #f6f6f6; color: #171717; }
+html[data-nx-theme="light"] .nx .mp__row, html[data-nx-theme="light"] .nx .mp__links a { color: #171717; }
+html[data-nx-theme="light"] .nx .mp__ic { color: #171717; --lit: var(--brand); }
+html[data-nx-theme="light"] .nx .mp__row.is-build { color: #9a9a9a; }
+html[data-nx-theme="light"] .nx .mp__row em { border-color: #dcdcdc; color: #6b6b6b; }
+html[data-nx-theme="light"] .nx .mp__foot { border-top-color: #e4e4e4; color: #6b6b6b; }
+html[data-nx-theme="light"] .nx a.mp__row:hover, html[data-nx-theme="light"] .nx .mp__links a:hover { color: var(--brand); }
+.nx-theme .ic { width: 18px; height: 18px; }
+.nx-theme .is-moon, html[data-nx-theme="light"] .nx-theme .is-sun { display: none; }
+html[data-nx-theme="light"] .nx-theme .is-moon { display: block; }
+
+/* -------------------------------------------------------------- responsive -- */
+@media (max-width: 1000px) {
+  .nx-steps { grid-template-columns: minmax(0, 1fr); }
+  .nx-step__txt p { min-height: 0; }
+  .nx-how__row { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+  .nx .mp__grid { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 28px; padding-bottom: 28px; }
+  .nx .mp__panel { padding-top: 92px; }
+  .nx .mp__row, .nx .mp__links a { font-size: 1.25rem; padding: 7px 0; }
+  .nx .mp__list--2 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  .nx-hero { min-height: 0; }
+  .nx-hero__copy { justify-items: start; text-align: left; padding-top: 44px; gap: 18px; }
+  .nx-hero__title { font-size: clamp(2rem, 9.4vw, 2.9rem); }
+  .nx-hero__stage { min-height: 92vw; margin-top: -8px; }
+  .nx .nx-tick__row img { height: 44px; }
+  .nx .nx-tick__row li { margin-right: 48px; }
+  .nx .bt[href="profiles"], .nx .bt[href="social"], .nx .bt[href="files"] { display: none; }
+  .nx .bt[href="ticketing"] .bt__stage { max-height: 220px; place-items: start center; }
+  .nx-steps { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge); scrollbar-width: none; }
+  .nx-steps::-webkit-scrollbar { display: none; }
+  .nx-step { flex: none; width: 86vw; scroll-snap-align: start; }
+  .nx-how__row { grid-template-columns: 1fr; row-gap: 32px; }
+  .nx-how__step { grid-template-columns: 56px 1fr; column-gap: 18px; }
+  .nx-lv { width: 56px; grid-row: 1 / span 2; margin: 4px 0 0; }
+  .nx-res__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
+  .nx-res__grid::-webkit-scrollbar { display: none; }
+  .nx-res__card { flex: none; width: 78vw; scroll-snap-align: start; }
+  .nx .mp__list--2 { grid-template-columns: 1fr; }
+  .nx .mp__row, .nx .mp__links a { font-size: 1.15rem; padding: 6px 0; }
+}
+.on-light .hm__chip { border-color: rgba(10, 10, 10, .14); background: rgba(10, 10, 10, .03); color: #171717; }
+.on-light .hm__chip:hover { border-color: rgba(10, 10, 10, .3); background: rgba(10, 10, 10, .06); }
+.on-light .hm__chip .ic { color: #6b6b6b; }
+
+
+/* =============================================================== pass six == */
+/* The ground stays the dot grid with the light low in the corner (the v4
+   rules above). The menu panel sits on the same ground. */
+.nx { --nx-line: rgba(255, 255, 255, .1); }
+html[data-nx-theme="light"] .nx { --nx-line: rgba(10, 10, 10, .12); }
+.nx .mp__panel {
+  background-color: #0a0a0a;
+  background-image: radial-gradient(70vw 70vh at 88% 108%, rgba(27, 99, 248, .07), transparent 70%), radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.3px);
+  background-size: auto, 28px 28px; background-attachment: fixed;
+}
+html[data-nx-theme="light"] .nx .mp__panel {
+  background-color: #f6f6f6;
+  background-image: radial-gradient(70vw 70vh at 88% 108%, rgba(27, 99, 248, .05), transparent 70%), radial-gradient(rgba(10, 10, 10, .09) 1px, transparent 1.3px);
+  background-size: auto, 28px 28px; background-attachment: fixed;
+}
+@media (hover: none) {
+  .nx .mp__panel, html[data-nx-theme="light"] .nx .mp__panel { background-attachment: scroll; background-image: radial-gradient(rgba(128, 128, 128, .14) 1px, transparent 1.3px); background-size: 28px 28px; }
+}
+.nx .bento-track { background: transparent; }
+
+/* ------------------------------------------------------------------ hero -- */
+.nx-hero { min-height: 0; }
+.nx-hero__copy { padding-top: clamp(56px, 9vh, 112px); }
+.nx-hero__title { font-size: clamp(2.2rem, 1rem + 3vw, 3.75rem); max-width: 22ch; }
+.nx-hero__stage { width: 100%; min-height: clamp(400px, 64vh, 640px); margin-top: clamp(24px, 4vh, 48px); -webkit-mask-image: linear-gradient(180deg, transparent, #000 10%, #000 84%, transparent); mask-image: linear-gradient(180deg, transparent, #000 10%, #000 84%, transparent); }
+.nx .hm__chip { gap: 8px; padding: 3px 9px 3px 4px; font-size: 12.5px; }
+.nx .hm__new { padding: 2px 6px; font-size: 10.5px; }
+.nx .hm__chip .ic { width: 13px; height: 13px; }
+
+/* ------------------------------------------------------------------- bar -- */
+html[data-nx-theme="light"] .nx .nav__inner { background: rgba(255, 255, 255, .72); border-color: rgba(10, 10, 10, .1); }
+html[data-nx-theme="light"] .nx .nav__logo img { filter: none !important; }
+html[data-nx-theme="light"] .nx .mbtn { color: #171717; border-color: rgba(10, 10, 10, .14); background: transparent; }
+html[data-nx-theme="light"] .nx .mbtn:hover { background: rgba(10, 10, 10, .05); }
+
+/* ------------------------------------------------------------------ menu -- */
+.nx .mp { padding-top: 0; }
+.nx .mp__panel {
+  --edge: max(var(--gutter), calc((100vw - var(--measure)) / 2 + var(--gutter)));
+  width: 100%; min-height: 100svh; max-height: 100svh; overflow-y: auto; border: 0; border-radius: 0;
+  padding: clamp(96px, 13vh, 150px) var(--edge) 0; display: grid; grid-template-rows: 1fr auto; align-content: start;
+  clip-path: none; opacity: 0; translate: 0 -10px; transition: opacity .3s var(--ease), translate .45s var(--ease);
+}
+.nx .mp.is-open .mp__panel { clip-path: none; opacity: 1; translate: none; }
+.nx .mp__grid { align-content: start; }
+.nx .mp__col { padding: 0; }
+.nx .mp__col + .mp__col { border-left: 0; }
+.nx .mp__ic, .nx .mp__row.is-build .mp__ic { width: 24px; height: 24px; border: 0; background: none; }
+.nx .mp__ic .glyph, .nx .mp__ic .ui-wa { width: 20px; height: 20px; }
+.nx .mp__row, .nx .mp__links a { min-height: 0; margin: 0; background: none !important; font-weight: var(--weight-medium); letter-spacing: -0.02em; white-space: nowrap; transition: color .3s var(--ease), translate .4s var(--ease); }
+.nx .mp__row { gap: 12px; }
+.nx .mp__row em { margin-left: 4px; font-size: 11px; }
+.nx a.mp__row:hover, .nx .mp__links a:hover { color: var(--brand-text-dark); translate: 4px 0; }
+html[data-nx-theme="light"] .nx a.mp__row:hover, html[data-nx-theme="light"] .nx .mp__links a:hover { color: var(--brand); }
+.nx .mp__foot { margin-inline: calc(-1 * var(--edge)); padding: 16px var(--edge); background: none; border-top: 1px solid var(--nx-line); }
+.nx .mp__end { display: flex; align-items: center; gap: 20px; }
+.nx .nx-theme { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 10px; border: 1px solid var(--nx-line); border-radius: 999px; background: none; color: inherit; font: inherit; font-size: 13px; cursor: pointer; transition: border-color .3s var(--ease); }
+.nx .nx-theme:hover { border-color: rgba(128, 128, 128, .6); }
+.nx .nx-theme .ic { width: 14px; height: 14px; }
+.nx-theme .is-moon, html[data-nx-theme="light"] .nx-theme .is-sun { display: none; }
+html[data-nx-theme="light"] .nx-theme .is-moon { display: block; }
+/* the rows arrive together, a touch after the panel */
+.js .nx .mp .mp__row, .js .nx .mp .mp__links a, .js .nx .mp .mp__k { opacity: 0; translate: 0 8px; }
+.js .nx .mp.is-open .mp__row, .js .nx .mp.is-open .mp__links a, .js .nx .mp.is-open .mp__k { opacity: 1; translate: none; transition: opacity .45s var(--ease), translate .5s var(--ease), color .3s var(--ease); transition-delay: calc(90ms + var(--i, 0) * 16ms); }
+.js .nx .mp.is-open .mp__k { transition-delay: 60ms; }
+
+/* A: no headings, three columns parted by rules */
+.nx .mp--a .mp__k { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.nx .mp--a .mp__grid { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, .9fr); gap: clamp(28px, 4vw, 72px); }
+.nx .mp--a .mp__col + .mp__col { border-left: 1px solid var(--nx-line); padding-left: clamp(24px, 3vw, 48px); }
+.nx .mp--a .mp__list--2 { column-gap: 28px; }
+.nx .mp--a .mp__row, .nx .mp--a .mp__links a { font-size: clamp(1.1rem, .9rem + .6vw, 1.5rem); padding: 9px 0; }
+
+/* B: three columns, each under a heading in the display face */
+.nx .mp--b .mp__grid { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, .9fr); gap: clamp(28px, 4vw, 72px); }
+.nx .mp--b .mp__k { margin-bottom: 22px; font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-semibold); font-size: clamp(1.4rem, 1rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -0.02em; color: inherit; }
+.nx .mp--b .mp__list--2 { column-gap: 28px; }
+.nx .mp--b .mp__row, .nx .mp--b .mp__links a { font-size: 1.05rem; padding: 7px 0; color: rgba(245, 245, 245, .8); }
+html[data-nx-theme="light"] .nx .mp--b .mp__row, html[data-nx-theme="light"] .nx .mp--b .mp__links a { color: #3a3a3a; }
+
+/* C: an index. Each group is a row: its name on the left, its links across */
+.nx .mp--c .mp__grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.nx .mp--c .mp__col { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 2.1fr); column-gap: clamp(24px, 4vw, 64px); align-items: start; padding: clamp(24px, 3vw, 38px) 0; border-top: 1px solid var(--nx-line); }
+.nx .mp--c .mp__col:last-child { border-bottom: 1px solid var(--nx-line); }
+.nx .mp--c .mp__k { margin: 0; padding-top: 5px; font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-bold); font-size: clamp(1.5rem, 1rem + 1.4vw, 2.3rem); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; color: inherit; }
+.nx .mp--c .mp__list, .nx .mp--c .mp__links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 28px; }
+.nx .mp--c .mp__row, .nx .mp--c .mp__links a { font-size: clamp(1rem, .9rem + .4vw, 1.2rem); padding: 7px 0; }
+
+/* ------------------------------------------------------------ how we work -- */
+.nx-hw__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.nx-hw__head { position: sticky; top: clamp(96px, 14vh, 140px); display: grid; gap: var(--space-4); }
+.nx-hw__stage { position: relative; display: grid; margin-top: clamp(20px, 2.6vw, 36px); }
+.nx-hw__panel { grid-area: 1 / 1; display: grid; place-items: center; padding: clamp(20px, 2.4vw, 32px); border: 1px solid var(--border); border-radius: 14px; background-color: #1c1c1c; background-image: radial-gradient(#303030 1px, transparent 1.2px); background-size: 14px 14px; opacity: 0; visibility: hidden; translate: 0 14px; transition: opacity .5s var(--ease), translate .6s var(--ease), visibility 0s .5s; }
+.nx-hw__panel.is-on { opacity: 1; visibility: visible; translate: none; transition-delay: 0s; }
+.on-light .nx-hw__panel { background-color: #ececec; background-image: radial-gradient(#d0d0d0 1px, transparent 1.2px); }
+.nx-hw__panel .hw__card { width: 100%; max-width: 460px; }
+.nx-hw__list { margin: 0; padding: 0; list-style: none; }
+.nx-hw__item { display: grid; grid-template-columns: clamp(64px, 8vw, 120px) minmax(0, 1fr); align-items: baseline; padding: clamp(32px, 5vw, 60px) 0; border-top: 1px solid var(--border); transition: opacity .6s var(--ease); }
+.nx-hw__item:last-child { border-bottom: 1px solid var(--border); }
+.nx-hw__n { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-bold); font-size: clamp(2.2rem, 1.4rem + 2.4vw, 4rem); line-height: 1; letter-spacing: -0.03em; color: var(--muted-foreground); transition: color .6s var(--ease); }
+.nx-hw__item h3 { font-size: clamp(1.4rem, 1rem + 1.2vw, 2.1rem); font-weight: var(--weight-semibold); letter-spacing: -0.025em; line-height: 1.1; }
+.nx-hw__item p { margin-top: 10px; max-width: 34ch; font-size: var(--text-lg); color: var(--muted-foreground); line-height: var(--leading-normal); }
+.js .nx-hw__list.is-live .nx-hw__item { opacity: .3; }
+.js .nx-hw__list.is-live .nx-hw__item.is-on { opacity: 1; }
+.nx-hw__item.is-on .nx-hw__n { color: var(--brand); }
+.on-dark .nx-hw__item.is-on .nx-hw__n { color: var(--brand-text-dark); }
+.nx-hw__item > .nx-hw__panel { grid-column: 2; margin-top: 20px; opacity: 1; visibility: visible; translate: none; }
+
+/* ------------------------------------------------------------------ close -- */
+.nx .band.nx-close, .nx .band.cta-photo { padding-block: clamp(40px, 5vw, 80px); min-height: 0; }
+.nx .cta-photo__photo, .nx .cta-photo__shade { display: none; }
+.nx-close__panel, .nx .cta-photo__inner {
+  position: relative; display: grid; justify-items: center; text-align: center; gap: clamp(18px, 2.2vw, 26px);
+  width: min(100% - var(--gutter) * 2, var(--measure) - var(--gutter) * 2); margin-inline: auto; padding: clamp(72px, 10vw, 150px) clamp(20px, 4vw, 56px);
+  border-radius: 20px; overflow: hidden; color: #fff;
+  background-color: #1b63f8; background-image: radial-gradient(90% 120% at 82% -10%, rgba(255, 255, 255, .28), transparent 60%);
+}
+.nx-close__title, .nx .cta-photo__title { color: #fff; font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: var(--weight-bold); font-size: clamp(2rem, 1rem + 3.6vw, 4.2rem); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+.nx .nx-close__panel .lede, .nx .cta-photo__inner .lede { max-width: 40ch; color: rgba(255, 255, 255, .88); }
+.nx .nx-close__panel .btn, .nx .cta-photo__inner .btn { background: #fff; color: #0a0a0a; border-color: #fff; }
+.nx .nx-close__panel .btn:hover, .nx .cta-photo__inner .btn:hover { background: #e9efff; border-color: #e9efff; }
+
+/* ----------------------------------------------------------------- footer -- */
+/* solid, with the mark standing at the foot of the page */
+.nx .band.on-dark.footer { background: #0a0a0a; padding-bottom: 0; position: relative; overflow: hidden; }
+
+/* the audit form */
+.nx .field-row > .field:only-child { grid-column: 1 / -1; }
+/* pages that open on a dark head now stay on it */
+.nx .pgh { border-bottom: 0; }
+
+/* -------------------------------------------------------------- responsive -- */
+@media (max-width: 1000px) {
+  .nx .mp--a .mp__grid, .nx .mp--b .mp__grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .nx .mp--a .mp__col + .mp__col { border-left: 0; padding-left: 0; border-top: 1px solid var(--nx-line); padding-top: 24px; }
+  .nx .mp--c .mp__col { grid-template-columns: minmax(0, .8fr) minmax(0, 2.2fr); }
+  .nx .mp--c .mp__list, .nx .mp--c .mp__links { grid-template-columns: 1fr 1fr; }
+  .nx-hw__grid { grid-template-columns: minmax(0, 1fr); }
+  .nx-hw__head { position: static; }
+  .nx-hw__stage { display: none; }
+  .js .nx-hw__list.is-live .nx-hw__item { opacity: 1; }
+  .nx-hw__item { grid-template-columns: 64px minmax(0, 1fr); align-items: start; }
+}
+@media (max-width: 760px) {
+  .nx-hero__copy { padding-top: 40px; }
+  .nx-hero__title { font-size: clamp(1.9rem, 8.8vw, 2.7rem); }
+  .nx-hero__stage { min-height: 100vw; margin-top: 12px; }
+  .nx-hw__item { grid-template-columns: 56px minmax(0, 1fr); padding: 28px 0; }
+  .nx .mp__foot { flex-wrap: wrap; gap: 12px; }
+  /* the phone menu: three things to choose from, the lists open on a tap */
+  .nx .mp .mp__panel { padding-top: 96px; }
+  .nx .mp .mp__grid { display: block; padding-bottom: 20px; }
+  .nx .mp .mp__col { display: block; padding: 0; border: 0; border-bottom: 1px solid var(--nx-line); }
+  .nx .mp .mp__k { position: static; width: auto; height: auto; overflow: visible; clip: auto; display: flex; align-items: center; justify-content: space-between; margin: 0; padding: 18px 0; font-family: var(--font-sans); font-stretch: normal; text-transform: none; font-size: 1.5rem; font-weight: var(--weight-medium); letter-spacing: -0.025em; line-height: 1.2; color: inherit; cursor: pointer; }
+  .nx .mp .mp__k::after { content: ""; width: 14px; height: 14px; background: linear-gradient(currentColor, currentColor) 50% 50% / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) 50% 50% / 2px 100% no-repeat; transition: rotate .4s var(--ease); opacity: .6; }
+  .nx .mp .mp__col.is-open .mp__k::after { rotate: 45deg; }
+  .nx .mp .mp__col .mp__list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; max-height: 0; overflow: hidden; transition: max-height .5s var(--ease), padding .5s var(--ease); }
+  .nx .mp .mp__col.is-open .mp__list { max-height: 480px; padding-bottom: 18px; }
+  .nx .mp .mp__row { font-size: 1rem; padding: 7px 0; gap: 10px; white-space: normal; color: inherit; }
+  .nx .mp .mp__row.is-build { display: none; }
+  .nx .mp .mp__col:last-child { border-bottom: 0; }
+  .nx .mp .mp__col:last-child .mp__k { display: none; }
+  .nx .mp .mp__links { display: block; }
+  .nx .mp .mp__links a { display: block; padding: 16px 0; font-size: 1.5rem; border-bottom: 1px solid var(--nx-line); color: inherit; }
+  .nx .mp .mp__links a:last-child { border-bottom: 0; }
+  .nx .tickers > .ticker:not(.ticker--phone) { display: none; }
+}
+
+/* ============================================================= pass seven == */
+/* no scrollbar, so nothing shifts when the menu locks the page */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+.nx .mp__panel { scrollbar-width: none; }
+.nx .mp__panel::-webkit-scrollbar { display: none; }
+
+/* the line: one word turns over */
+.nx-cycle { display: inline-block; position: relative; vertical-align: top; text-align: left; white-space: nowrap; transition: width .55s var(--ease); }
+.nx-cycle__w { display: inline-block; }
+.nx-cycle__w.is-out { position: absolute; left: 0; top: 0; animation: nx-cyc-out .45s var(--ease) both; }
+.nx-cycle__w.is-in { animation: nx-cyc-in .55s var(--ease) both; }
+@keyframes nx-cyc-out { to { opacity: 0; translate: 0 -.45em; } }
+@keyframes nx-cyc-in { from { opacity: 0; translate: 0 .45em; } }
+@media (prefers-reduced-motion: reduce) { .nx-cycle__w.is-out, .nx-cycle__w.is-in { animation: none; } .nx-cycle__w.is-out { display: none; } }
+
+/* the menu, quieter: no icons, no line in the foot, the switch is a round button */
+.nx .mp__ic { display: none; }
+.nx .mp__foot { justify-content: flex-end; }
+.nx .nx-theme { width: 36px; height: 36px; padding: 0; justify-content: center; border-radius: 50%; }
+.nx .nx-theme .ic { width: 16px; height: 16px; }
+
+/* how we work: each step holds for a while, the last one too */
+.nx-hw__item { min-height: clamp(220px, 32vh, 330px); align-content: center; }
+.nx-hw__list { padding-bottom: 22vh; }
+
+/* the questions */
+.nx .faq--cards .qa__q { padding: 16px 14px 16px 20px; }
+.nx .faq--cards .qa[open] .qa__q .ic { transform: none; }
+.nx .faq--cards .qa__q .ic use { transition: transform .3s var(--ease); }
+.nx .faq--cards .qa[open] .qa__q .ic use { transform: rotate(45deg); }
+.nx .faq--cards .qa__a p { padding: 0 20px 18px; margin: 0; }
+
+/* the drawings lift smoothly */
+.iso-lift { transition: transform .55s cubic-bezier(.2, .7, .2, 1); }
+
+/* the close: wider, with the brand's light moving under the grain */
+.nx-close__panel, .nx .cta-photo__inner { width: min(100% - var(--gutter) * 2, 1320px); background-image: none; }
+.nx-close__panel::before, .nx .cta-photo__inner::before {
+  content: ""; position: absolute; inset: -20%; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(closest-side, rgba(255, 255, 255, .34), transparent), radial-gradient(closest-side, rgba(8, 28, 110, .6), transparent), radial-gradient(closest-side, rgba(150, 190, 255, .3), transparent);
+  background-size: 55% 70%, 60% 80%, 40% 55%; background-repeat: no-repeat; background-position: 90% 0%, 0% 100%, 60% 90%;
+  animation: nx-lights 18s ease-in-out infinite alternate;
+}
+.nx-close__panel::after, .nx .cta-photo__inner::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--grain); opacity: .22; mix-blend-mode: soft-light; }
+.nx-close__panel > *, .nx .cta-photo__inner > * { position: relative; z-index: 1; }
+@keyframes nx-lights { to { background-position: 60% 30%, 30% 60%, 10% 20%; } }
+@media (prefers-reduced-motion: reduce) { .nx-close__panel::before, .nx .cta-photo__inner::before { animation: none; } }
+
+/* imagery on the pages: the photo in its own frame, or as the stage */
+.nx-photo { padding-top: 0; }
+.nx-photo__fig { position: relative; isolation: isolate; overflow: hidden; aspect-ratio: 16 / 7; margin: 0; border-radius: 16px; background: #0a0a0a; }
+.nx-photo__fig > img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(.85); }
+.nx-photo__fig > canvas.ascii { z-index: 1; }
+.nx .room-stage { position: relative; isolation: isolate; overflow: hidden; border-radius: 16px; }
+.nx .room-stage > .nx-stage__ph { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(.8); }
+.nx .room-stage > canvas.ascii { z-index: 1; }
+.nx .room-stage .tag { z-index: 2; }
+@media (max-width: 1000px) {
+  .nx-hw__item { min-height: 0; }
+  .nx-hw__list { padding-bottom: 0; }
+}
+@media (max-width: 760px) { .nx-photo__fig { aspect-ratio: 4 / 3; border-radius: 12px; } }
+.nx .phero__visual > .phero__card { z-index: 3; }
+
+
+/* ============================================================ pass eight == */
+/* the line: the turning word on its own line */
+.nx-hero__title { max-width: none; }
+.nx-cycle.is-wrap { white-space: normal; }
+.nx-cycle.is-wrap .nx-cycle__w.is-out { white-space: nowrap; overflow: hidden; max-width: 100%; }
+
+/* the solutions as a suite: one lit tile each */
+.app-ic { position: relative; isolation: isolate; overflow: hidden; display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 27%; background-color: #1b63f8; background-image: var(--light-night); background-size: cover; background-position: 50% 50%; flex: none; vertical-align: middle; }
+.app-ic .glyph { width: 60%; height: 60%; fill: #fff; fill-rule: evenodd; }
+.app-ic .glyph .lit { fill: rgba(255, 255, 255, .55); }
+.app-ic--l { width: 38px; height: 38px; }
+.app-ic--s { width: 22px; height: 22px; margin-right: 10px; }
+.nx .mp__ic.app-ic { display: inline-grid; width: 26px; height: 26px; border: 0; }
+.nx .mp__ic.app-ic .glyph { width: 60%; height: 60%; }
+.nx .mp__row.is-build .mp__ic { display: none; }
+.nx .mp__end { gap: 14px; }
+.nx .mp__cta { margin-right: 6px; }
+.nx-app { display: inline-flex; align-items: center; gap: 12px; margin-bottom: clamp(18px, 2.6vw, 30px); font-size: 15px; font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+.nx .bt__copy h3 { display: flex; align-items: center; }
+
+/* the drawings on the solution and industry pages */
+.nx-hf { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 80px); align-items: center; margin-bottom: clamp(36px, 5vw, 72px); }
+.nx-hf .head { margin-bottom: 0; }
+.nx-hf__fig { aspect-ratio: 228 / 157; width: min(100%, 440px); justify-self: center; }
+.pain__fig { aspect-ratio: 228 / 157; margin: 0 -6px 8px; }
+
+/* the audit page: the form beside the line, above the fold */
+.nx .nx-au { margin-top: -72px; padding-top: calc(72px + clamp(40px, 6vw, 80px)); }
+.nx-au .pgh__head { margin-bottom: 10px; }
+.nx-au .au__copy { top: 96px; }
+
+/* the questions page: the list close under the line */
+.nx .nx-tight { padding-top: clamp(8px, 1.5vw, 24px); }
+
+/* careers: the page starts under the bar */
+.nx .hire { margin-top: -72px; }
+
+/* integrations, in groups */
+.nx-ig { padding-top: clamp(16px, 2.5vw, 40px); }
+.nx-ig__group { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 2.25fr); gap: clamp(16px, 4vw, 64px); padding: clamp(26px, 3.2vw, 40px) 0; border-top: 1px solid var(--border); }
+.nx-ig__group:last-child { border-bottom: 1px solid var(--border); }
+.nx-ig__k { font-size: clamp(1.15rem, 1rem + .6vw, 1.5rem); font-weight: var(--weight-semibold); letter-spacing: -0.02em; padding-top: 14px; }
+.nx-ig__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.nx-ig .icard { min-height: 0; padding: 16px 18px; gap: 14px; border-radius: 12px; }
+.nx-ig .icard img { width: 30px; height: 30px; }
+.on-dark .icard img.is-mono { filter: invert(1); }
+
+/* a close with the room in it */
+.nx-close__panel { isolation: isolate; }
+.nx-close__ph { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; filter: grayscale(1) contrast(1.15) brightness(.95); mix-blend-mode: multiply; opacity: .6; }
+
+@media (max-width: 1000px) {
+  .nx-hf { grid-template-columns: minmax(0, 1fr); }
+  .nx-ig__group { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .nx-ig__k { padding-top: 0; }
+}
+@media (max-width: 760px) {
+  .nx-ig__grid { grid-template-columns: minmax(0, 1fr); }
+  .nx .mp .mp__ic.app-ic { width: 22px; height: 22px; }
+  .nx .mp__cta { margin-right: 0; }
+}
+
+/* pass eight, phones and tablets */
+.pain__fig { max-width: 300px; }
+@media (max-width: 1000px) {
+  .nx-au .au__copy { display: contents; }
+  .nx-au .au__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .nx-au .pgh__head { order: 0; }
+  .nx-au .au__card { order: 1; }
+  .nx-au .au__steps { order: 2; }
+}
+.nx .mp__ic.app-ic, .nx .mp .mp__ic.app-ic { background-color: #1b63f8; background-image: var(--light-night); background-size: cover; background-position: 50% 50%; }
+
+/* integrations as a library: the logo alone, the name on hover */
+.nx-lib { padding-top: clamp(8px, 2vw, 32px); }
+.nx-lib__filters { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: clamp(28px, 3.4vw, 44px); }
+.nx-lib__pill { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: transparent; color: var(--muted-foreground); font: inherit; font-size: 13.5px; font-weight: var(--weight-medium); letter-spacing: -0.01em; cursor: pointer; transition: color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease); }
+.nx-lib__pill:hover { color: var(--foreground); border-color: rgba(128, 128, 128, .6); }
+.nx-lib__pill.is-on { color: #fff; background: var(--brand); border-color: var(--brand); }
+.nx-lib__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.nx-lib__tile { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 16px; border: 1px solid var(--border); background: var(--card); transition: border-color .35s var(--ease), opacity .35s var(--ease), scale .35s var(--ease); }
+.nx-lib__tile img { width: 40%; height: 40%; object-fit: contain; }
+.nx-lib__tile img.is-wide { width: 56%; }
+.on-dark .nx-lib__tile img.is-mono { filter: invert(1); }
+.nx-lib__tile:hover, .nx-lib__tile:focus-visible, .nx-lib__tile:target { border-color: var(--brand); }
+.nx-lib__name { position: absolute; left: 50%; bottom: 10px; translate: -50% 4px; padding: 4px 9px; border-radius: 6px; background: var(--foreground); color: var(--background); font-size: 12px; font-weight: var(--weight-medium); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), translate .3s var(--ease); }
+.nx-lib__tile:hover .nx-lib__name, .nx-lib__tile:focus-visible .nx-lib__name, .nx-lib__tile:target .nx-lib__name { opacity: 1; translate: -50% 0; }
+.nx-lib__tile.is-soon img { filter: grayscale(1); opacity: .45; }
+.on-dark .nx-lib__tile.is-soon img.is-mono { filter: invert(1) grayscale(1); }
+.nx-lib__tile.is-dim { opacity: .18; }
+@media (max-width: 760px) { .nx-lib__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; } .nx-lib__tile { border-radius: 12px; } .nx-lib__filters { justify-content: flex-start; } }
+
+
+/* ============================================================= pass nine == */
+/* hero: the mark larger, turning evenly */
+.nx-hero__stage { min-height: clamp(480px, 76vh, 820px); margin-top: clamp(16px, 3vh, 36px); }
+
+/* the suite tile holds the WhatsApp mark in white */
+.app-ic .ui-wa { background-color: #fff; width: 46%; height: 46%; }
+
+/* the drawings: colours that hold on light, and a little life */
+.on-light .iso .g { stroke: rgba(23, 23, 23, .42); }
+.on-light .iso .wr { stroke: rgba(23, 23, 23, .38); }
+.on-light .iso .cap { stroke: #1b63f8; opacity: .9; }
+.on-light .iso .dd, .on-light .iso .dl { stroke: rgba(23, 23, 23, .4); }
+.nx .iso .wr, .nx .iso .cap { animation: iso-flow 1.4s linear infinite; }
+@keyframes iso-flow { to { stroke-dashoffset: -6; } }
+.nx .pain__fig .iso .acc, .nx .nx-hf__fig .iso .acc, .nx .cx-card__fig .iso .acc { animation: iso-bob 4.2s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -.7s); }
+@keyframes iso-bob { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .nx .iso .wr, .nx .iso .cap, .nx .pain__fig .iso .acc, .nx .nx-hf__fig .iso .acc, .nx .cx-card__fig .iso .acc { animation: none; } }
+.pain__fig { max-width: none; margin: 0 0 12px; }
+.nx-hf__fig { width: min(100%, 580px); }
+.nx-hf { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+/* the close: a light sweeps across now and then */
+.nx-close__sweep { position: absolute; z-index: 1; top: -40%; bottom: -40%; left: -30%; width: 22%; rotate: 18deg; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .22), rgba(255, 255, 255, 0)); pointer-events: none; animation: nx-sweep 9s cubic-bezier(.4, 0, .2, 1) infinite; }
+@keyframes nx-sweep { 0%, 55% { left: -30%; } 100% { left: 125%; } }
+.nx-close__panel::before, .nx .cta-photo__inner::before { animation-duration: 11s; }
+@media (prefers-reduced-motion: reduce) { .nx-close__sweep { animation: none; display: none; } }
+
+/* integrations: a library in labelled rows */
+.nx-lib { padding-top: clamp(8px, 2vw, 32px); }
+.nx-lib .head { margin-bottom: clamp(24px, 3vw, 40px); }
+.nx-lib__row { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 2.3fr); gap: clamp(16px, 4vw, 64px); align-items: start; padding: clamp(22px, 2.8vw, 34px) 0; border-top: 1px solid var(--border); }
+.nx-lib__row:last-child { border-bottom: 1px solid var(--border); }
+.nx-lib__k { padding-top: 10px; font-size: clamp(1.05rem, 1rem + .4vw, 1.3rem); font-weight: var(--weight-semibold); letter-spacing: -0.02em; }
+.nx-lib__grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); max-width: 720px; }
+.nx-lib__filters { display: none; }
+
+/* the close with the room on its right */
+.nx-close--photo .nx-close__panel { justify-items: start; text-align: left; padding-right: clamp(20px, 36%, 520px); }
+.nx-close--photo .nx-close__ph { left: 36%; width: 64%; opacity: .62; mix-blend-mode: luminosity; -webkit-mask-image: linear-gradient(90deg, transparent, #000 42%); mask-image: linear-gradient(90deg, transparent, #000 42%); }
+.nx-close--photo .nx-close__panel::before { opacity: .6; }
+
+@media (max-width: 1000px) {
+  .nx-lib__row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .nx-lib__k { padding-top: 0; }
+  .nx-close--photo .nx-close__panel { padding-right: clamp(20px, 4vw, 56px); }
+  .nx-close--photo .nx-close__ph { left: 0; width: 100%; opacity: .32; -webkit-mask-image: none; mask-image: none; }
+}
+@media (max-width: 760px) {
+  .nx-hero__stage { min-height: 100vw; }
+  .nx-lib__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+
+/* ============================================================== pass ten == */
+/* the close: one slow gradient, nothing else */
+.nx-close__sweep { display: none; }
+.nx-close__panel::before, .nx .cta-photo__inner::before { display: none; }
+.nx-close__panel::after, .nx .cta-photo__inner::after { opacity: .14; }
+.nx-close__panel, .nx .cta-photo__inner { background-color: #1b63f8; background-image: linear-gradient(115deg, #1b63f8 0%, #3b79f9 30%, #1445b8 55%, #1b63f8 80%, #4f86ff 100%); background-size: 320% 320%; animation: nx-grad 28s ease-in-out infinite alternate; }
+@keyframes nx-grad { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@media (prefers-reduced-motion: reduce) { .nx-close__panel, .nx .cta-photo__inner { animation: none; } }
+
+/* the venue row: wide marks sit lower */
+.nx .nx-tick__row img.wide { height: 28px; }
+.nx .nx-tick__row img.tall { height: 58px; }
+
+/* the drawings: larger in their frames, and alive */
+.nx .iso .g { animation: iso-dash 1.6s linear infinite; }
+@keyframes iso-dash { to { stroke-dashoffset: -6.5; } }
+.nx .iso .fta { animation: iso-glow 3.6s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -.5s); }
+@keyframes iso-glow { from { fill: var(--lit-hi); } to { fill: #c9dbff; } }
+.nx .iso .sign.acc, .nx .iso .acc.sign { animation: none; }
+@media (prefers-reduced-motion: reduce) { .nx .iso .g, .nx .iso .fta { animation: none; } }
+
+/* pass eleven: no rule over the points; the drawings sit inside their frames */
+.nx .pain { border-top: 0; padding-top: 0; }
+.pain__fig, .nx-hf__fig { display: grid; place-items: center; }
+.pain__fig .iso, .nx-hf__fig .iso { width: 100%; height: 100%; }
+.nx .pain { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.pain__fig, .nx-hf__fig, .cx-card__fig { min-width: 0; width: 100%; }
+.pain__fig .iso, .nx-hf__fig .iso, .cx-card__fig .iso { min-width: 0; max-width: 100%; max-height: 100%; }
+.cx-card__fig { display: grid; place-items: center; }
+.cx-card__fig .iso { width: 100%; height: 100%; }
+.pain__fig, .nx-hf__fig, .cx-card__fig { position: relative; }
+.pain__fig .iso, .nx-hf__fig .iso, .cx-card__fig .iso { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; }
+/* page heads on phones: no word may be wider than the screen */
+.nx .pagehead { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 760px) {
+  .nx .h1, .nx .pagehead .h1, .nx .thero__copy .h1 { font-size: clamp(1.9rem, 8.8vw, 3.3rem); overflow-wrap: break-word; }
+}
+@media (max-width: 1000px) { .pain__fig { max-width: 440px; } }
+
+
+/* ============================================================ pass twelve == */
+/* ---- the close keeps its grain */
+.nx-close__panel::after, .nx .cta-photo__inner::after { display: block; opacity: .14; }
+
+/* ---- the statement: every word starts dim and lights with the scroll */
+.nx .st__line .w { transition: color .35s var(--ease); }
+
+/* ---- the product's own type in every mockup: figures and titles in the heading face */
+.ui-num, .ui-stats b, .nx-card__h { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 600; letter-spacing: -0.02em; }
+.ui-main__head h3, .ui-h > span:first-child, .ui-win .ui-h > span:first-child { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 600; letter-spacing: -0.01em; }
+.ui-lbl { font-weight: 400; }
+.ui-up { font-family: var(--font-mono); font-size: .78em; letter-spacing: -0.02em; }
+.ui-up span { font-family: var(--font-sans); }
+/* a short last row never leaves an empty slot: its last card takes the row */
+@media (max-width: 1000px) {
+  .nx-run__side > :last-child:nth-child(odd), .xb-wk__side > :last-child:nth-child(odd), .xc-board__side > :last-child:nth-child(odd),
+  .fr-kpis > :last-child:nth-child(odd), .st3d--ui .ui-kpis > :last-child:nth-child(odd),
+  .shero__ui .ui-kpis > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* ---- solutions: the two coming soon sit last, greyed */
+.nx .bt.is-soon .bt__stage { opacity: .42; filter: grayscale(1); }
+.nx .bt.is-soon .bt__copy h3 { color: var(--muted-foreground); }
+.nx .bt.is-soon .app-ic { filter: grayscale(1); opacity: .6; }
+
+/* ---- solution pages: the badge is the tile alone */
+.nx-app { margin-bottom: clamp(16px, 2.2vw, 26px); }
+
+/* ---- a section head beside its drawing stacks on narrow screens */
+@media (max-width: 1000px) {
+  .nx-hf { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .nx-hf__fig { width: min(100%, 440px); justify-self: start; }
+}
+
+/* ---- results: each card opens its story, and takes the brand's blue on hover */
+a.nx-res__card { color: inherit; text-decoration: none; }
+.nx-res__card::after { content: ""; position: absolute; inset: 0; z-index: -2; background: #1b63f8; mix-blend-mode: color; opacity: 0; transition: opacity .5s var(--ease); pointer-events: none; }
+a.nx-res__card:hover::after, a.nx-res__card:focus-visible::after, a.nx-res__card:active::after { opacity: .92; }
+a.nx-res__card:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+/* ---- who it's for: lighter cards */
+.nx .wf__card { min-height: 0; padding: 22px 22px 24px; gap: 6px; }
+.nx .wf__ic { width: 28px; height: 28px; margin-bottom: 18px; }
+.nx .wf__card h3 { font-family: var(--font-sans); font-stretch: normal; text-transform: none; font-weight: var(--weight-semibold); font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1.2; }
+.nx .wf__card p { font-size: 14.5px; }
+
+/* ---- FAQ: the plus turns about its own centre, inside a still tile */
+.nx .qa__q .ic use { transform-box: fill-box; transform-origin: center; }
+
+/* ---- the CRM row: dots under it on narrow screens */
+.nx-dots { display: none; }
+
+/* ---- the menu: full height from the first frame, square rules, no doubled audit link */
+.nx .mp__panel { position: absolute; inset: 0; min-height: 0; max-height: none; translate: none !important; transition: opacity .22s var(--ease); }
+.nx .mp__links a, .nx .mp__col, .nx .mp__row { border-radius: 0; }
+.nx .mp__ic.app-ic .ui-wa, .nx .mp .mp__ic.app-ic .ui-wa { width: 46%; height: 46%; background-color: #fff; }
+
+/* ------------------------------------------------------------------ narrow */
+@media (max-width: 1000px) {
+  /* how we work: number and step side by side, the card full width under them */
+  .nx-hw__item { grid-template-columns: 56px minmax(0, 1fr); row-gap: 18px; }
+  .nx-hw__item > .nx-hw__n { grid-column: 1; grid-row: 1; }
+  .nx-hw__item > div:not(.nx-hw__panel) { grid-column: 2; grid-row: 1; }
+  .nx-hw__item > .nx-hw__panel { grid-column: 1 / -1; grid-row: 2; margin: 0; padding: 18px; }
+  .nx-hw__item > .nx-hw__panel .hw__card { max-width: none; font-size: 13px; }
+
+  /* the CRM: one row that swipes, the first card on the gutter, the next one showing */
+  .nx-steps { display: flex; gap: 12px; padding: 0 var(--gutter) 2px; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .nx-steps::-webkit-scrollbar { display: none; }
+  .nx-step { flex: none; width: min(80vw, 440px); scroll-snap-align: start; scroll-margin-inline-start: var(--gutter); }
+  .js .nx-steps .nx-step[data-r] { opacity: 1; transform: none; translate: none; clip-path: none; }
+  .nx-step__txt p { min-height: 0; }
+  .nx-dots { display: flex; justify-content: center; gap: 6px; margin-top: 18px; }
+  .nx-dots i { width: 6px; height: 6px; border-radius: 3px; background: var(--border); transition: width .35s var(--ease), background .35s var(--ease); }
+  .nx-dots i.is-on { width: 20px; background: var(--brand); }
+  .on-dark .nx-dots i { background: rgba(255, 255, 255, .18); }
+  .on-dark .nx-dots i.is-on { background: var(--brand-text-dark); }
+}
+
+@media (max-width: 760px) {
+  /* even spacing between the home page's sections */
+  #what.band, #crm.band, #how.band, #integrations.band, #work.band, #who.band, #faq.band { padding-block: 64px; }
+  .nx-say .st__pts { margin-top: 40px; }
+
+  /* the three points: a short list, icon, title, one line */
+  .nx-say .st__pts { gap: 0; padding-top: 0; }
+  .nx-say .step { grid-template-columns: 26px minmax(0, 1fr); column-gap: 16px; row-gap: 4px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .nx-say .step:last-child { border-bottom: 0; }
+  .nx-say .step__ic { width: 24px; height: 24px; margin: 1px 0 0; grid-row: 1 / span 2; }
+  .nx-say .step .h3 { font-size: 1.05rem; line-height: 1.3; }
+  .nx-say .step p { font-size: .95rem; line-height: 1.5; }
+
+  /* solutions: the coming-soon pair is just its name on a phone */
+  .nx .bt.is-soon .bt__stage { display: none; }
+
+  /* who it's for: a list of rows */
+  .nx .wf__grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .nx .wf__card:not(.wf__card--cta) { grid-template-columns: 28px minmax(0, 1fr); column-gap: 16px; row-gap: 2px; align-content: start; padding: 18px; }
+  .nx .wf__card:not(.wf__card--cta) .wf__ic { grid-row: 1 / span 2; margin: 2px 0 0; }
+  .nx .wf__card:not(.wf__card--cta) h3, .nx .wf__card:not(.wf__card--cta) p { grid-column: 2; }
+  .nx .wf__card--cta { padding: 22px; }
+
+  /* the menu on a phone: two lists that open, the links, then one button */
+  .nx .mp .mp__panel { padding-top: 92px; }
+  .nx .mp .mp__k { padding: 16px 0; font-size: 1.3rem; }
+  .nx .mp .mp__links a { padding: 14px 0; font-size: 1.3rem; }
+  .nx .mp .mp__row { font-size: .98rem; padding: 8px 0; }
+  .nx .mp__foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-block: 16px 22px; }
+  .nx .mp__end { display: contents; }
+  .nx .mp__cta { grid-column: 1 / -1; justify-content: center; height: 48px; font-size: 15px; margin: 0; }
+  .nx .mp__end .nx-theme { grid-column: 1; justify-self: start; }
+  .nx .mp__end .mp__soc { grid-column: 2; }
+}
+
+/* ---- pass twelve, home follow-ups */
+/* solutions on tablets: intelligence takes the row, the coming-soon pair closes the grid side by side */
+@media (min-width: 681px) and (max-width: 1100px) {
+  .nx .bento--strip .bt[href="intelligence"] { grid-column: 1 / -1; }
+  .nx .bt.is-soon .bt__stage { display: none; }
+}
+@media (min-width: 761px) and (max-width: 1000px) {
+  #what.band, #crm.band, #how.band, #integrations.band, #work.band, #who.band, #faq.band { padding-block: 88px; }
+}
+@media (max-width: 760px) {
+  .nx .head--split > .btn { justify-self: start; }
+}
+/* industry heads: the side card overhangs the photo's corner, clear of the tags */
+@media (min-width: 1001px) { .nx .phero__card--b { right: -7%; top: -12%; } }
+/* the first tag sits below the side card, so nothing slides under it */
+.nx .room-stage .tag:nth-of-type(1) { --y: 48% !important; --x: 28% !important; }
+
+
+/* =========================================================== pass thirteen == */
+/* ---- the menu: opaque from the first frame, rows rise into it; never shows the page */
+.nx .mp__panel { height: auto; opacity: 1; transition: none; }
+.nx .mp:not(.is-open) .mp__panel { visibility: hidden; }
+.nx .nav.is-menu .nav__inner { background: #0a0a0a; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html[data-nx-theme="light"] .nx .nav.is-menu .nav__inner { background: #f6f6f6; }
+@media (max-width: 1000px) {
+  /* the scroll area starts under the bar, so nothing slides behind it */
+  .nx .mp .mp__panel { padding-top: 8px; border-top: 84px solid #0a0a0a; }
+  html[data-nx-theme="light"] .nx .mp .mp__panel { border-top-color: #f6f6f6; }
+}
+.nx .mp__ic.app-ic .ui-wa, .nx .mp .mp__ic.app-ic .ui-wa { width: 54%; height: 54%; }
+.nx .mp__foot { margin-inline: 0; padding-inline: 0; }
+.nx .mp__end { gap: 12px; }
+.nx .mp__soc { gap: 12px; }
+.nx .mp__soc a { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--nx-line); border-radius: 50%; }
+.nx .mp__soc .ic { width: 16px; height: 16px; }
+.nx .mp__cta { height: 36px; }
+@media (max-width: 760px) {
+  .nx .mp .mp__links a { padding: 16px 0; line-height: 1.2; }
+  .nx .mp__cta { height: 48px; }
+}
+
+/* ---- footer columns line up, and the bottom row sits on one line */
+@media (max-width: 900px) { .footer__col--wide { column-gap: 20px; } }
+.footer__bar { align-items: center; }
+
+/* ---- the case study: heading clear of its intro, no hole under the head */
+.cs__title[data-r="wipe"] { margin-bottom: calc(var(--space-4) - .22em); }
+.cs--head + .band.cs { padding-top: 0; }
+
+/* ---- the case study template */
+@media (min-width: 600px) { .figures--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 599px) { .figures--3 { grid-template-columns: minmax(0, 1fr); } }
+.cmeta { justify-content: center; }
+
+/* ---- book an audit on tablets: the steps use the width */
+@media (max-width: 1000px) { .nx-au .au__steps { max-width: none; } }
+
+/* ---- 404: two buttons the same width on a phone */
+@media (max-width: 420px) { .nf__actions .btn { width: 100%; max-width: 280px; justify-content: center; } }
+
+
+/* ============================================================ pass fourteen == */
+/* ---- industry heads: the small floating cards keep the body face, so titles clear their pills */
+.phero__card .ui-h > span:first-child { font-family: var(--font-sans); font-stretch: normal; font-weight: 600; letter-spacing: -0.01em; }
+/* on a phone one tag, centred high on the photo */
+@media (max-width: 760px) {
+  .room-stage .tag:last-of-type { display: none; }
+  .nx .room-stage .tag:nth-of-type(1) { --x: 50% !important; --y: 28% !important; }
+}
+.xb-stage, .xc-stage { aspect-ratio: 4 / 3; }
+@media (min-width: 1001px) { .xb-stage, .xc-stage { aspect-ratio: 1 / 1; } }
+
+/* ---- the run-up stats: three stats never leave a hole */
+@media (max-width: 1000px) { .nx-run__side > .nx-stat:nth-child(3) { grid-column: 1 / -1; } }
+@media (max-width: 620px) { .nx-beat:last-child { display: none; } }
+
+/* ---- festivals: the fitted plan from tablet down, the phase names that fit */
+@media (max-width: 1000px) {
+  .fx-chips { position: relative; display: flex; gap: .45em; overflow-x: auto; scrollbar-width: none; margin: 0 -1.1em; padding: 0 1.1em .2em; }
+  .fx-chips::-webkit-scrollbar { display: none; }
+  .fx-chip { flex: none; padding: .55em .9em; border-radius: 99em; border: 1px solid var(--u-line); background: var(--u-raise); color: var(--u-text); font: inherit; font-size: 1.05em; font-weight: 600; white-space: nowrap; }
+  .fx-chip.is-on { background: var(--u-blue); border-color: var(--u-blue); color: #fff; }
+  .fx-scroll { overflow: visible; margin: 0; padding: 0; }
+  .fx-tl { min-width: 0; --rl: 0px; --pad: 2.4em; grid-template-columns: 0 minmax(0, 1fr); grid-template-rows: 1.6em 1.9em 1.4em 0 0 0 0 9em; }
+  .fx-rl, .fx-lane, .fx-pin__l, .fx-pay span { display: none; }
+  .fx-pin--up .fx-pin__s, .fx-pin--down .fx-pin__s { height: .7em; }
+  .fx-phase { font-size: .7em; padding: 0 .4em; }
+  .fx-months span { font-size: .72em; }
+}
+@media (max-width: 760px) { .fx-phase--announce, .fx-phase--presale { color: transparent; } }
+
+/* ---- story cards on tablets: the spare height goes below, not into a hole */
+@media (max-width: 1000px) {
+  .px-next { grid-template-rows: auto auto auto auto auto 1fr; }
+  .xb-wk__side, .xc-board__side { align-items: start; }
+}
+
+/* ---- the three points on tablets: drawing beside the words */
+@media (min-width: 761px) and (max-width: 1000px) {
+  .nx .pain { grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); column-gap: 32px; row-gap: 8px; align-items: center; align-content: center; }
+  .nx .pain .pain__fig { grid-column: 1; grid-row: 1 / span 2; max-width: none; margin: 0; }
+  .nx .pain h3 { grid-column: 2; align-self: end; }
+  .nx .pain p { grid-column: 2; align-self: start; }
+}
+
+
+/* ============================================================= pass fifteen == */
+/* ---- integrations: the library is the page's head */
+.nx .nx-lib--page { margin-top: -72px; padding-top: calc(72px + clamp(56px, 8vw, 112px)); }
+.nx-lib__tile { scroll-margin-top: 110px; cursor: default; }
+.nx-lib__tile:focus { outline: none; border-color: var(--brand); }
+.nx-lib__tile:focus .nx-lib__name { opacity: 1; translate: -50% 0; }
+.nx-lib__name { max-width: calc(100% + 16px); white-space: normal; text-align: center; line-height: 1.2; }
+
+/* ---- files: dates stay inside their folders; the phone mockup is shorter */
+.fl-folds small { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 620px) { .fl-share { display: none; } }
+
+/* ---- more solutions: close under the section before, compact rows from 900px */
+.nx .tshow + .band.on-light { padding-top: 24px; }
+@media (max-width: 760px) { .nx .band.on-light:has(> .wrap > .rel), .nx .band.on-light:has(.rel) { padding-bottom: 40px; } }
+@media (max-width: 900px) {
+  .rel { gap: 10px; }
+  .rel__card { grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: 18px 20px; min-height: 0; }
+  .rel__k { grid-column: 1; }
+  .rel__t { grid-column: 1; }
+  .rel__card .ic { grid-column: 2; grid-row: 1 / span 2; margin: 0; }
+}
+
+/* ---- solution drawings centre on tablets */
+@media (min-width: 700px) and (max-width: 1000px) { .nx-hf__fig { justify-self: center; } }
+
+/* ============================================================== pass sixteen == */
+/* ---- demos never move the page: no scroll anchoring inside a mockup */
+.ui, .fw-chat, .fw-stage { overflow-anchor: none; }
+
+/* ---- light theme: hero subtitles in the muted ink */
+.on-light .thero__copy .lede, .on-light .band--room .lede, .on-light .ihero .lede, .on-light .rh__lede { color: var(--muted-foreground); }
+
+/* ---- forms: the list keeps its full height while it fills */
+@media (max-width: 980px) {
+  .ff-list { height: 37.2em; grid-template-rows: auto minmax(0, 1fr); }
+  .ff-rows { align-content: start; overflow: hidden; }
+  .ff-tent { width: 104px; padding: 12px 8px; }
+  .ff-tent b { font-size: 12px; }
+}
+
+/* ---- profiles: the merge does not make its rows jump on narrow screens */
+@media (max-width: 900px) { .fp-merge.is-play .fp-src.is-on .fp-src__d { display: none; } }
+
+/* ---- social: rows sliding past each other never show through */
+.fs-row { background: var(--u-panel, #141414); }
+.fs-row.is-on { z-index: 1; }
+
+/* ---- the forecast chart's labels stay readable */
+@media (max-width: 620px) { .cx-chart text { font-size: 16px; } }
+@media (min-width: 621px) and (max-width: 1000px) { .cx-chart text { font-size: 8.5px; } }
+
+/* ---- headings never strand a word on tablets either */
+@media (max-width: 1000px) {
+  .h1, .h2, .rh__title, .cta-photo__title, .who__h { text-wrap: balance; }
+  .thero__copy .h1 br, .pagehead .h1 br, .cta-photo__title br { display: none; }
+}
+
+/* ---- where two bands of the same colour meet, one gap, not two */
+.nx .cx-duo + .band.on-light, .nx .fp-sig + .cx-crm { padding-top: 24px; }
+
+/* ======================================================== pass seventeen == */
+/* ---- the blueprint behind a section fades in and out, so no line marks where it starts */
+.nx .cx-bg {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 160px, #000 calc(100% - 160px), transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 160px, #000 calc(100% - 160px), transparent 100%);
+}
+
+@media (max-width: 760px) {
+  /* ---- home hero: the mark wider and larger on a phone, edge to edge */
+  .nx-hero__stage { width: 100vw; margin-inline: calc(50% - 50vw); min-height: 108vw; margin-top: 0; --mark-w: .9; --mark-h: .8; }
+
+  /* ---- product screens on a phone: the part the heading is about, nothing more */
+  /* dashboards: two figures, one list of three */
+  .st3d--ui .st3d__main .ui-kpis > .ui-card:nth-child(n+3) { display: none; }
+  .st3d--ui .st3d__main .ui-cols > :nth-child(n+2) { display: none; }
+  .st3d--ui .st3d__main .ui-main > .ui-ai { display: none; }
+  .st3d--ui .st3d__main .ui-cols > .ui-card > .ui-row ~ .ui-row ~ .ui-row ~ .ui-row { display: none; }
+  /* who is likely to come, and who is drifting */
+  .nx[data-page="profiles"] .st3d__main .ui-kpis > .ui-card:nth-child(-n+2) { display: none; }
+  .nx[data-page="profiles"] .st3d__main .ui-kpis > .ui-card:nth-child(n+3) { display: grid; }
+  /* the inbox and the drafted reply */
+  .nx[data-page="enquiries"] .st3d__main .ui-kpis { display: none; }
+  .nx[data-page="enquiries"] .st3d__main .ui-main > .ui-ai { display: flex; }
+  /* the reports, and the one written for Monday */
+  .nx[data-page="reports"] .st3d__main .ui-cols > :first-child { display: none; }
+  .nx[data-page="reports"] .st3d__main .ui-cols > :nth-child(2) { display: grid; }
+  .nx[data-page="reports"] .st3d__main .ui-main > .ui-ai { display: flex; }
+  /* every bar */
+  .nx[data-page="till"] .st3d__main .ui-cols > :first-child { display: none; }
+  .nx[data-page="till"] .st3d__main .ui-cols > :nth-child(2) { display: grid; }
+
+  /* the profile: five sources by name, the record without its consent and tag lines */
+  .fp-src__m small, .fp-src__k { display: none; }
+  .fp-src { padding-block: .5em; }
+  .fp-prof .fp-line { display: none; }
+  /* the forecast: the night and the first move */
+  .cx-fc__read, .cx-fc__act ~ .cx-fc__act { display: none; }
+  /* the calendar: the three days the posts that sold went out */
+  .fs-week > .fs-day:nth-child(n+4) { display: none; }
+  /* the website: visit to booking, without the live feed */
+  .fa-feed { display: none; }
+  /* last Saturday: takings by bar */
+  .ft-night__cols > .ui-card:nth-child(n+2) { display: none; }
+  /* the report: two figures and the write-up */
+  .fr-chart, .fr-kpis > .fr-kpi:nth-child(n+3) { display: none; }
+  /* nightclubs: the run-up, tickets and reach */
+  .nx-run__side > :nth-child(n+3) { display: none; }
+  /* bars: the quiet night and the message that filled it */
+  .xb-feed { display: none; }
+  /* competitive socialising: the board and the offer */
+  .xc-sum, .xc-parties { display: none; }
+  /* promoters: two nights and the list they built */
+  .px-reps, .px-nights > .px-night:nth-child(n+3) { display: none; }
+  /* festivals: the plan and the step, without the who and how */
+  .fx-dt__facts { display: none; }
+  /* files: the upload, one row of the library, and where it went */
+  .fl-folders, .fl-grid > .fl-tile:nth-child(n+4) { display: none; }
+  .fl-slot--wide { aspect-ratio: 16 / 5; }
+}
+
+/* ---- integrations: Capacity in the middle, the tools on the rings around it */
+.nx .nx-ihub { margin-top: -72px; padding-top: calc(72px + clamp(56px, 8vw, 112px)); padding-bottom: 0; overflow: hidden; }
+.nx-ihub__head { text-align: center; justify-items: center; margin-inline: auto; }
+.nx-hub { --tile: clamp(40px, 4.6vw, 60px); position: relative; width: min(100%, 1040px); aspect-ratio: 2.15 / 1; margin: clamp(28px, 4vw, 56px) auto 0;
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
+.nx-hub::before { content: ""; position: absolute; left: 50%; top: 60%; width: 56%; height: 90%; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(27, 99, 248, .26), rgba(27, 99, 248, .07) 55%, transparent); pointer-events: none; }
+.nx-hub__ring { position: absolute; left: 50%; top: 60%; translate: -50% -50%; border: 1px solid rgba(255, 255, 255, .1); border-radius: clamp(28px, 4vw, 56px); }
+.nx-hub__ring--1 { width: 34%; height: 50%; border-color: rgba(255, 255, 255, .14); }
+.nx-hub__ring--2 { width: 58%; height: 84%; }
+.nx-hub__ring--3 { width: 86%; height: 116%; border-color: rgba(255, 255, 255, .07); }
+.nx-hub__core { position: absolute; left: 50%; top: 60%; translate: -50% -50%; width: calc(var(--tile) * 1.6); height: calc(var(--tile) * 1.6); border-radius: 26%;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .14) inset, 0 24px 60px rgba(27, 99, 248, .35); }
+.nx-hub__core img { width: 56%; height: auto; }
+.nx-hub__t { position: absolute; left: var(--x); top: var(--y); width: var(--tile); height: var(--tile); margin: calc(var(--tile) / -2) 0 0 calc(var(--tile) / -2);
+  display: grid; place-items: center; border-radius: 26%; background: #151515; border: 1px solid #262626; animation: nx-hub-float 7s ease-in-out infinite; animation-delay: var(--d); }
+.nx-hub__t img { width: 54%; height: 54%; object-fit: contain; }
+.nx-hub__t img.is-wide { width: 76%; }
+.on-dark .nx-hub__t img.is-mono { filter: invert(1); }
+@keyframes nx-hub-float { 50% { translate: 0 -6px; } }
+@media (prefers-reduced-motion: reduce) { .nx-hub__t { animation: none; } }
+html[data-nx-theme="light"] .nx-hub__ring { border-color: rgba(10, 10, 10, .1); }
+html[data-nx-theme="light"] .nx-hub__ring--1 { border-color: rgba(10, 10, 10, .14); }
+html[data-nx-theme="light"] .nx-hub__ring--3 { border-color: rgba(10, 10, 10, .07); }
+html[data-nx-theme="light"] .nx-hub__t { background: #fff; border-color: #e4e4e4; }
+html[data-nx-theme="light"] .nx-hub::before { background: radial-gradient(closest-side, rgba(27, 99, 248, .16), rgba(27, 99, 248, .04) 55%, transparent); }
+
+/* ---- integrations: search, a type to show, and a card for each tool */
+.nx .nx-ilib { padding-top: clamp(24px, 3vw, 40px); }
+.nx-ilib__bar { display: grid; justify-items: center; gap: 14px; margin-bottom: clamp(24px, 3vw, 36px); }
+.nx-ilib__search { display: flex; align-items: center; gap: 10px; width: min(100%, 420px); height: 46px; padding: 0 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--muted-foreground); }
+.nx-ilib__search:focus-within { border-color: var(--brand); }
+.nx-ilib__search .ic { width: 18px; height: 18px; flex: none; }
+.nx-ilib__search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; color: var(--foreground); font: inherit; font-size: 16px; }
+.nx-ilib__search input::placeholder { color: var(--muted-foreground); }
+.nx-ilib__search input::-webkit-search-cancel-button { filter: grayscale(1); }
+.nx-ilib__pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.nx-pill { height: 36px; padding: 0 15px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted-foreground); font: inherit; font-size: 14px; cursor: pointer; transition: color .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease); }
+.nx-pill:hover { color: var(--foreground); }
+.nx-pill.is-on { background: var(--brand); border-color: var(--brand); color: #fff; }
+.nx-pill:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-ilib__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.nx-icard { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 18px 12px; padding: 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); scroll-margin-top: 110px; transition: border-color .2s var(--ease); }
+.nx-icard[hidden] { display: none; }
+.nx-icard:hover { border-color: color-mix(in srgb, var(--foreground) 22%, var(--border)); }
+.nx-icard:target { border-color: var(--brand); }
+.nx-icard__ic { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 12px; background: var(--background); }
+.nx-icard__ic img { width: 56%; height: 56%; object-fit: contain; }
+.nx-icard__ic img.is-wide { width: 80%; }
+.on-dark .nx-icard__ic img.is-mono { filter: invert(1); }
+.nx-icard__k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-foreground); padding-top: 2px; }
+.nx-icard__t { grid-column: 1 / -1; margin: 0; font-size: 1.1rem; font-weight: var(--weight-semibold); letter-spacing: -0.02em; line-height: 1.25; }
+.nx-icard__d { grid-column: 1 / -1; margin: -12px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--muted-foreground); }
+.nx-ilib__none { margin: 8px 0 0; text-align: center; color: var(--muted-foreground); }
+
+@media (max-width: 1000px) {
+  .nx-ilib__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .nx-hub { aspect-ratio: 1.08 / 1; --tile: 40px; margin-top: 24px; }
+  .nx-hub__ring { border-radius: 28px; }
+  .nx-ilib__pills { flex-wrap: nowrap; justify-content: flex-start; width: calc(100% + 2 * var(--gutter)); margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); overflow-x: auto; scrollbar-width: none; }
+  .nx-ilib__pills::-webkit-scrollbar { display: none; }
+  .nx-pill { flex: none; }
+  .nx-ilib__search { width: 100%; }
+  .nx-ilib__grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .nx-icard { grid-template-columns: 44px minmax(0, 1fr); gap: 2px 14px; padding: 16px; }
+  .nx-icard__ic { grid-row: 1 / span 3; width: 44px; height: 44px; border-radius: 11px; }
+  .nx-icard__k { grid-column: 2; font-size: 10.5px; padding-top: 0; }
+  .nx-icard__t, .nx-icard__d { grid-column: 2; }
+  .nx-icard__t { font-size: 1rem; }
+  .nx-icard__d { margin: 2px 0 0; font-size: 14px; }
+}
+
+/* ---- light mode: the screens sit on a short, soft shadow. The dark one ran
+   about 96px below each screen and was cut off where the next section began. */
+html[data-nx-theme="light"] .nx .on-light :is(.ui-win, .ui.ui-card, .fa-fun, .fq-app, .fx-card, .fl-lib, .fl-stack__c, .ff-phone, .ff-tent, .ff-list, .hwx, .fi-chat, .fp-merge, .fr-doc, .fs-board, .ft-night, .fw-phone, .fw-panel, .cx-fc, .cx-ask, .cx-sim, .xb-wk, .xc-board, .px-month, .fx, .nx-run, .tshow__card, .st3d__card .ui-card, .phero__card .ui-card) {
+  box-shadow: 0 22px 44px -26px rgba(10, 10, 10, .5), 0 2px 8px rgba(10, 10, 10, .08);
+}
+
+/* ---- updates: two cards, side by side, until the case studies are published */
+.nr.nr--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 680px) { .nr.nr--two { grid-template-columns: minmax(0, 1fr); } }
