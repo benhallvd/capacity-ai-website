@@ -19,7 +19,7 @@ CHECKED = "November 2026"
 
 VENUES = [
     ("labyrinth-logo.png", "Labyrinth"), ("trilogy-mark.svg", "Trilogy"), ("home-botanic-logo.svg", "Home &amp; Botanic"),
-    ("fritz-steins-logo.svg", "Fritz &amp; Steins"), ("chapel-mark.png", "The Chapel"), ("ovation-logo.png", "Ovation"), ("bunker-logo.png", "Bunker"),
+    ("fritz-steins-logo.svg", "Fritz &amp; Steins"), ("bierkeller-logo.png", "Bierkeller"), ("chapel-mark.png", "The Chapel"), ("ovation-logo.png", "Ovation"), ("bunker-logo.png", "Bunker"),
 ]
 
 # The three results the client has cleared, each worded for its page.

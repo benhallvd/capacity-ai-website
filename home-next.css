@@ -1108,3 +1108,5 @@ a.nx-proof:hover .nx-proof__go .ic { translate: 3px 0; }
   .nx-proof { grid-template-columns: minmax(0, 1fr); row-gap: 14px; min-height: 260px; }
   .nx-proof__txt { flex-direction: column; gap: 8px; }
 }
+.nx .nx-tick__row img[src$="bierkeller-logo.png"] { height: 40px; }
+@media (max-width: 760px) { .nx .nx-tick__row img[src$="bierkeller-logo.png"] { height: 34px; } }
