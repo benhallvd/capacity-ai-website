@@ -187,16 +187,27 @@
     revealables.forEach(function (el) { el.classList.add('is-in'); });
     $$('[data-count]').forEach(settleCount);
   } else {
+    var show = function (el) {
+      el.classList.add('is-in');
+      io.unobserve(el);
+      $$('[data-count]', el).forEach(runCount);
+      if (el.hasAttribute('data-count')) runCount(el);
+    };
+    /* Any part on screen is enough: a share of the height never arrives for
+       a mockup taller than the screen. */
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
-        io.unobserve(entry.target);
-        $$('[data-count]', entry.target).forEach(runCount);
-        if (entry.target.hasAttribute('data-count')) runCount(entry.target);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+      entries.forEach(function (entry) { if (entry.isIntersecting) show(entry.target); });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0 });
     revealables.forEach(function (el) { io.observe(el); });
+    /* What is already on the first screen shows without waiting to scroll. */
+    var firstScreen = function () {
+      var vh = window.innerHeight || 800;
+      revealables.forEach(function (el) {
+        if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < vh * 0.94) show(el);
+      });
+    };
+    window.addEventListener('load', firstScreen);
+    window.addEventListener('pageshow', firstScreen);
 
     var cio = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -256,7 +267,7 @@
           e.target.classList.add('is-in');
           obs.unobserve(e.target);
         });
-      }, { threshold: 0.15 });
+      }, { threshold: 0 });
       st3ds.forEach(function (el) { seen.observe(el); });
     } else {
       st3ds.forEach(function (el) { el.classList.add('is-in'); });
@@ -697,21 +708,19 @@
       });
     });
 
-    if (hoverable) {
-      bts.forEach(function (tile) {
-        tile.addEventListener('pointerenter', function () { tile.classList.add('is-hot'); setLive(tile, true); });
-        tile.addEventListener('pointerleave', function () { tile.classList.remove('is-hot'); setLive(tile, false); });
-      });
-    } else if ('IntersectionObserver' in window) {
+    /* Each card plays once when its tile comes on screen and then holds. A
+       hover or keyboard focus only marks the tile as the link it is. */
+    if ('IntersectionObserver' in window) {
       var bio = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { setLive(e.target, e.isIntersecting); });
-      }, { threshold: 0.4 });
+      }, { threshold: 0.55 });
       bts.forEach(function (el) { bio.observe(el); });
     }
-    /* The keyboard gets the same as a hover: the linked tiles take focus. */
     bts.forEach(function (tile) {
-      tile.addEventListener('focusin', function () { tile.classList.add('is-hot'); setLive(tile, true); });
-      tile.addEventListener('focusout', function () { tile.classList.remove('is-hot'); setLive(tile, false); });
+      tile.addEventListener('pointerenter', function () { tile.classList.add('is-hot'); });
+      tile.addEventListener('pointerleave', function () { tile.classList.remove('is-hot'); });
+      tile.addEventListener('focusin', function () { tile.classList.add('is-hot'); });
+      tile.addEventListener('focusout', function () { tile.classList.remove('is-hot'); });
     });
 
     /* The fit. Each card's type is sized so the card fills its stage height
@@ -1417,9 +1426,16 @@
       }
 
       var payload = { page: location.href };
+      var focus = [];
       Array.prototype.forEach.call(form.elements, function (el) {
-        if (el.name) payload[el.name] = el.value;
+        if (!el.name) return;
+        if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) return;
+        if (el.name === 'focus') { focus.push(el.value); return; }
+        payload[el.name] = el.value;
       });
+      /* The focus chips ride along in the message, which is the field the
+         endpoint already carries. */
+      if (focus.length) payload.msg = 'Focus: ' + focus.join(', ') + (payload.msg ? '. ' + payload.msg : '');
 
       if (button) { button.disabled = true; button.textContent = 'Sending...'; }
 
@@ -2395,7 +2411,7 @@
         rest();
         show('profile');
       });
-    }, { threshold: 0.35 }).observe(root);
+    }, { threshold: 0.35 }).observe(window.innerWidth <= 900 && root.querySelector('.fp-prof') || root);
   } else {
     play();
   }
@@ -3489,6 +3505,12 @@
     el.style.width = f.width + 'px';
     el.style.height = f.height + 'px';
     lib.appendChild(el);
+    /* A target hidden at this width (the folders on a phone): fade where it is. */
+    if (!t.width || !t.height) {
+      void el.offsetWidth;
+      el.style.opacity = '0';
+      return wait(g, 780).then(function () { return el; });
+    }
     var s = Math.min(t.width / f.width, t.height / f.height);
     var dx = t.left + t.width / 2 - f.left - f.width * s / 2;
     var dy = t.top + t.height / 2 - f.top - f.height * s / 2;
@@ -4036,14 +4058,15 @@
 
   /* Empty until the first time it is seen, so the first question is asked
      in front of the reader rather than found already answered. */
-  pick(0);
-  log.innerHTML = '';
+  /* The first exchange is already there, so the panel is never an empty
+     box; the next question is asked once it is on screen. */
+  rest(0);
 
   new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       onScreen = e.isIntersecting;
       if (onScreen) {
-        if (!played) { played = true; begin(0, 400); }
+        if (!played) { played = true; begin(1 % answers.length, 2600); }
         else begin((at + 1) % answers.length, 3500);
       } else if (played) {
         gen++;
@@ -4441,10 +4464,21 @@
       if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
       return sp;
     });
-    var light = function () { spans.forEach(function (sp, i) { setTimeout(function () { sp.classList.add('is-on'); }, reduced ? 0 : 120 + i * 55); }); };
-    if (!('IntersectionObserver' in window)) return light();
-    var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { light(); io.disconnect(); } }, { threshold: 0.5 });
-    io.observe(el);
+    /* The words light up with the scroll: none while the line sits low on the
+       screen, all of them by the time it reaches the upper third. */
+    if (reduced) { spans.forEach(function (sp) { sp.classList.add('is-on'); }); return; }
+    var tick = 0;
+    var paint = function () {
+      tick = 0;
+      var r = el.getBoundingClientRect(), vh = window.innerHeight;
+      var start = vh * 0.82, end = vh * 0.3 - r.height * 0.4;
+      var p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+      var n = Math.round(p * spans.length);
+      spans.forEach(function (sp, i) { sp.classList.toggle('is-on', i < n); });
+    };
+    window.addEventListener('scroll', function () { if (!tick) tick = requestAnimationFrame(paint); }, { passive: true });
+    window.addEventListener('resize', paint);
+    paint();
   });
 
   $$('[data-who]').forEach(function (root) {
@@ -4983,4 +5017,220 @@
     if (on && !running) { running = true; play(); }
     else if (!on && running) { running = false; stop(); }
   }, { threshold: 0.25 }).observe(root);
+})();
+
+
+/* ===================================================================== v9 ==
+   The shell's menu panel, the hero photo, and the predictive CRM band's
+   steps. Each piece does nothing on a page that lacks its markup. */
+(function () {
+  'use strict';
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+  var doc = document.documentElement;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ----------------------------------------------------------------- menu -- */
+  var btn = document.getElementById('menuBtn');
+  var menu = document.getElementById('menu');
+  var nav = document.getElementById('nav');
+  if (btn && menu && nav) {
+    var hideT = 0;
+    var isOpen = function () { return menu.classList.contains('is-open'); };
+    var open = function () {
+      clearTimeout(hideT);
+      menu.hidden = false;
+      void menu.offsetWidth;
+      menu.classList.add('is-open');
+      nav.classList.add('is-menu');
+      doc.classList.add('is-locked');
+      btn.setAttribute('aria-expanded', 'true');
+    };
+    var close = function (refocus) {
+      menu.classList.remove('is-open');
+      nav.classList.remove('is-menu');
+      doc.classList.remove('is-locked');
+      btn.setAttribute('aria-expanded', 'false');
+      hideT = setTimeout(function () { menu.hidden = true; }, 350);
+      if (refocus) btn.focus();
+    };
+    btn.addEventListener('click', function () { if (isOpen()) close(); else open(); });
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) { close(); return; }
+      if (!e.target.closest('.mp__panel')) close();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) close(true); });
+  }
+
+  /* ---------------------------------------------------- the CRM, three steps -- */
+  /* The step nearest the reading line is the one in view; the card on the
+     right (on a phone, at the top) shows the screen that goes with it. */
+  $$('[data-crm]').forEach(function (root) {
+    var steps = $$('.cr__step', root), cards = $$('.cr__card', root);
+    if (!steps.length || !cards.length) return;
+    var cur = -1, ticking = false;
+    var set = function (i) {
+      if (i === cur) return;
+      cur = i;
+      steps.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
+      cards.forEach(function (c, k) { c.classList.toggle('is-on', k === i); });
+    };
+    var paint = function () {
+      ticking = false;
+      var narrow = window.innerWidth <= 1000;
+      var line = window.innerHeight * (narrow ? 0.74 : 0.52);
+      var i = 0;
+      steps.forEach(function (s, k) { if (s.getBoundingClientRect().top < line) i = k; });
+      set(i);
+    };
+    var req = function () { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req, { passive: true });
+    paint();
+  });
+})();
+
+/* ==================================================================== v11 ==
+   The room in characters, and the row that scrolls sideways. */
+
+/* A picture, or a slow moving field, drawn as characters in one blue. Each
+   cell takes the character and the shade its brightness asks for.
+     <div data-ascii="photo.jpg" data-cols="150" data-fade="l r t b">
+     <div data-ascii="field" data-cols="150"> */
+(function () {
+  'use strict';
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hosts = Array.prototype.slice.call(document.querySelectorAll('div[data-ascii]'));
+  if (!hosts.length) return;
+
+  var CH = ' .:-=+*#%@'.split('');
+  function hash(i) { var x = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); }
+  function smooth(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  var C0 = [22, 48, 128], C1 = [27, 99, 248], C2 = [214, 228, 255];
+  var RAMP = [];
+  for (var k = 0; k <= 32; k++) {
+    var v = k / 32, a = v < 0.6 ? C0 : C1, b = v < 0.6 ? C1 : C2, t = v < 0.6 ? v / 0.6 : (v - 0.6) / 0.4;
+    RAMP.push('rgb(' + (lerp(a[0], b[0], t) | 0) + ',' + (lerp(a[1], b[1], t) | 0) + ',' + (lerp(a[2], b[2], t) | 0) + ')');
+  }
+
+  hosts.forEach(function (host) {
+    var src = host.getAttribute('data-ascii');
+    var field = src === 'field';
+    var baseCols = +host.getAttribute('data-cols') || 140;
+    var gamma = +host.getAttribute('data-gamma') || 1.6;
+    var gain = +host.getAttribute('data-gain') || 1.3;
+    var fade = (host.getAttribute('data-fade') || '').split(' ');
+    var cvs = document.createElement('canvas');
+    host.appendChild(cvs);
+    var ctx = cvs.getContext('2d');
+    var img = field ? null : new Image();
+    var W = 0, H = 0, dpr = 1, cols = 0, rows = 0, cw = 0, rh = 0, fpx = 0, lum = null, mask = null, raf = 0, t0 = 0, live = true, last = 0;
+
+    function sample() {
+      var r = host.getBoundingClientRect();
+      W = Math.max(1, r.width); H = Math.max(1, r.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+      /* never smaller than a readable character */
+      cols = Math.max(24, Math.min(baseCols, Math.floor(W / 7)));
+      cw = W / cols; fpx = cw / 0.6; rh = fpx * 1.12; rows = Math.ceil(H / rh);
+      lum = new Float32Array(cols * rows); mask = new Float32Array(cols * rows);
+      var d = null;
+      if (img) {
+        var off = document.createElement('canvas'); off.width = cols; off.height = rows;
+        var oc = off.getContext('2d');
+        var s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+        var dw = img.naturalWidth * s / cw, dh = img.naturalHeight * s / rh;
+        oc.drawImage(img, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
+        d = oc.getImageData(0, 0, cols, rows).data;
+      }
+      for (var i = 0; i < cols * rows; i++) {
+        if (d) {
+          var l = (0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]) / 255;
+          lum[i] = Math.pow(Math.min(1, l * gain), gamma);
+        }
+        var x = (i % cols) / cols, y = Math.floor(i / cols) / rows, m = 1;
+        if (fade.indexOf('l') >= 0) m *= smooth(0.0, 0.3, x);
+        if (fade.indexOf('r') >= 0) m *= smooth(1.0, 0.7, x);
+        if (fade.indexOf('t') >= 0) m *= smooth(0.0, 0.3, y);
+        if (fade.indexOf('b') >= 0) m *= smooth(1.0, 0.72, y);
+        mask[i] = m;
+      }
+    }
+
+    function frame(now) {
+      raf = 0;
+      if (!live || !lum) return;
+      if (now - last < 80) { raf = requestAnimationFrame(frame); return; }
+      last = now;
+      if (!t0) t0 = now;
+      var t = (now - t0) / 1000;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.font = '500 ' + fpx.toFixed(2) + 'px "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace';
+      ctx.textBaseline = 'top';
+      var n = CH.length - 1;
+      for (var i = 0; i < lum.length; i++) {
+        var m = mask[i]; if (m < 0.03) continue;
+        var cx = i % cols, cy = (i / cols) | 0, h = hash(i), L;
+        if (field) {
+          var fx = cx / cols * 6.283, fy = cy / rows * 6.283 * (H / W) * 2;
+          L = 0.5 + 0.25 * Math.sin(fx * 1.6 + t * 0.22 + Math.sin(fy * 1.3 - t * 0.17) * 1.4)
+                  + 0.25 * Math.sin(fy * 2.1 - t * 0.19 + Math.cos(fx * 0.9 + t * 0.11) * 1.8);
+          L = Math.pow(Math.max(0, L), 2.2);
+        } else {
+          L = lum[i];
+        }
+        var rv = 1;
+        if (!reduced && !field) { var st = (1 - cy / rows) * 1.3 + h * 0.5; rv = smooth(st, st + 0.7, t); if (rv <= 0) continue; }
+        var v = Math.min(1, L * (1 + 0.16 * Math.sin(t * 1.1 + h * 6.283))) * rv * m;
+        var ci = Math.round(v * n);
+        if (ci < 1) continue;
+        ctx.globalAlpha = 0.3 + 0.7 * v;
+        ctx.fillStyle = RAMP[(v * 32) | 0];
+        ctx.fillText(CH[ci], cx * cw, cy * rh);
+      }
+      ctx.globalAlpha = 1;
+      if (!reduced) raf = requestAnimationFrame(frame);
+    }
+
+    function start() { if (!raf) raf = requestAnimationFrame(frame); }
+    function boot() { sample(); last = 0; start(); }
+    if (img) {
+      img.addEventListener('load', boot);
+      img.src = src;
+    } else { boot(); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { last = 0; start(); });
+    var rt = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { if (!img || img.naturalWidth) boot(); }, 120);
+    }, { passive: true });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { live = en[0].isIntersecting; if (live) start(); }, { threshold: 0 }).observe(host);
+    }
+  });
+})();
+
+/* A row of panels that scrolls sideways, with a pair of buttons for anyone
+   without a trackpad. */
+(function () {
+  'use strict';
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rail]'), function (rail) {
+    var root = rail.closest('section') || document;
+    var prev = root.querySelector('[data-rail-prev]'), next = root.querySelector('[data-rail-next]');
+    function step() { var p = rail.children[0]; return p ? p.getBoundingClientRect().width + 14 : 400; }
+    function sync() {
+      var max = rail.scrollWidth - rail.clientWidth - 2;
+      if (prev) prev.disabled = rail.scrollLeft <= 2;
+      if (next) next.disabled = rail.scrollLeft >= max;
+      var nav = prev && prev.parentNode;
+      if (nav) nav.hidden = max <= 2;
+    }
+    if (prev) prev.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    if (next) next.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
+    rail.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync, { passive: true });
+    sync();
+  });
 })();

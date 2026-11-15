@@ -4,4 +4,4 @@ Allow: /
 # Linked from nowhere and not ready to be indexed.
 Disallow: /case-neon-rooms
 
-Sitemap: https://getcapacity.co/sitemap.xml
+Sitemap: https://www.getcapacity.co/sitemap.xml

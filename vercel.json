@@ -37,6 +37,16 @@
   ],
   "redirects": [
     {
+      "source": "/updates/epic-bars-and-clubs",
+      "destination": "/updates",
+      "permanent": false
+    },
+    {
+      "source": "/case-neon-rooms",
+      "destination": "/updates",
+      "permanent": false
+    },
+    {
       "source": "/home",
       "destination": "/",
       "permanent": true

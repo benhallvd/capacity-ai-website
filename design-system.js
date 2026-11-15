@@ -90,11 +90,20 @@
     var rc = fw ? { width: fw, height: fh } : stage.getBoundingClientRect();
     W = rc.width; H = rc.height; dpr = fw ? 2 : Math.min(window.devicePixelRatio || 1, 2);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-    cw = Math.max(4, Math.floor(W / ((fw ? stillCols : V.cols) * (S.dense || 1)))); ch = Math.round(cw * V.aspect);
+    /* a stage can ask for a cell size in px (data-cell), so a wide stage keeps
+       small characters; it never goes coarser than the variant's own count */
+    var want = W / ((fw ? stillCols : V.cols) * (S.dense || 1));
+    if (!fw && stage && stage.dataset.cell) want = Math.min(+stage.dataset.cell, want);
+    cw = Math.max(4, Math.floor(want)); ch = Math.round(cw * V.aspect);
     cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
     ox = (W - cols * cw) / 2; oy = (H - rows * ch) / 2;
     val = new Float32Array(cols * rows); tone = new Int8Array(cols * rows).fill(-1);
-    scale = fw ? Math.min(W * 0.84 / U, H * 0.8 / MARK_H) : Math.min(W * 0.78 / U, H * 0.56 / MARK_H);
+    var fillH = (!fw && stage && stage.dataset.fill) ? +stage.dataset.fill : 0.56;
+    /* a stylesheet can size the mark per screen (--mark-w, --mark-h) */
+    var css = (!fw && stage) ? getComputedStyle(stage) : null;
+    var fillW = (css && parseFloat(css.getPropertyValue('--mark-w'))) || 0.78;
+    if (css && parseFloat(css.getPropertyValue('--mark-h'))) fillH = parseFloat(css.getPropertyValue('--mark-h'));
+    scale = fw ? Math.min(W * 0.84 / U, H * 0.8 / MARK_H) : Math.min(W * fillW / U, H * fillH / MARK_H);
     cellU = cw / scale;
     cx = W / 2; cy = fw ? H * 0.5 : H * 0.43;
     stars = [];
@@ -203,9 +212,11 @@
   function ap(m, x, y, z) { return [m[0] * x + m[1] * y + m[2] * z, m[3] * x + m[4] * y + m[5] * z, m[6] * x + m[7] * y + m[8] * z]; }
 
   /* It sways on its own, and every nine seconds turns once all the way round. */
+  var steady = !!(stage && stage.dataset.spin === 'steady');
   function markPose(t) {
     var p = (t - 4) % 9 / 2.6, turn = t < 4 || p >= 1 ? 0 : Math.PI * (1 - Math.cos(Math.PI * p));
-    R = rot(0.5 * Math.sin(t * 0.45) + turn, -0.22 + 0.1 * Math.sin(t * 0.37), 0.05 * Math.sin(t * 0.29));
+    if (steady) turn = 0.55 * Math.sin(t * 0.5);   /* an even sway, never edge-on */
+    R = rot(steady ? turn : 0.5 * Math.sin(t * 0.45) + turn, -0.22 + 0.08 * Math.sin(t * 0.37), 0.04 * Math.sin(t * 0.29));
     oL = [R[6] * D, R[7] * D, R[8] * D];
     lamF = 0.55 + 0.45 * Math.abs(R[2] * L[0] + R[5] * L[1] + R[8] * L[2]);
     sheen = 2.4 * Math.sin(t * 0.45 + turn);  /* where the light band crosses the face */

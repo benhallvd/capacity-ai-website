@@ -13,7 +13,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).parent
-STAMPED = ("site.css", "site.js", "tokens.css", "hiring.js", "ascii.js", "design-system.css", "design-system.js")
+STAMPED = ("site.css", "site.js", "tokens.css", "home-next.css", "home-next.js", "hiring.js", "ascii.js", "design-system.css", "design-system.js", "design-system/character.js")
 
 REF = re.compile(r'((?:href|src)="(?:\.\./)?)([A-Za-z0-9_.\-]+\.(?:css|js))(\?v=[0-9a-f]+)?(")')
 
@@ -23,10 +23,10 @@ def digest(name: str) -> str:
 
 
 def main() -> int:
-    hashes = {name: digest(name) for name in STAMPED if (ROOT / name).exists()}
+    hashes = {pathlib.Path(name).name: digest(name) for name in STAMPED if (ROOT / name).exists()}
     changed = []
 
-    for page in sorted(ROOT.glob("*.html")) + sorted(ROOT.glob("design-system/*.html")):
+    for page in sorted(ROOT.glob("*.html")) + sorted(ROOT.glob("design-system/*.html")) + sorted(ROOT.glob("updates/*.html")):
         text = page.read_text()
 
         def swap(m: "re.Match[str]") -> str:
