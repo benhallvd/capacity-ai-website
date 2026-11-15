@@ -7,3 +7,4 @@ tools/export/out/
 
 tools/remotion/out/
 tools/remotion/.remotion/
+__pycache__/

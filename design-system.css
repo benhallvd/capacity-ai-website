@@ -1,8 +1,3 @@
-/* ==========================================================================
-   Capacity brand. Internal, unlinked, noindex. The master page: it links the
-   live tokens.css, site.css and ascii.js, so it always shows what the site
-   really uses. Rules for AI live in tools/brand/BRAND.md.
-   ========================================================================== */
 :root { --bk-gutter: clamp(20px, 5vw, 64px); --brand-soft: #7fa4ff; }
 html { scroll-padding-top: 72px; }
 body { background: #f6f6f6; }
@@ -112,8 +107,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .bk-ph__h { position: absolute; left: 7%; right: 7%; bottom: 7%; z-index: 2; color: #f5f5f5; font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; line-height: 1; font-size: clamp(1.4rem, 1rem + 1.4vw, 2.2rem); letter-spacing: var(--tracking-caps); }
 .bk-after { margin-top: 14px; }
 
-/* Graphics: one fragment, one action. Everything inside is sized in em off
-   the .ui font size, so a piece scales to its panel and to its export. */
 .frags { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
 .frag { container-type: inline-size; position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; border-radius: 14px; background-color: #fff; background-image: radial-gradient(#d9d9d9 1px, transparent 1.2px); background-size: 4cqw 4cqw; box-shadow: inset 0 0 0 1px #e4e4e4; }
 .frag .ui { font-size: 3.4cqw; width: 78cqw; }
@@ -179,10 +172,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
   .cell__num { left: 16px; bottom: 16px; gap: 6px; }
 }
 
-/* ---- outreach ----------------------------------------------------------- */
-/* Print pieces, mocked up. Everything is sized from the scene's width (cqw) or
-   an em set on the piece, so a scene scales like the real canvas. The prints
-   are live stills of the Tiles renderer: canvas[data-tile]. */
 .obs { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .ob-fig { margin: 0; min-width: 0; display: grid; gap: 10px; align-content: start; }
 .ob-fig--wide { grid-column: 1 / -1; }
@@ -196,7 +185,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .ob canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .ob-ph { border-bottom: .07em dashed currentColor; opacity: .8; }
 
-/* The box, drawn in 3D. A slab has a top, a front and a right side. */
 .ob__3d { position: absolute; inset: 0; perspective: 420cqw; }
 .iso { position: absolute; left: 50%; top: var(--top, 64%); width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(57deg) rotateZ(-36deg); }
 .sl { position: absolute; transform-style: preserve-3d; width: var(--w); height: var(--d); left: calc(var(--w) / -2); top: calc(var(--d) / -2); transform: translate3d(var(--x, 0px), var(--y, 0px), var(--z, 0px)); }
@@ -211,7 +199,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .sl--sleek.sl--lab { --tc: linear-gradient(135deg, #3a2748, #1d1228 62%); --fc: #2c1c38; --rc: #1c1125; }
 .ob-sh { position: absolute; width: var(--w); height: var(--d); left: calc(var(--w) / -2); top: calc(var(--d) / -2); transform: translate3d(var(--x, 0px), var(--y, 0px), 0); background: rgba(0, 0, 0, var(--a, .4)); filter: blur(var(--b, 2.2cqw)); }
 
-/* Ticket: 60 by 24 at any em, with the stub cut in. */
 .tk { position: relative; width: 60em; height: 24em; display: grid; grid-template-columns: 22em minmax(0, 1fr) 10em; color: #f5f5f5; background: #0b0b0e;
   -webkit-mask: radial-gradient(circle 1.2em at calc(100% - 10em) 0, #0000 97%, #000), radial-gradient(circle 1.2em at calc(100% - 10em) 100%, #0000 97%, #000); -webkit-mask-composite: source-in;
   mask: radial-gradient(circle 1.2em at calc(100% - 10em) 0, #0000 97%, #000), radial-gradient(circle 1.2em at calc(100% - 10em) 100%, #0000 97%, #000); mask-composite: intersect; }
@@ -230,7 +217,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .ob-lay { position: absolute; filter: drop-shadow(0 1.2cqw 1.4cqw rgba(0, 0, 0, .28)) drop-shadow(0 .2cqw .3cqw rgba(0, 0, 0, .2)); }
 .ob--ink .ob-lay, .ob--lab .ob-lay { filter: drop-shadow(0 1.6cqw 1.8cqw rgba(0, 0, 0, .7)); }
 
-/* Coaster: board with a visible edge. */
 .cs { position: relative; width: 14em; height: 14em; overflow: hidden; border-radius: 1.1em; background: #0b0b0e; color: #f5f5f5; box-shadow: 0 .16em 0 #2a2a2e; }
 .cs--white { background: #fff; color: #171717; box-shadow: 0 .16em 0 #c9c9cd; }
 .cs--blue { background: var(--brand); color: #fff; box-shadow: 0 .16em 0 #123f9f; }
@@ -240,7 +226,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .cs__copy svg { width: 2.2em; height: auto; }
 .cs__copy b { font: 700 1.5em/1.02 "Mona Sans", var(--font-sans); font-stretch: 125%; letter-spacing: -.02em; text-transform: uppercase; }
 
-/* Wristband: a long strip with a tab at the end. */
 .wb { position: absolute; left: -6cqw; width: 112cqw; height: 7.6cqw; display: flex; align-items: center; gap: 2.4cqw; padding-inline: 8cqw 0; overflow: hidden; background: #0b0b0e; color: #f5f5f5; font: 500 1.5cqw/1 var(--font-mono); letter-spacing: .14em; white-space: nowrap; box-shadow: 0 1cqw 1.6cqw rgba(0, 0, 0, .3); }
 .wb--white { background: #fff; color: #171717; }
 .wb--sky { background: #dfe9ff; color: #0a2a7a; }
@@ -248,7 +233,6 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .wb b { font: 700 2.4cqw/1 "Mona Sans", var(--font-sans); font-stretch: 125%; letter-spacing: 0; flex: none; }
 .wb span { opacity: .55; }
 
-/* Note and envelope. */
 .nt { position: absolute; width: 42cqw; height: 48cqw; padding: 4cqw 3.8cqw; background: #fff; color: #171717; font: 400 1.75cqw/1.5 var(--font-sans); display: flex; flex-direction: column; box-shadow: 0 1cqw 2cqw rgba(0, 0, 0, .18); }
 .lt-n, .lt-d { position: relative; overflow: hidden; background-color: #000; background-size: cover; }
 .lt-n { background-image: var(--light-night); }
@@ -258,10 +242,10 @@ code { font-family: var(--font-mono); font-size: .9em; letter-spacing: 0; overfl
 .ob .rb.lt-n { overflow: visible; }
 .ob .ly__s.lt-n { color: #fff; }
 .lt-n::after, .lt-d::after { content: ""; position: absolute; inset: 0; background: var(--grain); opacity: .55; mix-blend-mode: overlay; pointer-events: none; }
-/* Engraved: the mark sits darker than the surface, lit along its lower lip. */
+
 .eng { position: absolute; left: 50%; top: 50%; width: var(--eng, 3.8cqw); height: auto; transform: translate(-50%, -50%); color: #050506; filter: drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .3)) drop-shadow(0 -.06cqw .02cqw rgba(0, 0, 0, .95)); }
 img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34)) drop-shadow(0 -.06cqw .02cqw rgba(0, 0, 0, .95)); }
-/* Lanyard: two straps into a clip, then the badge. */
+
 .ly { position: absolute; top: 0; bottom: 0; width: 24cqw; }
 .ly__s { position: absolute; left: 50%; top: -3cqw; width: 3cqw; height: 29cqw; margin-left: -1.5cqw; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 1.8cqw; padding-top: 2cqw; background: #0b0b0e; color: #f5f5f5; box-shadow: 0 .6cqw 1cqw rgba(0, 0, 0, .3); }
 .ly__s svg { width: 1.7cqw; height: auto; flex: none; }
@@ -274,7 +258,7 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .ly__b canvas { height: 62%; top: 3cqw; }
 .ly__b > b { position: relative; z-index: 1; font: 700 2.1cqw/1.05 "Mona Sans", var(--font-sans); font-stretch: 125%; letter-spacing: -.02em; text-transform: uppercase; }
 .ly__b > small { position: relative; z-index: 1; margin-top: .6cqw; font: 500 1cqw/1.3 var(--font-mono); letter-spacing: .04em; opacity: .8; }
-/* Trade show stand, straight on. */
+
 .st-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 15cqw; background: linear-gradient(180deg, #2b2b30, #141417); clip-path: polygon(11% 0, 89% 0, 100% 100%, 0 100%); }
 .st-wall { position: absolute; left: 11cqw; right: 11cqw; top: 4cqw; bottom: 15cqw; display: grid; grid-template-columns: 1.15fr 1.3fr 1fr; background: #08090c; color: #f5f5f5; box-shadow: 0 0 5cqw rgba(0, 0, 0, .5); }
 .st-wall > div { position: relative; min-width: 0; }
@@ -288,7 +272,7 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .st-copy svg { width: 3.4cqw; height: auto; }
 .st-desk { position: absolute; left: 50%; bottom: 5.6cqw; width: 26cqw; height: 11.6cqw; margin-left: -13cqw; display: grid; place-items: center; box-shadow: 0 1.4cqw 2cqw rgba(0, 0, 0, .6); color: #fff; }
 .st-desk svg { position: relative; z-index: 1; width: 6cqw; height: auto; }
-/* Pull-up banner: 85 by 200 on a metal foot. */
+
 .rb { position: absolute; bottom: 7.5cqw; width: 21cqw; height: 49.4cqw; color: #f5f5f5; background: #0b0b0e; box-shadow: 0 1cqw 2.4cqw rgba(0, 0, 0, .24); }
 .rb::after { }
 .rb__foot { position: absolute; left: -1.4cqw; right: -1.4cqw; bottom: -1.1cqw; height: 1.1cqw; border-radius: .2cqw; background: linear-gradient(180deg, #d9dade, #8e9098); z-index: 2; }
@@ -297,8 +281,7 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .rb__c { position: absolute; z-index: 3; left: 2.2cqw; right: 2.2cqw; bottom: 3cqw; display: grid; gap: 1.6cqw; }
 .rb__c b { font: 700 2.15cqw/1.04 "Mona Sans", var(--font-sans); font-stretch: 125%; letter-spacing: -.02em; text-transform: uppercase; }
 .rb__c svg { width: 3cqw; height: auto; }
-/* The shirt: a cloth layer cut to the silhouette, then seams, collar and print
-   drawn over it on the same 1000 grid. */
+
 .kit { --shirt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3E%3Cpath d='M432 112C360 124 270 140 196 168C140 192 88 300 34 486L186 540C194 510 200 470 202 440C198 600 196 760 196 900C380 916 620 916 804 900C804 760 802 600 798 440C800 470 806 510 814 540L966 486C912 300 860 192 804 168C730 140 640 124 568 112C548 150 452 150 432 112Z'/%3E%3C/svg%3E"); --cloth: #0d0d10; --tone: rgba(255, 255, 255, .06); --col: #1b63f8; --print: #f5f5f5; --seam: rgba(255, 255, 255, .13); --fold: rgba(0, 0, 0, .34); --lift: rgba(255, 255, 255, .05); position: absolute; aspect-ratio: 1; filter: drop-shadow(0 1cqw 1.4cqw rgba(0, 0, 0, .3)); }
 .kit--away { --cloth: #fff; --tone: rgba(10, 10, 10, .05); --col: #0b0b0e; --print: #0b0b0e; --seam: rgba(0, 0, 0, .14); --fold: rgba(0, 0, 0, .1); --lift: rgba(255, 255, 255, .5); }
 .kit--third { --cloth: var(--light-night); --tone: rgba(255, 255, 255, .1); --col: #fff; --print: #fff; --seam: rgba(255, 255, 255, .22); --fold: rgba(10, 16, 70, .2); --lift: rgba(255, 255, 255, .1); }
@@ -322,7 +305,7 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .k-dash { fill: none; stroke: var(--print); stroke-width: 5; stroke-dasharray: 14 10; opacity: .75; }
 .k-crest { fill: var(--print); }
 .ob-win { position: absolute; left: 50%; top: 31%; width: 72%; aspect-ratio: 1520 / 1120; transform: translate(-50%, -50%); -webkit-mask: var(--mark-mask) center / 100% 100% no-repeat; mask: var(--mark-mask) center / 100% 100% no-repeat; }
-/* Gift concepts. */
+
 .gcs { display: grid; gap: 14px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(40px, 5vw, 64px); }
 .gc { display: grid; gap: 8px; align-content: start; min-width: 0; padding-top: 14px; border-top: 1px solid #e4e4e4; }
 .gc h3 { margin: 4px 0 0; font: 600 1.0625rem/1.25 var(--font-sans); letter-spacing: -.01em; }
@@ -338,7 +321,6 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .ev__front { position: absolute; inset: 0; background: #131316; clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); }
 .ev__label { position: absolute; left: 6cqw; bottom: 8cqw; color: #f5f5f5; font: 500 1.6cqw/1.7 var(--font-mono); letter-spacing: .02em; }
 
-/* Poster: A-series, on a wall. */
 .po { position: absolute; width: 33cqw; height: 46.7cqw; background: #08090d; color: #f5f5f5; box-shadow: 0 1.6cqw 3cqw rgba(0, 0, 0, .6); }
 .po--white { background: #fff; color: #171717; }
 .po canvas { height: 76%; }
@@ -347,8 +329,6 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .po__copy svg { width: 3.4cqw; height: auto; flex: none; }
 @media (max-width: 700px) { .obs { grid-template-columns: minmax(0, 1fr); } .ob-fig--wide .ob { aspect-ratio: 8 / 5; } }
 
-/* ---- templates ---------------------------------------------------------- */
-/* Templates: every piece is sized in cqw, so it scales like the real canvas */
 .tgroup + .tgroup { margin-top: clamp(48px, 6vw, 80px); }
 .tlabel { color: #6b6b6b; margin-bottom: 14px; }
 .tgrid { display: grid; gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -391,7 +371,6 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .tpl .ph::before, .mail .ph::before { content: none; }
 .mail .ph { border-bottom-width: 1px; }
 
-/* Coded product card, sized for templates */
 .tui { background: #141415; border: 1px solid #262628; border-radius: 3.4cqw; padding: 4.6cqw 5cqw; display: grid; gap: 2.8cqw; font-size: 3.8cqw; color: #f3f3f4; font-variant-numeric: tabular-nums; }
 .tui-top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
 .tui-pill { background: rgba(62,207,142,.16); color: #7de3b3; border-radius: 99px; padding: 0.6cqw 2.6cqw; font-size: 3cqw; }
@@ -402,20 +381,17 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .tui-row { display: flex; justify-content: space-between; color: #8d8d92; border-top: 1px solid #262628; padding-top: 2.6cqw; }
 .tui-row b { color: #f3f3f4; font-weight: 700; }
 
-/* Story poll sticker */
 .poll { background: #ffffff; color: #171717; border-radius: 4cqw; padding: 5cqw; display: grid; gap: 2.4cqw; }
 .poll b { font-size: 5.4cqw; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1cqw; }
 .poll span { display: flex; justify-content: space-between; border: 1px solid #e4e4e4; border-radius: 99px; padding: 2.4cqw 4cqw; font-size: 4cqw; font-weight: 600; }
 .poll span em { font-style: normal; color: var(--brand); font-variant-numeric: tabular-nums; }
 
-/* Carousel strip */
 .car { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; scrollbar-width: thin; }
 .car > .tpl { flex: 0 0 min(300px, 78vw); aspect-ratio: 4 / 5; scroll-snap-align: start; }
 .car-n { font-family: var(--font-mono); font-weight: 500; font-size: 13cqw; letter-spacing: 0; color: var(--brand); line-height: 1; }
 .car-prog { position: absolute; left: 7cqw; right: 7cqw; bottom: 5cqw; height: 0.6cqw; background: rgba(128,128,128,0.25); border-radius: 1cqw; z-index: 4; }
 .car-prog i { display: block; height: 100%; background: var(--brand); border-radius: 1cqw; }
 
-/* Email */
 .mail { background: #ffffff; border: 1px solid #e4e4e4; border-radius: var(--radius); overflow: hidden; color: #171717; font-size: 14px; }
 .mail-bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #efefef; background: #fafafa; }
 .mail-bar i { width: 8px; height: 8px; border-radius: 50%; background: #dedede; }
@@ -451,27 +427,21 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .sig .links a { color: #171717; text-decoration: none; font-weight: 500; }
 .sig .links a.cta { color: var(--brand); }
 
-/* Profile */
 .avatar-row { display: flex; gap: 14px; }
 .avatar { flex: 1; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; border: 1px solid #e4e4e4; }
 .avatar svg { width: 46%; height: auto; }
 
-/* Lower third */
 .l3 { position: absolute; left: 5cqw; bottom: 6cqw; z-index: 4; display: flex; align-items: stretch; gap: 1.6cqw; }
 .l3 i { width: 0.7cqw; background: var(--brand); border-radius: 1cqw; }
 .l3 div { background: rgba(10,10,10,0.82); padding: 1.6cqw 2.6cqw; border-radius: 1cqw; }
 .l3 b { display: block; font-size: 4.4cqw; letter-spacing: -0.02em; line-height: 1.2; }
 .l3 span { font-size: 3cqw; color: #8f8f8f; }
 
-
 .tpl-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
-/* Icons in tile form: the tiles alone. Photos stay photos, with the same faint
-   tiles as the site. */
+
 .tpl-photo[data-glyph].is-ascii, .ic-tiles img.is-ascii { opacity: 0; }
 .tpl img[data-glyph] + canvas.ascii, .ic-tiles canvas.ascii { opacity: 1; mix-blend-mode: normal; }
-/* The mark as a window onto a real night: the shot in black and white, the
-   light multiplied over it, then a little of the light screened back so the
-   shadows hold its hue. */
+
 .markwin { position: absolute; isolation: isolate; overflow: hidden; aspect-ratio: 1520 / 1120; -webkit-mask: var(--mark-mask) center / 100% 100% no-repeat; mask: var(--mark-mask) center / 100% 100% no-repeat; }
 .markwin img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.16) brightness(1.3); }
 .markwin::before, .markwin::after { content: ""; position: absolute; inset: 0; z-index: 1; }
@@ -493,7 +463,6 @@ img.eng { filter: brightness(0) drop-shadow(0 .07cqw 0 rgba(255, 255, 255, .34))
 .mast h3 { font-size: 22px; }
 .mock-cap { margin-top: 8px; color: #6b6b6b; }
 
-/* ---- apps: the solutions as a suite --------------------------------------- */
 .apps__h { margin-top: clamp(32px, 4vw, 56px); font-size: 1.15rem; font-weight: 600; letter-spacing: -0.02em; }
 .apps__p { margin: 6px 0 22px; max-width: 60ch; color: #a3a3a3; }
 .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 22px 14px; }

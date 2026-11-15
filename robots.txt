@@ -1,7 +1,35 @@
+# Capacity: open to search engines and to AI search and answer engines.
+# Default: allow everything except the pages below.
+
 User-agent: *
 Allow: /
 
 # Linked from nowhere and not ready to be indexed.
 Disallow: /case-neon-rooms
+Disallow: /design-system
+Disallow: /test-tickets
+
+# AI search and answer engines, named so the welcome is explicit. A named
+# group replaces the * group for that crawler, so the rules are repeated.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Mistralai-User
+User-agent: meta-externalagent
+User-agent: DuckAssistBot
+User-agent: Amazonbot
+Allow: /
+Disallow: /case-neon-rooms
+Disallow: /design-system
+Disallow: /test-tickets
 
 Sitemap: https://www.getcapacity.co/sitemap.xml

@@ -26,8 +26,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Mona+Sans:wdth,wght@125,600..800&display=swap" />
-<link rel="stylesheet" href="tokens.css?v=65c181014d" />
-<link rel="stylesheet" href="site.css?v=a07aa42197" />
+<link rel="stylesheet" href="tokens.css?v=93ec01cb45" />
+<link rel="stylesheet" href="site.css?v=5bfd316a97" />
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -37,9 +37,6 @@
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
 </svg>
 
-<!-- The full marketing site lives at /home for now. This page is the whole of
-     the root: one field, one button, and the privacy information the form
-     needs to carry. -->
 <main class="band on-light pagehead pagehead--full waitlist">
   <canvas class="hero__field hero__field--light hero__field--centred" id="pixelField" data-tone="light" aria-hidden="true"></canvas>
 
@@ -59,9 +56,6 @@
             <span class="field__err">Please enter a valid email address.</span>
           </div>
 
-          <!-- Optional, unticked by default: the only marketing consent on the
-               page. The wording is recorded with the opt-in, so keep it in step
-               with OPT_IN_WORDING in api/waitlist.js. -->
           <div class="field field--check">
             <label for="marketing">
               <input id="marketing" name="marketing" type="checkbox" />
@@ -77,8 +71,7 @@
           <button class="btn btn--primary btn--lg" type="submit">Join the waitlist <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
 
           <p class="form__note" id="waitlistError" role="alert" hidden></p>
-          <!-- Article 13: who we are, what for, and where the rest is, given at
-               the point the email is collected. -->
+
           <p class="waitlist__notice">
             Capacity Digital Ltd will use your email to tell you when early access opens, and for nothing else
             unless you tick the box above. You can ask us to delete it at any time. See our
@@ -96,6 +89,6 @@
   </div>
 </main>
 
-<script src="site.js?v=ba1d8b5a04" defer></script>
+<script src="site.js?v=44574a3917" defer></script>
 </body>
 </html>

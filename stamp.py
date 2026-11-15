@@ -26,7 +26,7 @@ def main() -> int:
     hashes = {pathlib.Path(name).name: digest(name) for name in STAMPED if (ROOT / name).exists()}
     changed = []
 
-    for page in sorted(ROOT.glob("*.html")) + sorted(ROOT.glob("design-system/*.html")) + sorted(ROOT.glob("updates/*.html")):
+    for page in sorted(ROOT.glob("*.html")) + sorted(ROOT.glob("design-system/*.html")) + sorted(ROOT.glob("updates/*.html")) + sorted(ROOT.glob("compare/*.html")):
         text = page.read_text()
 
         def swap(m: "re.Match[str]") -> str:

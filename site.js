@@ -1,10 +1,3 @@
-/* ============================================================================
-   Capacity site behaviour
-   Vanilla, no dependencies. Everything here is progressive: the page is fully
-   readable and navigable with this file blocked. All motion is skipped when the
-   visitor prefers reduced motion.
-   ========================================================================== */
-
 (function () {
   'use strict';
 
@@ -17,12 +10,6 @@
   function scrollMax() {
     return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   }
-
-  /* --------------------------------------------------------- smooth scroll -- */
-  /* A short glide on top of the real scroll position. It drives the actual
-     window scroll rather than transforming a wrapper, so position:sticky,
-     IntersectionObserver and the browser's own scrollbar all keep working.
-     Touch devices keep their native momentum, which already feels right. */
 
   var glide = null;
 
@@ -53,8 +40,6 @@
         if (!running) { running = true; requestAnimationFrame(frame); }
       }
 
-      /* A wheel over something that scrolls on its own (an open dialog, a
-         long list) belongs to that thing, not to the page. */
       function ownsWheel(el, dy) {
         for (; el && el !== document.body && el.nodeType === 1; el = el.parentNode) {
           if (el.matches('dialog[open], [data-glide-stop]')) return true;
@@ -66,8 +51,6 @@
         return false;
       }
 
-      /* Pinned sections are read one step at a time, so the wheel carries
-         less distance while one fills the screen. */
       var heavy = $$('[data-glide-slow]');
       function friction() {
         for (var i = 0; i < heavy.length; i++) {
@@ -78,19 +61,17 @@
       }
 
       window.addEventListener('wheel', function (e) {
-        if (e.ctrlKey) return;                 /* leave pinch-zoom alone */
+        if (e.ctrlKey) return;
         if (document.documentElement.classList.contains('is-locked')) return;
         if (ownsWheel(e.target, e.deltaY)) return;
         e.preventDefault();
-        /* deltaMode 1 is lines, 2 is pages */
+
         var d = e.deltaY;
         if (e.deltaMode === 1) d *= 16;
         else if (e.deltaMode === 2) d *= window.innerHeight;
         nudge(d * friction());
       }, { passive: false });
 
-      /* Anything that scrolls the page by other means (keyboard, scrollbar
-         drag, find-in-page) resyncs the glide so it never snaps backwards. */
       window.addEventListener('scroll', function () {
         if (!running) { target = current = window.scrollY; }
       }, { passive: true });
@@ -103,7 +84,6 @@
     })();
   }
 
-  /* In-page links ride the same glide instead of jumping. */
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[href^="#"]');
     if (!link) return;
@@ -117,10 +97,6 @@
     else window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' });
     if (history.replaceState) history.replaceState(null, '', id);
   });
-
-  /* ------------------------------------------------------------------ nav -- */
-  /* The nav floats transparent over the dark hero, then picks up the light
-     surface once you scroll. Pages without a dark hero ship `is-solid`. */
 
   var nav = $('#nav');
 
@@ -149,11 +125,6 @@
     }
   }
 
-  /* --------------------------------------------------------- scroll rig -- */
-  /* One rAF-coalesced handler drives every scroll-linked piece. Each reads its
-     own progress: 0 when its track's top meets the viewport top, 1 when its
-     bottom is one viewport height above. */
-
   var drivers = [];
   var ticking = false;
 
@@ -175,11 +146,8 @@
 
   window.addEventListener('scroll', pump, { passive: true });
   window.addEventListener('resize', pump, { passive: true });
-  /* Run once at start too: a reload part-way down the page, or a #hash entry,
-     would otherwise sit in the initial state until the first scroll. */
-  window.addEventListener('load', pump);
 
-  /* --------------------------------------------------------------- reveal -- */
+  window.addEventListener('load', pump);
 
   var revealables = $$('[data-r]');
 
@@ -193,13 +161,12 @@
       $$('[data-count]', el).forEach(runCount);
       if (el.hasAttribute('data-count')) runCount(el);
     };
-    /* Any part on screen is enough: a share of the height never arrives for
-       a mockup taller than the screen. */
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) { if (entry.isIntersecting) show(entry.target); });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0 });
     revealables.forEach(function (el) { io.observe(el); });
-    /* What is already on the first screen shows without waiting to scroll. */
+
     var firstScreen = function () {
       var vh = window.innerHeight || 800;
       revealables.forEach(function (el) {
@@ -220,8 +187,6 @@
       if (!el.closest('[data-r]')) cio.observe(el);
     });
   }
-
-  /* ------------------------------------------------------------- counters -- */
 
   function format(el, value) {
     var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
@@ -253,10 +218,6 @@
     })(performance.now());
   }
 
-  /* ---------------------------------------------------------- product UI -- */
-  /* The screenshot stack drifts against the scroll, so the group has weight.
-     --lift only, the rotation stays in CSS where it belongs. */
-
   var st3ds = $$('.st3d');
 
   if (st3ds.length) {
@@ -282,22 +243,15 @@
           if (r.bottom < -200 || r.top > vh + 200) continue;
           var p = clamp((vh - r.top) / (vh + r.height), 0, 1);
           el.style.setProperty('--lift', ((0.5 - p) * 46).toFixed(1) + 'px');
-          /* Cards sit closer to the main screen while it is still low in the
-             viewport and push out toward the reader as it rises. Depth only:
-             nothing here turns the group. */
+
           var rise = clamp((vh - r.top) / (vh * 0.85), 0, 1);
           el.style.setProperty('--zk', (0.3 + rise * 0.7).toFixed(3));
-          /* Laid back at 30 degrees while it is still low in the viewport,
-             standing up to square-on as it rises. */
+
           el.style.setProperty('--rx', ((1 - rise) * 30).toFixed(2) + 'deg');
         }
       });
     }
   }
-
-  /* -------------------------------------------------- statement fill ----- */
-  /* Words go from muted to solid as you scroll, then the whole band inverts to
-     black so it meets the dark section below with no seam. */
 
   var stTrack = $('.statement-track');
   var stFill = $('[data-fill]');
@@ -317,13 +271,6 @@
         return span;
       });
 
-      /* fill: words are fully lit here. hand: the copy gives the frame over to
-         the graphic. invert: the band flips to meet the dark section below.
-         Side by side, the desktop shows the statement and the graphic at once,
-         so it has no handover and the stop sits past the end of the track. A
-         phone has room for one of them, so the same held frame runs them as two
-         beats and the fill has to finish sooner to leave room for the second.
-         Read live rather than cached, so a rotation lands on the right set. */
       var narrow = window.matchMedia ? window.matchMedia('(max-width: 860px)') : null;
       var WIDE = { fill: 0.68, hand: 2, invert: 0.76 };
       var NARROW = { fill: 0.44, hand: 0.56, invert: 0.84 };
@@ -345,18 +292,13 @@
           stTrack.classList.toggle('is-handover', late);
           wasLate = late;
         }
-        /* A little hysteresis, so sitting on the threshold cannot flick it. */
+
         var inv = stTrack.classList.contains('is-inverted');
         if (!inv && p >= stop.invert) stTrack.classList.add('is-inverted');
         else if (inv && p < stop.invert - 0.08) stTrack.classList.remove('is-inverted');
       });
     }
   }
-
-  /* ------------------------------------------------------------- tour ---- */
-  /* Sticky feature tour. The object on the right is drawn and morphed by
-     points.js from the same scroll position; this only switches the copy,
-     and it does so when points.js reports the next object has formed. */
 
   var tourTrack = $('.tour-track');
 
@@ -381,8 +323,7 @@
         }
       };
       mark(0);
-      /* With WebGL the copy follows the object: points.js says which shape
-         is on show once it has formed. Without it, scroll position decides. */
+
       var byShape = false;
       var tourObj = $('.tour__obj', tourTrack);
       if (tourObj) {
@@ -397,7 +338,6 @@
         if (barEl) barEl.style.setProperty('--p', p);
       });
 
-      /* Where step i sits on the page. */
       var stepY = function (i) {
         var travel = tourTrack.offsetHeight - window.innerHeight;
         return tourTrack.offsetTop + travel * (i / span);
@@ -407,7 +347,6 @@
         else window.scrollTo({ top: y, behavior: 'smooth' });
       };
 
-      /* Feature pills anywhere on the page jump straight to their step. */
       $$('[data-tour-step]').forEach(function (a) {
         a.addEventListener('click', function (e) {
           e.preventDefault();
@@ -415,19 +354,9 @@
         });
       });
 
-      /* No settling: stop half way and the reader stays in the cloud
-         between two features, which is part of the point. */
     }
   }
 
-  /* ------------------------------------------------------ pixel field ---- */
-  /* A field of small squares whose density flows. Ordered (Bayer) dithering
-     turns the smooth density into hard on/off pixels, which is what gives the
-     stippled gradient edges. One fill colour per pass, so a frame is a few
-     thousand fillRects and nothing else. */
-
-  /* Every .hero__field on the page gets its own instance, so a page can run one
-     behind the hero and another behind the call to action. */
   $$('.hero__field').forEach(function (field) {
     if (reduced || !field.getContext) return;
     (function () {
@@ -435,12 +364,10 @@
       var light = field.getAttribute('data-tone') === 'light';
       var BODY = light ? 'rgba(27, 99, 248, .45)' : 'rgba(27, 99, 248, .85)';
       var PEAK = light ? 'rgba(27, 99, 248, .8)' : 'rgba(120, 175, 255, .9)';
-      /* Coarser on a phone. At the desktop pitch a 390px band carries about
-         forty columns of 6px squares, which reads as noise behind the copy
-         rather than as a field. */
+
       var narrow = window.matchMedia && window.matchMedia('(max-width: 620px)').matches;
-      var CELL = narrow ? 14 : 10;   /* grid pitch */
-      var DOT = narrow ? 8 : 6;      /* drawn square */
+      var CELL = narrow ? 14 : 10;
+      var DOT = narrow ? 8 : 6;
       var BAYER = [
         [0, 8, 2, 10],
         [12, 4, 14, 6],
@@ -461,7 +388,6 @@
         rows = Math.ceil(H / CELL) + 1;
       }
 
-      /* Two sine layers, the second warped by the first: slow liquid drift. */
       function density(x, y, time) {
         var nx = x * 0.031, ny = y * 0.042;
         var warp = Math.sin(nx * 1.7 + time * 0.42) + Math.cos(ny * 1.3 - time * 0.31);
@@ -477,15 +403,11 @@
         t += 0.03;
         ctx.clearRect(0, 0, W, H);
 
-        /* Pass one: the body of the field. Pass two: only the densest cells,
-           in a paler blue, which reads as highlight without a second colour
-           lookup per cell. */
         var bright = [];
         ctx.fillStyle = BODY;
         for (var y = 0; y < rows; y++) {
           for (var x = 0; x < cols; x++) {
-            /* Stretched hard so the field has genuinely empty regions and
-               genuinely solid ones, with dithered gradients between. */
+
             var v = (density(x, y, t) - 0.34) * 2.3;
             if (v <= (BAYER[y & 3][x & 3] + 0.5) / 16) continue;
             if (v > 0.86) { bright.push(x, y); continue; }
@@ -501,13 +423,6 @@
       size();
       window.addEventListener('resize', size, { passive: true });
 
-      /* The band is sized by its own copy, so a late web font, an image landing
-         or the product stack settling changes the canvas box after the first
-         paint with no resize event to go with it. The bitmap would keep the
-         height it was measured at and the browser would stretch it to the new
-         box, which turns every square into a rectangle. Re-measure whenever the
-         box itself changes. size() writes bitmap attributes, not the CSS box,
-         so this cannot feed back into another resize. */
       if ('ResizeObserver' in window) {
         var lastBox = '';
         new ResizeObserver(function () {
@@ -531,10 +446,6 @@
     })();
   });
 
-  /* ----------------------------------------------------------- expand ---- */
-  /* The blank panel opens from a small card to full bleed, darkening as it
-     goes, and the demo call to action resolves once it fills the screen. */
-
   var expandTrack = $('.expand-track');
   var expandStage = $('#expandStage');
 
@@ -550,13 +461,6 @@
     }
   }
 
-  /* ------------------------------------------------------------ bento ---- */
-  /* Each card rests on its finished frame and plays once each time its tile
-     is hovered, or focused from the keyboard, then holds; leaving and coming
-     back plays it again. Nothing loops. A touch screen has no hover, so
-     there a tile plays while it is on screen instead. Every card is fitted to
-     its stage so the inset above and below it is the same on every tile. */
-
   var bento = $('#bento');
   var bts = $$('.bt');
 
@@ -565,8 +469,6 @@
     var players = [];
     var STOP = {};
 
-    /* A player's steps check its generation, so leaving the tile stops the
-       loop wherever it is and the card goes straight back to its rest frame. */
     var run = function (pl) {
       var g = pl.gen;
       var alive = function () { return g === pl.gen; };
@@ -606,7 +508,6 @@
     };
     var decode = function (str) { var t = document.createElement('textarea'); t.innerHTML = str; return t.value; };
 
-    /* The checkout: two tickets, pay, paid, and the sale lands. */
     $$('[data-bento="checkout"]', bento).forEach(function (el) {
       var qty = $('[data-qty]', el), total = $('[data-total]', el), pay = $('[data-pay]', el), toast = $('.bx-co__toast', el);
       var set = function (n) { qty.textContent = n; total.innerHTML = n === '1' ? '&pound;13.20' : '&pound;26.40'; };
@@ -625,7 +526,6 @@
       });
     });
 
-    /* The inbox: three new messages arrive, then it holds. */
     $$('[data-bento="inbox"]', bento).forEach(function (el) {
       var list = $('.bx-inbox__list', el);
       var initial = list.innerHTML;
@@ -662,7 +562,6 @@
       });
     });
 
-    /* The form: somebody signs up, the count goes up. */
     $$('[data-bento="form"]', bento).forEach(function (el) {
       var fields = $$('[data-type]', el), count = $('[data-count-up]', el), wrap = $('.bx-form__count', el);
       var btn = $('.ui-btn', el), total = 1284;
@@ -690,7 +589,6 @@
       });
     });
 
-    /* Intelligence: the question is typed, the answer arrives. */
     $$('[data-bento="ask"]', bento).forEach(function (el) {
       var q = $('[data-type]', el);
       var text = decode(q.getAttribute('data-type'));
@@ -708,8 +606,6 @@
       });
     });
 
-    /* Each card plays once when its tile comes on screen and then holds. A
-       hover or keyboard focus only marks the tile as the link it is. */
     if ('IntersectionObserver' in window) {
       var bio = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { setLive(e.target, e.isIntersecting); });
@@ -723,9 +619,6 @@
       tile.addEventListener('focusout', function () { tile.classList.remove('is-hot'); });
     });
 
-    /* The fit. Each card's type is sized so the card fills its stage height
-       exactly, held under the size where anything would overflow its width.
-       A phone stage takes its card's own height, so it needs none of this. */
     var fitted = false;
     var fit = function () {
       bts.forEach(function (tile) {
@@ -772,12 +665,6 @@
     }, { passive: true });
   }
 
-  /* ------------------------------------------------------------- dusk ---- */
-  /* The night panel opens as it climbs: --de runs 0 to 1 from its top edge
-     entering at the bottom of the screen to reaching a quarter of the way
-     down, easing its inset corners out to full bleed. The kinetic band inside
-     (data-dusk-edge) drifts sideways against the scroll on the same pump. */
-
   $$('.dusk').forEach(function (dusk) {
     var edge = $(dusk.getAttribute('data-dusk-edge') || '.kinetic', dusk);
     var rail = $('.kinetic__rail', dusk);
@@ -795,22 +682,10 @@
     });
   });
 
-  /* ------------------------------------------------------------- rotator -- */
-  /* The hero's last word changes on its own. Letter by letter the word on
-     show rolls up and out of the line's mask, softening as it goes, while the
-     next rises in beneath it. Once in, the letters are joined back into
-     plain text, so the word keeps its kerning at rest. Every word is shown
-     at full size: where one needs two lines (competitive socialising, on a
-     phone) it wraps, and the line keeps the height of the tallest word so
-     nothing under the heading moves as they change. */
-
   var rots = $$('.rot[data-rot]');
 
   if (rots.length && !reduced) {
-    /* Every rotator on the page changes on the same beat, so a word in the
-       heading and its partner in the line under it always agree. An inline
-       one (.rot--inline) sits mid-sentence: its width eases from the old
-       word to the new, so the words around it slide rather than jump. */
+
     var title = rots[0].closest('.hero__title') || rots[0];
     var wi = 0, heroOn = true;
 
@@ -818,7 +693,6 @@
       new IntersectionObserver(function (en) { heroOn = en[0].isIntersecting; }).observe(title);
     }
 
-    /* Letters grouped by word, so a two word phrase still breaks at its space. */
     var letters = function (el, text) {
       el.textContent = '';
       var gap = Math.min(26, 420 / text.length), n = 0;
@@ -838,11 +712,6 @@
       });
     };
 
-    /* Split letters lose the font's kerning, so the word would sit a touch
-       wide while it rolls and then tighten when it is joined back. Each
-       letter's box is sized to its kerned advance, read off the same text
-       set whole, so the split word and the joined word land on the same
-       pixels. Layout widths, not screen ones, so a scaled parent is fine. */
     var kern = function (el) {
       $$('.rot__w', el).forEach(function (w) {
         var chs = $$('.rot__ch', w);
@@ -876,8 +745,6 @@
       };
     });
 
-    /* A block rotator keeps the height of its tallest word, so nothing
-       under the heading moves as they change. */
     var reserve = function () {
       states.forEach(function (st) {
         if (st.inline) { st.el.style.width = ''; return; }
@@ -895,8 +762,7 @@
 
     var roll = function (st, text) {
       var rot = st.el, old = st.current;
-      /* Once the heading has landed its line stops clipping, and a soft
-         mask takes over, so the word fades at the edges as it rolls. */
+
       var line = rot.closest('[data-r="line"]');
       if (line) line.classList.add('is-free');
       var next = document.createElement('span');
@@ -920,8 +786,6 @@
       }, 1500);
     };
 
-    /* On a phone the heading sizes to the screen, so a word wider than the line
-       sits that screen out rather than shrinking the whole heading to fit it. */
     var fits = function (st, text) {
       if (window.innerWidth > 760) return true;
       var probe = document.createElement('span');
@@ -951,9 +815,6 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(startRot); else startRot();
   }
 
-  /* ------------------------------------------------------ hero depth ---- */
-  /* The object hero's layers follow the pointer, each by its own depth. */
-
   var pVisual = $('.phero__visual');
 
   if (pVisual && !reduced && !coarse) {
@@ -969,10 +830,6 @@
     });
   }
 
-  /* ------------------------------------------------------ horizon cta ---- */
-  /* The wave rises over the first half of the track; the copy lands once it
-     is most of the way up, and goes again if you scroll back above that. */
-
   var hcta = $('.hcta');
 
   if (hcta) {
@@ -983,8 +840,7 @@
       drivers.push(function () {
         var r = hcta.getBoundingClientRect();
         if (r.top > window.innerHeight || r.bottom < 0) return;
-        /* 0 as the section's top enters at the bottom of the screen, 1 half
-           way through the held stage. */
+
         var vh = window.innerHeight;
         var z = clamp((vh - r.top) / (vh + (r.height - vh) * 0.5), 0, 1);
         var e = 1 - Math.pow(1 - z, 3);
@@ -995,20 +851,12 @@
     }
   }
 
-  /* --------------------------------------------------------- dot screen -- */
-  /* Paints a photograph as a grid of dots sized by luminance. The dot pitch is
-     the resolution, so a small source file stops being a small source file, and
-     it speaks the same language as the pixel field in the hero.
-     Redraws only when the frame or the pitch actually changes, never per
-     scroll frame: at a 6px pitch a full-bleed panel is ~50k dots. */
-
   function dotScreen(canvas, img, cell, dpr) {
     if (!img || !img.complete || !img.naturalWidth) return false;
 
     var w = canvas.clientWidth, h = canvas.clientHeight;
     if (!w || !h) return false;
-    /* Backstop: the bitmap size feeds the element's intrinsic size, so a layout
-       slip here could grow the canvas without limit. Refuse rather than run. */
+
     if (w > 4096 || h > 4096) return false;
     var scale = dpr || 1;
     if (canvas.width !== w * scale || canvas.height !== h * scale) {
@@ -1019,8 +867,6 @@
     var ctx = canvas.getContext('2d');
     var cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
 
-    /* Sample the photo down to one pixel per dot, cropped like object-fit:
-       cover so it fills the panel without distorting. */
     var off = dotScreen._off || (dotScreen._off = document.createElement('canvas'));
     off.width = cols; off.height = rows;
     var octx = off.getContext('2d', { willReadFrequently: true });
@@ -1053,11 +899,6 @@
     return true;
   }
 
-  /* -------------------------------------------------------- scroll hero -- */
-  /* The copy steps aside as the object takes the stage, then the band turns
-     to paper under the finished screen. points.js reads the same track for
-     the morph and the wave. */
-
   $$('.shero').forEach(function (hero) {
     if (reduced) { hero.classList.add('is-static'); return; }
     drivers.push(function () {
@@ -1068,11 +909,6 @@
     });
   });
 
-  /* ------------------------------------------------------------ ticks ---- */
-  /* The coded product is live: counts on it creep up while it is on screen,
-     a few at a time, the way a venue's numbers do on a busy night. */
-
-  /* Not the bento's: its cards only move while they are hovered. */
   var ticks = $$('[data-tick]').filter(function (el) { return !el.closest('.bt'); });
 
   if (ticks.length && !reduced) {
@@ -1086,8 +922,7 @@
         var el = ticks[Math.floor(Math.random() * ticks.length)];
         var step = +(el.getAttribute('data-step') || 1);
         var v = +el.getAttribute('data-tick') + Math.ceil(Math.random() * step);
-        /* A figure shown twice (the door count is) carries a key, so every
-           copy of it moves together. */
+
         var key = el.getAttribute('data-tick-key');
         var group = key ? ticks.filter(function (o) { return o.getAttribute('data-tick-key') === key; }) : [el];
         group.forEach(function (o) {
@@ -1100,17 +935,11 @@
     setTimeout(bump, 2200);
   }
 
-  /* ------------------------------------------------------------- cta shots -- */
-  /* Flicks through the set as you scroll and settles on one once the panel is
-     full bleed, while the dot pitch tightens so the picture resolves as it
-     takes over the screen. */
-
   var expandScreen = $('#expandScreen');
 
   if (expandScreen && expandTrack) {
     var shots = $$('.expand__shot');
-    /* Quantised, so a continuous scroll causes a handful of redraws, not one
-       per frame. Last entry is the held, fully resolved state. */
+
     var PITCH = [17, 13, 10, 8, 6];
     var SETTLE = 0.86;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1118,23 +947,18 @@
 
     var pts = $('.expand__pts');
     var paint = function (shot, pitch) {
-      /* points.js draws the WebGL relief; this is only the fallback. */
+
       if (pts && pts.classList.contains('points-on')) return;
       var key = shot + ':' + pitch + ':' + expandScreen.clientWidth;
       if (key === lastKey) return;
       if (dotScreen(expandScreen, shots[shot], PITCH[pitch], dpr)) lastKey = key;
     };
 
-    /* The shots are loaders for the dot screen, so they are display:none. A
-       lazy image with no box never enters the viewport and so never loads,
-       which left the finale painting nothing at all. Promote them once the
-       section is a couple of screens away: still off the critical path, but
-       decoded well before the panel opens. */
     (function kickLoads() {
       var wake = function () {
         shots.forEach(function (im) {
           if (im.loading === 'lazy') im.loading = 'eager';
-          /* Safari ignores the property change on its own, so nudge the fetch. */
+
           if (!im.complete) im.src = im.src;
         });
       };
@@ -1165,18 +989,13 @@
           : Math.min(PITCH.length - 1, Math.floor((p / SETTLE) * PITCH.length));
         paint(shot, pitch);
       });
-      /* The first frames may not have decoded by the time the driver first
-         runs, so nudge it once each one lands. */
+
       shots.forEach(function (im) {
         im.addEventListener('load', function () { lastKey = ''; });
       });
       window.addEventListener('resize', function () { lastKey = ''; }, { passive: true });
     }
   }
-
-  /* --------------------------------------------------------- dot bands ---- */
-  /* Full-bleed photograph on the case study, painted with the same renderer as
-     the home page CTA. It resolves once as it arrives rather than on scroll. */
 
   var bands = $$('.dotband, .chero__shot');
 
@@ -1188,8 +1007,6 @@
       var img = $('.dotband__src', band);
       if (!canvas || !img) return;
 
-      /* Tighter pitch on a phone: the panel is much smaller there, and at the
-         desktop pitch the picture stops being readable. */
       var narrow = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
       var PITCH = narrow ? 3 : 6;
 
@@ -1204,10 +1021,6 @@
       if (!img.complete) img.addEventListener('load', function () { draw(); });
       window.addEventListener('resize', function () { draw(); }, { passive: true });
 
-      /* The hero is sized by its copy, so a late web font or an image landing
-         changes the canvas box after the first paint. Without a redraw the
-         picture stays at whatever size it was drawn at and sits in the corner.
-         The draw sets bitmap attributes, not the CSS box, so this cannot loop. */
       if ('ResizeObserver' in window) {
         var lastBox = '';
         new ResizeObserver(function () {
@@ -1236,10 +1049,6 @@
     });
   }
 
-  /* ------------------------------------------------------ brand swap ------ */
-  /* Feature page. The checkout takes on a different venue's identity every few
-     seconds while the line underneath it never changes. */
-
   var swap = $('#swap');
 
   if (swap && !reduced) {
@@ -1255,10 +1064,6 @@
       setInterval(function () { at = (at + 1) % ids.length; apply(at); }, 2600);
     }
   }
-
-  /* ---------------------------------------------------------- journey ----- */
-  /* The section is tall and its stage pinned, so scroll position picks the
-     stage. Each stage holds while it is read, then eases on to the next. */
 
   var jstage = $('#jscroll');
 
@@ -1289,14 +1094,11 @@
       if (r.bottom < 0 || r.top > window.innerHeight) return;
       var run = clamp(-r.top / (r.height - window.innerHeight), 0, 1) * (jslides.length - 1);
       var whole = Math.min(Math.floor(run), jslides.length - 2);
-      /* Still for the first and last fifth of each step, smooth between. */
+
       var f = clamp((run - whole - 0.2) / 0.6, 0, 1);
       jset(whole + f * f * (3 - 2 * f));
     });
   }
-
-  /* --------------------------------------------------------- identify ----- */
-  /* Rows convert one at a time as the section crosses the viewport. */
 
   var flip = $('#flip');
 
@@ -1320,19 +1122,12 @@
         var r = flip.getBoundingClientRect();
         var vh = window.innerHeight || 1;
         if (r.bottom < -100 || r.top > vh + 100) return;
-        /* Starts as the block reaches the lower third, finished well before it
-           leaves, so nothing converts off screen. */
+
         var p = clamp((vh * 0.86 - r.top) / (vh * 0.56), 0, 1);
         setFlipped(Math.round(p * flipRows.length));
       });
     }
   }
-
-  /* ------------------------------------------------------------- accordion -- */
-  /* <details> has no transition of its own: the browser shows and hides the
-     content outright. So intercept the toggle, animate the wrapper's height,
-     and hold the open attribute back until a close has finished. Without JS the
-     element still works, it just snaps. */
 
   var qas = $$('.qa');
 
@@ -1376,7 +1171,6 @@
           return;
         }
 
-        /* Same exclusive behaviour the name attribute gives, but animated. */
         qas.forEach(function (other) {
           if (other !== qa && other.open) {
             slide(other, false, function () { other.open = false; });
@@ -1388,10 +1182,6 @@
       });
     });
   }
-
-  /* ------------------------------------------------------------ demo form -- */
-  /* Posts to /api/demo, which emails the lead. The endpoint holds the API key,
-     so nothing sensitive is in this file. */
 
   var form = $('#form');
   if (form) {
@@ -1433,8 +1223,7 @@
         if (el.name === 'focus') { focus.push(el.value); return; }
         payload[el.name] = el.value;
       });
-      /* The focus chips ride along in the message, which is the field the
-         endpoint already carries. */
+
       if (focus.length) payload.msg = 'Focus: ' + focus.join(', ') + (payload.msg ? '. ' + payload.msg : '');
 
       if (button) { button.disabled = true; button.textContent = 'Sending...'; }
@@ -1465,10 +1254,6 @@
       if (field) field.classList.remove('is-invalid');
     });
   }
-
-  /* -------------------------------------------------------- waitlist form -- */
-  /* The root page. Posts to /api/waitlist, which files the signup in Blob;
-     the key never leaves the server. */
 
   var wform = $('#waitlistForm');
   if (wform) {
@@ -1520,12 +1305,6 @@
     });
   }
 
-  /* ------------------------------------------------------- edge ascii ----- */
-  /* Small characters drifting in from the edges of a band. Noise sets how far
-     in they reach at each point, so some stretches run deep, some thin out and
-     some stay bare, rather than the even falloff of a vignette. Drawn once, and
-     again when the band changes size. The sides stay inside the page gutter so
-     the characters never run behind the copy. */
   $$('.edge-ascii').forEach(function (canvas) {
     var ctx = canvas.getContext && canvas.getContext('2d');
     if (!ctx) return;
@@ -1576,8 +1355,7 @@
           if (depth <= 0) continue;
           var t = 1 - Math.max(edge, 0) / depth;
           if (t <= 0 || hash(c, r + 31) > .12 + t * .55) continue;
-          /* Mixed characters and patchy strength, so the outermost cells read
-             as texture and not as a ruled line. */
+
           var glyph = GLYPHS[Math.min(GLYPHS.length - 1, Math.floor((t * .6 + hash(c + 13, r) * .45) * GLYPHS.length))];
           var alpha = (.04 + t * .14) * (.35 + layered(x / 80 + 5, y / 80 + 2) * 1.3);
           var blue = hash(r, c + 7) < .1;
@@ -1599,10 +1377,6 @@
       }).observe(canvas);
     }
   });
-
-  /* --------------------------------------------------------- nav menu ----- */
-  /* Hover already opens the dropdown in CSS. This is for touch and keyboard,
-     where there is no hover to rely on. */
 
   var navToggles = $$('.nav__toggle');
 
@@ -1626,14 +1400,6 @@
     });
   }
 
-  /* --------------------------------------------------- nav over surface -- */
-  /* The pill is always dark, so the logomark flips to white while a light
-     section is behind it and back to brand blue over a dark one. The switch is
-     driven off the nav's own midline, so it lands exactly on the boundary. */
-
-  /* Two bands are markup-light but paint black at some point in their scroll:
-     the statement once it inverts, and the expand finale once its panel fills
-     the screen. Both only count as dark surfaces while that is true. */
   var darkBands = $$('.on-dark').concat($$('.statement-track'), $$('.expand-track'), $$('.dusk'));
 
   if (nav && darkBands.length) {
@@ -1642,14 +1408,13 @@
       if (el.classList.contains('statement-track')) {
         return el.classList.contains('is-inverted');
       }
-      /* The scroll hero turns to paper at the end, and the nav follows it. */
+
       if (el.classList.contains('shero')) {
         return parseFloat(el.style.getPropertyValue('--f') || 0) < 0.5;
       }
       if (el.classList.contains('expand-track')) {
         if (el.classList.contains('is-static')) return true;
-        /* Not 0.5: the panel is centred, so it only reads as the surface
-           behind the nav once it is close to full bleed. */
+
         return expandStage
           ? parseFloat(expandStage.style.getPropertyValue('--e') || 0) > 0.9
           : false;
@@ -1659,7 +1424,7 @@
     drivers.push(function () {
       var mid = nav.getBoundingClientRect().top + 42;
       var over = false;
-      /* A pinned dark section that has turned to the light page counts as light. */
+
       var turned = $$('.inv-track.is-inverted').some(function (el) {
         var t = el.getBoundingClientRect();
         return t.top <= mid && t.bottom >= mid;
@@ -1675,10 +1440,6 @@
     });
   }
 
-
-  /* ------------------------------------------------------ button light -- */
-  /* The hover light on a button follows the pointer. */
-
   if (!coarse && !reduced) {
     document.addEventListener('pointermove', function (e) {
       var b = e.target && e.target.closest && e.target.closest('.btn');
@@ -1689,24 +1450,9 @@
     }, { passive: true });
   }
 
-  /* ------------------------------------------------------------- consent --- */
-  /* PECR regulation 6. Optional cookies must not be set before the visitor
-     agrees, and withdrawing must be as easy as agreeing.
-
-     Read a decision with consented('analytics') or consented('advertising'),
-     and listen for 'capacity:consent' too, since the answer can arrive after
-     load. Any tag added through a tag manager must honour the same gate.
-
-     NOTE ON THE FIRST LAYER: the bar offers Accept all and Manage cookies.
-     Refusal takes one extra click, through the dialog. The ICO's stated
-     position is that rejecting should be as easy as accepting at the first
-     layer, so a Reject all button in the bar itself is the safer construction.
-     To add one, drop a second button next to .consent__accept with
-     data-consent="reject". The handler already supports it. */
-
   var CONSENT_KEY = 'capacity.consent';
   var CONSENT_VERSION = 2;
-  var CONSENT_MAX_AGE = 365 * 24 * 60 * 60 * 1000;   /* 12 months, per the policy */
+  var CONSENT_MAX_AGE = 365 * 24 * 60 * 60 * 1000;
   var CONSENT_CATS = ['analytics', 'advertising'];
 
   function consentRead() {
@@ -1738,13 +1484,30 @@
     return !!(v && v[purpose || 'analytics']);
   };
 
+  (function ga4() {
+    var ID = 'G-501426111', loaded = false;
+    function load() {
+      if (loaded || !window.consented('analytics')) return;
+      loaded = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', ID);
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+      document.head.appendChild(s);
+    }
+    load();
+    window.addEventListener('capacity:consent', load);
+  })();
+
   (function consentUI() {
     var stored = consentRead();
     if (stored) window.capacityConsent = stored;
 
     var bar = null, dlg = null;
 
-    /* ---- bar ---- */
     function buildBar() {
       if (bar) return bar;
       bar = document.createElement('section');
@@ -1756,7 +1519,7 @@
           '<p class="consent__text">' +
             '<span class="consent__label">Cookies</span>' +
             'We use optional cookies for analytics and advertising.' +
-            /* Trimmed on a phone, where the bar has to stay a thin strip. */
+
             '<span class="consent__long"> Essential cookies are always on.</span>' +
             '<button type="button" class="consent__manage" data-consent="manage">Manage cookies</button>' +
           '</p>' +
@@ -1777,7 +1540,6 @@
 
     function hideBar() { if (bar) bar.hidden = true; }
 
-    /* ---- preferences dialog ---- */
     function buildDialog() {
       if (dlg) return dlg;
       dlg = document.createElement('dialog');
@@ -1837,7 +1599,6 @@
       return o;
     }
 
-    /* ---- one handler for bar, dialog and footer links ---- */
     document.addEventListener('click', function (ev) {
       var el = ev.target && ev.target.closest && ev.target.closest('[data-consent], [data-consent-settings]');
       if (!el) return;
@@ -1856,11 +1617,6 @@
       hideBar();
     });
 
-    /* The ask waits for the visitor to start scrolling, so it does not land on
-       top of the page the moment it opens. Deferring it is safe because nothing
-       optional is set until a choice is made, so there is no processing to
-       inform anyone about in the meantime. A page shorter than the viewport
-       cannot be scrolled, hence the fallback timer. */
     if (!stored) (function armReveal() {
       var SCROLL_TRIGGER = 120;
       var FALLBACK_MS = 8000;
@@ -1872,35 +1628,19 @@
         done = true;
         window.removeEventListener('scroll', onScroll);
         clearTimeout(timer);
-        /* A choice may have been made from the footer while this was pending,
-           in which case there is nothing left to ask. */
+
         if (!consentRead()) showBar();
       }
       function onScroll() { if (window.scrollY > SCROLL_TRIGGER) reveal(); }
 
       window.addEventListener('scroll', onScroll, { passive: true });
       timer = setTimeout(reveal, FALLBACK_MS);
-      onScroll();   /* covers a restored scroll position on back or reload */
+      onScroll();
     }());
   }());
 
   pump();
 })();
-
-/* =========================================================================
-   Feature pages. One self-contained block per page; each returns at once
-   on any page that does not carry its piece.
-   ========================================================================= */
-
-/* ---- Enquiries (feature-enquiries) ---- */
-/* ============================================================================
-   Enquiries feature page: the working inbox.
-   New messages drop into the list, one opens, its reply is drafted from the
-   guest's history and sent. It plays only while on screen and loops calmly;
-   any click takes over (open a thread, filter a channel, press Send) and the
-   loop picks up again once the reader has left it alone for a few seconds.
-   Under reduced motion nothing plays, and every click still works.
-   ========================================================================== */
 
 (function () {
   'use strict';
@@ -1925,8 +1665,6 @@
   };
   var TAG = { Regular: 'ui-pill--violet', Returning: 'ui-pill--mute', New: 'ui-pill--cyan' };
 
-  /* The guests. Ella's second message arrives on a different channel from her
-     first and lands in the same thread, which is the point of the page. */
   var threads = [
     { id: 'jess', ch: 'wa', name: 'Jess Morgan', ini: 'JM', av: 'violet', tag: 'Regular', since: 'Customer since March',
       visits: '6', spend: '&pound;388', last: 'Sat', booking: 'Booth 2 &middot; Dirty Disco &middot; 6 guests', on: ['wa', 'em'], at: '2m',
@@ -1956,7 +1694,6 @@
       draft: '' }
   ];
 
-  /* What arrives while you watch, in turn. */
   var POOL = [
     { id: 'sam', ch: 'wa', name: 'Sam Okafor', ini: 'SO', av: 'violet', tag: 'Regular', since: 'Customer since 2023',
       visits: '11', spend: '&pound;640', last: '1 wk', booking: 'Booth 1 &middot; Saturday Residency &middot; 6 guests', on: ['wa'],
@@ -1993,11 +1730,9 @@
     if (html != null) e.innerHTML = html;
     return e;
   };
-  /* A website form has no chat to answer in, so its reply goes by email. */
+
   var via = function (ch) { return ch === 'web' || ch === 'em' ? 'by email' : 'on ' + CH[ch].name; };
   var ago = function (at) { return at === 'now' ? 'just now' : at + ' ago'; };
-
-  /* ---- drawing ---- */
 
   var drawList = function (fresh) {
     list.textContent = '';
@@ -2092,8 +1827,6 @@
     if (animate && !reduced) { void prof.offsetWidth; prof.classList.add('is-new'); }
   };
 
-  /* ---- actions ---- */
-
   var open = function (id, typing) {
     var t = find(id);
     if (!t) return null;
@@ -2116,8 +1849,6 @@
     if (state.open === t.id) drawThread(t);
   };
 
-  /* A new message. A guest already in the list keeps their thread: it moves to
-     the top with the new message on the end, whatever channel it came in on. */
   var arrive = function () {
     var d = POOL[nextIn++ % POOL.length];
     var t = find(d.id);
@@ -2156,10 +1887,6 @@
       r.hidden = ch !== 'all' && t.ch !== ch;
     });
   };
-
-  /* ---- the loop ---- */
-  /* Each run carries a generation, as the bento players in site.js do: bumping
-     it stops a run wherever it is, mid-type included. */
 
   var STOP = {};
   var gen = 0, onScreen = false, held = false, holdTimer = null;
@@ -2204,7 +1931,6 @@
     if (txt.classList.contains('is-typing')) { txt.classList.remove('is-typing'); open(state.open); }
   };
 
-  /* The reader has the inbox. Hand it back after a quiet spell, on All. */
   var hold = function () {
     stop();
     held = true;
@@ -2245,14 +1971,6 @@
   }
 })();
 
-/* ---- Customer profiles (feature-profiles) ---- */
-/* ------------------------------------------------------ feature-profiles -- */
-/* One guest put together from five systems. The markup is the finished
-   profile; while the piece is on screen this empties it and merges the records
-   one at a time, then counts her in the segment she now belongs to, and loops.
-   Off screen, or with reduced motion, it sits on the finished frame. The two
-   tabs are real: choosing one stops the loop and shows that view. */
-
 (function () {
   'use strict';
 
@@ -2270,10 +1988,9 @@
   var status = $('[data-fp-status]');
   var count = $('[data-fp-count]');
   var joiner = $('[data-fp-join]');
-  var LAST = srcs.length; /* one step past the sources: the lapse is noticed */
+  var LAST = srcs.length;
   var DONE_TEXT = status.textContent;
 
-  /* Each value that grows as records merge keeps its steps in data-vals. */
   var vals = marks.filter(function (el) { return el.hasAttribute('data-vals'); });
   vals.forEach(function (el) {
     var t = document.createElement('textarea');
@@ -2299,8 +2016,6 @@
     });
   };
 
-  /* Everything whose source has merged by step k is set; anything that has
-     only just arrived gets the landing flash. */
   var apply = function (k, flash) {
     marks.forEach(function (el) {
       var on = +el.getAttribute('data-at') <= k;
@@ -2319,7 +2034,6 @@
     });
   };
 
-  /* The finished frame: all five merged, the lapse noted, Leah counted. */
   var rest = function () {
     gen++;
     playing = false;
@@ -2406,7 +2120,7 @@
     new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { play(); return; }
-        /* Leaving hands the loop back, so a return visit plays from the top. */
+
         paused = false;
         rest();
         show('profile');
@@ -2417,16 +2131,6 @@
   }
 })();
 
-/* ---- Till and POS (feature-till) ---- */
-/* ============================================================================
-   Till and POS page
-   A finished Saturday you can scrub through. The night plays from 21:00 to
-   04:00 on its own while it is on screen, rests a moment on the close, and
-   starts again. Dragging the slider or pressing pause hands it to the reader.
-   With reduced motion it sits on the finished night and only the slider moves
-   it. The markup already shows 04:00, so it reads the same with this blocked.
-   ========================================================================== */
-
 (function () {
   'use strict';
 
@@ -2436,8 +2140,6 @@
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (key) { return root.querySelector('[data-ft="' + key + '"]'); };
 
-  /* The night, hour by hour from 21:00. Bars take a share of their total in
-     each hour: the Rooftop is busy early and closes at 02:00, Onyx builds late. */
   var END = 420;
   var CAPACITY = 600;
   var bars = [
@@ -2449,8 +2151,7 @@
     return b.w.map(function (w) { return b.total * w / 100; });
   });
   var door = [70, 150, 170, 120, 55, 17, 0];
-  /* Who rang it through: each person's share of the hour, so the staff always
-     add up to the bars. Beth finishes at 02:00, Aaron starts at midnight. */
+
   var staff = [
     [3.4, 3.1, 3, 3.3, 3.2, 2.9, 3],
     [2.6, 2.9, 3.2, 3, 2.5, 3, 2],
@@ -2467,8 +2168,6 @@
     { price: 8, n: [15, 24, 18, 9, 4, 0, 0] }
   ];
 
-  /* Running total of an hourly series at a minute of the night, spreading
-     each hour evenly across its sixty minutes. */
   var upTo = function (series, m) {
     var h = m / 60, whole = Math.floor(h), sum = 0;
     for (var i = 0; i < whole && i < series.length; i++) sum += series[i];
@@ -2488,9 +2187,7 @@
   var staffTop = staffHours.reduce(function (top, p) {
     return Math.max(top, p.reduce(function (s, v) { return s + v; }, 0));
   }, 0);
-  /* Spend per head holds steady through a night rather than climbing with the
-     takings: a slow drift up with a little give either way, landing on the
-     night's real figure at close. */
+
   var sphAt = function (m) {
     var f = m / END;
     var give = (0.3 * Math.sin(m / 41) + 0.16 * Math.sin(m / 17 + 1)) * (1 - Math.pow(f, 8));
@@ -2513,7 +2210,6 @@
   var topRows = Array.prototype.slice.call($('top').children);
   var histBars = Array.prototype.slice.call($('hist').children);
 
-  /* Rank order carries over between frames so a tie never flickers. */
   var order = topRows.map(function (_, i) { return i; });
   var lastRank = order.slice();
 
@@ -2534,7 +2230,7 @@
 
     clock.textContent = clockAt(m);
     elTakings.textContent = gbp(Math.round(takings));
-    /* Last week ran a little behind all night, more so as it got late. */
+
     elVs.textContent = '+' + Math.round(6 + 3 * m / END) + '%';
     elDoor.textContent = inside.toLocaleString('en-GB');
     elDoorBar.style.setProperty('--v', (inside / CAPACITY * 100).toFixed(1) + '%');
@@ -2563,7 +2259,6 @@
     range.setAttribute('aria-valuetext', clockAt(m));
   };
 
-  /* Heights are set from the data so the histogram always matches it. */
   var peak = Math.max.apply(null, hourly);
   histBars.forEach(function (bar, i) { bar.style.setProperty('--h', (hourly[i] / peak * 100).toFixed(1) + '%'); });
 
@@ -2574,9 +2269,8 @@
     return;
   }
 
-  /* ---- playback ---- */
-  var NIGHT_MS = 16000;   /* 21:00 to 04:00 */
-  var HOLD_MS = 3200;     /* resting on the close before it goes round again */
+  var NIGHT_MS = 16000;
+  var HOLD_MS = 3200;
   var at = 0, playing = false, onScreen = false, heldBy = null, raf = 0, last = 0, hold = 0;
 
   var setPlaying = function (on) {
@@ -2594,7 +2288,7 @@
     last = now;
     render(at);
     if (at >= END) {
-      /* Rest on the finished night, then go round again from doors. */
+
       hold = setTimeout(function () {
         if (!playing) return;
         at = 0; last = 0; render(at);
@@ -2605,7 +2299,6 @@
     raf = requestAnimationFrame(tick);
   };
 
-  /* Dragging hands the night to the reader; play hands it back. */
   range.addEventListener('input', function () {
     heldBy = 'reader';
     setPlaying(false);
@@ -2639,16 +2332,6 @@
   });
 })();
 
-/* ---- WhatsApp (feature-whatsapp) ---- */
-/* ============================================================================
-   WhatsApp feature page: one customer's chat, and the guestlist filling.
-   On the phone, Friday's message arrives with an I'm in button, Leah taps it
-   and adds two guests. Beside it, the venue's view: every tap from the
-   segment becomes a name on the guestlist while the counts rise. It plays
-   only while on screen and loops calmly; under reduced motion the finished
-   state in the markup stays as it is.
-   ========================================================================== */
-
 (function () {
   'use strict';
 
@@ -2670,12 +2353,10 @@
   $$('[data-fw]', stage).forEach(function (el) { num[el.getAttribute('data-fw')] = el; });
 
   var CAP = 250;
-  /* Where the send ends up, as the hero shows it. */
+
   var FINAL = { read: 91, replies: 164, guests: 212, q: 9 };
   var TICKS = '<svg class="ic" aria-hidden="true"><use href="#i-check-check"/></svg>';
 
-  /* Leah's tap is the one on the phone. Everyone else's arrive off screen and
-     only move the panel, as they would across a segment of 2,418. */
   var LEAH = { full: 'Leah Carter', ini: 'LC', av: 'violet', plus: 2, at: '18:03' };
   var OTHERS = [
     { full: 'Marcus Reid', ini: 'MR', av: 'cyan', at: '18:03' },
@@ -2693,15 +2374,13 @@
     return e;
   };
 
-  /* ---- numbers ---- */
-
   var shown = { read: 0, replies: 0, guests: 0, q: 0 };
   var paint = function (k, v) {
     shown[k] = v;
     num[k].textContent = k === 'read' ? v + '%' : v.toLocaleString('en-GB');
     if (k === 'guests') bar.style.setProperty('--v', (v / CAP * 100).toFixed(1) + '%');
   };
-  /* Counts ease to their new value rather than jumping, and pulse once. */
+
   var tween = function (k, to, g) {
     var from = shown[k], t0 = performance.now(), dur = 700;
     if (to === from) return;
@@ -2713,10 +2392,6 @@
       if (p < 1) requestAnimationFrame(frame);
     })(t0);
   };
-
-  /* ---- the loop ---- */
-  /* A generation per run, as the bento players in site.js do: bumping it
-     stops the run wherever it is. */
 
   var STOP = {};
   var gen = 0;
@@ -2734,7 +2409,6 @@
     ['read', 'replies', 'guests', 'q'].forEach(function (k) { paint(k, 0); });
   };
 
-  /* A message from the venue, with its reply buttons if it has any. */
   var incoming = function (text, buttons) {
     var node;
     if (buttons) {
@@ -2745,7 +2419,7 @@
     chat.appendChild(node);
     return node;
   };
-  /* Leah taps a button: it presses, and her answer goes out as a reply. */
+
   var tap = function (msg, label, at, g) {
     var btn = $$('.fw-btn', msg).filter(function (b) { return b.textContent === label; })[0];
     btn.classList.add('is-press');
@@ -2755,7 +2429,6 @@
     });
   };
 
-  /* One more answer in the venue's view. */
   var count = function (r, i, g) {
     if (r.q) {
       qText.textContent = r.full + ' · ' + r.t;
@@ -2772,7 +2445,6 @@
       $$('.ui-row', list).forEach(function (o, n) { if (n > 0) o.classList.remove('is-new'); if (n > 4) o.remove(); });
     }
 
-    /* The whole segment is answering, not just the names on screen. */
     var f = (i + 1) / TOTAL;
     tween('read', Math.round(FINAL.read * (0.55 + 0.45 * f)), g);
     tween('replies', Math.round(FINAL.replies * f), g);
@@ -2816,9 +2488,6 @@
     cycle(g).catch(function (e) { if (e !== STOP) throw e; });
   };
 
-  /* Off screen it stops, and it restarts from the top when it comes back, so
-     the reader never arrives partway through. Until then the finished state
-     from the markup stands. */
   var playing = false;
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) {
@@ -2829,14 +2498,6 @@
     }, { threshold: 0.3 }).observe(stage);
   }
 })();
-
-/* ---- Social media (feature-social) ---- */
-/* ------------------------------------------------------- social page --- */
-/* The week that ranks itself. Posts drop into their days, go live one after
-   another, and count up the tickets and profile visits each one brings in;
-   the ranking beside the calendar re-sorts as the counts climb, so the post
-   that sold most rises to the top. Plays only while the board is on screen,
-   and rests on the finished week (which is also what the markup holds). */
 
 (function () {
   'use strict';
@@ -2854,7 +2515,6 @@
   var visitsEl = $('[data-fs-visits]', board);
   var fmt = function (n) { return Math.round(n).toLocaleString('en-GB'); };
 
-  /* One record per post that goes live, joined to its row in the ranking. */
   var live = posts.filter(function (p) { return p.hasAttribute('data-p'); }).map(function (p) {
     var i = p.getAttribute('data-p');
     return {
@@ -2863,8 +2523,7 @@
       t: +p.getAttribute('data-t'),
       v: +p.getAttribute('data-v'),
       d: +p.getAttribute('data-d'),
-      /* The clip is a slow burn: it starts behind and overtakes late, which
-         is the point the ranking is there to make. */
+
       slow: p.hasAttribute('data-slow'),
       at: -1,
       now: 0,
@@ -2880,9 +2539,6 @@
     r.row.style.setProperty('--v', (r.now / max * 100).toFixed(1) + '%');
   };
 
-  /* Ranks the live posts by tickets, ties to the earlier post, and slides
-     every row to its place. Posts not yet live wait, hidden, in the next free
-     slot, so each one fades in where it lands. */
   var rank = function () {
     var on = live.filter(function (r) { return r.at >= 0; });
     on.sort(function (a, b) { return (b.now - a.now) || (live.indexOf(a) - live.indexOf(b)); });
@@ -2907,7 +2563,6 @@
     status.classList.toggle('ui-pill--mute', nLive === 0);
   };
 
-  /* The finished week. */
   var rest = function () {
     board.classList.remove('is-clear');
     posts.forEach(function (p) { p.classList.add('is-in'); });
@@ -2916,7 +2571,6 @@
     setStatus(live.length, posts.length - live.length);
   };
 
-  /* An empty week, ready to fill. */
   var clear = function () {
     posts.forEach(function (p) { p.classList.remove('is-in', 'is-live', 'is-top'); });
     live.forEach(function (r) { r.at = -1; r.now = 0; r.vis = 0; setCounts(r); });
@@ -2924,8 +2578,6 @@
     setStatus(0, 0);
   };
 
-  /* Each run carries a generation; leaving the screen bumps it, which stops
-     the run wherever it is, the same way the home page's bento tiles do. */
   var gen = 0;
   var STOP = {};
   var wait = function (g, ms) {
@@ -2936,8 +2588,6 @@
   var ease = function (x) { return 1 - Math.pow(1 - x, 3); };
   var easeSlow = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
 
-  /* Counts every live post towards its total on one frame loop, re-ranking
-     as it goes. Resolves once the last one has landed. */
   var count = function (g) {
     return new Promise(function (res, rej) {
       (function frame() {
@@ -2966,14 +2616,14 @@
       return wait(g, 700)
         .then(function () {
           board.classList.remove('is-clear');
-          /* Scheduled, one after another, in day order. */
+
           return posts.reduce(function (p, el, i) {
             return p.then(function () { el.classList.add('is-in'); setStatus(0, i + 1); return wait(g, 240); });
           }, Promise.resolve());
         })
         .then(function () { return wait(g, 900); })
         .then(function () {
-          /* Live, one after another, while the counts run underneath. */
+
           var counting = count(g);
           var going = live.reduce(function (p, r, i) {
             return p.then(function () {
@@ -3004,16 +2654,6 @@
   }
 })();
 
-/* ---- Website analytics (feature-analytics) ---- */
-/* ============================================================================
-   Website analytics page
-   One weekend's visit-to-booking funnel. The source buttons re-flow the
-   stages and the revenue; the feed beside them shows single visits moving
-   through the same stages, and only plays while it is on screen. With reduced
-   motion the feed holds still and the buttons still work, instantly. The
-   markup already shows "All", so it reads the same with this blocked.
-   ========================================================================== */
-
 (function () {
   'use strict';
 
@@ -3024,9 +2664,6 @@
   var $ = function (sel, el) { return (el || root).querySelector(sel); };
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || root).querySelectorAll(sel)); };
 
-  /* Fri 25 to Sun 27 Sep: visits, event page, checkout, booked, revenue.
-     Email is the smallest source and the best at turning a visit into a
-     booking; Direct is the reverse. */
   var DATA = {
     instagram: [1480, 960, 150, 92, 2350],
     google: [880, 450, 72, 47, 1230],
@@ -3046,7 +2683,6 @@
   var buttons = $$('.fa-fun__src button');
   var RATE = ['Everyone who arrived', 'of visits', 'of event page views', 'of checkouts'];
 
-  /* ---- the funnel ---- */
   var shownRev = DATA.all[4], revRaf = 0;
   var countRev = function (to) {
     cancelAnimationFrame(revRaf);
@@ -3073,7 +2709,6 @@
     elRevK.textContent = n(d[3]) + ' bookings · ' + pct(d[3], d[0]) + ' of visits booked';
   };
 
-  /* ---- the feed ---- */
   var SOURCES = {
     instagram: { img: 'assets/brands/instagram.svg', via: ['story link', 'bio link', 'post link'] },
     google: { img: 'assets/brands/google.svg', via: ['search'] },
@@ -3091,8 +2726,6 @@
   var current = 'all', nameAt = 0;
   var pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
 
-  /* How far a visit gets follows that source's own step rates, nudged up so
-     the feed shows the later stages often enough to read. */
   var plan = function (src) {
     var d = DATA[src], s = 0;
     if (Math.random() < d[1] / d[0]) s = 1;
@@ -3105,9 +2738,9 @@
     var st = v.el.querySelector('.fa-v__st');
     st.className = 'fa-v__st is-' + v.at;
     st.textContent = v.at === 3 ? 'Booked ' + v.page.paid : STAGE[v.at];
-    /* Everyone lands on the home page first; the event shows once they reach it. */
+
     v.el.querySelector('small').textContent = (v.at ? v.page.name : 'Home page') + ' \u00b7 ' + v.via;
-    /* A booking puts a name to the visit. */
+
     if (v.at === 3) v.el.querySelector('b').textContent = v.name;
   };
 
@@ -3152,15 +2785,14 @@
     v.el.classList.add('is-new');
     list.insertBefore(v.el, list.firstChild);
     visits.unshift(v);
-    /* The oldest goes once the new one has slid in. */
+
     while (visits.length > 6) visits.pop().el.remove();
   };
 
   var beat = 0, timer = null;
   var step = function () {
     beat++;
-    /* Each visit on screen clicks on a stage at a time, until it stops where
-       its plan says it does. */
+
     visits.forEach(function (v) {
       if (v.at < v.goal && Math.random() < .6) { v.at++; paint(v); }
     });
@@ -3169,7 +2801,6 @@
   var start = function () { if (!timer && !reduced) timer = setInterval(step, 1100); };
   var stop = function () { clearInterval(timer); timer = null; };
 
-  /* ---- the source buttons ---- */
   buttons.forEach(function (btn) {
     btn.addEventListener('click', function () {
       var src = btn.getAttribute('data-src');
@@ -3201,14 +2832,6 @@
   });
 })();
 
-/* ---- Signup forms (feature-forms) ---- */
-/* --------------------------------------------------------- feature-forms -- */
-/* One form, three places. The form is a single element: it moves into
-   whichever place is showing, gets filled in and sent, and the sign-up lands
-   at the top of the list beside it with the count ticking up. It plays only
-   while on screen; off screen, or with reduced motion, it sits on the finished
-   frame. The switch is real: choosing a place plays that one next. */
-
 (function () {
   'use strict';
 
@@ -3234,8 +2857,6 @@
   var count = $('[data-ff-count]');
   var ORDER = ['web', 'bio', 'qr'];
 
-  /* Who signs up where. The finished list already holds all three, so a run
-     starts from the two older rows and the count three lower. */
   var PEOPLE = {
     web: { name: 'Maya Collins', email: 'maya@example.com', mobile: '07700 900461', c: ['email', 'sms'] },
     bio: { name: 'Callum Brooks', email: 'callum.b@example.com', mobile: '07700 900187', c: ['email', 'wa'] },
@@ -3295,7 +2916,6 @@
     count.classList.toggle('is-bump', !!bump);
   };
 
-  /* The list as it was before tonight's three: the two older rows. */
   var resetList = function () {
     ORDER.forEach(function (k) { if (finished[k].parentNode) finished[k].remove(); });
     older.forEach(function (r) { r.classList.remove('is-new', 'is-closed'); rows.appendChild(r); });
@@ -3313,7 +2933,6 @@
     setCount(total + 1, true);
   };
 
-  /* The finished frame: the website form filled in, all three in the list. */
   var rest = function () {
     gen++;
     playing = false;
@@ -3349,7 +2968,7 @@
         .then(function () { return type(f.mobile, p.mobile, 45, g); })
         .then(function () { return wait(250, g); })
         .then(function () {
-          /* Ticks go on one at a time, the way a person does them. */
+
           return p.c.reduce(function (chain, c) {
             return chain.then(function () {
               $('[data-c="' + c + '"]', form).classList.add('is-on');
@@ -3369,7 +2988,7 @@
         .then(function () {
           at++;
           if (at < ORDER.length) return one();
-          /* Round again: the list quietly goes back to before. */
+
           rows.classList.add('is-fade');
           return wait(450, g).then(function () {
             resetList();
@@ -3388,13 +3007,13 @@
     b.addEventListener('click', function () {
       var key = b.getAttribute('data-place');
       if (!playing) {
-        /* Still: show that place with its sign-up filled in. */
+
         rest();
         place(key);
         fill(PEOPLE[key]);
         return;
       }
-      /* Playing: that place plays now, and the list carries on as it is. */
+
       play(ORDER.indexOf(key), true);
     });
   });
@@ -3413,14 +3032,6 @@
     play(0);
   }
 })();
-
-/* ---- Files (feature-files) ---- */
-/* -------------------------------------------------------- files page --- */
-/* The library at work. Four files upload at once and each flies into its
-   event's folder as it finishes; the new flyer is picked and carried into a
-   scheduled post and the event page, which both take it; then a view-only
-   link is made for the promoter. Plays only while the library is on screen,
-   and rests on the finished state, which is also what the markup holds. */
 
 (function () {
   'use strict';
@@ -3445,7 +3056,6 @@
   var up = $('[data-acc="up"]', lib);
   var btn = $('.fl-link__btn', lib);
 
-  /* Each folder's count before this batch, plus what the batch adds. */
   var adds = {};
   rows.forEach(function (r) { var f = r.getAttribute('data-to'); adds[f] = (adds[f] || 0) + 1; });
   var setCounts = function (done) {
@@ -3455,7 +3065,6 @@
     });
   };
 
-  /* The finished state. */
   var rest = function () {
     $$('.fl-fly', lib).forEach(function (el) { el.remove(); });
     rows.forEach(function (r) { r.classList.remove('is-on', 'is-up', 'is-done'); });
@@ -3471,7 +3080,6 @@
     share.classList.add('is-made');
   };
 
-  /* Before the batch arrives. */
   var clear = function () {
     rest();
     setCounts(false);
@@ -3482,8 +3090,6 @@
     share.classList.remove('is-made');
   };
 
-  /* Generations, as on the home page's bento: leaving the screen bumps it,
-     and every pending step of the old run rejects instead of carrying on. */
   var gen = 0;
   var STOP = {};
   var wait = function (g, ms) {
@@ -3492,9 +3098,6 @@
     });
   };
 
-  /* Carries a copy of `from` onto `to`, scaled evenly and centred on it, as
-     a positioned clone inside the library. Measured at the moment it leaves,
-     so it follows whatever layout the library has at that width. */
   var fly = function (g, from, to, fade) {
     var b = lib.getBoundingClientRect(), f = from.getBoundingClientRect(), t = to.getBoundingClientRect();
     var el = from.cloneNode(true);
@@ -3505,7 +3108,7 @@
     el.style.width = f.width + 'px';
     el.style.height = f.height + 'px';
     lib.appendChild(el);
-    /* A target hidden at this width (the folders on a phone): fade where it is. */
+
     if (!t.width || !t.height) {
       void el.offsetWidth;
       el.style.opacity = '0';
@@ -3526,8 +3129,6 @@
     el.classList.add('is-hit');
   };
 
-  /* One file: it appears in the drop zone, fills its bar, flies into its
-     folder, and if that is the open folder, shows up in the grid. */
   var upload = function (g, row, i) {
     var to = folder(row.getAttribute('data-to'));
     var ms = +row.getAttribute('data-ms');
@@ -3548,7 +3149,6 @@
       });
   };
 
-  /* The picked flyer lands on a slot, which takes it as the copy fades. */
   var place = function (g, host) {
     return fly(g, $('.fl-tile__art', flyer), $('.fl-slot', host), false)
       .then(function (el) {
@@ -3595,17 +3195,6 @@
   }
 })();
 
-/* ---- Reports (feature-reports) ---- */
-/* ============================================================================
-   Feature page: Reports
-   The report in the dark band writes itself: the figures count up, the chart
-   draws, then the write-up arrives a word at a time with its numbers
-   highlighted. The Weekly / Monthly switch rewrites it for the other period,
-   and left alone it alternates between the two. It only plays while it is on
-   screen; with reduced motion it shows the finished report and the switch
-   swaps it in place.
-   ========================================================================== */
-
 (function () {
   'use strict';
 
@@ -3620,10 +3209,6 @@
   var segs = $$('.fr-seg button', doc);
   var bars = $$('.fr-bar', doc);
 
-  /* One set of figures per period. They agree with each other and with the
-     rest of the site: Saturday's bar took £6,240, Thursday is up 34% on the
-     month, 412 regulars have not been back since August. The month's
-     write-up is read from the markup, so it lives in one place. */
   var P = {
     m: {
       title: 'September report',
@@ -3658,8 +3243,6 @@
   var fmt = function (key, v) { return (money[key] ? '£' : '') + Math.round(v).toLocaleString('en-GB'); };
   var setText = function (f, text) { $$('[data-f="' + f + '"]', doc).forEach(function (el) { el.textContent = text; }); };
 
-  /* The labels, the switch and the deltas change at once; only the figures,
-     the bars and the words take time. */
   var frame = function (p) {
     var d = P[p];
     setText('title', d.title); setText('range', d.range);
@@ -3686,9 +3269,6 @@
     });
   };
 
-  /* Every word and every figure becomes its own unit, so the write-up can
-     arrive in reading order. A highlighted figure or a bold lead-in stays
-     whole. */
   var wrap = function (html) {
     var p = document.createElement('p');
     p.innerHTML = html;
@@ -3716,8 +3296,6 @@
     lines.innerHTML = P[p].lines.map(function (h) { return '<p>' + h + '</p>'; }).join('');
   };
 
-  /* The write-up box is held to the taller of the two, measured off screen at
-     the current width, so the page never shifts while it writes. */
   var measure = function () {
     var probe = lines.cloneNode(false);
     probe.style.cssText = 'position:absolute;visibility:hidden;left:0;top:0;min-height:0;width:' + lines.clientWidth + 'px';
@@ -3741,10 +3319,6 @@
   });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
-  /* ---- playback ---- */
-  /* Same pattern as the bento players in site.js: every step checks its
-     generation, so leaving the screen or pressing the switch stops a run
-     wherever it is. */
   var gen = 0, STOP = {};
   var ctl = function () {
     var g = gen;
@@ -3779,7 +3353,7 @@
     var paras = P[p].lines.map(wrap);
     paras.forEach(function (el) { lines.appendChild(el); });
     var words = paras.map(function (el) { return $$('.fr-w', el); });
-    /* A frame's pause so the flat bars have painted before they grow. */
+
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       doc.classList.remove('is-flat');
       chart(p);
@@ -3825,8 +3399,6 @@
     return;
   }
 
-  /* Blank until the first time it is seen, so it is never caught finished
-     and then wiped. */
   doc.classList.add('is-flat');
   Object.keys(shown).forEach(function (k) { $('[data-k="' + k + '"]', doc).textContent = fmt(k, 0); });
   lines.innerHTML = '';
@@ -3836,8 +3408,7 @@
     entries.forEach(function (e) {
       onScreen = e.isIntersecting;
       if (onScreen) {
-        /* First time in it writes the month; after that it picks up with
-           the other period once the reader has had a moment on this one. */
+
         if (!played) { played = true; start('m', 300); }
         else {
           gen++;
@@ -3851,16 +3422,6 @@
     });
   }, { threshold: 0.3 }).observe(doc);
 })();
-
-/* ---- Intelligence (feature-intelligence) ---- */
-/* ============================================================================
-   Feature page: Intelligence
-   A conversation with the venue. Pressing a suggested question types it into
-   the ask box and sends it; a moment later the answer arrives with its
-   figure, a small chart or list, the takeaway and the next step. Left alone
-   it works through the three questions on its own. It only plays while it
-   is on screen; with reduced motion the chips swap the answer in place.
-   ========================================================================== */
 
 (function () {
   'use strict';
@@ -3878,8 +3439,6 @@
   var send = $('.fi-send', chat);
   var HINT = field.textContent;
 
-  /* The first answer is in the markup, so the page reads without script; the
-     other two wait in templates beside it. */
   var first = $('.fi-a', log);
   first.classList.remove('is-in');
   var answers = [first.outerHTML];
@@ -3908,8 +3467,7 @@
       c.classList.toggle('is-on', n === i);
       c.setAttribute('aria-pressed', n === i ? 'true' : 'false');
     });
-    /* On a phone the chips scroll in their own row: bring the chosen one
-       into it without moving the page. */
+
     if (row.scrollWidth > row.clientWidth) {
       var c = chips[i];
       row.scrollTo({ left: c.offsetLeft - row.offsetLeft - 16, behavior: reduced ? 'auto' : 'smooth' });
@@ -3920,7 +3478,6 @@
     field.classList.remove('is-typed', 'is-typing');
   };
 
-  /* Finished frame: the question and its answer, still. */
   var rest = function (i) {
     pick(i);
     hint();
@@ -3932,8 +3489,6 @@
     log.appendChild(a);
   };
 
-  /* The log is held to its tallest exchange, measured off screen at the
-     current width, so the chips and the ask box never move. */
   var measure = function () {
     var probe = log.cloneNode(false);
     probe.style.cssText = 'position:absolute;visibility:hidden;left:0;top:0;min-height:0;width:' + log.offsetWidth + 'px';
@@ -3961,10 +3516,6 @@
   });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
-  /* ---- playback ---- */
-  /* The bento players' pattern from site.js: every step checks its
-     generation, so a new question or leaving the screen stops a run
-     wherever it is. */
   var gen = 0, STOP = {};
   var ctl = function () {
     var g = gen;
@@ -3989,8 +3540,6 @@
     };
   };
 
-  /* The last exchange stays up, dimmed, while the next question is typed,
-     and clears the moment it is sent. */
   var ask = function (x, i) {
     pick(i);
     log.classList.add('is-old');
@@ -4042,7 +3591,6 @@
 
   var onScreen = false, played = false;
 
-  /* A question somebody chose gets longer on screen before the loop moves on. */
   chips.forEach(function (c, n) {
     c.addEventListener('click', function () {
       if (reduced || !onScreen) { gen++; rest(n); return; }
@@ -4056,10 +3604,6 @@
     return;
   }
 
-  /* Empty until the first time it is seen, so the first question is asked
-     in front of the reader rather than found already answered. */
-  /* The first exchange is already there, so the panel is never an empty
-     box; the next question is asked once it is on screen. */
   rest(0);
 
   new IntersectionObserver(function (entries) {
@@ -4075,21 +3619,6 @@
     });
   }, { threshold: 0.3 }).observe(chat);
 })();
-
-/* =========================================================================
-   Audience pages. Each block returns at once on any other page.
-   ========================================================================= */
-
-
-
-/* ---- Bars (for-bars) ---- */
-/* ------------------------------------------------------------- for bars -- */
-/* A typical week at The Botanic, played out. The markup is the finished
-   state, which is what reduced motion and no-JS get. Otherwise, once the
-   chart is on screen, it empties and rebuilds inside about three seconds:
-   the nights one by one, Tuesday flagged, the message sent, and this
-   Tuesday's bookings arriving. It then rests on the finished week, and only
-   plays again if it leaves the viewport and comes back. */
 
 (function () {
   'use strict';
@@ -4115,7 +3644,6 @@
     return +day.getAttribute('data-b') + +day.getAttribute('data-w') + x;
   }
 
-  /* A figure counting up to its value, the way a live screen settles. */
   function count(el, to, fmt, ms) {
     var from = parseFloat(el.textContent) || 0;
     var t0 = null;
@@ -4157,7 +3685,6 @@
     reset();
     var t = 80;
 
-    /* The typical week, a night at a time. */
     days.forEach(function (d) {
       at(t, function () {
         d.classList.add('is-on');
@@ -4182,8 +3709,6 @@
       root.classList.add('is-feed');
     });
 
-    /* This Tuesday's bookings, one after another, each one adding to the
-       night that was empty. */
     var x = 0, n = 0;
     t += 60;
     rows.forEach(function (r) {
@@ -4199,7 +3724,6 @@
       t += 80;
     });
 
-    /* Done: rest on the finished week. */
     at(t + 250, function () { root.classList.add('is-done'); });
   }
 
@@ -4216,16 +3740,6 @@
 
 })();
 
-/* ---- Competitive socialising (for-competitive-socialising) ---- */
-/* ------------------------------------------ for competitive socialising -- */
-/* One Saturday at Labyrinth Social, played out. The markup is the finished
-   Saturday, which is what reduced motion and no-JS get. Otherwise, while the
-   board is on screen, it runs in two acts: the bookings land in the order
-   they were made, then the board turns to Wednesday and the quiet afternoon
-   fills from the offer to the weekend-only bookers. The whole run lands
-   inside about three seconds and rests on the filled Wednesday; it only
-   plays again if it leaves the viewport and comes back. */
-
 (function () {
   'use strict';
 
@@ -4235,8 +3749,7 @@
 
   function $$(sel) { return [].slice.call(root.querySelectorAll(sel)); }
   function one(key) { return root.querySelector('[data-xc="' + key + '"]'); }
-  /* Blocks carry the order they were booked in, so the board fills the way a
-     real day does rather than left to right. */
+
   function byOrder(a, b) { return a.getAttribute('data-o') - b.getAttribute('data-o'); }
 
   var sat = $$('.xc-bk[data-day="sat"]').sort(byOrder);
@@ -4253,7 +3766,6 @@
   var timers = [];
   var running = false;
 
-  /* How many hour slots a set of blocks covers, read from its grid span. */
   function cells(list) {
     return list.reduce(function (n, el) {
       var m = /span (\d+)\s*$/.exec(el.getAttribute('style'));
@@ -4261,7 +3773,7 @@
     }, 0);
   }
   function span(el) { return cells([el]); }
-  /* Party size, from the number printed on the block. */
+
   function size(el) { return parseInt(el.textContent, 10) || 0; }
   function guestsIn(list) { return list.reduce(function (n, el) { return n + size(el); }, 0); }
 
@@ -4314,7 +3826,6 @@
     reset();
     var t = 80, n = 0, nb = 0, ng = 0;
 
-    /* Act one: Saturday books up. */
     sat.forEach(function (b) {
       at(t, function () {
         b.classList.add('is-on');
@@ -4325,8 +3836,6 @@
     });
     at(t + 100, function () { pill(sumState, 'Busy', 'ui-pill--live'); });
 
-    /* Act two: Wednesday, quiet, with the afternoon offered to the bookers
-       who only ever come at the weekend. */
     t += 400;
     var wb = wedBase.length, wg = guestsIn(wedBase);
     at(t, function () {
@@ -4353,7 +3862,6 @@
     });
     at(t, function () { pill(sumState, '+' + fresh.length + ' from the offer', 'ui-pill--live'); });
 
-    /* Done: rest on the filled Wednesday. */
     at(t + 250, function () { root.classList.add('is-done'); });
   }
 
@@ -4364,12 +3872,6 @@
   }, { threshold: 0.25 }).observe(root);
 })();
 
-
-/* ========================================================== step players ==== */
-/* The how-we-work steps and the recent-work tabs share one shape: a set of
-   triggers, a panel each, and a hairline that fills over the open one's run
-   (a CSS animation; its end opens the next). Hover, focus, or the block being
-   off screen pauses the line. */
 (function () {
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -4391,7 +3893,7 @@
         if (cfg.aria === 'expanded') { var b = t.querySelector('button'); if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false'); }
       });
       panels.forEach(function (p, i) { p.classList.toggle('is-on', i === at); });
-      /* Restart the fill from zero on the newly open one. */
+
       bars.forEach(function (b) { b.style.animation = 'none'; });
       void root.offsetWidth;
       bars.forEach(function (b) { b.style.animation = ''; });
@@ -4427,9 +3929,7 @@
 
   $$('[data-hw]').forEach(function (root) {
     player(root, { tab: '.hw__step', panel: '.hw__panel', bar: '.hw__bar', aria: 'expanded' });
-    /* On a phone or tablet the open step's visual sits inside the step,
-       under its text, so tapping a step shows its visual right there rather
-       than somewhere below the list. */
+
     var stage = root.querySelector('.hw__stage');
     var steps = $$('.hw__step', root), panels = $$('.hw__panel', root);
     var narrow = window.matchMedia('(max-width: 860px)');
@@ -4447,9 +3947,6 @@
   });
 })();
 
-/* ============================================================== room ======= */
-/* The question fills in word by word once it is on screen, and the list of
-   businesses brings up each one's room as the pointer or focus moves. */
 (function () {
   var $  = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -4464,8 +3961,7 @@
       if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
       return sp;
     });
-    /* The words light up with the scroll: none while the line sits low on the
-       screen, all of them by the time it reaches the upper third. */
+
     if (reduced) { spans.forEach(function (sp) { sp.classList.add('is-on'); }); return; }
     var tick = 0;
     var paint = function () {
@@ -4495,7 +3991,6 @@
   });
 })();
 
-/* ========================================================== +more grid ==== */
 (function () {
   Array.prototype.slice.call(document.querySelectorAll('[data-more]')).forEach(function (btn) {
     var grid = document.getElementById(btn.getAttribute('data-more'));
@@ -4510,13 +4005,11 @@
   });
 })();
 
-/* ============================================================ home, v5 ==== */
 (function () {
   var $  = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---- the hero dashboard: a business selector, auto-rotate until touched, numbers count up */
   $$('[data-demo]').forEach(function (root) {
     var panels = $$('.dm__panel', root);
     var sel = $('[data-dm-sel]', root), btn = $('.dm__sel-btn', sel), menu = $('.dm__menu', sel), opts = $$('li', menu);
@@ -4581,7 +4074,6 @@
     show(0); tick();
   });
 
-  /* ---- the layer map: wires from each tool to the core and out to each outcome */
   $$('[data-layer]').forEach(function (map) {
     var svg = $('.ly__wires', map), core = $('.ly__core', map);
     var ins = $$('.ly__in > li', map), outs = $$('.ly__outs > li', map);
@@ -4609,7 +4101,6 @@
     if ('ResizeObserver' in window) new ResizeObserver(later).observe(map); else window.addEventListener('resize', later, { passive: true });
   });
 
-  /* ---- the solution strips: pinned, both rows pass through as the track scrolls */
   $$('[data-strip]').forEach(function (strip) {
     if (reduced) return;
     var track = strip.closest('.bento-track') || strip;
@@ -4619,7 +4110,7 @@
       var r = track.getBoundingClientRect(), vh = window.innerHeight;
       if (r.bottom < 0 || r.top > vh) return;
       var travel = r.height - vh;
-      /* Hold still while the stage settles into the pin, then run. */
+
       var p = travel > 0 ? Math.min(1, Math.max(0, (-r.top / travel - 0.12) / 0.78)) : 0;
       rows.forEach(function (row) {
         var dir = +row.getAttribute('data-dir') || -1;
@@ -4634,8 +4125,6 @@
     paint();
   });
 
-  /* ---- integrations hero: pointing at a mark in the stack brings it to the
-     front and slides the ones after it over; leaving puts them back. */
   $$('[data-istack]').forEach(function (stack) {
     var tiles = $$('i', stack);
     var show = function (n) { tiles.forEach(function (t, j) { t.classList.toggle('is-out', j === n); }); };
@@ -4643,10 +4132,6 @@
     stack.addEventListener('pointerleave', function () { show(-1); });
   });
 
-  /* ---- the layer map on a phone or tablet: read as a run down the page.
-     Each tool lights as it reaches the lower part of the screen, the line
-     fills into the Capacity mark, which lights, and the line carries on into
-     what comes out. CSS only dims anything while .is-journey is set. */
   $$('[data-layer]').forEach(function (map) {
     if (reduced) return;
     var narrow = window.matchMedia('(max-width: 900px)');
@@ -4673,9 +4158,6 @@
     paint();
   });
 
-  /* ---- the layer section turns to black once it has been read */
-  /* On tablets and phones (and with reduced motion) these sections are not
-     pinned and simply scroll, so there is nothing to turn. */
   var unpinned = window.matchMedia('(max-width: 1024px)');
   $$('.ly-track, .inv-track').forEach(function (track) {
     if (reduced) return;
@@ -4693,13 +4175,6 @@
   });
 })();
 
-/* ---------------------------------------------------------- festivals --- */
-/* festivals.html, "Ahead of the curve": the on-sale plan. Every moment is a
-   button; picking one moves the playhead and the dot on the curve to its
-   day and shows its detail card. Left alone, the plan walks through the
-   moments on its own, four seconds each, pausing while the pointer or the
-   focus is on it and stopping for good once the reader picks one. The
-   markup already shows the first moment, so without script it still reads. */
 (function () {
   'use strict';
 
@@ -4709,7 +4184,6 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var STEP = 4000;
 
-  /* ---- tabs ---- */
   var tabs = Array.prototype.slice.call(root.querySelectorAll('.fx-tab'));
   function showTab(tab) {
     tabs.forEach(function (t) {
@@ -4732,7 +4206,6 @@
     });
   });
 
-  /* ---- the moments ---- */
   var tl = root.querySelector('.fx-tl');
   var pins = Array.prototype.slice.call(root.querySelectorAll('.fx-pin'));
   var cards = Array.prototype.slice.call(root.querySelectorAll('.fx-dt'));
@@ -4740,9 +4213,6 @@
   var cap = 6000;
   var index = Math.max(0, pins.findIndex(function (p) { return p.classList.contains('is-on'); }));
 
-  /* On a phone the plan fits the screen without its labels, so the moments
-     also sit in a row of chips above it, which can be swiped and tapped.
-     CSS only shows the row on narrow screens. */
   var chipRow = document.createElement('div');
   chipRow.className = 'fx-chips';
   chipRow.setAttribute('aria-hidden', 'true');
@@ -4776,15 +4246,13 @@
       var chip = chips[index];
       chipRow.scrollTo({ left: Math.max(0, chip.offsetLeft - chipRow.clientWidth / 2 + chip.offsetWidth / 2), behavior: reduced ? 'auto' : 'smooth' });
     }
-    /* On a phone the plan is wider than the card, so keep the open moment in
-       view. This scrolls the card's own strip, never the page. */
+
     if (scroller.scrollWidth > scroller.clientWidth) {
       var x = pin.offsetLeft + tl.offsetLeft - scroller.clientWidth / 2;
       scroller.scrollTo({ left: Math.max(0, x), behavior: reduced ? 'auto' : 'smooth' });
     }
   }
 
-  /* ---- the walk through ---- */
   var timer = 0, visible = false, paused = false, stopped = reduced;
   function tick() { show(index + 1); }
   function sync() {
@@ -4814,13 +4282,6 @@
   show(index);
 })();
 
-/* ---- Event promoters (promoters.html): the month, the list and the next night ---- */
-/* Plays the month once when it comes into view: the four nights sell one
-   after another, the list grows under them, the next date goes out to the
-   people who came and the result lands, all inside three seconds. Then it
-   rests on the finished frame, which is what the markup already holds, so
-   with script blocked or reduced motion nothing moves and nothing is
-   missing. */
 (function () {
   'use strict';
 
@@ -4828,10 +4289,10 @@
   if (!root || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var NIGHT = 450;   // one night after the next
-  var SELL = 550;    // how long each night takes to sell
-  var SEND = 1900;   // the next night's send goes out
-  var RESULT = 2400; // and the result comes in
+  var NIGHT = 450;
+  var SELL = 550;
+  var SEND = 1900;
+  var RESULT = 2400;
   var END = 3000;
 
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || root).querySelectorAll(sel)); };
@@ -4844,7 +4305,6 @@
   }
   function idx(el) { return +el.style.getPropertyValue('--i') || 0; }
 
-  /* When each figure counts, and for how long. */
   function win(el) {
     var night = el.closest('.px-night'), col = el.closest('.px-col');
     if (night) return [idx(night) * NIGHT, SELL];
@@ -4917,14 +4377,6 @@
   io.observe(root);
 })();
 
-/* ---- Nightclubs: the run-up, played out (.nx-) ---- */
-/* The four-week run-up to one club night. The markup is the finished state,
-   which is what reduced motion and no-JS get. Otherwise the plan is emptied
-   on load and, once it is on screen, the chips land in day order while the
-   ticket curve draws and the counters climb, all inside about 2.4 seconds.
-   It then rests on the finished frame; it only plays again if it leaves the
-   viewport and comes back. */
-
 (function () {
   'use strict';
 
@@ -4932,7 +4384,6 @@
   if (!root || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  /* Cumulative tickets by the end of each day, matching the curve path. */
   var SALES = [0, 38, 54, 64, 70, 92, 210, 248, 266, 282, 292, 300, 310, 316, 320, 324, 328, 392, 438, 462, 478, 490, 500, 512, 518, 522, 588, 640, 640, 640, 640, 640, 640];
   var N = 32, CAP = 640, SOLD_DAY = 27;
   var REACH = 4180, LIST = 5260, READ = 74;
@@ -4957,8 +4408,6 @@
     return SALES[i] + (SALES[i + 1] - SALES[i]) * (day - i);
   }
 
-  /* One frame of the counters: tickets follow the curve, the list and the
-     read rate settle the way a live screen does. */
   function paint(p) {
     var s = Math.round(salesAt(p * N));
     var e = 1 - Math.pow(1 - p, 3);
@@ -4988,7 +4437,7 @@
 
   function play() {
     reset();
-    /* Two frames, so the emptied plan is painted before the landing starts. */
+
     raf = requestAnimationFrame(function () {
       raf = requestAnimationFrame(function () {
         if (!running) return;
@@ -5009,7 +4458,6 @@
     });
   }
 
-  /* Emptied straight away, so the first thing on screen is the landing. */
   root.classList.add('is-live');
 
   new IntersectionObserver(function (entries) {
@@ -5019,17 +4467,12 @@
   }, { threshold: 0.25 }).observe(root);
 })();
 
-
-/* ===================================================================== v9 ==
-   The shell's menu panel, the hero photo, and the predictive CRM band's
-   steps. Each piece does nothing on a page that lacks its markup. */
 (function () {
   'use strict';
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var doc = document.documentElement;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ----------------------------------------------------------------- menu -- */
   var btn = document.getElementById('menuBtn');
   var menu = document.getElementById('menu');
   var nav = document.getElementById('nav');
@@ -5061,9 +4504,6 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) close(true); });
   }
 
-  /* ---------------------------------------------------- the CRM, three steps -- */
-  /* The step nearest the reading line is the one in view; the card on the
-     right (on a phone, at the top) shows the screen that goes with it. */
   $$('[data-crm]').forEach(function (root) {
     var steps = $$('.cr__step', root), cards = $$('.cr__card', root);
     if (!steps.length || !cards.length) return;
@@ -5089,13 +4529,6 @@
   });
 })();
 
-/* ==================================================================== v11 ==
-   The room in characters, and the row that scrolls sideways. */
-
-/* A picture, or a slow moving field, drawn as characters in one blue. Each
-   cell takes the character and the shade its brightness asks for.
-     <div data-ascii="photo.jpg" data-cols="150" data-fade="l r t b">
-     <div data-ascii="field" data-cols="150"> */
 (function () {
   'use strict';
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -5131,7 +4564,7 @@
       W = Math.max(1, r.width); H = Math.max(1, r.height);
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
-      /* never smaller than a readable character */
+
       cols = Math.max(24, Math.min(baseCols, Math.floor(W / 7)));
       cw = W / cols; fpx = cw / 0.6; rh = fpx * 1.12; rows = Math.ceil(H / rh);
       lum = new Float32Array(cols * rows); mask = new Float32Array(cols * rows);
@@ -5212,8 +4645,6 @@
   });
 })();
 
-/* A row of panels that scrolls sideways, with a pair of buttons for anyone
-   without a trackpad. */
 (function () {
   'use strict';
   Array.prototype.forEach.call(document.querySelectorAll('[data-rail]'), function (rail) {

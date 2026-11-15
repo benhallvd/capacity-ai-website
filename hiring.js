@@ -1,29 +1,3 @@
-/* =====================================================================
-   Hiring: the application dialog
-   =====================================================================
-
-   A role opens on its info, then three short steps, all in one <dialog>:
-     1. Contact     name and email required; phone, city, social links optional
-     2. Experience  a CV, unless step one has a social link
-     3. Video       optional; record it here, upload a file, or paste a link
-
-   WHERE IT GOES
-   The CV and the video go straight from the browser to private Vercel Blob
-   storage, using URLs signed by /api/cv-url (a Vercel function body tops out
-   at 4.5MB). The application itself is a small JSON post to /api/apply, which
-   posts it into the hiring Slack channel, threads the files under it, and
-   deletes them from storage. Secrets are Vercel environment variables:
-
-     SLACK_BOT_TOKEN        xoxb- token with chat:write and files:write
-     SLACK_HIRING_CHANNEL   channel id for #hiring
-     BLOB_READ_WRITE_TOKEN  set when the private Blob store is connected
-
-   OPENING A ROLE
-   Add an <article class="role" data-role="Title"> to hiring.html with a
-   <button data-apply="Title"> and a hidden .role__info holding the role's own
-   sections. Nothing here needs to change.
-   ===================================================================== */
-
 (function () {
   'use strict';
 
@@ -56,13 +30,11 @@
   var progressBox = form.querySelector('.apply__progress');
   var bodyBox = form.querySelector('.apply__body');
   var at = 0;
-  var hasInfo = false;          /* this role has an info screen */
-  var infoOn = false;           /* and it is the one showing */
+  var hasInfo = false;
+  var infoOn = false;
   var sending = false;
-  var recorded = null;          /* Blob from the camera, if any */
-  var mode = 'record';          /* which video tab is showing */
-
-  /* ---------------------------------------------------------- open/close */
+  var recorded = null;
+  var mode = 'record';
 
   function open(role) {
     role = role || 'General application';
@@ -98,7 +70,6 @@
     stopCamera();
   });
 
-  /* A click on the backdrop lands on the dialog itself, not on its form. */
   dlg.addEventListener('click', function (e) {
     if (e.target === dlg && !sending) close();
   });
@@ -109,11 +80,7 @@
     if (e.target.closest('[data-close]') && dlg.open && !sending) close();
   });
 
-  /* A shared link to #apply opens straight onto the form. It names no role, so
-     it files as a general application. */
   if (location.hash === '#apply') open('');
-
-  /* ------------------------------------------------------------- steps */
 
   function showInfo() {
     infoOn = true;
@@ -159,8 +126,6 @@
 
   function refreshLabel() { if (at === steps.length - 1) show(at); }
 
-  /* ---------------------------------------------------------- validation */
-
   function flag(name, bad) {
     var f = form.querySelector('.field[data-name="' + name + '"]');
     if (f) f.classList.toggle('is-invalid', !!bad);
@@ -168,13 +133,11 @@
   }
 
   var isEmail = function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); };
-  /* A link is anything that looks like an address. The scheme is optional:
-     people type linkedin.com/in/them, not https://www.linkedin.com/in/them. */
+
   var isUrl = function (v) { return /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/\S*)?$/i.test(v.trim()); };
   var asUrl = function (v) { v = v.trim(); return !v || /^https?:\/\//i.test(v) ? v : 'https://' + v; };
   var val = function (id) { return $(id).value.trim(); };
 
-  /* The social links anyone actually filled in, blank rows left out. */
   function socials() {
     return Array.prototype.map.call($('socials').querySelectorAll('input'), function (i) {
       return i.value.trim();
@@ -197,7 +160,7 @@
     if (i === 1) {
       var file = cvFile();
       var ok1 = flag('cv', file && !cvOk(file));
-      /* Socials are optional, but there has to be something to read. */
+
       if (!file && !socials().length) {
         showError('Add your CV, or go back and add a link.');
         return false;
@@ -227,8 +190,6 @@
     if (at > 0) show(at - 1);
     else if (hasInfo) showInfo();
   });
-
-  /* ------------------------------------------------------- social links */
 
   var socialBox = $('socials');
   var socialAdd = $('socialAdd');
@@ -278,8 +239,6 @@
     send();
   });
 
-  /* ------------------------------------------------------- file pickers */
-
   function dropLabel(input) {
     var text = input.parentNode.querySelector('.drop__text b');
     var file = input.files && input.files[0];
@@ -304,8 +263,6 @@
     });
   });
 
-  /* --------------------------------------------------------- video tabs */
-
   var tabs = Array.prototype.slice.call(form.querySelectorAll('[data-vtab]'));
   tabs.forEach(function (t) {
     t.addEventListener('click', function () {
@@ -325,8 +282,6 @@
     });
   });
 
-  /* ------------------------------------------------------------ camera */
-
   var cam = $('vcam');
   var idle = $('vcamIdle');
   var timeEl = $('vcamTime');
@@ -335,7 +290,7 @@
 
   var canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
   if (!canRecord) {
-    /* No camera API here, so the tab that needs one steps aside. */
+
     tabs[0].hidden = true;
     tabs[1].click();
   }
@@ -439,10 +394,6 @@
     }
   }
 
-  /* ------------------------------------------------------------ sending */
-
-  /* Signs an upload, then PUTs the file with progress, so a 60MB video does
-     not look like a hung button. */
   function upload(file, kind, type, label) {
     return fetch(SIGNER, {
       method: 'POST',
@@ -478,7 +429,7 @@
   }
 
   function send() {
-    if ($('a_company_website').value) return;       /* a bot filled the hidden field */
+    if ($('a_company_website').value) return;
     sending = true;
     nextBtn.disabled = true;
     backBtn.disabled = true;
@@ -536,7 +487,7 @@
       show(at);
       showError((err && err.message && err.message.indexOf('Could not send') === -1 ? err.message + '. ' : '') +
         'That did not send. Please try again in a moment.');
-      /* eslint-disable-next-line no-console */
+
       console.error('[hiring]', err);
     });
   }
