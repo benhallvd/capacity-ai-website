@@ -1183,6 +1183,98 @@
     });
   }
 
+  /* Bot check for the forms: Cloudflare Turnstile, managed mode. The script
+     only loads once someone starts on a form, so page views never pay for it.
+     Most people see nothing at all; anyone Cloudflare is unsure about gets a
+     single tick box above the submit button. Each submission spends one token
+     and the server checks it (api/_lib.js isHuman). Empty key means off. */
+  var TURNSTILE_SITE_KEY = '0x4AAAAAAGG4Dkaxn5ktXtu1';
+
+  var humanToken = (function () {
+    var checks = {};
+    var loading = null;
+
+    function load() {
+      if (!loading) {
+        loading = new Promise(function (resolve) {
+          if (window.turnstile) { resolve(window.turnstile); return; }
+          window.capacityTurnstileReady = function () { resolve(window.turnstile); };
+          var s = document.createElement('script');
+          s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=capacityTurnstileReady';
+          s.async = true;
+          s.onerror = function () { resolve(null); };
+          document.head.appendChild(s);
+        });
+      }
+      return loading;
+    }
+
+    function give(c) {
+      while (c.waiters.length && (c.token || c.failed)) {
+        var t = c.token;
+        c.token = '';
+        c.spent = !c.failed;
+        c.waiters.shift()(t);
+      }
+    }
+
+    function start(f) {
+      if (checks[f.id]) return checks[f.id];
+      var c = checks[f.id] = { token: '', waiters: [], widget: null, spent: false, failed: false };
+      var box = document.createElement('div');
+      box.className = 'human-check';
+      var anchor = f.querySelector('.apply__error, .au__send') || f.querySelector('button[type="submit"]');
+      if (anchor) anchor.parentNode.insertBefore(box, anchor); else f.appendChild(box);
+
+      load().then(function (ts) {
+        if (!ts) { c.failed = true; give(c); return; }
+        c.widget = ts.render(box, {
+          sitekey: TURNSTILE_SITE_KEY,
+          action: f.id,
+          appearance: 'interaction-only',
+          size: 'flexible',
+          theme: 'auto',
+          'response-field': false,
+          callback: function (t) { c.token = t; give(c); },
+          'expired-callback': function () { c.token = ''; },
+          'before-interactive-callback': function () { box.style.margin = '0 0 16px'; },
+          'after-interactive-callback': function () { box.style.margin = ''; }
+        });
+      });
+      return c;
+    }
+
+    ['form', 'waitlistForm', 'applyForm'].forEach(function (id) {
+      var f = document.getElementById(id);
+      if (!f || !TURNSTILE_SITE_KEY) return;
+      var go = function () { start(f); };
+      f.addEventListener('focusin', go, { once: true });
+      f.addEventListener('pointerdown', go, { once: true });
+    });
+
+    return function (f) {
+      if (!TURNSTILE_SITE_KEY) return Promise.resolve('');
+      var c = start(f);
+      if (c.spent && c.widget !== null && window.turnstile) {
+        c.spent = false;
+        c.token = '';
+        window.turnstile.reset(c.widget);
+      }
+      return new Promise(function (resolve) {
+        var settled = false;
+        var finish = function (t) { if (!settled) { settled = true; resolve(t); } };
+        c.waiters.push(finish);
+        give(c);
+        setTimeout(function () {
+          var i = c.waiters.indexOf(finish);
+          if (i !== -1) c.waiters.splice(i, 1);
+          finish('');
+        }, 60000);
+      });
+    };
+  })();
+  window.capacityHumanToken = humanToken;
+
   var form = $('#form');
   if (form) {
     var done = $('#done');
@@ -1228,10 +1320,13 @@
 
       if (button) { button.disabled = true; button.textContent = 'Sending...'; }
 
-      fetch('/api/demo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      humanToken(form).then(function (token) {
+        payload.cf_token = token;
+        return fetch('/api/demo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
       }).then(function (res) {
         if (!res.ok) throw new Error('Endpoint responded ' + res.status);
         $('#doneName').textContent = document.getElementById('name').value.trim().split(' ')[0] || 'there';
@@ -1275,15 +1370,18 @@
 
       if (wbutton) { wbutton.disabled = true; wbutton.textContent = 'Joining...'; }
 
-      fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: value,
-          marketing: !!(wcheck && wcheck.checked),
-          company_website: ($('#company_website', wform) || {}).value || '',
-          page: location.href
-        })
+      humanToken(wform).then(function (token) {
+        return fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: value,
+            marketing: !!(wcheck && wcheck.checked),
+            company_website: ($('#company_website', wform) || {}).value || '',
+            page: location.href,
+            cf_token: token
+          })
+        });
       }).then(function (res) {
         if (!res.ok) throw new Error('Endpoint responded ' + res.status);
         wform.hidden = true;

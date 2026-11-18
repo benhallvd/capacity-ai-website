@@ -466,6 +466,9 @@
     nextBtn.textContent = 'Sending...';
     chain.then(function () {
       upBox.lastChild.textContent = 'Sending';
+      return window.capacityHumanToken ? window.capacityHumanToken(form) : '';
+    }).then(function (token) {
+      payload.cf_token = token;
       return fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
