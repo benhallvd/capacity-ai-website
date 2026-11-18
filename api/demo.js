@@ -9,7 +9,7 @@
      LEAD_TO_EMAIL     where leads land
      ALLOWED_ORIGIN    optional, only while the site is served off-platform */
 
-import { cors, json, clean, escapeHtml, validEmail, rateLimited, sendEmail } from './_lib.js';
+import { cors, json, clean, escapeHtml, validEmail, rateLimited, sendEmail, isHuman } from './_lib.js';
 
 const FIELDS = [
   ['venue', 'Venue', 120],
@@ -39,6 +39,10 @@ export async function POST(request) {
   /* Honeypot: a real person never fills a hidden field. Answer 200 so a bot
      learns nothing from the response. */
   if (clean(body.company_website, 200)) return json({ ok: true }, 200, headers);
+
+  if (!(await isHuman(request, body.cf_token))) {
+    return json({ error: 'Could not verify you are human' }, 403, headers);
+  }
 
   const data = {};
   FIELDS.forEach(function (f) { data[f[0]] = clean(body[f[0]], f[2]); });

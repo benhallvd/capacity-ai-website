@@ -23,7 +23,7 @@
      ALLOWED_ORIGIN          optional, only while the site is served off-platform */
 
 import { issueSignedToken, presignUrl } from '@vercel/blob';
-import { cors, json, clean, escapeSlack, validEmail, rateLimited } from './_lib.js';
+import { cors, json, clean, escapeSlack, validEmail, rateLimited, isHuman } from './_lib.js';
 import { isCvPathname, isVideoPathname, MAX_CV_BYTES, MAX_VIDEO_BYTES } from './cv-url.js';
 
 /* Order here is the order in the Slack message. */
@@ -67,6 +67,10 @@ export async function POST(request) {
   /* Honeypot: a real person never fills a hidden field. Answer 200 so a bot
      learns nothing from the response. */
   if (clean(body.company_website, 200)) return json({ ok: true }, 200, headers);
+
+  if (!(await isHuman(request, body.cf_token))) {
+    return json({ error: 'Could not verify you are human' }, 403, headers);
+  }
 
   const data = {};
   FIELDS.forEach(function (f) { data[f[0]] = clean(body[f[0]], f[2]); });

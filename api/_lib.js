@@ -72,6 +72,40 @@ export function rateLimited(request, windowMs, max, bucket) {
   return hits.length > max;
 }
 
+/* Cloudflare Turnstile. The browser gets a one-use token by proving it is a
+   person (usually without them seeing anything) and sends it as cf_token; this
+   asks Cloudflare whether it is genuine. A script posting straight to the
+   endpoint has no token, so it stops here.
+
+   Off until TURNSTILE_SECRET_KEY is set, so the site key in site.js has to go
+   live first. If Cloudflare itself cannot be reached the submission is let
+   through, so an outage on their side never costs a real lead. */
+export async function isHuman(request, token) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (typeof token !== 'string' || !token || token.length > 2048) return false;
+
+  const form = new FormData();
+  form.append('secret', secret);
+  form.append('response', token);
+  const ip = (request.headers.get('x-forwarded-for') || '').split(',')[0].trim();
+  if (ip) form.append('remoteip', ip);
+
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: form,
+      signal: AbortSignal.timeout(5000)
+    });
+    const data = await res.json();
+    if (data.success !== true) console.warn('[turnstile] rejected', (data['error-codes'] || []).join(','));
+    return data.success === true;
+  } catch (err) {
+    console.error('[turnstile] could not reach Cloudflare, letting it through:', err && err.message);
+    return true;
+  }
+}
+
 export async function sendEmail(opts) {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.LEAD_FROM_EMAIL;

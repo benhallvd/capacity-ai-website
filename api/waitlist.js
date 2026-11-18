@@ -22,7 +22,7 @@
      ALLOWED_ORIGIN          optional, only while the site is served off-platform */
 
 import { head, put, BlobNotFoundError } from '@vercel/blob';
-import { cors, json, clean, validEmail, rateLimited } from './_lib.js';
+import { cors, json, clean, validEmail, rateLimited, isHuman } from './_lib.js';
 
 /* Recorded against every opt-in, so the record shows what was agreed to.
    Keep in step with the checkbox label in index.html. */
@@ -54,6 +54,10 @@ export async function POST(request) {
   /* Honeypot: a real person never fills a hidden field. Answer 200 so a bot
      learns nothing from the response. */
   if (clean(body.company_website, 200)) return json({ ok: true }, 200, headers);
+
+  if (!(await isHuman(request, body.cf_token))) {
+    return json({ error: 'Could not verify you are human' }, 403, headers);
+  }
 
   const email = clean(body.email, 200).toLowerCase();
   if (!email || !validEmail(email)) {
